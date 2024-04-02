@@ -8,7 +8,7 @@
 
 <!-- QSCAT is an open-source shoreline change analysis tool for QGIS, builds upon the foundations set by DSAS. It prioritizes speed, accuracy, user-friendliness, and resource efficiency, establishing itself as a premier option for shoreline analysis research. -->
 
-**QSCAT (QGIS' Shoreline Change Analysis Tool)** is an open-source shoreline change analysis tool for QGIS, builds upon the foundations set by [DSAS](https://www.usgs.gov/centers/whcmsc/science/digital-shoreline-analysis-system-dsas). It prioritizes speed, user-friendliness, and resource efficiency, establishing itself as a top choice for shoreline analysis research.
+**QSCAT (QGIS' Shoreline Change Analysis Tool)** is an open-source shoreline change analysis tool for QGIS, builds upon the foundations set by [DSAS](https://www.usgs.gov/centers/whcmsc/science/digital-shoreline-analysis-system-dsas). It prioritizes speed, user-friendliness, and resource efficiency, establishing itself as a top choice for shoreline change analysis research.
 
 QSCAT was initially developed by UP-MSI CoastER project 1 staffs for a [government-funded initiative](https://research.mmsu.edu.ph/centers/coaster/) aimed at establishing coastal erosion trends in Region 1, Philippines. The team originally utilized DSAS for analysis but transitioned to QSCAT due to enhanced features and capabilities. While we have yet to test QSCAT extensively in other regions, its design suggests potential applicability to various coastal areas.
 
