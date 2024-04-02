@@ -2,12 +2,12 @@
 name=QGIS' Shoreline Change Analysis Tool
 description=Shoreline Change Analysis Tool
 about=Shoreline Change Analysis Tool
-version=1.1.8b1
+version=1.0.0
 qgisMinimumVersion=3.22
 author=Louis Facun
 email=louisfacun@gmail.com
 experimental=True
 tags=shoreline change,area change
-repository=https://github.com/upmsi-coaster/qscat
-tracker=https://github.com/upmsi-coaster/qscat/issues
+repository=https://github.com/louisfacun/qscat
+tracker=https://github.com/louisfacun/qscat/issues
 icon=qscat.png
