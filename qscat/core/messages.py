@@ -1,0 +1,29 @@
+from qgis.core import Qgis
+from qgis.utils import iface
+
+
+def display_message(description, level, duration=None):
+    if level == Qgis.Info:
+        title = 'Notice'
+        fixed_duration = 4
+    elif level == Qgis.Warning:
+        title = 'Warning'
+        fixed_duration = 0
+    elif level == Qgis.Critical:
+        title = 'Error'
+        fixed_duration = 0
+    elif level == Qgis.Success:
+        title = 'Success'
+        fixed_duration = 4
+    else:
+        raise ValueError('Invalid message level')
+
+    if duration is None:
+        duration = fixed_duration
+       
+    iface.messageBar().pushMessage(
+        title,
+        description,
+        level=level,
+        duration=duration,
+    )
