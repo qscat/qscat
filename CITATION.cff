@@ -1,5 +1,11 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
+
+title: "QGIS Shoreline Change Analysis Tool (QSCAT): A fast, open-source shoreline change analysis plugin for QGIS"
+
+type: "software"
+license: GPL-3.0-or-later
+
 authors:
 - family-names: "Facun"
   given-names: "Louis Philippe"
@@ -21,6 +27,6 @@ authors:
 - family-names: "Cuison"
   given-names: "Floribeth"
 
-title: "QGIS Shoreline Change Analysis Tool (QSCAT): A fast, open-source shoreline change analysis plugin for QGIS"
-version: v0.1.0
-date-released: 2024-04-07
+version: 0.1.0
+date-released: "2024-04-07"
+url: "https://github.com/louisfacun/qscat"
