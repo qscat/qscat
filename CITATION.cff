@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Facun"
+  given-names: "Louis Philippe"
+  orcid: "https://orcid.org/0000-0003-3608-6259"
+- family-names: "Siringan"
+  given-names: "Fernando"
+- family-names: "Sta. Maria"
+  given-names: "Ma. Yvainne"
+- family-names: "Clemente"
+  given-names: "Jamela Jirah"
+- family-names: "Maon"
+  given-names: "Angelo"
+- family-names: "Carmelo"
+  given-names: "Ellen Mae"
+- family-names: "Ducao"
+  given-names: "Rodel"
+- family-names: "Malaya"
+  given-names: "Ara Rivina"
+- family-names: "Cuison"
+  given-names: "Floribeth"
+
+title: "QGIS Shoreline Change Analysis Tool (QSCAT): A fast, open-source shoreline change analysis plugin for QGIS"
+version: v0.1.0
+date-released: 2024-04-07
