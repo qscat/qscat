@@ -159,6 +159,3 @@ Area Change Statistic
 
 Forecasting
 -----------
-
-.. code-block::
-    here
