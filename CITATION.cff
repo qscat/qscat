@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Facun"
+  given-names: "Louis Philippe"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Siringan"
+  given-names: "Fernando"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Sta. Maria"
+  given-names: "Ma. Yvainne"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Clemente"
+  given-names: "Jamela Jirah"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Maon"
+  given-names: "Angelo"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Carmelo"
+  given-names: "Ellen Mae"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Ducao"
+  given-names: "Rodel"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Malaya"
+  given-names: "Ara Rivina"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Cuison"
+  given-names: "Floribeth"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+
+title: "qscat"
+version: 1.0.0
+doi: 10.5281/zenodo.1234
+date-released: 2023-11-30
+url: "https://github.com/upmsi-coaster/qscat"

@@ -1,0 +1,9 @@
+*.pyc
+__pycache__
+.ipynb_checkpoints
+qscat/summary-reports/*
+!.gitkeep
+
+tests
+notebooks
+.vscode
