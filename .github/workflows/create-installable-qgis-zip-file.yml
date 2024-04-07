@@ -5,7 +5,7 @@ on:
       - published
       
 permissions:
-  actions: write
+  contents: write
   
 jobs:
   build:
