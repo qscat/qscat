@@ -1,8 +1,9 @@
 ![qscat](https://github.com/upmsi-coaster/qscat/assets/58874676/fb40ffde-8667-48bc-99ba-1f8c4b257eb1)
 
-[![License: GPL 3.0](https://img.shields.io/badge/License-GPL_3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![QGIS](https://img.shields.io/badge/qgis-3.22.*-green)](https://download.qgis.org/downloads/)
+[![qgis plugin: 0.1.0](https://img.shields.io/badge/qgis_plugin-0.1.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
+[![License: GPL 3.0](https://img.shields.io/badge/license-GPL_3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Documentation Status](https://readthedocs.org/projects/qscat/badge/?version=latest)](https://qscat.readthedocs.io/en/latest/?badge=latest)
-[![QGIS](https://img.shields.io/badge/QGIS-3.22.*-green)](https://download.qgis.org/downloads/)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/louisfacun/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/louisfacun/qscat)
 <!-- [![codecov](https://codecov.io/gh/louisfacun/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/louisfacun/qscat) -->
@@ -40,4 +41,3 @@ The latest QSCAT plugin is currently available as a ZIP file for installation. T
 
 ## License
 - **[GPL License 3.0](LICENSE):** The QSCAT plugin is licensed under GPL 3.0, per [QGIS'](https://blog.qgis.org/2016/05/29/licensing-requirements-for-qgis-plugins/) Open Source Software principles. This decision aligns with the requirement for plugins to comply with GPL version 2 or greater for distribution through the QGIS plugin system.
-
