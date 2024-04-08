@@ -266,6 +266,8 @@ Additional Parameters
 .. figure:: /img/shoreline_change/shoreline-change-tab-additional-parameters.png
    :align: center
 
+   Additional Parameters section in Shoreline Change tab.
+
 Currently, additional parameters include a field that defines the confidence interval value for calculating LCI and WCI. The default value is 99.7%, based on DSAS :cite:p:`2018:dsasv5`.
 
 
