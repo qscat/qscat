@@ -85,40 +85,49 @@ Finally, for each cluster (black lines) and for each group of trends (magenta li
 Vector layer output
 ===================
 
-Name
-----
+Layer
+-----
 
 .. list-table:: 
    :header-rows: 1
-   :widths: 20 80
+   :widths: 30 20 50
 
-   * - Type
+   * - Layer
+     - Geometry
      - Name
    * - Area
+     - ``Polygon``
      - ``<polygon boundary layer name>_area [<datetime>]``
 
 
-Field and value
----------------
+Attributes
+----------
 
 Area
-~~~~
+....
 
 .. list-table:: 
    :header-rows: 1
-   :widths: 20 80
+   :widths: 15 15 70
 
-   * - Field
-     - Value
+   * - Field name
+     - Data type
+     - Description
    * - ``area``
+     - ``double``
      - Area value in square meters.
    * - ``area_percent``
+     - ``double``
      - Percentage of the current area in total area change.
    * - ``area_type``
+     - ``string``
      - Trends (stable, erosion, or accretion) based on stat's transects used. 
    * - ``shoreline_length``
+     - ``double``
      - Vector length of the new shoreline in meters.
    * - ``shoreline_length_percent``
+     - ``double``
      - Percentage of the current shoreline length in total shoreline length.
    * - ``name``
+     - ``string``
      - Attribute value of field ``name`` in the (multi) polygon boundary layer.
