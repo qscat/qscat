@@ -124,14 +124,16 @@ Smoothing distance is applied to the baseline to ensure that the cast transects 
 Vector layer output
 ===================
 
-Name
-----
+Layers
+------
 
 .. list-table:: 
    :header-rows: 1
-   :widths: 20 80
+   :widths: 30 20 50
 
-   * - Type
+   * - Layer
+     - Geometry
      - Name
    * - Transects
+     - ``LineString``
      - ``<baseline layer name>_transects [<datetime>]``
