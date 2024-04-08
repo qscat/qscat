@@ -6,8 +6,8 @@ project = 'QSCAT'
 copyright = '2024, UP-MSI COASTER Team'
 author = 'UP-MSI COASTER Team'
 
-release = '1.0.0'
-version = '1.0.0'
+release = '0.1.0'
+version = '0.1.0'
 
 # -- General configuration
 
