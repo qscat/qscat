@@ -8,7 +8,7 @@ Tab: Shoreline Change
 
    .. contents::
       :local:
-      :depth: 2
+      :depth: 3
 
 The :guilabel:`Shoreline Change Tab` calculate the following shoreline change statistics: (a) Shoreline Change Envelope (SCE), (b) Net Shoreline Movement (NSM), (c) End-Point Rate (EPR), and (d) Linear Regression Rate (LRR). The first three statistics (SCE, NSM, and EPR) require only two shoreline vectors while LRR requires at least three (3) shoreline vectors to compute the rate of change. Note that both SCE and NSM refer to magnitude or distance in meters (m) while EPR and LRR are rate-of-change statistics, in meters/year (m/y).
 
@@ -32,7 +32,7 @@ General
 Transects layer
 ---------------
 
-Select a transect layer that will be used to calculate the selected statistics in the :guilabel:`Shoreline Change Statistics`` section. The output statistics will be tabulated in the Attribute Table of this run, which can then be exported as a worksheet file and/or viewed in map format.
+Select a transect layer that will be used to calculate the selected statistics in the :guilabel:`Shoreline Change Statistics` section. The output statistics will be tabulated in the Attribute Table of this run, which can then be exported as a worksheet file and/or viewed in map format.
 
 Clip transects
 --------------
@@ -44,18 +44,40 @@ Summary reports location
 
 Allows user to choose the folder on where to save the summary reports. For more information on the summary reports, see :ref:`summary_report`.
 
-Pairwise Comparison of Shorelines
-=================================
 
-By default, NSM and EPR calculate the magnitude and rate of shoreline changes respectively between the oldest and most recent shorelines even if multiple shorelines are available. In QSCAT, the algorithm for calculating NSM and EPR can be applied to any two shorelines from the selected shorelines layer by specifying the dates of the two shorelines for comparison.While LRR can estimate the net rate of change among multiple shorelines, the pairwise comparison can lead to a better understanding of how the shoreline has evolved over different time periods, and the possible causes of the observed trends.
- 
-The output file is a temporary file with the following format: name of area_NSM (inclusive date)[date and time of QSCAT run]. 
+Transect-Shoreline Intersections
+================================
+
+.. _figure_tab_shoreline_change_transect_shorelines_intersections:
+
+.. figure:: /img/shoreline_change/shoreline-change-tab-transect-shorelines-intersections.png
+   :align: center
+
+   Transect-Shoreline Intersections section in Shoreline Change tab.
+
+.. _figure_transects_shoreline_intersections:
+
+.. figure:: /img/shoreline_change/transects-shorelines-intersections.png
+   :align: center
+  
+   Transects-Shoreline Intersections.
+  
+Sometimes, a transect intersects the shoreline vector at more than one point, particularly on curved segments (:numref:`figure_transects_shoreline_intersections`). To handle shoreline vector/s with multiple intersections, QSCAT allows the user to choose the intersection point by distance (i.e., farthest or closest to the baseline) or by placement (seaward or landward, similar to DSAS). As it will affect the distance between the intersection points at the baseline and the shoreline, it is recommended that the selected option be applied to all shorelines for analysis.
 
 
 Shoreline Change Statistics
 ===========================
 
-The four shoreline change statistics available in QSCAT and the resulting sample attribute table (Table X) are described below. 
+.. _figure_tab_shoreline_change_statistics:
+
+.. figure:: /img/shoreline_change/shoreline-change-tab-shoreline-change-statistics.png
+   :align: center
+
+   Shoreline Change Statistics section in Shoreline Change tab.
+
+The shoreline change statistics available in QSCAT and the resulting sample attribute table (:numref:`table_shoreline_change_statistics`) are described below. 
+
+.. _table_shoreline_change_statistics:
 
 .. list-table:: Shoreline change statistics acronyms
    :header-rows: 1
@@ -88,6 +110,7 @@ The four shoreline change statistics available in QSCAT and the resulting sample
    * - ``WCI``
      - Confidence Interval of Weighted Linear Regression
 
+
 Shoreline Change Envelope (SCE)
 -------------------------------
 
@@ -96,6 +119,7 @@ The shoreline change envelope (SCE) is the maximum distance, in meters (m), amon
 .. math::
    
    SCE = farthest\_year\_distance - closest\_year\_distance
+
 
 Net Shoreline Movement (NSM)
 ----------------------------
@@ -108,6 +132,7 @@ The net shoreline movement (NSM) represents the magnitude of shoreline change be
 
 The uncertainty is based on the shoreline with largest uncertainty values in the attribute table of the input layer. 
 
+
 End-Point Rate (EPR)
 --------------------
 
@@ -117,6 +142,7 @@ The end-point rate (``EPR``) is the rate of change based on ``NSM``, in meters/y
    EPR = \frac{NSM}{newest\_shoreline\_year - oldest\_shoreline\_year}
 
 Both ``NSM`` and ``EPR`` require only two shoreline vectors, i.e., the youngest and oldest shoreline vectors. QSCAT will ignore any shoreline vector/s between the youngest and oldest years. As such, it provides no information about shoreline movement during the intervening years even if there are multiple shoreline positions in the input layer. Additional information may be inferred from the ``SCE``, which can at least identify the greatest magnitude of change and the corresponding time period for a given set of shoreline vectors.      
+
 
 Linear Regression Rate (LRR)
 ----------------------------
@@ -132,6 +158,7 @@ where:
 - :math:`\bar{y}` - mean of distances
 - :math:`x_i` - i\ :sup:`th` year
 - :math:`y_i` - i\ :sup:`th` distance
+
 
 Weighted Linear Regression (WLR)
 --------------------------------
@@ -180,6 +207,7 @@ where:
 
 .. _supplementary_statistics:
 
+
 R-Squared of Linear Regression (LR2 or WR2)
 ...........................................
 
@@ -195,10 +223,9 @@ where:
 - :math:`\bar{y}` - mean of distances
 - :math:`y_i` - actual i\ :sup:`th` distance
 
+
 Standard Error of Estimate of Linear Regression (LSE or WSE)
 ............................................................
-
-xx
 
 .. math::
    LSE\ or\ WSE  = \sqrt{\frac{\sum_{i=1}^{n} (y_i-\hat{y}_i)^2}{n-2}}
@@ -209,10 +236,9 @@ where:
 - :math:`\hat{y}` - predicted i\ :sup:`th` distance (:math:`LRR\ or\ WLR*x_i + intercept`)
 - :math:`y_i` - actual i\ :sup:`th` distance
 
+
 Confidence Interval of Linear Regression (LCI or WCI)
 ......................................................
-
-xx
 
 .. math::
    LCI\ or\ WCI  = t\_inv(n-2,\ 1-\alpha/2) *  \sqrt{\frac{LSE^2\ or\ WSE^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}
@@ -227,10 +253,31 @@ where:
 - :math:`\bar{x}` - mean of years
 - :math:`x_i` - i\ :sup:`th` year
 
+
+Pairwise Comparison of Shorelines
+=================================
+
+.. figure:: /img/shoreline_change/shoreline-change-tab-pairwise-comparison-of-shorelines.png
+   :align: center
+
+   Shoreline Change Statistics section in Shoreline Change tab.
+
+By default, NSM and EPR calculate the magnitude and rate of shoreline changes respectively between the oldest and most recent shorelines even if multiple shorelines are available. In QSCAT, the algorithm for calculating NSM and EPR can be applied to any two shorelines from the selected shorelines layer by specifying the dates of the two shorelines for comparison. While LRR can estimate the net rate of change among multiple shorelines, the pairwise comparison can lead to a better understanding of how the shoreline has evolved over different time periods, and the possible causes of the observed trends.
+
+
+Additional Parameters
+=====================
+
+.. figure:: /img/shoreline_change/shoreline-change-tab-additional-parameters.png
+   :align: center
+
+Currently, additional parameters includes a field that define the confidence interval value for the calculation of LCI and WCI. The default value is 99.7% which is based on DSAS :cite:p:`2018:dsasv5`.
+
+
 .. _tab_shoreline_change_vector_layer_output_name:
 
 Vector layer output name
-------------------------
+========================
 
 .. list-table:: 
    :header-rows: 1
@@ -239,12 +286,12 @@ Vector layer output name
    * - Statistic
      - Name
    * - ``SCE``
-     - ``<baseline layer name>_SCE [<datetime>]``
+     - ``SCE [<datetime>]``
    * - ``NSM``
-     - ``<baseline layer name>_NSM (newest_year - oldest_year) [<datetime>]``
+     - ``NSM (newest_year - oldest_year) [<datetime>]``
    * - ``EPR, EPR_unc``
-     - ``<baseline layer name>_EPR (newest_year - oldest_year) [<datetime>]``
+     - ``EPR (newest_year - oldest_year) [<datetime>]``
    * - ``LRR, LSE, LCI``
-     - ``<baseline layer name>_LRR [<datetime>]``
+     - ``LRR [<datetime>]``
    * - ``WLR, WSE, WCI``
-     - ``<baseline layer name>_WLR [<datetime>]``
+     - ``WLR [<datetime>]``

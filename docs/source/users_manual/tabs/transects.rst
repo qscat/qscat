@@ -117,40 +117,12 @@ Smoothing distance is applied to the baseline to ensure that the cast transects 
    Smoothing distance calculation.
 
    A smoothing applied to a single transect with 200 meters distance. First, the baseline traverses half the distance on both left and right. Second, the two points are connected, which will be the baseline where the smooth transect will be cast perpendicularly.
-  
-
-.. Transect-Shoreline Intersections
-.. ================================
-
-.. .. _figure_transects_shoreline_intersections:
-
-.. .. figure:: /img/transects/transects-shorelines-intersections.png
-..    :align: center
-  
-..    Transects-Shoreline Intersections.
-  
-.. Sometimes, a transect intersects the shoreline vector at more than one point, particularly on curved segments (:numref:`figure_transects_shoreline_intersections`). To handle shoreline vector/s with multiple intersections, ``QSCAT`` allows the user to choose the intersection point by distance (i.e., farthest or closest to the baseline) or by placement (seaward or landward, similar to ``DSAS``). As it will affect the distance between the intersection points at the baseline and the shoreline, it is recommended that the selected option be applied to all shorelines for analysis.
-
-.. Transect Output
-.. ===============
-
-.. By default, the transects are clipped to the farthest shoreline extent, and the shoreline intersections are shown on the transects. The user can choose not to view these by unclicking the selection on the transect output.
-
-.. Clip transects to shoreline extent
-.. ----------------------------------
-
-.. *Content for this section will be added soon.*
-
-.. Include intersection layers
-.. ----------------------------
-
-.. *Content for this section will be added soon.*
 
 
 .. _tab_transects_vector_layer_output_name:
 
 Vector layer output name
-------------------------
+========================
 
 .. list-table:: 
    :header-rows: 1
