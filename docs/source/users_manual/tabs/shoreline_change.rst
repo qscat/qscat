@@ -273,8 +273,11 @@ Currently, additional parameters include a field that defines the confidence int
 
 .. _tab_shoreline_change_vector_layer_output_name:
 
-Vector layer output name
-========================
+Vector layer output
+===================
+
+Name
+----
 
 .. list-table:: 
    :header-rows: 1
@@ -288,7 +291,103 @@ Vector layer output name
      - ``NSM (newest_year - oldest_year) [<datetime>]``
    * - ``EPR, EPR_unc``
      - ``EPR (newest_year - oldest_year) [<datetime>]``
-   * - ``LRR, LSE, LCI``
+   * - ``LRR, LR2, LSE, LCI``
      - ``LRR [<datetime>]``
-   * - ``WLR, WSE, WCI``
+   * - ``WLR, WR2, WSE, WCI``
      - ``WLR [<datetime>]``
+
+
+Field and value
+---------------
+
+Shoreline Change Envelope (SCE)
+...............................
+
+.. list-table:: 
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Field
+     - Value
+   * - ``SCE``
+     - Shoreline Change Envelope (SCE) value in meters.
+   * - ``SCE_highest_unc``
+     - The highest uncertainty value used in the calculation of SCE.
+   * - ``SCE_trend``
+     - Trends (stable, erosion, or accretion) based on SCE and uncertainty value. 
+   * - ``SCE_closest_year``
+     - Shoreline year closest to the baseline.
+   * - ``SCE_farthest_year``
+     - Shoreline year farthest from the baseline.
+
+
+Net Shoreline Movement (NSM)
+............................
+
+.. list-table:: 
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Field
+     - Value
+   * - ``NSM``
+     - Net Shoreline Movement (NSM) value in meters.
+   * - ``NSM_highest_unc``
+     - The highest uncertainty value used in the calculation of NSM.
+   * - ``NSM_trend``
+     - Trends (stable, erosion, or accretion) based on NSM and uncertainty value.
+
+
+End-Point Rate (EPR)
+....................
+
+.. list-table:: 
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Field
+     - Value
+   * - ``EPR``
+     - End-Point Rate (EPR) value in meters/year.
+   * - ``EPR_unc``
+     - Uncertainty of End-Point Rate (EPR) value in meters/year.
+   * - ``EPR_trend``
+     - Trends (stable, erosion, or accretion) based on EPR and uncertainty value.
+
+
+Linear Regression Rate (LRR)
+............................
+
+.. list-table:: 
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Field
+     - Value
+   * - ``LRR``
+     - Linear Regression Rate (LRR) value in meters/year.
+   * - ``LR2``
+     - R-Squared of Linear Regression (LR2) value.
+   * - ``LSE``
+     - Standard Error of Linear Regression (LSE) value.
+   * - ``LCI``
+     - Confidence Interval of Linear Regression (LCI) value.
+
+
+Weighted Linear Regression (WLR)
+................................
+
+.. list-table:: 
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Field
+     - Value
+   * - ``WLR``
+     - Weighted Linear Regression Rate (WLR) value in meters/year.
+   * - ``WR2``
+     - R-Squared of Weighted Linear Regression (WR2) value.
+   * - ``WSE``
+     - Standard Error of Weighted Linear Regression (WSE) value.
+   * - ``WCI``
+     - Confidence Interval of Weighted Linear Regression (WCI) value.
