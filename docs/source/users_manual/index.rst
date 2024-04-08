@@ -17,7 +17,7 @@ QSCAT User's Manual
    tabs/baseline
    tabs/shorelines
    tabs/transects
-   tabs/shoreline_change/index
+   tabs/shoreline_change
    tabs/area_change
    tabs/forecasting
    tabs/visualization

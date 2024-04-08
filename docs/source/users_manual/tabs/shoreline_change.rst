@@ -1,12 +1,59 @@
-.. index:: Shoreline Change Statistics
+.. _tab_shoreline_change:
 
-Shoreline Change Statistics
-===========================
+*********************
+Tab: Shoreline Change
+*********************
 
 .. only:: html
 
    .. contents::
       :local:
+      :depth: 2
+
+The :guilabel:`Shoreline Change Tab` calculate the following shoreline change statistics: (a) Shoreline Change Envelope (SCE), (b) Net Shoreline Movement (NSM), (c) End-Point Rate (EPR), and (d) Linear Regression Rate (LRR). The first three statistics (SCE, NSM, and EPR) require only two shoreline vectors while LRR requires at least three (3) shoreline vectors to compute the rate of change. Note that both SCE and NSM refer to magnitude or distance in meters (m) while EPR and LRR are rate-of-change statistics, in meters/year (m/y).
+
+.. _figure_tab_shoreline_change:
+
+.. figure:: /img/shoreline_change/shoreline-change-tab.png
+   :align: center
+
+   User interface of Shoreline Change tab.
+
+General
+=======
+
+.. _figure_tab_shoreline_change_general:
+
+.. figure:: /img/shoreline_change/shoreline-change-tab-general.png
+   :align: center
+
+   General section in Shoreline Change tab.
+
+Transects layer
+---------------
+
+Select a transect layer that will be used to calculate the selected statistics in the :guilabel:`Shoreline Change Statistics`` section. The output statistics will be tabulated in the Attribute Table of this run, which can then be exported as a worksheet file and/or viewed in map format.
+
+Clip transects
+--------------
+
+By default, the transects are not clipped to the farthest shoreline extent. The user can choose clip the shorelines checking this box. The clipping has no effects on the statistics, but it will make seeing statistics' transects easier.
+
+Summary reports location
+------------------------
+
+Allows user to choose the folder on where to save the summary reports. For more information on the summary reports, see :ref:`summary_report`.
+
+Pairwise Comparison of Shorelines
+=================================
+
+By default, NSM and EPR calculate the magnitude and rate of shoreline changes respectively between the oldest and most recent shorelines even if multiple shorelines are available. In QSCAT, the algorithm for calculating NSM and EPR can be applied to any two shorelines from the selected shorelines layer by specifying the dates of the two shorelines for comparison.While LRR can estimate the net rate of change among multiple shorelines, the pairwise comparison can lead to a better understanding of how the shoreline has evolved over different time periods, and the possible causes of the observed trends.
+ 
+The output file is a temporary file with the following format: name of area_NSM (inclusive date)[date and time of QSCAT run]. 
+
+
+Shoreline Change Statistics
+===========================
 
 The four shoreline change statistics available in QSCAT and the resulting sample attribute table (Table X) are described below. 
 
@@ -180,8 +227,10 @@ where:
 - :math:`\bar{x}` - mean of years
 - :math:`x_i` - i\ :sup:`th` year
 
-Output Layer Names
-------------------
+.. _tab_shoreline_change_vector_layer_output_name:
+
+Vector layer output name
+------------------------
 
 .. list-table:: 
    :header-rows: 1
@@ -189,8 +238,6 @@ Output Layer Names
 
    * - Statistic
      - Name
-   * - :menuselection:`ALL`
-     - ``<baseline layer name>_Stats [<datetime>]``
    * - ``SCE``
      - ``<baseline layer name>_SCE [<datetime>]``
    * - ``NSM``

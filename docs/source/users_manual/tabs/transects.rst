@@ -146,7 +146,8 @@ Smoothing distance is applied to the baseline to ensure that the cast transects 
 
 .. *Content for this section will be added soon.*
 
-.. .. _tab_transects_output_layer_names:
+
+.. _tab_transects_vector_layer_output_name:
 
 Vector layer output name
 ------------------------
