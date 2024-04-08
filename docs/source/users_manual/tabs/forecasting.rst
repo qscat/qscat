@@ -10,111 +10,127 @@ Tab: Forecasting
       :local:
       :depth: 2
       
-Forecasting Parameters
-======================
+
+Algorithm
+=========
 
 *Content for this section will be added soon.*
 
-Forecasting Algorithm
-=====================
-
-*Content for this section will be added soon.*
 
 Kalman Filter
 -------------
 
 *Content for this section will be added soon.*
 
-Forecasting Period
-==================
+
+Time Period
+===========
 
 Allows user to select the forecast period (10 or 20 years) from now.
 
-Forecasting Output Layers
-=========================
 
-Kalman Filter
--------------
+Vector layer output
+===================
 
-The :menuselection:`Kalman Filter` forecasting algorithm output three vector layers:
+The :guilabel:`Kalman Filter` forecasting algorithm output three vector layers:
 
-#. ``Point`` layer is the forecasted point starting from transect origin point and inline with the transect line angle
-#. ``LineString`` layer is the forecasted points connected as a linestring
-#. ``Polygon`` layer is the forecasted uncertainty points + and - connected that formed a polygon.
+#. **Forecasted Points** is the forecasted points for each transect.
+#. **Forecasted Line** is a line string geometry connected by forecasted points.
+#. **Forecasted Polygon** is a polygon geometry connected by positive and negative forecasted uncertainty points.
 
-
-.. list-table:: Forecasted point layer attributes
-   :header-rows: 1
-   :widths: 15 15 70
-
-   * - Field name
-     - Data type
-     - Description
-   * - ``period``
-     - ``integer``
-     - the selected forecast year period (10 or 20)
-   * - ``year``
-     - ``integer``
-     - the forecasted year calculated based from period
-   * - ``distance``
-     - ``double``
-     - the magnitude value of forecasted distance
-   * - ``uncertainty``
-     - ``double``
-     - the value of forecasted uncertainty
-   * - ``intersect_x``
-     - ``double``
-     - the x coordinate of the forecasted point
-   * - ``intersect_y``
-     - ``double``
-     - the y coordinate of the forecasted point
-
-.. list-table:: Forecasted line layer attributes
-   :header-rows: 1
-   :widths: 15 15 70
-
-   * - Field name
-     - Data type
-     - Description
-   * - ``period``
-     - ``integer``
-     - the selected forecast year period (10 or 20)
-   * - ``year``
-     - ``integer``
-     - the forecasted year calculated based from period
-   * - ``length``
-     - ``double``
-     - the line length of connected forecasted points
-
-.. list-table:: Forecasted polygon layer attributes
-   :header-rows: 1
-   :widths: 15 15 70
-
-   * - Field name
-     - Data type
-     - Description
-   * - ``period``
-     - ``integer``
-     - the selected forecast year period (10 or 20)
-   * - ``year``
-     - ``integer``
-     - the forecasted year calculated based from period
-   * - ``area``
-     - ``double``
-     - the polygon area of connected forecasted uncertainty
-
-Output Layer Names
-..................
+Layers
+------
 
 .. list-table:: 
    :header-rows: 1
-   :widths: 20 80
+   :widths: 30 20 50
 
-   * - Type
+   * - Layer
+     - Geometry
      - Name
-   * - ``Point``
+   * - Forecasted Points
+     - ``Point``
      - ``forecast_points [<datetime>]``
-   * - ``LineString``
+   * - Forecasted Line
+     - ``LineString``
      - ``forecast_line [<datetime>]``
-   * - ``Polygon``
-     - ``forecast_polygon [<datetime>]``    
+   * - Forecasted Polygon
+     - ``Polygon``
+     - ``forecast_polygon [<datetime>]`` 
+
+
+Attributes
+----------
+
+
+Forecast Point
+..............
+
+.. list-table::
+   :header-rows: 1
+   :widths: 15 15 70
+
+   * - Field name
+     - Data type
+     - Description
+   * - ``period``
+     - ``integer``
+     - Selected forecast year period (10 or 20).
+   * - ``year``
+     - ``integer``
+     - Forecasted year calculated based from period.
+   * - ``distance``
+     - ``double``
+     - Magnitude value of forecasted distance.
+   * - ``uncertainty``
+     - ``double``
+     - Value of forecasted uncertainty.
+   * - ``intersect_x``
+     - ``double``
+     - X coordinate of the forecasted point.
+   * - ``intersect_y``
+     - ``double``
+     - Y coordinate of the forecasted point.
+
+
+Forecast Shoreline
+...................
+
+.. list-table::
+   :header-rows: 1
+   :widths: 15 15 70
+
+   * - Field name
+     - Data type
+     - Description
+   * - ``period``
+     - ``integer``
+     - Selected forecast year period (10 or 20).
+   * - ``year``
+     - ``integer``
+     - Forecasted year calculated based from period.
+   * - ``length``
+     - ``double``
+     - Line length of connected forecasted points.
+
+
+Forecast Polygon
+................
+
+.. list-table::
+   :header-rows: 1
+   :widths: 15 15 70
+
+   * - Field name
+     - Data type
+     - Description
+   * - ``period``
+     - ``integer``
+     - Selected forecast year period (10 or 20).
+   * - ``year``
+     - ``integer``
+     - Forecasted year calculated based from period.
+   * - ``area``
+     - ``double``
+     - Polygon area of connected forecasted uncertainty.
+
