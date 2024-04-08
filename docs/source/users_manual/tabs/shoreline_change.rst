@@ -281,43 +281,55 @@ Name
 
 .. list-table:: 
    :header-rows: 1
-   :widths: 20 80
+   :widths: 30 20 50
 
-   * - Statistic
+   * - Layer
+     - Geometry
      - Name
    * - ``SCE``
+     - ``LineString``
      - ``SCE [<datetime>]``
    * - ``NSM``
+     - ``LineString``
      - ``NSM (newest_year - oldest_year) [<datetime>]``
    * - ``EPR, EPR_unc``
+     - ``LineString``
      - ``EPR (newest_year - oldest_year) [<datetime>]``
    * - ``LRR, LR2, LSE, LCI``
+     - ``LineString``
      - ``LRR [<datetime>]``
    * - ``WLR, WR2, WSE, WCI``
+     - ``LineString``
      - ``WLR [<datetime>]``
 
 
-Field and value
----------------
+Attributes
+----------
 
 Shoreline Change Envelope (SCE)
 ...............................
 
 .. list-table:: 
    :header-rows: 1
-   :widths: 20 80
+   :widths: 15 15 70
 
-   * - Field
-     - Value
+   * - Field name
+     - Data type
+     - Description
    * - ``SCE``
+     - ``double``
      - Shoreline Change Envelope (SCE) value in meters.
    * - ``SCE_highest_unc``
+     - ``double``
      - The highest uncertainty value used in the calculation of SCE.
    * - ``SCE_trend``
+     - ``string``
      - Trends (stable, erosion, or accretion) based on SCE and uncertainty value. 
    * - ``SCE_closest_year``
+     - ``integer``
      - Shoreline year closest to the baseline.
    * - ``SCE_farthest_year``
+     - ``integer``
      - Shoreline year farthest from the baseline.
 
 
@@ -326,15 +338,19 @@ Net Shoreline Movement (NSM)
 
 .. list-table:: 
    :header-rows: 1
-   :widths: 20 80
+   :widths: 15 15 70
 
-   * - Field
-     - Value
+   * - Field name
+     - Data type
+     - Description
    * - ``NSM``
+     - ``double``
      - Net Shoreline Movement (NSM) value in meters.
    * - ``NSM_highest_unc``
+     - ``double``
      - The highest uncertainty value used in the calculation of NSM.
    * - ``NSM_trend``
+     - ``string``
      - Trends (stable, erosion, or accretion) based on NSM and uncertainty value.
 
 
@@ -343,15 +359,19 @@ End-Point Rate (EPR)
 
 .. list-table:: 
    :header-rows: 1
-   :widths: 20 80
+   :widths: 15 15 70
 
-   * - Field
-     - Value
+   * - Field name
+     - Data type
+     - Description
    * - ``EPR``
+     - ``double``
      - End-Point Rate (EPR) value in meters/year.
    * - ``EPR_unc``
+     - ``double``
      - Uncertainty of End-Point Rate (EPR) value in meters/year.
    * - ``EPR_trend``
+     - ``string``
      - Trends (stable, erosion, or accretion) based on EPR and uncertainty value.
 
 
@@ -360,17 +380,22 @@ Linear Regression Rate (LRR)
 
 .. list-table:: 
    :header-rows: 1
-   :widths: 20 80
+   :widths: 15 15 70
 
-   * - Field
-     - Value
+   * - Field name
+     - Data type
+     - Description
    * - ``LRR``
+     - ``double``
      - Linear Regression Rate (LRR) value in meters/year.
    * - ``LR2``
+     - ``double``
      - R-Squared of Linear Regression (LR2) value.
    * - ``LSE``
+     - ``double``
      - Standard Error of Linear Regression (LSE) value.
    * - ``LCI``
+     - ``double``
      - Confidence Interval of Linear Regression (LCI) value.
 
 
@@ -379,15 +404,20 @@ Weighted Linear Regression (WLR)
 
 .. list-table:: 
    :header-rows: 1
-   :widths: 20 80
+   :widths: 15 15 70
 
-   * - Field
-     - Value
+   * - Field name
+     - Data type
+     - Description
    * - ``WLR``
+     - ``double``
      - Weighted Linear Regression Rate (WLR) value in meters/year.
    * - ``WR2``
+     - ``double``
      - R-Squared of Weighted Linear Regression (WR2) value.
    * - ``WSE``
+     - ``double``
      - Standard Error of Weighted Linear Regression (WSE) value.
    * - ``WCI``
+     - ``double``
      - Confidence Interval of Weighted Linear Regression (WCI) value.
