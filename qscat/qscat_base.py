@@ -26,7 +26,6 @@ from qscat.core.statistics.area_change.area_change import compute_area_change_st
 from qscat.core.transects import cast_transects
 from qscat.core.update import check_updates_on_start
 from qscat.core.update import check_updates_on_click
-from qscat.core.utils import get_metadata_version
 from qscat.core.utils import get_plugin_dir
 from qscat.core.visualization import apply_color_ramp
 
@@ -63,7 +62,7 @@ class QscatPlugin:
         self.dockwidget = QscatDockWidget()
         self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
 
-        self.dockwidget.setWindowTitle(f'QSCAT ({get_metadata_version()})')
+        self.dockwidget.setWindowTitle(f'QSCAT')
         self.dockwidget.show()
 
         self.dockwidget.tw_qscat.setStyleSheet("QTabWidget::tab { text-align: left; }")
