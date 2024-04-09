@@ -2,7 +2,7 @@
 
 [![QGIS](https://img.shields.io/badge/qgis-3.22.*-green)](https://download.qgis.org/downloads/)
 [![qgis plugin: 0.1.0](https://img.shields.io/badge/qgis_plugin-0.1.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
-[![License: GPL 3.0](https://img.shields.io/badge/license-GPL_3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: GPL 3.0](https://img.shields.io/badge/license-GPL3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Documentation Status](https://readthedocs.org/projects/qscat/badge/?version=latest)](https://qscat.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/louisfacun/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/louisfacun/qscat)
@@ -37,7 +37,7 @@ The latest QSCAT plugin is currently available as a ZIP file for installation. T
 </details>
 
 ## Resources
-- [QSCAT Documentation](https://qscat.readthedocs.io)
+- [QSCAT User Manual](https://qscat.readthedocs.io)
 
 ## License
 - **[GPL License 3.0](LICENSE):** The QSCAT plugin is licensed under GPL 3.0, per [QGIS'](https://blog.qgis.org/2016/05/29/licensing-requirements-for-qgis-plugins/) Open Source Software principles. This decision aligns with the requirement for plugins to comply with GPL version 2 or greater for distribution through the QGIS plugin system.
