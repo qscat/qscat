@@ -45,18 +45,22 @@ class QscatPlugin:
         #self.plugin_is_active = None
         self.icon = QIcon(str(Path(get_plugin_dir(), 'gui', 'icons', 'qscat.svg')))
 
+
     def initGui(self):
         self.action = QAction(self.icon, 'QSCAT', self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addToolBarIcon(self.action)
 
+
     def onClosePlugin(self):
         self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)    
         #self.plugin_is_active = False
 
+
     def unload(self):
         self.iface.removeToolBarIcon(self.action)
         del self.action
+
 
     def run(self):
         self.dockwidget = QscatDockWidget()
@@ -92,7 +96,7 @@ class QscatPlugin:
         
         self.dockwidget.qmlcb_shorelines_shorelines_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_shorelines_date_field.setLayer(
-                self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()))
+                self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()``))
         self.dockwidget.qmlcb_shorelines_shorelines_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_shorelines_uncertainty_field.setLayer(
                 self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()))
@@ -107,7 +111,7 @@ class QscatPlugin:
             lambda: self.dockwidget.qfcb_baseline_length_field.setLayer(
                 self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()))
 
-        # STATISTICS
+        # For shoreline change tab
         self.dockwidget.cb_stats_select_all.stateChanged.connect(
             lambda: select_all_stats_checkbox(self))
 
@@ -145,24 +149,7 @@ class QscatPlugin:
             )
         )
 
-        # self.dockwidget.rb_choose_by_distance.toggled.connect(
-        #     lambda: enable_disable_by_radio_button(
-        #         self.dockwidget.rb_choose_by_distance,
-        #         self.dockwidget.rb_choose_by_placement,
-        #         self.dockwidget.gb_choose_by_distance,
-        #         self.dockwidget.gb_choose_by_placement,
-        #     )
-        # )
-        # self.dockwidget.rb_choose_by_placement.toggled.connect(
-        #     lambda: enable_disable_by_radio_button(
-        #         self.dockwidget.rb_choose_by_distance,
-        #         self.dockwidget.rb_choose_by_placement,
-        #         self.dockwidget.gb_choose_by_distance,
-        #         self.dockwidget.gb_choose_by_placement,
-        #     )
-        # )
-        
-        # Save project settings buttons
+        # For project settings tab
         self.dockwidget.pb_proj_save_settings.clicked.connect(
             lambda: save_project_tab_project_settings(self))
         self.dockwidget.pb_baseline_save_settings.clicked.connect(
@@ -171,8 +158,7 @@ class QscatPlugin:
             lambda: save_transects_tab_project_settings(self))
         self.dockwidget.pb_shorelines_save_settings.clicked.connect(
             lambda: save_shorelines_tab_project_settings(self))
-        # stats 
-        
+
         set_plugin_widget_properties(self)
         load_plugin_project_settings(self)
         #check_updates_on_start()
