@@ -277,8 +277,8 @@ Currently, additional parameters include a field that defines the confidence int
 Vector layer output
 ===================
 
-Name
-----
+Layers
+------
 
 .. list-table:: 
    :header-rows: 1
