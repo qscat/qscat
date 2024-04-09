@@ -4,16 +4,18 @@
 Sample Workflow
 ***************
 
-*Content for this section will be added soon.*
+This section provides a step-by-step guide on how to run a shoreline change analysis using QSCAT with sample data from Agoo, La Union shorelines. The sample data includes shoreline vectors from 1977, 1988, 2010, and 2022. The process includes generating the baseline vectors, merging the shoreline vectors, and running the shoreline change analysis.
 
-Simple Sample Data (Agoo, La Union)
-===================================
 
 Generating the baseline vectors
--------------------------------
+================================
+
+According to the section :ref:`plugin_required_inputs_baseline`, one of the required inputs for the QSCAT is the baseline vectors. Baseline vectors can be created using a buffer of merged shorelines or manually drawing them. In this step-by-step guide, we will choose the former: we will create the baseline based on the shorelines.
 
 Merging the shoreline vectors
-.............................
+-----------------------------
+ 
+In practice, this step is optional. We only apply this if our digitized shorelines are saved as **separate** shapefile layers. However, in this guide, the Agoo, La Union shorelines are shared as separate shapefile layers. Thus, we will demonstrate here on how to merge these layers.
 
 #. Open |toolbox| :guilabel:`Processing Toolbox` via :menuselection:`Processing --> Toolbox`.
 
@@ -73,10 +75,6 @@ Merging the shoreline vectors
 
    |br|
 
-Complex Sample Data
-===================
-
-*Content for this section will be added soon.*
 
 .. Icons
 .. |toolbox| image:: /img/toolbox.png
