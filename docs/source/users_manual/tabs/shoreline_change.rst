@@ -38,6 +38,7 @@ Clip transects
 --------------
 
 By default, the transects are not clipped to the farthest shoreline extent. However, you have the power to choose whether to clip the shorelines by checking this box. The clipping has no effects on the statistics, but it will make seeing statistics' transects easier.
+
 Summary reports location
 ------------------------
 
