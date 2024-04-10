@@ -218,11 +218,20 @@ def get_metadata_version():
     return version
 
 
-def get_shorelines_dates(self):
-    layer = self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
-    field = self.dockwidget.qfcb_shorelines_date_field.currentField()
+def get_shorelines_dates(qscat):
+    """Get the shoreline dates from the current selected shoreline layer
+    and from the current selected date field.
+
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+    
+    Returns:
+        list[str]: A list of shoreline dates in the format 'mm/yyyy'.
+    """
+    layer = qscat.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
+    field = qscat.dockwidget.qfcb_shorelines_date_field.currentField()
     feats = layer.getFeatures()
-    return [f[field] for f in feats]
+    return [feat[field] for feat in feats]
 
 
 def get_shorelines_uncs(self):
