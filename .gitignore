@@ -4,6 +4,5 @@ __pycache__
 qscat/summary-reports/*
 !.gitkeep
 
-tests
 notebooks
 .vscode
