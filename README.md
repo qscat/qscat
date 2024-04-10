@@ -21,15 +21,17 @@ QSCAT was initially developed by UP-MSI CoastER project 1 staff for a [governmen
 
 ### Instructions
 
-1. Open `QGIS`, `Plugins ‣ Manage and Install Plugins… ‣ All`.
+1. Open `QGIS`, `Plugins ‣ Manage and Install Plugins… ‣ Settings`.
 
-2. Search `QGIS Shoreline Change Analysis Tool`.
+2. Check `Show also experimental plugins`. Go to `All`.
 
-3. Click `Install Plugin`.
+3. Search `QGIS Shoreline Change Analysis Tool`.
 
-4. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed succesfuly. Check the checkbox to enable the plugin (if not checked).
+4. Click `Install Plugin`.
 
-5. Once enabled, the ![](/qscat/qscat.png) icon will appear in the toolbar.
+5. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed succesfuly. Check the checkbox to enable the plugin (if not checked).
+
+6. Once enabled, the ![](/qscat/qscat.png) icon will appear in the toolbar.
    
 </details>
 
