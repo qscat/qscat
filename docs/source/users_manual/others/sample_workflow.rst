@@ -559,7 +559,22 @@ Running the forecasting
 
    In :guilabel:`Time Period`, select |radiobutton| :guilabel:`10 years` (see :ref:`tab_forecasting_time_period`) and click :guilabel:`Forecast`.
 
+   .. figure:: /img/workflow/simple_data/forecasting/example-forecasting.png
+      :align: center
+      :class: img-border
 
+      Example forecasting in Forecasting Tab.
+
+      |br|
+
+   .. figure:: /img/workflow/simple_data/forecasting/example-forecasting.png
+      :align: center
+      :class: img-border
+
+      Example forecasting in Forecasting Tab.
+
+      |br|
+      
 Visualizing the statistics transects
 ------------------------------------
 
