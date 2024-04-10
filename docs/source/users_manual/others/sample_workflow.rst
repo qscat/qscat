@@ -412,7 +412,7 @@ Computing the shoreline change
 
    In :guilabel:`Shoreline Change Statistics`, select statistics you want to calculate, select all via :guilabel:`Select / Deselect All` (see :ref:`tab_shoreline_change_scs`).
 
-   In :guilabel:`Pairwise Comparison Shorelines`, always click :guilabel:`Update` when selections are empty in :guilabel:`Newest date` and :guilabel:`Oldest date`. The :guilabel:`Update` button is also used when you changed the values of date field in shorelines layer then you want to update the selection of dates. Leave the selections as is (see :ref:`tab_shoreline_change_pcs`).
+   In :guilabel:`Pairwise Comparison Shorelines`, always click :guilabel:`Update` when selections are empty in :guilabel:`Newest date` and :guilabel:`Oldest date`. The :guilabel:`Update` button is also used when you changed the values of date field in shorelines layer then you want to update the selection of dates. Make sure to select ``04/2022`` in :guilabel:`Newest date` and ``01/1977`` in :guilabel:`Oldest date` (see :ref:`tab_shoreline_change_pcs`).
 
    In :guilabel:`Additional Parameters`, leave :guilabel:`Confidence interval (%)` as is (see :ref:`tab_shoreline_change_additional_parameters`).
 
