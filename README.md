@@ -17,13 +17,30 @@ QSCAT was initially developed by UP-MSI CoastER project 1 staff for a [governmen
 ## Installation
 
 <details open>
-<summary>By ZIP File</summary>
+<summary>Inside QGIS software</summary>
 
 ### Instructions
 
-The latest QSCAT plugin is currently available as a ZIP file for installation. The steps to install the plugin on any operating system (Windows, Linux, Mac OS) are as follows:
+1. Open `QGIS`, `Plugins ‣ Manage and Install Plugins… ‣ All`.
 
-1. Download the latest `qscat.zip` file from the following link: [https://github.com/louisfacun/qscat/releases/latest](https://github.com/louisfacun/qscat/releases/latest)
+2. Search `QGIS Shoreline Change Analysis Tool`.
+
+3. Click `Install Plugin`.
+
+4. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed succesfuly. Check the checkbox to enable the plugin (if not checked).
+
+5. Once enabled, the ![](/qscat/qscat.png) icon will appear in the toolbar.
+   
+</details>
+
+<details open>
+<summary>By ZIP File (GitHub or QGIS plugin repository website)</summary>
+
+### Instructions
+
+The latest QSCAT plugin is available as a ZIP file for installation. The steps to install the plugin on any operating system (Windows, Linux, Mac OS) are as follows:
+
+1. Download the latest `qscat.zip` file from the following link: [https://github.com/louisfacun/qscat/releases/latest](https://github.com/louisfacun/qscat/releases/latest). OR `qscat-x.y-z.zip` from [https://plugins.qgis.org/plugins/qscat/](https://plugins.qgis.org/plugins/qscat/).
 
 2. Open `QGIS`, `Plugins ‣ Manage and Install Plugins… ‣ Install from ZIP`.
 
@@ -34,6 +51,8 @@ The latest QSCAT plugin is currently available as a ZIP file for installation. T
 5. Once enabled, the ![](/qscat/qscat.png) icon will appear in the toolbar.
 
 </details>
+
+See [QSCAT User Manual - Sample Workflow](https://qscat.readthedocs.io/en/latest/users_manual/others/sample_workflow.html) for sample usage.
 
 ## Resources
 - [QSCAT User Manual](https://qscat.readthedocs.io)
