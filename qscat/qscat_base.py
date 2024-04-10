@@ -72,6 +72,8 @@ class QscatPlugin:
         self.dockwidget.tw_qscat.setStyleSheet("QTabWidget::tab { text-align: left; }")
         
         # Signals
+
+        # Buttons in automator tab
         self.dockwidget.pb_automator_field_shoreline_apply.clicked.connect(
             lambda: automate_shoreline_field(self))
         self.dockwidget.pb_automator_field_baseline_apply.clicked.connect(
@@ -96,7 +98,7 @@ class QscatPlugin:
         
         self.dockwidget.qmlcb_shorelines_shorelines_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_shorelines_date_field.setLayer(
-                self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()``))
+                self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()))
         self.dockwidget.qmlcb_shorelines_shorelines_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_shorelines_uncertainty_field.setLayer(
                 self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()))
