@@ -44,6 +44,8 @@ Summary reports location
 
 Allows users to choose the folder in which to save the summary reports. For more information on the summary reports, see :ref:`summary_report`.
 
+.. _tab_shoreline_change_tsi:
+
 Transect-Shoreline Intersections
 ================================
 
@@ -63,6 +65,7 @@ Transect-Shoreline Intersections
   
 Sometimes, a transect intersects the shoreline vector at more than one point, particularly on curved segments (:numref:`figure_transects_shoreline_intersections`). To handle shoreline vector/s with multiple intersections, QSCAT allows the user to choose the intersection point by distance (i.e., farthest or closest to the baseline) or by placement (seaward or landward, similar to DSAS). As it will affect the distance between the intersection points at the baseline and the shoreline, it is recommended that the selected option be applied to all shorelines for analysis.
 
+.. _tab_shoreline_change_scs:
 
 Shoreline Change Statistics
 ===========================
@@ -250,6 +253,7 @@ where:
 - :math:`\bar{x}` - mean of years
 - :math:`x_i` - i\ :sup:`th` year
 
+.. _tab_shoreline_change_pcs:
 
 Pairwise Comparison of Shorelines
 =================================
@@ -260,6 +264,9 @@ Pairwise Comparison of Shorelines
    Shoreline Change Statistics section in Shoreline Change tab.
 
 By default, NSM and EPR calculate the magnitude and rate of shoreline changes between the oldest and most recent shorelines, even if multiple shorelines are available. In QSCAT, the algorithm for calculating NSM and EPR can be applied to any two shorelines from the selected shoreline layer by specifying the dates of the two shorelines for comparison. While LRR can estimate the net rate of change among multiple shorelines, the pairwise comparison can better understand how the shoreline has evolved over different periods, as well as the possible causes of the observed trends.
+
+
+.. _tab_shoreline_change_additional_parameters:
 
 Additional Parameters
 =====================

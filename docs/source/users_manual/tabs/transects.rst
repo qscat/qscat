@@ -37,6 +37,9 @@ Layer output name
 
 This is the name that will be prefixed on the name of vector layer.
 
+
+.. _tab_transects_count:
+
 Count
 =====
 
@@ -72,6 +75,9 @@ By number of transects
 Based on the user-defined number of transects, QSCAT estimates the appropriate spacing between transects for a particular baseline.
 
 In DSAS, the number of transects to be cast depends on the scale of the data and the intended scale of output rate information :cite:p:`2018:dsasv5`. It has been observed that the casting of transects in DSAS takes more time as the transect spacing becomes smaller. In QSCAT, the speed at which transects are cast does not differ significantly with varying transect spacing. A 10-m transect spacing applied to a nearly linear 94-km coastline of La Union took about 5-10 minutes in QSCAT and about 30-45 minutes in DSAS.   
+
+
+.. _tab_transects_parameters:
 
 Parameters
 ==========
