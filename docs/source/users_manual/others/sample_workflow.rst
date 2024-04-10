@@ -553,10 +553,43 @@ Creating the polygon using QGIS
 Running the forecasting
 -----------------------
 
--
+#. Go to :guilabel:`Forecasting Tab`
+
+   In :guilabel:`Algorithm`, the current available algorithm is :guilabel:`Kalman Filter` (see :ref:`tab_forecasting_algorithm`).
+
+   In :guilabel:`Time Period`, select |radiobutton| :guilabel:`10 years` (see :ref:`tab_forecasting_time_period`) and click :guilabel:`Forecast`.
+
 
 Visualizing the statistics transects
 ------------------------------------
+
+#. Go to :guilabel:`Visualization Tab`
+
+   In :guilabel:`Layer`, select a statistic layer to apply visualization. In this example, we choose the NSM statistic layer.
+
+   In :guilabel:`Color Ramp`, leave the number of :guilabel:`Negative classes` and :guilabel:`Positive classes` as is. Select ``Equal Interval`` as the :guilabel:`Mode` and click :guilabel:`Visualize`.
+
+   .. figure:: /img/workflow/simple_data/visualization/visualizing-nsm-statistic.png
+      :align: center
+
+      Visualizing statistics in Visualization Tab.
+
+      |br|
+
+   .. figure:: /img/workflow/simple_data/visualization/visualized-nsm-statistic.png
+      :align: center
+
+      Visualized NSM statistic.
+
+      |br|
+
+   .. figure:: /img/workflow/simple_data/visualization/visualized-nsm-statistic-color-ramp-values.png
+      :align: center
+      :class: img-border
+
+      Visualized NSM statistic color ramp with equal interval range values.
+
+      |br|
 
 
 .. Icons

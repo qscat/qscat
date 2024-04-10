@@ -11,17 +11,22 @@ Tab: Forecasting
       :depth: 2
       
 
+.. _tab_forecasting_algorithm:
+
 Algorithm
 =========
 
 *Content for this section will be added soon.*
 
 
+.. _tab_forecasting_kalman_filter:
+
 Kalman Filter
 -------------
 
 *Content for this section will be added soon.*
 
+.. _tab_forecasting_time_period:
 
 Time Period
 ===========
