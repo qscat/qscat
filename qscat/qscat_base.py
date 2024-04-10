@@ -29,7 +29,7 @@ from qscat.core.update import check_updates_on_click
 from qscat.core.utils import get_plugin_dir
 from qscat.core.visualization import apply_color_ramp
 
-from qscat.gui.statistics import update_newest_oldest_year
+from qscat.gui.statistics import update_newest_oldest_date
 from qscat.gui.statistics import select_all_stats_checkbox
 from qscat.gui.utils import enable_disable_by_radio_button
 from qscat.gui.widget_properties import set_plugin_widget_properties
@@ -118,7 +118,7 @@ class QscatPlugin:
             lambda: select_all_stats_checkbox(self))
 
         self.dockwidget.pb_stats_update_newest_oldest_year.clicked.connect(
-            lambda: update_newest_oldest_year(self))
+            lambda: update_newest_oldest_date(self))
         self.dockwidget.rb_transects_by_transect_spacing.toggled.connect(
             lambda: enable_disable_by_radio_button(
                 self.dockwidget.rb_transects_by_transect_spacing,

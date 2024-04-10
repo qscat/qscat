@@ -2,6 +2,7 @@
 # QSCAT Plugin — GPL-3.0 license
 
 import re
+from datetime import datetime
 
 from PyQt5.QtCore import Qt
 
@@ -36,42 +37,53 @@ def select_all_stats_checkbox(self):
         self.dockwidget.cb_stats_LRR.setChecked(False)
         self.dockwidget.cb_stats_WLR.setChecked(False)
 
-def update_newest_oldest_year(self):
-    if self.dockwidget.qfcb_shorelines_date_field.count() > 0:
-        cb_newest_year = self.dockwidget.cb_stats_newest_year
-        cb_oldest_year = self.dockwidget.cb_stats_oldest_year
-        cb_newest_year.clear()
-        cb_oldest_year.clear()
 
-        years = get_shorelines_dates(self)
+def update_newest_oldest_date(qscat):
+    """Update the newest and oldest date combo boxes based on the current
+    selected shoreline layer and selected date field.
+    
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+    """
+    if qscat.dockwidget.qfcb_shorelines_date_field.count() > 0:
+        cb_newest_date = qscat.dockwidget.cb_stats_newest_year
+        cb_oldest_date = qscat.dockwidget.cb_stats_oldest_year
+        cb_newest_date.clear()
+        cb_oldest_date.clear()
+        
+        # Get dates as list of strings (MM/YYYY)
+        dates = get_shorelines_dates(qscat)
 
-        if not is_valid_date_inputs(years):
+        if not is_valid_date_inputs(dates):
             display_message(
-                'One of the date input is invalid! Must be MM/YYYY or invalid.', 
+                'One of the date inputs is invalid! Must be MM/YYYY.', 
                 Qgis.Critical,
             )   
-        else:
-            years = sorted(years, reverse=True)
-            oldest_year_curr = min(years)
-            newest_year_curr = max(years)
+            return
+        
+        # Sort and get the oldest and newest date
+        dates_sorted = sorted(dates, key=lambda x: datetime.strptime(x, '%m/%Y'))
+        oldest_date = dates_sorted[0]
+        newest_date = dates_sorted[-1]
+        
+        # Add the dates to the combo boxes
+        cb_newest_date.addItems(dates)
+        cb_oldest_date.addItems(dates)
 
-            cb_newest_year.addItems(years)
-            cb_oldest_year.addItems(years)
+        # Find the index of the oldest and newest date
+        newest_date_i = cb_newest_date.findText(newest_date, Qt.MatchExactly)
+        oldes_date_i = cb_oldest_date.findText(oldest_date, Qt.MatchExactly)
 
-            newest_idx = cb_newest_year.findText(
-                newest_year_curr, Qt.MatchExactly
-            )
-            oldest_idx = cb_oldest_year.findText(
-                oldest_year_curr, Qt.MatchExactly
-            )
-            cb_newest_year.setCurrentIndex(newest_idx)
-            cb_oldest_year.setCurrentIndex(oldest_idx)
+        # Set the current index of the combo boxes
+        cb_newest_date.setCurrentIndex(newest_date_i)
+        cb_oldest_date.setCurrentIndex(oldes_date_i)
     else:
         # No date field string for the current selected layer
         display_message(
             'No candidate date field exists with type (String) for the current selected shoreline layer.', 
             Qgis.Critical,
-        )   
+        )
+
 
 # TODO: move to core.utils
 def is_valid_date_input(date):
@@ -93,6 +105,7 @@ def is_valid_date_input(date):
             return False
     else:
         return False
+
 
 # TODO: move to core.utils
 def is_valid_date_inputs(dates):
