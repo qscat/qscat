@@ -1,8 +1,23 @@
 [general]
 name=QGIS Shoreline Change Analysis Tool
-description=Shoreline Change Analysis Tool
-about=Shoreline Change Analysis Tool
-version=0.1.0
+
+description=A plugin for Shoreline Change Analysis (SCA).
+
+about=QSCAT offers the following features:
+
+    * Shoreline Change: computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR).
+
+    * Area Change: calculates length and area of accreting, stable, and eroding coastal segments.
+
+    * Forecasting: predict future shoreline positions including uncertainty areas.
+
+    * Automator: tools that automate manual repetitive tasks.
+
+    * Visualization: shoreline and area change, forecasting results are visualized in the map for easy interpretation.
+
+    * Reports: generates a comprehensive summary reports of the analysis results.
+
+version=0.1.1
 qgisMinimumVersion=3.22
 author=Louis Facun
 email=louisfacun@gmail.com
