@@ -31,7 +31,7 @@ from qscat.core.visualization import apply_color_ramp
 
 from qscat.gui.statistics import update_newest_oldest_date
 from qscat.gui.statistics import select_all_stats_checkbox
-from qscat.gui.utils import enable_disable_by_radio_button
+from qscat.gui.utils import enable_disable_widgets_by_radio_button
 from qscat.gui.widget_properties import set_plugin_widget_properties
 
 
@@ -113,23 +113,24 @@ class QscatPlugin:
             lambda: self.dockwidget.qfcb_baseline_length_field.setLayer(
                 self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()))
 
-        # For shoreline change tab
+        # For Shoreline Change Tab
         self.dockwidget.cb_stats_select_all.stateChanged.connect(
             lambda: select_all_stats_checkbox(self))
 
+        # Transect Count section in the Transect Tab
         self.dockwidget.pb_stats_update_newest_oldest_year.clicked.connect(
             lambda: update_newest_oldest_date(self))
         
         self.dockwidget.rb_transects_by_transect_spacing.toggled.connect(
-            lambda: enable_disable_by_radio_button(
+            lambda: enable_disable_widgets_by_radio_button(
                 self.dockwidget.rb_transects_by_transect_spacing,
                 self.dockwidget.qsb_transects_by_transect_spacing,
                 self.dockwidget.qsb_transects_by_number_of_transects
             )
         )
-
+        
         self.dockwidget.rb_transects_by_number_of_transects.toggled.connect(
-            lambda: enable_disable_by_radio_button(
+            lambda: enable_disable_widgets_by_radio_button(
                 self.dockwidget.rb_transects_by_number_of_transects,
                 self.dockwidget.qsb_transects_by_number_of_transects,
                 self.dockwidget.qsb_transects_by_transect_spacing
@@ -140,15 +141,16 @@ class QscatPlugin:
         self.button_group.addButton(self.dockwidget.rb_choose_by_distance)
         self.button_group.addButton(self.dockwidget.rb_choose_by_placement)
 
+        # Transect-Shoreline Intersections in Shorelines Tab
         self.dockwidget.rb_choose_by_distance.toggled.connect(
-            lambda: enable_disable_by_radio_button(
+            lambda: enable_disable_widgets_by_radio_button(
                 self.dockwidget.rb_choose_by_distance,
                 self.dockwidget.gb_choose_by_distance,
                 self.dockwidget.gb_choose_by_placement,
             )
         )
         self.dockwidget.rb_choose_by_placement.toggled.connect(
-            lambda: enable_disable_by_radio_button(
+            lambda: enable_disable_widgets_by_radio_button(
                 self.dockwidget.rb_choose_by_placement,
                 self.dockwidget.gb_choose_by_placement,
                 self.dockwidget.gb_choose_by_distance,
