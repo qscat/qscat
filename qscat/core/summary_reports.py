@@ -14,7 +14,7 @@ from qscat.core.utils import get_shorelines_input_params
 from qscat.core.utils import get_shorelines_dates
 from qscat.core.utils import get_shorelines_uncs
 from qscat.core.utils import get_stats_area_change_input_params
-from qscat.core.utils import get_statistics_input_params
+from qscat.core.utils import get_shoreline_change_input_params
 from qscat.core.utils import get_transects_input_params
 
 
@@ -199,7 +199,7 @@ def create_summary_shoreline_change(self, summary):
     shorelines = get_shorelines_input_params(self)
     baseline = get_baseline_input_params(self)
     transects = get_transects_input_params(self)
-    statistics = get_statistics_input_params(self)
+    shoreline_change = get_shoreline_change_input_params(self)
 
     uncs = ", ".join("{:.2f}".format(x) for x in get_shorelines_uncs(self))
     
@@ -242,33 +242,33 @@ def create_summary_shoreline_change(self, summary):
 
     f.write(f'\n')
     f.write(f'STATISTICS TAB:\n')
-    f.write(f'Transect layer: {statistics["transect_layer"].name()}\n')
+    f.write(f'Transect layer: {shoreline_change["transect_layer"].name()}\n')
 
-    if statistics["is_choose_by_distance"]:
+    if shoreline_change["is_choose_by_distance"]:
         f.write(f'Intersection: Choose by distance\n')
-        if statistics["is_choose_by_distance_farthest"]:
+        if shoreline_change["is_choose_by_distance_farthest"]:
             f.write(f'By distance: Farthest\n')
-        elif statistics["is_choose_by_distance_closest"]: 
+        elif shoreline_change["is_choose_by_distance_closest"]: 
             f.write(f'By distance: Closest\n')
-    elif statistics["is_choose_by_placement"]:
+    elif shoreline_change["is_choose_by_placement"]:
         f.write(f'Intersection: Choose by placement\n')
-        if statistics["is_choose_by_placement_seaward"]:
+        if shoreline_change["is_choose_by_placement_seaward"]:
             f.write(f'By distance: Seaward\n')
-        elif statistics["is_choose_by_placement_landward"]: 
+        elif shoreline_change["is_choose_by_placement_landward"]: 
             f.write(f'By distance: Landward\n')
 
-    clip_transects = "Yes" if statistics["is_clip_transects"] else "No"
+    clip_transects = "Yes" if shoreline_change["is_clip_transects"] else "No"
     f.write(f'Clip transects: {clip_transects}\n')
-    f.write(f'Selected statistics: {", ".join(statistics["selected_stats"])}\n')
-    f.write(f'Newest date: {statistics["newest_year"]}\n')
-    f.write(f'Oldest date: {statistics["oldest_year"]}\n')
+    f.write(f'Selected statistics: {", ".join(shoreline_change["selected_stats"])}\n')
+    f.write(f'Newest date: {shoreline_change["newest_year"]}\n')
+    f.write(f'Oldest date: {shoreline_change["oldest_year"]}\n')
     f.write(f'\n')
     f.write(f'[SUMMARY OF RESULTS]\n')
     f.write(f'\n')
     f.write(f'Total no. of transects: {summary["num_of_transects"]}\n')
     f.write(f'\n')
 
-    selected_stats = statistics['selected_stats']
+    selected_stats = shoreline_change['selected_stats']
 
     if 'SCE' in selected_stats:
         f.write(f'SHORELINE CHANGE ENVELOPE (SCE):\n')

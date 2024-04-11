@@ -30,7 +30,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### TODO
 
-- Fix unchecked `Clip transects` in `Shoreline Change Tab` not working.
 - Add `Shoreline Change Tab` input parameters saving.
 - Refactor inconsistent object naming.
 - Refactor statistics params to shoreline change params.
