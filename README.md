@@ -14,6 +14,22 @@
 
 QSCAT was initially developed by UP-MSI CoastER project 1 staff for a [government-funded initiative](https://research.mmsu.edu.ph/centers/coaster/) to establish coastal erosion trends in Region 1, Philippines. The team originally utilized DSAS for analysis but transitioned to QSCAT due to its enhanced features and capabilities. While we have yet to test QSCAT extensively in other regions, its design suggests potential applicability to various coastal areas.
 
+## Features
+
+QSCAT offers the following features:
+
+* **Shoreline Change:** computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR).
+
+* **Area Change:** calculates length and area of accreting, stable, and eroding coastal segments.
+
+* **Forecasting:** predict future shoreline positions including uncertainty areas.
+
+* **Automator:** tools that automate manual repetitive tasks.
+
+* **Visualization:** shoreline and area change, forecasting results are visualized in the map for easy interpretation.
+
+* **Summary Reports:** generates a comprehensive summary reports of the analysis results.
+
 ## Installation
 
 <details open>
