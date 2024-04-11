@@ -119,18 +119,22 @@ class QscatPlugin:
 
         self.dockwidget.pb_stats_update_newest_oldest_year.clicked.connect(
             lambda: update_newest_oldest_date(self))
+        
         self.dockwidget.rb_transects_by_transect_spacing.toggled.connect(
             lambda: enable_disable_by_radio_button(
                 self.dockwidget.rb_transects_by_transect_spacing,
-                self.dockwidget.rb_transects_by_number_of_transects,
                 self.dockwidget.qsb_transects_by_transect_spacing,
-                self.dockwidget.qsb_transects_by_number_of_transects))
+                self.dockwidget.qsb_transects_by_number_of_transects
+            )
+        )
+
         self.dockwidget.rb_transects_by_number_of_transects.toggled.connect(
             lambda: enable_disable_by_radio_button(
-                self.dockwidget.rb_transects_by_transect_spacing,
                 self.dockwidget.rb_transects_by_number_of_transects,
-                self.dockwidget.qsb_transects_by_transect_spacing,
-                self.dockwidget.qsb_transects_by_number_of_transects))
+                self.dockwidget.qsb_transects_by_number_of_transects,
+                self.dockwidget.qsb_transects_by_transect_spacing
+            )
+        )
         
         self.button_group = QtWidgets.QButtonGroup()
         self.button_group.addButton(self.dockwidget.rb_choose_by_distance)
