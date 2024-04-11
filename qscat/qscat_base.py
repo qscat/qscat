@@ -32,8 +32,8 @@ from qscat.core.visualization import apply_color_ramp
 from qscat.gui.statistics import update_newest_oldest_date
 from qscat.gui.statistics import select_all_stats_checkbox
 from qscat.gui.utils import enable_disable_widgets_by_radio_button
+from qscat.gui.utils import enable_disable_groupbox_by_checkbox
 from qscat.gui.widget_properties import set_plugin_widget_properties
-
 
 class QscatPlugin:
     def __init__(self, iface):
@@ -117,7 +117,7 @@ class QscatPlugin:
         self.dockwidget.cb_stats_select_all.stateChanged.connect(
             lambda: select_all_stats_checkbox(self))
 
-        # Transect Count section in the Transect Tab
+        # Transect Count section in the Transect tab
         self.dockwidget.pb_stats_update_newest_oldest_year.clicked.connect(
             lambda: update_newest_oldest_date(self))
         
@@ -155,6 +155,14 @@ class QscatPlugin:
                 self.dockwidget.gb_choose_by_placement,
                 self.dockwidget.gb_choose_by_distance,
             )
+        )
+
+        # General section in Summary Reports Tab
+        self.dockwidget.cb_enable_report_generation.toggled.connect(
+           lambda: enable_disable_groupbox_by_checkbox(
+                self.dockwidget.cb_enable_report_generation,
+                self.dockwidget.gb_enable_individual_reports,
+            ) 
         )
 
         # For project settings tab

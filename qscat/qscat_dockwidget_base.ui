@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>710</width>
+    <width>711</width>
     <height>903</height>
    </rect>
   </property>
@@ -27,6 +27,9 @@
    <layout class="QVBoxLayout" name="verticalLayout_13">
     <item>
      <widget class="QTabWidget" name="tw_qscat">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
         <horstretch>0</horstretch>
@@ -59,9 +62,6 @@
         <width>24</width>
         <height>40</height>
        </size>
-      </property>
-      <property name="elideMode">
-       <enum>Qt::ElideNone</enum>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -221,6 +221,9 @@
           <property name="margin">
            <number>5</number>
           </property>
+          <property name="indent">
+           <number>-1</number>
+          </property>
          </widget>
         </item>
        </layout>
@@ -272,7 +275,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_11">
              <property name="text">
-              <string>Shoreline layer</string>
+              <string>Shorelines layer</string>
              </property>
             </widget>
            </item>
@@ -458,7 +461,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_22">
              <property name="text">
-              <string>Input shorelines layer</string>
+              <string>Shorelines layer</string>
              </property>
             </widget>
            </item>
@@ -593,7 +596,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
-              <string>Input layer</string>
+              <string>Shorelines layer</string>
              </property>
             </widget>
            </item>
@@ -787,7 +790,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_13">
              <property name="text">
-              <string>Input layer</string>
+              <string>Baseline layer</string>
              </property>
             </widget>
            </item>
@@ -1073,7 +1076,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_5">
              <property name="text">
-              <string>Layer output name</string>
+              <string>Layer name</string>
              </property>
             </widget>
            </item>
@@ -1363,6 +1366,9 @@
            <string>General</string>
           </property>
           <layout class="QFormLayout" name="formLayout_12">
+           <property name="horizontalSpacing">
+            <number>15</number>
+           </property>
            <item row="0" column="0">
             <widget class="QLabel" name="label_17">
              <property name="text">
@@ -1391,32 +1397,6 @@
              </property>
              <property name="checked">
               <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_18">
-             <property name="text">
-              <string>Summary reports location</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QgsFileWidget" name="qfw_stat_summary_reports_location">
-             <property name="fileWidgetButtonVisible">
-              <bool>true</bool>
-             </property>
-             <property name="useLink">
-              <bool>true</bool>
-             </property>
-             <property name="fullUrl">
-              <bool>false</bool>
-             </property>
-             <property name="storageMode">
-              <enum>QgsFileWidget::GetDirectory</enum>
-             </property>
-             <property name="options">
-              <set>QFileDialog::ShowDirsOnly</set>
              </property>
             </widget>
            </item>
@@ -1875,7 +1855,7 @@
               <bool>true</bool>
              </property>
              <property name="text">
-              <string>Polygon boundary</string>
+              <string>Polygon layer</string>
              </property>
             </widget>
            </item>
@@ -1892,7 +1872,7 @@
               <bool>true</bool>
              </property>
              <property name="text">
-              <string>Stat</string>
+              <string>Stat layer</string>
              </property>
             </widget>
            </item>
@@ -2133,7 +2113,7 @@
               <bool>true</bool>
              </property>
              <property name="text">
-              <string>Select stat layer</string>
+              <string>Stat layer</string>
              </property>
             </widget>
            </item>
@@ -2282,6 +2262,143 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_6">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>gui/icons/summary-reports.png</normaloff>gui/icons/summary-reports.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string/>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Summary Reports</string>
+       </attribute>
+       <attribute name="whatsThis">
+        <string>Summary Reports</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_14">
+        <item>
+         <widget class="QLabel" name="label_48">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Summary Reports</string>
+          </property>
+          <property name="margin">
+           <number>5</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_14">
+          <property name="title">
+           <string>General</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="1" column="1">
+            <widget class="QgsFileWidget" name="qfw_report_save_location">
+             <property name="fileWidgetButtonVisible">
+              <bool>true</bool>
+             </property>
+             <property name="useLink">
+              <bool>true</bool>
+             </property>
+             <property name="fullUrl">
+              <bool>false</bool>
+             </property>
+             <property name="storageMode">
+              <enum>QgsFileWidget::GetDirectory</enum>
+             </property>
+             <property name="options">
+              <set>QFileDialog::ShowDirsOnly</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_46">
+             <property name="text">
+              <string>Report save location:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QGroupBox" name="gb_enable_individual_reports">
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_15">
+              <item>
+               <widget class="QCheckBox" name="cb_enable_shoreline_change_report">
+                <property name="text">
+                 <string>Shoreline Change</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="cb_enable_area_change_report">
+                <property name="text">
+                 <string>Area Change</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="cb_enable_forecasting_report">
+                <property name="text">
+                 <string>Forecasting</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="cb_enable_report_generation">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Enable report generation</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_11">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="icon">
         <iconset>
@@ -2340,7 +2457,7 @@
            </font>
           </property>
           <property name="text">
-           <string>QSCAT: QGIS' Shoreline Change Analysis Tool</string>
+           <string>QSCAT: QGIS Shoreline Change Analysis Tool</string>
           </property>
           <property name="margin">
            <number>0</number>

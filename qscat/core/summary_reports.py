@@ -18,27 +18,59 @@ from qscat.core.utils import get_statistics_input_params
 from qscat.core.utils import get_transects_input_params
 
 
-def create_summary_base_file(self, datetime, change):
+COMP_SHORELINE_CHANGE = 0
+COMP_AREA_CHANGE = 1
+COMP_FORECASTING = 2
+
+
+def create_summary_base_file(qscat, datetime, computation):
     """Create the base file for both shoreline and area change summary report.
     Contains the general information such as project crs, author information, 
     and sytem information.
 
     Args:
+        qscat (QscatPlugin): QscatPlugin instance.
         summary (dict): Contains info about stats
-        change (str): Either shoreline or area change.
+        computation (int): 0 for shoreline change, 1 for area change, 2 for forecasting.
 
     Returns:
         f (io.TextIOWrapper): A file object opened in text mode.
-    """
-    folder_path = self.dockwidget.qfw_stat_summary_reports_location.filePath()
-    if change == "shoreline":
-        file_name = f'qscat-shoreline-change-{datetime}.txt'
-    elif change == "area":
-        file_name = f'qscat-area-change-{datetime}.txt'
-    file_path = os.path.join(folder_path, file_name)
 
-    project = get_project_input_params(self)
-    f = open(file_path, 'w')
+    Example:
+        ── shoreline_change/
+        │   ├── qscat_0.1.0_shoreline_change_20240409-192203.txt
+        │   ├── qscat_0.1.0_shoreline_change_20240410-080512.txt
+        │   └── ...
+        │
+        ├── area_change/
+        │   ├── qscat_0.1.0_area_change_20240409-192203.txt
+        │   ├── qscat_0.1.0_area_change_20240410-080512.txt
+        │   └── ...
+        │
+        └── forecasting/
+            ├── qscat_0.1.0_forecasting_20240409-192203.txt
+            ├── qscat_0.1.0_forecasting_20240410-080512.txt
+            └── ...
+    """
+    base_dir = qscat.dockwidget.qfw_report_save_location.filePath()
+
+    if computation == COMP_SHORELINE_CHANGE:
+        summary_reports_dir = os.path.join(base_dir, 'shoreline_change')
+        file_name = f'qscat_{get_metadata_version()}_shoreline_change_{datetime}.txt'
+    elif computation == COMP_AREA_CHANGE:
+        summary_reports_dir = os.path.join(base_dir, 'area_change')
+        file_name = f'qscat_{get_metadata_version()}_area_change_{datetime}.txt'
+    elif computation == COMP_FORECASTING:
+        summary_reports_dir = os.path.join(base_dir, 'forecasting')
+        file_name = f'qscat_{get_metadata_version()}_forecasting_{datetime}.txt'
+
+    # Ensure the directory exists
+    os.makedirs(summary_reports_dir, exist_ok=True)
+
+    summary_report_file_path = os.path.join(summary_reports_dir, file_name)
+
+    project = get_project_input_params(qscat)
+    f = open(summary_report_file_path, 'w')
     f.write(f'[PROJECT DETAILS]\n')
     f.write(f'\n')
     f.write(f'GENERAL:\n')
@@ -63,17 +95,17 @@ def create_summary_base_file(self, datetime, change):
     return f
 
 
-def create_summary_area_change(self, summary):
+def create_summary_area_change(qscat, summary):
     """
     Args:
-        self (object): QSCAT dockwidget.
+        qscat (QscatPlugin): QscatPlugin instance.
         summary (dict): Contains info about stats.
     """
     # Create the file
-    f = create_summary_base_file(self, summary["datetime"], "area")
+    f = create_summary_base_file(qscat, summary['datetime'], COMP_AREA_CHANGE)
 
     # Ready the data
-    area = get_stats_area_change_input_params(self)
+    area = get_stats_area_change_input_params(qscat)
 
     f.write(f'[INPUT PARAMETERS]\n')
     f.write(f'\n')
@@ -160,7 +192,7 @@ def create_summary_area_change(self, summary):
 
 def create_summary_shoreline_change(self, summary):
     # Create the file
-    f = create_summary_base_file(self, summary["datetime"], "shoreline")
+    f = create_summary_base_file(self, summary['datetime'], COMP_SHORELINE_CHANGE)
     
     # Ready the data
     # Should we use the data from the summary dict or the input params?
@@ -208,27 +240,25 @@ def create_summary_shoreline_change(self, summary):
     f.write(f'Transect length: {transects["length"]} meters\n')
     f.write(f'Smoothing distance: {transects["smoothing_distance"]} meters\n')
 
-    if transects["is_choose_by_distance"]:
-        f.write(f'Intersection: Choose by distance\n')
-        if transects["is_choose_by_distance_farthest"]:
-            f.write(f'By distance: Farthest\n')
-        elif transects["is_choose_by_distance_closest"]: 
-            f.write(f'By distance: Closest\n')
-    elif transects["is_choose_by_placement"]:
-        f.write(f'Intersection: Choose by placement\n')
-        if transects["is_choose_by_placement_seaward"]:
-            f.write(f'By distance: Seaward\n')
-        elif transects["is_choose_by_placement_landward"]: 
-            f.write(f'By distance: Landward\n')
-
-    clip_transects = "Yes" if transects["is_clip_transects"] else "No"
-    include_intersections = "Yes" if transects["is_include_intersections"] else "No"
-
-    f.write(f'Clip transects: {clip_transects}\n')
-    f.write(f'Include intersections: {include_intersections}\n')
     f.write(f'\n')
     f.write(f'STATISTICS TAB:\n')
     f.write(f'Transect layer: {statistics["transect_layer"].name()}\n')
+
+    if statistics["is_choose_by_distance"]:
+        f.write(f'Intersection: Choose by distance\n')
+        if statistics["is_choose_by_distance_farthest"]:
+            f.write(f'By distance: Farthest\n')
+        elif statistics["is_choose_by_distance_closest"]: 
+            f.write(f'By distance: Closest\n')
+    elif statistics["is_choose_by_placement"]:
+        f.write(f'Intersection: Choose by placement\n')
+        if statistics["is_choose_by_placement_seaward"]:
+            f.write(f'By distance: Seaward\n')
+        elif statistics["is_choose_by_placement_landward"]: 
+            f.write(f'By distance: Landward\n')
+
+    clip_transects = "Yes" if statistics["is_clip_transects"] else "No"
+    f.write(f'Clip transects: {clip_transects}\n')
     f.write(f'Selected statistics: {", ".join(statistics["selected_stats"])}\n')
     f.write(f'Newest date: {statistics["newest_year"]}\n')
     f.write(f'Oldest date: {statistics["oldest_year"]}\n')

@@ -14,7 +14,7 @@ from qgis.core import QgsGeometry
 from qscat.core.layers import add_layer
 from qscat.core.layers import load_polygons
 
-from qscat.core.summary import create_summary_area_change
+from qscat.core.summary_reports import create_summary_area_change
 from qscat.core.utils import datetime_now
 from qscat.core.utils import get_stats_area_change_input_params
 from qscat.core.visualization import apply_area_colors
@@ -339,6 +339,7 @@ def compute_area_change_stats(self):
     #layer_group = QgsProject.instance().layerTreeRoot().addGroup('Area')
     
     current_datetime = datetime_now()
+
     polygon_geoms = [p['geom'] for p in polygons]
     polygon_layer = add_layer(
         'Polygon', 
@@ -348,89 +349,89 @@ def compute_area_change_stats(self):
         layer_values,
         datetime=current_datetime,
     )
-   
-    # Add summary report here
-    summary = {}
     
-    # GENERAL
-    summary['datetime'] = current_datetime
-    # RESULTS
+    if (
+        self.dockwidget.cb_enable_report_generation.isChecked() and 
+        self.dockwidget.cb_enable_area_change_report.isChecked()
+    ):
+        summary = {}
+        
+        # General information
+        summary['datetime'] = current_datetime
+ 
+        # Actual results
+        # Area
+        summary['total_area'] = round(total_area, 2)
+
+        # Erosion
+        erosion_count = len([p for p in polygons if p['type'] == 'erosion'])
+        erosion_areas = [p['area'] for p in polygons if p['type'] == 'erosion']
+        summary['area_erosion_total_of_areas'] = round(total_area_by_type['erosion'], 2)
+        summary['area_erosion_pct_of_areas'] = f"{total_area_by_type['erosion_percent']*100:.2f}%"
+        summary['area_erosion_num_of_areas'] = erosion_count
+        summary['area_erosion_pct_of_num_of_areas'] = f'{(erosion_count / len(polygons)) * 100:.2f}%'
+        summary['area_erosion_avg'] = round(total_area_by_type['erosion'] / len(polygons), 2)
+        summary['area_erosion_max'] = round(max(erosion_areas), 2) if erosion_areas else 0
+        summary['area_erosion_min'] = round(min(erosion_areas), 2) if erosion_areas else 0
+
+        # Accretion
+        accretion_count = len([p for p in polygons if p['type'] == 'accretion'])
+        accretion_areas = [p['area'] for p in polygons if p['type'] == 'accretion']
+        summary['area_accretion_total_of_areas'] = round(total_area_by_type['accretion'], 2)
+        summary['area_accretion_pct_of_areas'] = f"{total_area_by_type['accretion_percent']*100:.2f}%"
+        summary['area_accretion_num_of_areas'] = accretion_count
+        summary['area_accretion_pct_of_num_of_areas'] = f'{(accretion_count / len(polygons)) * 100:.2f}%'
+        summary['area_accretion_avg'] = round(total_area_by_type['accretion'] / len(polygons), 2)
+        summary['area_accretion_max'] = round(max(accretion_areas), 2) if accretion_areas else 0
+        summary['area_accretion_min'] = round(min(accretion_areas), 2) if accretion_areas else 0
+
+        # Stable
+        stable_count = len([p for p in polygons if p['type'] == 'stable'])
+        stable_areas = [p['area'] for p in polygons if p['type'] == 'stable']
+        summary['area_stable_total_of_areas'] = round(total_area_by_type['stable'], 2)
+        summary['area_stable_pct_of_areas'] = f"{total_area_by_type['stable_percent']*100:.2f}%"
+        summary['area_stable_num_of_areas'] = stable_count
+        summary['area_stable_pct_of_num_of_areas'] = f'{(stable_count / len(polygons)) * 100:.2f}%'
+        summary['area_stable_avg'] = round(total_area_by_type['stable'] / len(polygons), 2)
+        summary['area_stable_max'] = round(max(stable_areas), 2) if stable_areas else 0
+        summary['area_stable_min'] = round(min(stable_areas), 2) if stable_areas else 0
+
+        # Shoreline length
+        summary['total_length'] = round(total_length, 2)
+
+        # Erosion
+        erosion_lengths = [p['shoreline_length'] for p in polygons if p['type'] == 'erosion']
+        summary['length_erosion_total_of_lengths'] = round(total_length_by_type['erosion'], 2)
+        summary['length_erosion_pct_of_lengths'] = f"{total_length_by_type['erosion_percent']*100:.2f}%"
+        summary['length_erosion_num_of_lengths'] = erosion_count
+        summary['length_erosion_pct_of_num_of_lengths'] = f'{(erosion_count / len(polygons)) * 100:.2f}%'
+        summary['length_erosion_avg'] = round(total_length_by_type['erosion'] / len(polygons), 2)
+        summary['length_erosion_max'] = round(max(erosion_lengths), 2) if erosion_lengths else 0
+        summary['length_erosion_min'] = round(min(erosion_lengths), 2) if erosion_lengths else 0
+
+        # Accretion
+        accretion_lengths = [p['shoreline_length'] for p in polygons if p['type'] == 'accretion']
+        summary['length_accretion_total_of_lengths'] = round(total_length_by_type['accretion'], 2)
+        summary['length_accretion_pct_of_lengths'] = f"{total_length_by_type['accretion_percent']*100:.2f}%"
+        summary['length_accretion_num_of_lengths'] = accretion_count
+        summary['length_accretion_pct_of_num_of_lengths'] = f'{(accretion_count / len(polygons)) * 100:.2f}%'
+        summary['length_accretion_avg'] = round(total_length_by_type['accretion'] / len(polygons), 2)
+        summary['length_accretion_max'] = round(max(accretion_lengths), 2) if accretion_lengths else 0
+        summary['length_accretion_min'] = round(min(accretion_lengths), 2) if accretion_lengths else 0
+
+        # Stable
+        stable_lengths = [p['shoreline_length'] for p in polygons if p['type'] == 'stable']
+        summary['length_stable_total_of_lengths'] = round(total_length_by_type['stable'], 2)
+        summary['length_stable_pct_of_lengths'] = f"{total_length_by_type['stable_percent']*100:.2f}%"
+        summary['length_stable_num_of_lengths'] = stable_count
+        summary['length_stable_pct_of_num_of_lengths'] = f'{(stable_count / len(polygons)) * 100:.2f}%'
+        summary['length_stable_avg'] = round(total_length_by_type['stable'] / len(polygons), 2)
+        summary['length_stable_max'] = round(max(stable_lengths), 2) if stable_lengths else 0
+        summary['length_stable_min'] = round(min(stable_lengths), 2) if stable_lengths else 0
+        
+        create_summary_area_change(self, summary)
     
-    # AREA
-    summary['total_area'] = round(total_area, 2)
-
-    # Erosion
-    erosion_count = len([p for p in polygons if p['type'] == 'erosion'])
-    erosion_areas = [p['area'] for p in polygons if p['type'] == 'erosion']
-    summary['area_erosion_total_of_areas'] = round(total_area_by_type['erosion'], 2)
-    summary['area_erosion_pct_of_areas'] = f"{total_area_by_type['erosion_percent']*100:.2f}%"
-    summary['area_erosion_num_of_areas'] = erosion_count
-    summary['area_erosion_pct_of_num_of_areas'] = f'{(erosion_count / len(polygons)) * 100:.2f}%'
-    summary['area_erosion_avg'] = round(total_area_by_type['erosion'] / len(polygons), 2)
-    summary['area_erosion_max'] = round(max(erosion_areas), 2) if erosion_areas else 0
-    summary['area_erosion_min'] = round(min(erosion_areas), 2) if erosion_areas else 0
-
-    # Accretion
-    accretion_count = len([p for p in polygons if p['type'] == 'accretion'])
-    accretion_areas = [p['area'] for p in polygons if p['type'] == 'accretion']
-    summary['area_accretion_total_of_areas'] = round(total_area_by_type['accretion'], 2)
-    summary['area_accretion_pct_of_areas'] = f"{total_area_by_type['accretion_percent']*100:.2f}%"
-    summary['area_accretion_num_of_areas'] = accretion_count
-    summary['area_accretion_pct_of_num_of_areas'] = f'{(accretion_count / len(polygons)) * 100:.2f}%'
-    summary['area_accretion_avg'] = round(total_area_by_type['accretion'] / len(polygons), 2)
-    summary['area_accretion_max'] = round(max(accretion_areas), 2) if accretion_areas else 0
-    summary['area_accretion_min'] = round(min(accretion_areas), 2) if accretion_areas else 0
-
-    # Stable
-    stable_count = len([p for p in polygons if p['type'] == 'stable'])
-    stable_areas = [p['area'] for p in polygons if p['type'] == 'stable']
-    summary['area_stable_total_of_areas'] = round(total_area_by_type['stable'], 2)
-    summary['area_stable_pct_of_areas'] = f"{total_area_by_type['stable_percent']*100:.2f}%"
-    summary['area_stable_num_of_areas'] = stable_count
-    summary['area_stable_pct_of_num_of_areas'] = f'{(stable_count / len(polygons)) * 100:.2f}%'
-    summary['area_stable_avg'] = round(total_area_by_type['stable'] / len(polygons), 2)
-    summary['area_stable_max'] = round(max(stable_areas), 2) if stable_areas else 0
-    summary['area_stable_min'] = round(min(stable_areas), 2) if stable_areas else 0
-
-    # print(erosion_count, accretion_count, stable_count)
-    # print(len(polygons))
-
-    # LENGTH
-    summary['total_length'] = round(total_length, 2)
-
-    # Erosion
-    erosion_lengths = [p['shoreline_length'] for p in polygons if p['type'] == 'erosion']
-    summary['length_erosion_total_of_lengths'] = round(total_length_by_type['erosion'], 2)
-    summary['length_erosion_pct_of_lengths'] = f"{total_length_by_type['erosion_percent']*100:.2f}%"
-    summary['length_erosion_num_of_lengths'] = erosion_count
-    summary['length_erosion_pct_of_num_of_lengths'] = f'{(erosion_count / len(polygons)) * 100:.2f}%'
-    summary['length_erosion_avg'] = round(total_length_by_type['erosion'] / len(polygons), 2)
-    summary['length_erosion_max'] = round(max(erosion_lengths), 2) if erosion_lengths else 0
-    summary['length_erosion_min'] = round(min(erosion_lengths), 2) if erosion_lengths else 0
-
-    # Accretion
-    accretion_lengths = [p['shoreline_length'] for p in polygons if p['type'] == 'accretion']
-    summary['length_accretion_total_of_lengths'] = round(total_length_by_type['accretion'], 2)
-    summary['length_accretion_pct_of_lengths'] = f"{total_length_by_type['accretion_percent']*100:.2f}%"
-    summary['length_accretion_num_of_lengths'] = accretion_count
-    summary['length_accretion_pct_of_num_of_lengths'] = f'{(accretion_count / len(polygons)) * 100:.2f}%'
-    summary['length_accretion_avg'] = round(total_length_by_type['accretion'] / len(polygons), 2)
-    summary['length_accretion_max'] = round(max(accretion_lengths), 2) if accretion_lengths else 0
-    summary['length_accretion_min'] = round(min(accretion_lengths), 2) if accretion_lengths else 0
-
-    # Stable
-    stable_lengths = [p['shoreline_length'] for p in polygons if p['type'] == 'stable']
-    summary['length_stable_total_of_lengths'] = round(total_length_by_type['stable'], 2)
-    summary['length_stable_pct_of_lengths'] = f"{total_length_by_type['stable_percent']*100:.2f}%"
-    summary['length_stable_num_of_lengths'] = stable_count
-    summary['length_stable_pct_of_num_of_lengths'] = f'{(stable_count / len(polygons)) * 100:.2f}%'
-    summary['length_stable_avg'] = round(total_length_by_type['stable'] / len(polygons), 2)
-    summary['length_stable_max'] = round(max(stable_lengths), 2) if stable_lengths else 0
-    summary['length_stable_min'] = round(min(stable_lengths), 2) if stable_lengths else 0
-    
-    create_summary_area_change(self, summary)
-    
-    
+    # Shoreline length geometry
     # interest_newest_shorelines = add_layer(
     #     'LineString', 
     #     [interest_newest_shorelines], 
