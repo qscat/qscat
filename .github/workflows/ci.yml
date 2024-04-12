@@ -45,4 +45,10 @@ jobs:
       - name: PyTest
         run: |
           git clone https://github.com/louisfacun/qscat
-          pytest qscat/tests
+          pytest --cov=qscat/ --cov-report xml tests/
+      - name: Upload Coverage Reports to CodeCov
+        uses: codecov/codecov-action@v4
+        with:
+          flags: qgis-tests
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
