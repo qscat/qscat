@@ -1,7 +1,16 @@
 # QGIS 3.22.16 (latest stable version when QSCAT development started)
+
 name: QSCAT CI
 
-on: [push]
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "docs/**"
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - "docs/**"
 
 jobs:
   build-linux:
@@ -24,6 +33,7 @@ jobs:
         conda env create --file conda_envs/env.yml --name qgis
     - name: Activate conda environment
       run: |
+        conda init
         conda activate qgis
     - name: Test with pytest
       run: |
