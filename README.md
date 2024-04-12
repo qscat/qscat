@@ -1,18 +1,23 @@
+<div align="center">
+
 ![qscat](https://github.com/upmsi-coaster/qscat/assets/58874676/fb40ffde-8667-48bc-99ba-1f8c4b257eb1)
 
-[![QGIS](https://img.shields.io/badge/qgis-3.22.*-green)](https://download.qgis.org/downloads/)
-[![qgis plugin: 0.1.0](https://img.shields.io/badge/qgis_plugin-0.1.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
-[![License: GPL 3.0](https://img.shields.io/badge/license-GPL3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![QSCAT CI](https://github.com/louisfacun/qscat/actions/workflows/ci.yml/badge.svg)](https://github.com/louisfacun/qscat/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/louisfacun/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/louisfacun/qscat)
+[![QGIS.org - 0.1.0](https://img.shields.io/badge/qgis.org-0.1.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
 [![Documentation Status](https://readthedocs.org/projects/qscat/badge/?version=latest)](https://qscat.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/louisfacun/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/louisfacun/qscat)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8758/badge)](https://www.bestpractices.dev/projects/8758)
 
-<!-- [![codecov](https://codecov.io/gh/louisfacun/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/louisfacun/qscat) -->
 
-**QSCAT (QGIS' Shoreline Change Analysis Tool)** is an open-source shoreline change analysis tool for QGIS that builds upon the foundations set by [DSAS](https://www.usgs.gov/centers/whcmsc/science/digital-shoreline-analysis-system-dsas). It prioritizes speed, user-friendliness, and resource efficiency, making it a top choice for shoreline change analysis research.
+<!--[![QGIS](https://img.shields.io/badge/qgis-3.22.*-green)](https://download.qgis.org/downloads/)-->
 
-QSCAT was initially developed by UP-MSI CoastER project 1 staff for a [government-funded initiative](https://research.mmsu.edu.ph/centers/coaster/) to establish coastal erosion trends in Region 1, Philippines. The team originally utilized DSAS for analysis but transitioned to QSCAT due to its enhanced features and capabilities. While we have yet to test QSCAT extensively in other regions, its design suggests potential applicability to various coastal areas.
+**QSCAT (QGIS Shoreline Change Analysis Tool)** is an open-source shoreline change analysis (SCA) tool for QGIS that builds upon the foundations set by [DSAS](https://www.usgs.gov/centers/whcmsc/science/digital-shoreline-analysis-system-dsas). It prioritizes speed, user-friendliness, and resource efficiency, making it a top choice for SCA research.
+
+QSCAT was initially developed by UP-MSI CoastER team for a [government-funded initiative](https://research.mmsu.edu.ph/centers/coaster/) to establish coastal erosion trends in Region 1, Philippines. The team originally utilized DSAS for analysis but transitioned to QSCAT due to its enhanced features and capabilities. While we have yet to test QSCAT extensively in other regions, its design suggests potential applicability to various coastal areas.
+
+</div>
 
 ## Features
 
