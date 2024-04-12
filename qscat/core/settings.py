@@ -13,10 +13,10 @@ from qgis.gui import QgsMapLayerComboBox
 from qgis.gui import QgsSpinBox
 
 from qscat.core.projects import load_current_projection
-from qscat.core.utils import get_baseline_input_params
-from qscat.core.utils import get_project_input_params
-from qscat.core.utils import get_shorelines_input_params
-from qscat.core.utils import get_transects_input_params
+from qscat.core.utils.input import get_baseline_input_params
+from qscat.core.utils.input import get_project_settings_input_params
+from qscat.core.utils.input import get_shorelines_input_params
+from qscat.core.utils.input import get_transects_input_params
 from qscat.core.messages import display_message
 
 
@@ -171,7 +171,7 @@ def save_project_tab_project_settings(self):
         self.dockwidget.qpsw_proj_selected_crs.crs())
     load_current_projection(self)
 
-    project = get_project_input_params(self)
+    project = get_project_settings_input_params(self)
     save_project_setting('author_full_name',
                         project['author_full_name'])
     save_project_setting('author_affiliation',

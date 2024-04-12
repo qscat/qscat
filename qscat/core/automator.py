@@ -10,7 +10,7 @@ from qgis.core import QgsWkbTypes
 
 from qscat.core.layers import add_layer
 from qscat.core.messages import display_message
-from qscat.core.utils import is_field_in_layer
+from qscat.core.utils.layer import is_field_in_layer
 
 
 def automate_shoreline_field(self):

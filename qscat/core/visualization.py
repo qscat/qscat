@@ -17,9 +17,9 @@ from qgis.core import QgsRendererRange
 from qgis.core import QgsStyle
 from qgis.core import QgsSymbol
 
-from qscat.core.utils import get_highest_unc_from_input
-from qscat.core.utils import get_epr_unc_from_input
-from qscat.core.utils import is_field_in_layer
+from qscat.core.utils.input import get_highest_unc_from_input
+from qscat.core.utils.input import get_epr_unc_from_input
+from qscat.core.utils.layer import is_field_in_layer
 
 
 def apply_area_colors(layer):

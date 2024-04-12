@@ -1,7 +1,7 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-from qscat.core.utils import is_field_in_layer
+from qscat.core.utils.layer import is_field_in_layer
 
 
 def get_interest_transects_within_polygon(layer, polygon, polygon_name):

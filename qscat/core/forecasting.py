@@ -18,20 +18,21 @@ from qgis.core import Qgis
 from qgis.PyQt.QtWidgets import QMessageBox
 
 from qgis.utils import iface
-from qscat.core.utils import convert_to_decimal_year
+from qscat.core.utils.date import convert_to_decimal_year
 from qscat.core.intersects import load_list_years_intersections
-from qscat.core.utils import get_shorelines_years_uncs_from_input
-from qscat.core.utils import filter_years_intersections_by_range
-from qscat.core.utils import filter_uncs_by_range
+from qscat.core.utils.input import get_shorelines_years_uncs_from_input
+from qscat.core.utils.input import filter_years_intersections_by_range
+from qscat.core.utils.input import filter_uncs_by_range
 from qscat.core.statistics.shoreline_change import get_sorted_years_distances
 from qscat.core.statistics.shoreline_change import get_sorted_uncs
 from qscat.core.statistics.shoreline_change import compute_LCI
 from qscat.core.statistics.shoreline_change import compute_LSE
 from qscat.core.layers import add_layer
 from qscat.core.layers import load_transects
-from qscat.core.utils import get_baseline_input_params
-from qscat.core.utils import get_shorelines_input_params
-from qscat.core.utils import get_transects_input_params
+from qscat.core.utils.input import get_baseline_input_params
+from qscat.core.utils.input import get_shorelines_input_params
+from qscat.core.utils.input import get_shoreline_change_input_params
+from qscat.core.utils.input import get_transects_input_params
 from qscat.core.layers import load_shorelines
 
 from qscat.core.statistics.shoreline_change import GetTransectsIntersectionsTask
@@ -166,6 +167,8 @@ def run_forecasting(self):
     baseline_params = get_baseline_input_params(self)
     shorelines_params = get_shorelines_input_params(self)
     transects_params = get_transects_input_params(self)
+    shoreline_change_params = get_shoreline_change_input_params(self)
+
     transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
     shorelines = load_shorelines(shorelines_params)
 
@@ -175,6 +178,7 @@ def run_forecasting(self):
         shorelines_params,
         transects_params,
         baseline_params,
+        shoreline_change_params,
         self.dockwidget.qmlcb_stats_transects_layer,
     )
     globals()['get_transects_intersections_task'].taskCompleted.connect(

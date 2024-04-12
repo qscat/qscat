@@ -26,7 +26,7 @@ from qscat.core.statistics.area_change.area_change import compute_area_change_st
 from qscat.core.transects import cast_transects
 from qscat.core.update import check_updates_on_start
 from qscat.core.update import check_updates_on_click
-from qscat.core.utils import get_plugin_dir
+from qscat.core.utils.plugin import get_plugin_dir
 from qscat.core.visualization import apply_color_ramp
 
 from qscat.gui.statistics import update_newest_oldest_date
@@ -165,7 +165,7 @@ class QscatPlugin:
             ) 
         )
 
-        # For project settings tab
+        # Save input parameters for different tabs
         self.dockwidget.pb_proj_save_settings.clicked.connect(
             lambda: save_project_tab_project_settings(self))
         self.dockwidget.pb_baseline_save_settings.clicked.connect(

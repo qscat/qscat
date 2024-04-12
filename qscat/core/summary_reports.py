@@ -6,16 +6,16 @@ import platform
 
 from qgis.core import Qgis
 
-from qscat.core.utils import get_baseline_input_params
-from qscat.core.utils import get_metadata_version
-from qscat.core.utils import get_project_input_params
-from qscat.core.utils import get_project_dir
-from qscat.core.utils import get_shorelines_input_params
-from qscat.core.utils import get_shorelines_dates
-from qscat.core.utils import get_shorelines_uncs
-from qscat.core.utils import get_area_change_input_params
-from qscat.core.utils import get_shoreline_change_input_params
-from qscat.core.utils import get_transects_input_params
+from qscat.core.utils.input import get_baseline_input_params
+from qscat.core.utils.plugin import get_metadata_version
+from qscat.core.utils.input import get_project_settings_input_params
+from qscat.core.utils.plugin import get_project_dir
+from qscat.core.utils.input import get_shorelines_input_params
+from qscat.core.utils.input import get_shorelines_dates
+from qscat.core.utils.input import get_shorelines_uncs
+from qscat.core.utils.input import get_area_change_input_params
+from qscat.core.utils.input import get_shoreline_change_input_params
+from qscat.core.utils.input import get_transects_input_params
 
 
 COMP_SHORELINE_CHANGE = 0
@@ -69,7 +69,7 @@ def create_summary_base_file(qscat, datetime, computation):
 
     summary_report_file_path = os.path.join(summary_reports_dir, file_name)
 
-    project = get_project_input_params(qscat)
+    project = get_project_settings_input_params(qscat)
     f = open(summary_report_file_path, 'w')
     f.write(f'[PROJECT DETAILS]\n')
     f.write(f'\n')

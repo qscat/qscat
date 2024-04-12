@@ -12,8 +12,8 @@ from qgis.core import QgsGeometry
 from qgis.core import QgsProject
 from qgis.core import QgsVectorLayer
 
-from qscat.core.utils import datetime_now
-from qscat.core.utils import convert_to_decimal_year
+from qscat.core.utils.date import datetime_now
+from qscat.core.utils.date import convert_to_decimal_year
 
 
 def add_layer(

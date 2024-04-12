@@ -26,9 +26,9 @@ from qscat.core.layers import load_baseline
 from qscat.core.layers import load_shorelines
 from qscat.core.messages import display_message
 from qscat.core.intersects import load_list_years_intersections
-from qscat.core.utils import get_baseline_input_params
-from qscat.core.utils import get_shorelines_input_params
-from qscat.core.utils import get_transects_input_params
+from qscat.core.utils.input import get_baseline_input_params
+from qscat.core.utils.input import get_shorelines_input_params
+from qscat.core.utils.input import get_transects_input_params
 
 
 def add_transects_layer(

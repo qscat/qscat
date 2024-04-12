@@ -1,92 +1,21 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-import os
-import configparser
 import math
 
-from datetime import datetime
-from pathlib import Path
-
 from qgis.core import QgsProject
-from qgis.core import QgsApplication
+
+from qscat.core.utils.date import convert_to_decimal_year
 
 
-def extract_month_year(month_year_string):
-    """Extract the month and year from string.
-
-    Args:
-        month_year_string (str): string in the format 'mm/yyyy'
-
-    Returns:
-        tuple: (month, year)
-
-    Raises:
-        ValueError: if month_year_string is not in the format 'mm/yyyy'
-        TypeError: if month_year_string is not a string
-    """
-    try:
-        date = datetime.strptime(month_year_string, '%m/%Y')
-    except ValueError:
-        raise ValueError("Month and year must be in the format 'mm/yyyy'.")
-    except TypeError:
-        raise TypeError("Month and year must be a string.")
-    else:
-        return date.month, date.year
-
-
-def convert_to_decimal_year(month_year_string):
-    month, year = extract_month_year(month_year_string)
-    if not isinstance(month, int) or not isinstance(year, int):
-        raise TypeError("Month and year must be integers.")
-
-    if month < 1 or month > 12:
-        raise ValueError("Month must be between 1 and 12.")
-
-    if year < 0:
-        raise ValueError("Year must be positive.")
-    
-    day_of_year = get_day_of_year(month, year)
-    decimal_year = round(year + (day_of_year / 365.242199), 2)
-    return decimal_year
-
-
-def get_day_of_year(month, year):
-    """get day of year from month and year, 
-    with default of day 01 for every month"""
-    date = datetime(year, month, 1) # 1 = default day 1 every month
-    day_of_year = date.timetuple().tm_yday
-    return day_of_year
-
-
-def datetime_now():
-    return datetime.now().strftime("%m-%d-%y %H-%M-%S")
-
-
-def get_duration_ms(end, start):
-    #return int(round((end-start) * 1000))
-    return round(end-start, 10)
-
-
-def is_field_in_layer(field, layer):
-    if layer.fields().indexFromName(field) == -1:
-        return False
-    return True
-
-
-"""def get_current_project_crs():
-    project = QgsProject.instance()    
-    return project.crs().authid()"""
-
-
-def get_project_input_params(self):
-    project = {
+def get_project_settings_input_params(self):
+    project_settings = {
         'crs_id':             QgsProject.instance().crs().authid(),
         'author_full_name':   self.dockwidget.le_proj_author_full_name.text(),
         'author_affiliation': self.dockwidget.le_proj_author_affiliation.text(),
         'author_email':       self.dockwidget.le_proj_author_email.text(),
     }
-    return project
+    return project_settings
 
 
 def get_baseline_input_params(self):
@@ -105,31 +34,43 @@ def get_baseline_input_params(self):
 
 def get_shorelines_input_params(self):
     shorelines = {
-        'shorelines_layer':                self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer(),
-        'default_data_uncertainty':        self.dockwidget.le_shorelines_default_data_unc.text(),
-        'date_field':                      self.dockwidget.qfcb_shorelines_date_field.currentField(),
-        'uncertainty_field':               self.dockwidget.qfcb_shorelines_uncertainty_field.currentField(),
+        'shorelines_layer':         self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer(),
+        'default_data_uncertainty': self.dockwidget.le_shorelines_default_data_unc.text(),
+        'date_field':               self.dockwidget.qfcb_shorelines_date_field.currentField(),
+        'uncertainty_field':        self.dockwidget.qfcb_shorelines_uncertainty_field.currentField(),
     }
     return shorelines
 
 
-def get_transects_input_params(self):
+def get_transects_input_params(qscat):
+    """Returns a dictionary containing the input parameters in Transects Tab.
+    
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+
+    Returns:
+        dict: A dictionary containing the input parameters in Transects Tab.
+    """
     transects = {
-        'layer_output_name':         self.dockwidget.le_transects_layer_output_name.text(),
-        'is_by_transect_spacing':    self.dockwidget.rb_transects_by_transect_spacing.isChecked(),
-        'is_by_number_of_transects': self.dockwidget.rb_transects_by_number_of_transects.isChecked(),
-        'by_transect_spacing':       self.dockwidget.qsb_transects_by_transect_spacing.text(),
-        'by_number_of_transects':    self.dockwidget.qsb_transects_by_number_of_transects.text(),
-        'length':                    self.dockwidget.qsb_transects_length.text(),
-        'smoothing_distance':        self.dockwidget.qsb_transects_smoothing_distance.text(),
+        'layer_output_name':         qscat.dockwidget.le_transects_layer_output_name.text(),
+        'is_by_transect_spacing':    qscat.dockwidget.rb_transects_by_transect_spacing.isChecked(),
+        'is_by_number_of_transects': qscat.dockwidget.rb_transects_by_number_of_transects.isChecked(),
+        'by_transect_spacing':       qscat.dockwidget.qsb_transects_by_transect_spacing.text(),
+        'by_number_of_transects':    qscat.dockwidget.qsb_transects_by_number_of_transects.text(),
+        'length':                    qscat.dockwidget.qsb_transects_length.text(),
+        'smoothing_distance':        qscat.dockwidget.qsb_transects_smoothing_distance.text(),
     }
     return transects
 
 
 def get_shoreline_change_input_params(qscat):
-    """
+    """Returns a dictionary containing the input parameters in Shoreline Change Tab.
+
     Args:
         qscat (QscatPlugin): QscatPlugin instance.
+
+    Returns:
+        dict: A dictionary containing the input parameters in Shoreline Change Tab.
     """
     shoreline_change = {
         'transect_layer':                  qscat.dockwidget.qmlcb_stats_transects_layer.currentLayer(),
@@ -140,7 +81,7 @@ def get_shoreline_change_input_params(qscat):
         'is_choose_by_placement':          qscat.dockwidget.rb_choose_by_placement.isChecked(),
         'is_choose_by_placement_seaward':  qscat.dockwidget.rb_choose_by_placement_seaward.isChecked(),
         'is_choose_by_placement_landward': qscat.dockwidget.rb_choose_by_placement_landward.isChecked(),
-        'selected_stats':                  get_statistics_selected(qscat),
+        'selected_stats':                  get_shoreline_change_stat_selected(qscat),
         'oldest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_stats_oldest_year.currentText()),
         'newest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_stats_newest_year.currentText()),
         'highest_unc':                     get_highest_unc_from_input(qscat),
@@ -153,11 +94,9 @@ def get_area_change_input_params(qscat):
 
     Args:
         qscat (QscatPlugin): QscatPlugin instance.
-        
+
     Returns:
-        dict: A dictionary containing the following keys:
-            - 'NSM_layer': The current layer selected in the NSM layer combo box.
-            - 'polygon_layer': The current layer selected in the polygon layer combo box.
+        dict: A dictionary containing the input parameters in Area Change Tab.
     """
     area_change = {
         'polygon_layer': qscat.dockwidget.qmlcb_stats_polygon_layer.currentLayer(),
@@ -166,7 +105,7 @@ def get_area_change_input_params(qscat):
     return area_change
 
 
-def get_statistics_selected(self):
+def get_shoreline_change_stat_selected(self):
     stats = []
     if self.dockwidget.cb_stats_SCE.isChecked():
         stats.append('SCE')
@@ -179,45 +118,6 @@ def get_statistics_selected(self):
     if self.dockwidget.cb_stats_WLR.isChecked():
         stats.append('WLR')
     return stats
-
-
-def get_project_dir():
-    project_path = QgsProject.instance().absoluteFilePath()
-    project_dir = os.path.dirname(project_path)
-    return project_dir
-
-
-def get_plugin_dir():
-    profiles_default_dir = QgsApplication.qgisSettingsDirPath()
-    plugin_dir = os.path.join(
-        profiles_default_dir,
-        'python', 
-        'plugins', 
-        'qscat',
-    )
-    return plugin_dir
-
-
-def get_plugins_dir():
-    profiles_default_dir = QgsApplication.qgisSettingsDirPath()
-    plugins_dir = os.path.join(
-        profiles_default_dir,
-        'python', 
-        'plugins',
-    )
-    return plugins_dir
-
-
-def get_metadata_version():
-    """Get the version from local QGIS plugin metadata.txt.
-    Returns:
-        str: The string version from local metadata.txt
-    """
-    plugin_dir = get_plugin_dir()
-    config = configparser.ConfigParser()
-    config.read(Path(plugin_dir) / "metadata.txt")
-    version = config.get('general', 'version')
-    return version
 
 
 def get_shorelines_dates(qscat):
@@ -316,6 +216,7 @@ def get_epr_unc_from_input(self):
     return round(EPR_unc, 2)
 
 
+# TODO: Remove soon
 def filter_years_intersections_by_range(years_intersections, newest_year, oldest_year):
     """Filter years_intersections dict by range of years.
 

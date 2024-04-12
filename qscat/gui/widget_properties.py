@@ -7,7 +7,7 @@ from qgis.core import QgsFieldProxyModel
 from qgis.core import QgsMapLayerProxyModel
 from qgis.core import QgsSettings
 
-from qscat.core.update import get_metadata_version
+from qscat.core.utils.plugin import get_metadata_version
 
 
 def set_automator_tab_widget_properties(self):

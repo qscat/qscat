@@ -1,11 +1,8 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-import datetime
 import math
 import numpy as np
-import os
-import pickle
 import time
 
 from qscat.lib.xalglib import invstudenttdistribution
@@ -15,10 +12,8 @@ from qgis.core import Qgis
 from qgis.core import QgsGeometry
 from qgis.core import QgsPointXY
 from qgis.core import QgsApplication
-from qgis.core import QgsLineString
 from qgis.core import QgsMessageLog
 from qgis.core import QgsPointXY
-from qgis.core import QgsProject
 from qgis.core import QgsTask
 from qgis.core import QgsWkbTypes
 from qgis.core import Qgis
@@ -28,13 +23,13 @@ from qgis.PyQt.QtWidgets import QMessageBox
 
 from qscat.core.layers import add_layer
 from qscat.core.messages import display_message
-from qscat.core.utils import convert_to_decimal_year
-from qscat.core.utils import get_epr_unc_from_input
-from qscat.core.utils import get_highest_unc_from_input
-from qscat.core.utils import get_baseline_input_params
-from qscat.core.utils import get_shoreline_change_input_params
-from qscat.core.utils import get_shorelines_input_params
-from qscat.core.utils import get_transects_input_params
+from qscat.core.utils.date import convert_to_decimal_year
+from qscat.core.utils.input import get_epr_unc_from_input
+from qscat.core.utils.input import get_highest_unc_from_input
+from qscat.core.utils.input import get_baseline_input_params
+from qscat.core.utils.input import get_shoreline_change_input_params
+from qscat.core.utils.input import get_shorelines_input_params
+from qscat.core.utils.input import get_transects_input_params
 from qscat.core.layers import load_baseline
 from qscat.core.layers import load_shorelines
 
@@ -53,16 +48,16 @@ STAT_WR2 = "WR2"
 STAT_WCI = "WCI"
 STAT_WSE = "WSE"
 
-from qscat.core.utils import get_project_dir
+from qscat.core.utils.plugin import get_project_dir
 from qscat.core.intersects import load_list_years_intersections
-from qscat.core.utils import get_statistics_selected
-from qscat.core.utils import datetime_now
-from qscat.core.utils import filter_years_intersections_by_range
-from qscat.core.utils import filter_uncs_by_range
+from qscat.core.utils.input import get_shoreline_change_stat_selected
+from qscat.core.utils.date import datetime_now
+from qscat.core.utils.input import filter_years_intersections_by_range
+from qscat.core.utils.input import filter_uncs_by_range
 from qscat.core.layers import load_transects
 from qscat.core.summary_reports import create_summary_shoreline_change
 #import get_shorelines_years_uncs_from_input
-from qscat.core.utils import get_shorelines_years_uncs_from_input
+from qscat.core.utils.input import get_shorelines_years_uncs_from_input
 
 # MAIN FUNCTIONS
 
@@ -401,48 +396,11 @@ def get_transects_intersections_task_state_changed(self, selected_stats, user_pa
 
         create_summary_shoreline_change(self, summary)
 
-
-
-    # task = globals()['get_transects_intersections_task']
-
-    # if task.status() == QgsTask.Complete:
-    #     # Cache the transects intersections dictionary
-    #     project_path = QgsProject.instance().absoluteFilePath()
-    #     project_dir = os.path.dirname(project_path)
-    #     cache_file = os.path.join(project_dir, 'transects-intersects.cache')
-
-    #     with open(cache_file, 'wb') as f:
-    #         pickle.dump(task.transects_intersects, f)
-        
-    #     if task.transects_params['is_clip_transects']:
-    #         transects = clip_transects(task.transects_intersects)
-
-    #     if task.transects_params['is_include_intersections']:
-    #         add_intersections_layer(
-    #             task.transects_intersects,
-    #             task.baseline_params
-    #         )
-
-    #     # If clip transects is not checked, but include intersections is checked,
-    #     # Use the original `transects`
-    #     if task.transects_params['is_include_intersections'] and \
-    #         not task.transects_params['is_clip_transects']:
-    #         transects = task.transects
-
-    #     add_transects_layer(
-    #         transects,
-    #         task.base_angles,
-    #         task.baseline_params["baseline_layer"].name(),
-    #         task.transects_params["layer_output_name"],
-    #         task.qmlcb_stats_transects_layer,
-    #         #task.transects_params["layer_file_location"],
-    #     )
-
     
 def compute_shoreline_change_stats(self):
     # User selections from Statistics Tab
     start_time = time.perf_counter()
-    selected_stats = get_statistics_selected(self)
+    selected_stats = get_shoreline_change_stat_selected(self)
     user_params = {
         'confidence_interval': float(
             self.dockwidget.qdsb_stats_confidence_interval.text()),

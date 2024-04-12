@@ -1,12 +1,8 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-import os
 import packaging.version
 import requests
-import shutil
-import sys
-import zipfile
 
 from qgis.core import Qgis
 from qgis.core import QgsApplication
@@ -15,7 +11,6 @@ from qgis.core import QgsSettings
 from qgis.core import QgsTask
 
 from qgis.utils import iface
-from qgis.utils import reloadPlugin
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QUrl
@@ -30,12 +25,9 @@ from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QHBoxLayout
 
-from qscat.core.utils import datetime_now
-from qscat.core.utils import get_metadata_version
-# from qscat.core.utils import get_plugin_dir
-# from qscat.core.utils import get_plugins_dir
+from qscat.core.utils.date import datetime_now
+from qscat.core.utils.plugin import get_metadata_version
 
-#from qgis.utils import reloadPlugin
 
 LOCAL_PLUGIN_NAME = 'qscat'
 REPOSITORY_NAME = 'qscat'

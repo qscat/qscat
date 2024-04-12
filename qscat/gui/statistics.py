@@ -9,7 +9,7 @@ from PyQt5.QtCore import Qt
 from qgis.core import Qgis
 
 from qscat.core.messages import display_message
-from qscat.core.utils import get_shorelines_dates
+from qscat.core.utils.input import get_shorelines_dates
 
 """
 def update_selected_text(self):
