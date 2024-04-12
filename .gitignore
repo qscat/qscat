@@ -1,8 +1,6 @@
 *.pyc
 __pycache__
 .ipynb_checkpoints
-qscat/summary-reports/*
-!.gitkeep
 
 notebooks
 .vscode
