@@ -37,8 +37,7 @@ jobs:
           conda install -c conda-forge qgis=3.22.16
       - name: Install pip packages
         run: |
-          # CoreML must be installed before export due to protobuf error from AutoInstall
-          pip install pytest "coremltools>=7.0; platform_system != 'Windows' and python_version <= '3.11'"
+          pip install pytest-cov "coremltools>=7.0; platform_system != 'Windows' and python_version <= '3.11'"
       - name: Check environment
         run: |
           conda list
