@@ -13,7 +13,7 @@ from qscat.core.utils import get_project_dir
 from qscat.core.utils import get_shorelines_input_params
 from qscat.core.utils import get_shorelines_dates
 from qscat.core.utils import get_shorelines_uncs
-from qscat.core.utils import get_stats_area_change_input_params
+from qscat.core.utils import get_area_change_input_params
 from qscat.core.utils import get_shoreline_change_input_params
 from qscat.core.utils import get_transects_input_params
 
@@ -105,7 +105,7 @@ def create_summary_area_change(qscat, summary):
     f = create_summary_base_file(qscat, summary['datetime'], COMP_AREA_CHANGE)
 
     # Ready the data
-    area = get_stats_area_change_input_params(qscat)
+    area = get_area_change_input_params(qscat)
 
     f.write(f'[INPUT PARAMETERS]\n')
     f.write(f'\n')

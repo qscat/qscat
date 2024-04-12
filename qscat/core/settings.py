@@ -133,18 +133,18 @@ def load_transects_tab_project_settings(self):
                         'length')
     load_project_setting(self.dockwidget.qsb_transects_smoothing_distance,
                         'smoothing_distance')
-    load_project_setting(self.dockwidget.rb_choose_by_distance,
-                        'is_choose_by_distance')
-    load_project_setting(self.dockwidget.rb_choose_by_distance_farthest,
-                        'is_choose_by_distance_farthest')
-    load_project_setting(self.dockwidget.rb_choose_by_distance_closest,
-                        'is_choose_by_distance_closest')
-    load_project_setting(self.dockwidget.rb_choose_by_placement,
-                        'is_choose_by_placement')
-    load_project_setting(self.dockwidget.rb_choose_by_placement_seaward,
-                        'is_choose_by_placement_seaward')
-    load_project_setting(self.dockwidget.rb_choose_by_placement_landward,
-                        'is_choose_by_placement_landward')
+    # load_project_setting(self.dockwidget.rb_choose_by_distance,
+    #                     'is_choose_by_distance')
+    # load_project_setting(self.dockwidget.rb_choose_by_distance_farthest,
+    #                     'is_choose_by_distance_farthest')
+    # load_project_setting(self.dockwidget.rb_choose_by_distance_closest,
+    #                     'is_choose_by_distance_closest')
+    # load_project_setting(self.dockwidget.rb_choose_by_placement,
+    #                     'is_choose_by_placement')
+    # load_project_setting(self.dockwidget.rb_choose_by_placement_seaward,
+    #                     'is_choose_by_placement_seaward')
+    # load_project_setting(self.dockwidget.rb_choose_by_placement_landward,
+    #                     'is_choose_by_placement_landward')
     # Can't put on load_plugin_widget_properties because it should be called after
     # project settings are loaded
     if self.dockwidget.rb_choose_by_distance.isChecked():
@@ -229,23 +229,23 @@ def save_transects_tab_project_settings(self):
     save_project_setting('smoothing_distance',
                     transects['smoothing_distance'])
     
-    save_project_setting('is_choose_by_distance',
-                    transects['is_choose_by_distance'])
-    save_project_setting('is_choose_by_distance_farthest',
-                    transects['is_choose_by_distance_farthest'])
-    save_project_setting('is_choose_by_distance_closest',
-                    transects['is_choose_by_distance'])
-    save_project_setting('is_choose_by_placement',
-                    transects['is_choose_by_placement'])
-    save_project_setting('is_choose_by_placement_seaward',
-                    transects['is_choose_by_placement_seaward'])
-    save_project_setting('is_choose_by_placement_landward',
-                    transects['is_choose_by_placement_landward'])
+    # save_project_setting('is_choose_by_distance',
+    #                 transects['is_choose_by_distance'])
+    # save_project_setting('is_choose_by_distance_farthest',
+    #                 transects['is_choose_by_distance_farthest'])
+    # save_project_setting('is_choose_by_distance_closest',
+    #                 transects['is_choose_by_distance'])
+    # save_project_setting('is_choose_by_placement',
+    #                 transects['is_choose_by_placement'])
+    # save_project_setting('is_choose_by_placement_seaward',
+    #                 transects['is_choose_by_placement_seaward'])
+    # save_project_setting('is_choose_by_placement_landward',
+    #                 transects['is_choose_by_placement_landward'])
     
-    save_project_setting('is_clip_transects',
-                    transects['is_clip_transects'])
-    save_project_setting('is_include_intersections',
-                    transects['is_include_intersections'])
+    # save_project_setting('is_clip_transects',
+    #                 transects['is_clip_transects'])
+    # save_project_setting('is_include_intersections',
+    #                 transects['is_include_intersections'])
 
     display_message('Inputs saved!', Qgis.Info)
 

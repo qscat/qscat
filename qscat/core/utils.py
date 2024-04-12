@@ -116,52 +116,54 @@ def get_shorelines_input_params(self):
 def get_transects_input_params(self):
     transects = {
         'layer_output_name':         self.dockwidget.le_transects_layer_output_name.text(),
-        #'layer_file_location':       self.dockwidget.qfw_transects_layer_file_location.filePath(),
         'is_by_transect_spacing':    self.dockwidget.rb_transects_by_transect_spacing.isChecked(),
         'is_by_number_of_transects': self.dockwidget.rb_transects_by_number_of_transects.isChecked(),
         'by_transect_spacing':       self.dockwidget.qsb_transects_by_transect_spacing.text(),
         'by_number_of_transects':    self.dockwidget.qsb_transects_by_number_of_transects.text(),
         'length':                    self.dockwidget.qsb_transects_length.text(),
         'smoothing_distance':        self.dockwidget.qsb_transects_smoothing_distance.text(),
-        'is_choose_by_distance':           self.dockwidget.rb_choose_by_distance.isChecked(),
-        'is_choose_by_distance_farthest':  self.dockwidget.rb_choose_by_distance_farthest.isChecked(),
-        'is_choose_by_distance_closest':   self.dockwidget.rb_choose_by_distance_closest.isChecked(),
-        'is_choose_by_placement':          self.dockwidget.rb_choose_by_placement.isChecked(),
-        'is_choose_by_placement_seaward':  self.dockwidget.rb_choose_by_placement_seaward.isChecked(),
-        'is_choose_by_placement_landward': self.dockwidget.rb_choose_by_placement_landward.isChecked(),
-        # 'is_clip_transects':         self.dockwidget.chb_transects_clip_transects.isChecked(),
-        # 'is_include_intersections':  self.dockwidget.chb_transects_include_intersections.isChecked(),
     }
     return transects
 
 
-def get_statistics_input_params(self):
-    statistics = {
-        'transect_layer': self.dockwidget.qmlcb_stats_transects_layer.currentLayer(),
-        'selected_stats': get_statistics_selected(self),
-        'oldest_year': convert_to_decimal_year(self.dockwidget.cb_stats_oldest_year.currentText()),
-        'newest_year': convert_to_decimal_year(self.dockwidget.cb_stats_newest_year.currentText()),
-        'highest_unc': get_highest_unc_from_input(self),
-    }
-    return statistics
-
-
-def get_stats_area_change_input_params(self):
+def get_shoreline_change_input_params(qscat):
     """
-    Returns a dictionary containing the input parameters for calculating area change statistics.
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+    """
+    shoreline_change = {
+        'transect_layer':                  qscat.dockwidget.qmlcb_stats_transects_layer.currentLayer(),
+        'is_clip_transects':               qscat.dockwidget.cb_stats_clip_transects.isChecked(),
+        'is_choose_by_distance':           qscat.dockwidget.rb_choose_by_distance.isChecked(),
+        'is_choose_by_distance_farthest':  qscat.dockwidget.rb_choose_by_distance_farthest.isChecked(),
+        'is_choose_by_distance_closest':   qscat.dockwidget.rb_choose_by_distance_closest.isChecked(),
+        'is_choose_by_placement':          qscat.dockwidget.rb_choose_by_placement.isChecked(),
+        'is_choose_by_placement_seaward':  qscat.dockwidget.rb_choose_by_placement_seaward.isChecked(),
+        'is_choose_by_placement_landward': qscat.dockwidget.rb_choose_by_placement_landward.isChecked(),
+        'selected_stats':                  get_statistics_selected(qscat),
+        'oldest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_stats_oldest_year.currentText()),
+        'newest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_stats_newest_year.currentText()),
+        'highest_unc':                     get_highest_unc_from_input(qscat),
+    }
+    return shoreline_change
 
+
+def get_area_change_input_params(qscat):
+    """Returns a dictionary containing the input parameters in Area Change Tab.
+
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+        
     Returns:
         dict: A dictionary containing the following keys:
             - 'NSM_layer': The current layer selected in the NSM layer combo box.
             - 'polygon_layer': The current layer selected in the polygon layer combo box.
     """
-    stats_area_change = {
-        # TODO: rename key
-        'NSM_layer':  self.dockwidget.qmlcb_stats_NSM_layer.currentLayer(),
-        # TODO: rename key
-        'polygon_layer': self.dockwidget.qmlcb_stats_polygon_layer.currentLayer(),
+    area_change = {
+        'polygon_layer': qscat.dockwidget.qmlcb_stats_polygon_layer.currentLayer(),
+        'NSM_layer':  qscat.dockwidget.qmlcb_stats_NSM_layer.currentLayer(),
     }
-    return stats_area_change
+    return area_change
 
 
 def get_statistics_selected(self):

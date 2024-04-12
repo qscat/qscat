@@ -32,6 +32,7 @@ from qscat.core.utils import convert_to_decimal_year
 from qscat.core.utils import get_epr_unc_from_input
 from qscat.core.utils import get_highest_unc_from_input
 from qscat.core.utils import get_baseline_input_params
+from qscat.core.utils import get_shoreline_change_input_params
 from qscat.core.utils import get_shorelines_input_params
 from qscat.core.utils import get_transects_input_params
 from qscat.core.layers import load_baseline
@@ -59,7 +60,7 @@ from qscat.core.utils import datetime_now
 from qscat.core.utils import filter_years_intersections_by_range
 from qscat.core.utils import filter_uncs_by_range
 from qscat.core.layers import load_transects
-from qscat.core.summary import create_summary_shoreline_change
+from qscat.core.summary_reports import create_summary_shoreline_change
 #import get_shorelines_years_uncs_from_input
 from qscat.core.utils import get_shorelines_years_uncs_from_input
 
@@ -73,6 +74,7 @@ class GetTransectsIntersectionsTask(QgsTask):
         shorelines_params,
         transects_params,
         baseline_params,
+        shoreline_change_params,
         qmlcb_stats_transects_layer
     ):
         super().__init__("Getting transects intersections", QgsTask.CanCancel)
@@ -81,6 +83,7 @@ class GetTransectsIntersectionsTask(QgsTask):
         self.shorelines_params = shorelines_params
         self.transects_params = transects_params
         self.baseline_params = baseline_params
+        self.shoreline_change_params = shoreline_change_params
         self.qmlcb_stats_transects_layer = qmlcb_stats_transects_layer
 
         self.execution_time = ""
@@ -135,18 +138,18 @@ class GetTransectsIntersectionsTask(QgsTask):
                                 intersections[intersect] = intersect.distance(transect_origin)
 
                     if intersections:
-                        if self.transects_params['is_choose_by_distance']:
-                            if self.transects_params['is_choose_by_distance_farthest']:
+                        if self.shoreline_change_params['is_choose_by_distance']:
+                            if self.shoreline_change_params['is_choose_by_distance_farthest']:
                                 final_intersect = max(intersections, key=intersections.get)
-                            elif self.transects_params['is_choose_by_distance_closest']:
+                            elif self.shoreline_change_params['is_choose_by_distance_closest']:
                                 final_intersect = min(intersections, key=intersections.get)
-                        elif self.transects_params['is_choose_by_placement']:
-                            if self.transects_params['is_choose_by_placement_seaward']:
+                        elif self.shoreline_change_params['is_choose_by_placement']:
+                            if self.shoreline_change_params['is_choose_by_placement_seaward']:
                                 if self.baseline_params['is_baseline_placement_sea']:
                                     final_intersect = min(intersections, key=intersections.get)
                                 elif self.baseline_params['is_baseline_placement_land']:
                                     final_intersect = max(intersections, key=intersections.get)
-                            elif self.transects_params['is_choose_by_placement_landward']:
+                            elif self.shoreline_change_params['is_choose_by_placement_landward']:
                                 if self.baseline_params['is_baseline_placement_sea']:
                                     final_intersect = max(intersections, key=intersections.get)
                                 elif self.baseline_params['is_baseline_placement_land']:
@@ -271,17 +274,134 @@ def get_transects_intersections_task_state_changed(self, selected_stats, user_pa
                 # years, trends, unc details)
 
 
-        # ADD ONE LAYER STATS
-        # current_datetime = datetime_now()
-        # transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
-        # add_layer(
-        #     'LineString', 
-        #     transects, 
-        #     f'{user_params["baseline_layer_name"]}_Stats', 
-        #     all_fields, 
-        #     all_values,
-        #     datetime=current_datetime,
-        # )
+        #ADD ONE LAYER STATS
+        current_datetime = datetime_now()
+        transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
+        add_layer(
+            'LineString', 
+            transects,
+            f'stats', 
+            #f'{user_params["baseline_layer_name"]}_Stats', 
+            all_fields, 
+            all_values,
+            datetime=current_datetime,
+        )
+
+        # ADD SUMMARY REPORTS TEXT FILE
+        summary = {}
+        
+        # GENERAL
+        summary['datetime'] = current_datetime
+        summary['num_of_transects'] = len(transects)
+
+        # RESULTS
+        if 'SCE' in selected_stats:
+            SCE = stat_values['SCE']
+            summary['SCE_avg'] = round(sum(SCE) / len(SCE), 2)
+            summary['SCE_max'] = round(max(SCE), 2)
+            summary['SCE_min'] = round(min(SCE), 2)
+
+        if 'NSM' in selected_stats:
+            NSM = stat_values['NSM']
+            unc = get_highest_unc_from_input(self)
+            summary['NSM_avg'] = round(sum(NSM) / len(NSM), 2)
+            
+            NSM_e = [x for x in NSM if x < -unc]
+            erosion_count = len(NSM_e)
+            summary['NSM_erosion_num_of_transects'] = erosion_count
+            summary['NSM_erosion_pct_transects'] = f'{(erosion_count / len(NSM)) * 100:.2f} %'
+            summary['NSM_erosion_avg'] = round(sum(NSM_e) / len(NSM_e), 2)
+            summary['NSM_erosion_max'] = round(max(NSM_e), 2)
+            summary['NSM_erosion_min'] = round(min(NSM_e), 2)
+
+            NSM_a = [x for x in NSM if x > unc]
+            accretion_count = len(NSM_a)
+            summary['NSM_accretion_num_of_transects'] = accretion_count
+            summary['NSM_accretion_pct_transects'] = f'{(accretion_count / len(NSM)) * 100:.2f} %'
+            summary['NSM_accretion_avg'] = round(sum(NSM_a) / len(NSM_a), 2)
+            summary['NSM_accretion_max'] = round(max(NSM_a), 2)
+            summary['NSM_accretion_min'] = round(min(NSM_a), 2)
+
+            NSM_s = [x for x in NSM if x >= -unc and x <= unc]
+            stable_count = len(NSM_s)
+            summary['NSM_stable_num_of_transects'] = stable_count
+            summary['NSM_stable_pct_transects'] = f'{(stable_count / len(NSM)) * 100:.2f} %'
+            summary['NSM_stable_avg'] = round(sum(NSM_s) / len(NSM_s), 2)
+            summary['NSM_stable_max'] = round(max(NSM_s), 2)
+            summary['NSM_stable_min'] = round(min(NSM_s), 2)
+
+        if 'EPR' in selected_stats:
+            EPR = stat_values['EPR']
+            unc = get_epr_unc_from_input(self)
+            summary['EPR_avg'] = round(sum(EPR) / len(EPR), 2)
+            
+            EPR_e = [x for x in EPR if x < -unc]
+            erosion_count = len(EPR_e)
+            summary['EPR_erosion_num_of_transects'] = erosion_count
+            summary['EPR_erosion_pct_transects'] = f'{(erosion_count / len(EPR)) * 100:.2f} %'
+            summary['EPR_erosion_avg'] = round(sum(EPR_e) / len(EPR_e), 2)
+            summary['EPR_erosion_max'] = round(max(EPR_e), 2)
+            summary['EPR_erosion_min'] = round(min(EPR_e), 2)
+
+            EPR_a = [x for x in EPR if x > unc]
+            accretion_count = len(EPR_a)
+            summary['EPR_accretion_num_of_transects'] = accretion_count
+            summary['EPR_accretion_pct_transects'] = f'{(accretion_count / len(EPR)) * 100:.2f} %'
+            summary['EPR_accretion_avg'] = round(sum(EPR_a) / len(EPR_a), 2)
+            summary['EPR_accretion_max'] = round(max(EPR_a), 2)
+            summary['EPR_accretion_min'] = round(min(EPR_a), 2)
+
+            EPR_s = [x for x in EPR if x >= -unc and x <= unc]
+            stable_count = len(EPR_s)
+            summary['EPR_stable_num_of_transects'] = stable_count
+            summary['EPR_stable_pct_transects'] = f'{(stable_count / len(EPR)) * 100:.2f} %'
+            summary['EPR_stable_avg'] = round(sum(EPR_s) / len(EPR_s), 2)
+            summary['EPR_stable_max'] = round(max(EPR_s), 2)
+            summary['EPR_stable_min'] = round(min(EPR_s), 2)
+
+        if 'LRR' in selected_stats:
+            LRR = stat_values['LRR']
+            summary['LRR_avg'] = round(sum(LRR) / len(LRR), 2)
+            
+            LRR_e = [x for x in LRR if x < 0]
+            erosion_count = len(LRR_e)
+            summary['LRR_erosion_num_of_transects'] = erosion_count
+            summary['LRR_erosion_pct_transects'] = f'{(erosion_count / len(LRR)) * 100:.2f} %'
+            summary['LRR_erosion_avg'] = round(sum(LRR_e) / len(LRR_e), 2)
+            summary['LRR_erosion_max'] = round(max(LRR_e), 2)
+            summary['LRR_erosion_min'] = round(min(LRR_e), 2)
+
+            LRR_a = [x for x in LRR if x >= 0]
+            accretion_count = len(LRR_a)
+            summary['LRR_accretion_num_of_transects'] = accretion_count
+            summary['LRR_accretion_pct_transects'] = f'{(accretion_count / len(LRR)) * 100:.2f} %'
+            summary['LRR_accretion_avg'] = round(sum(LRR_a) / len(LRR_a), 2)
+            summary['LRR_accretion_max'] = round(max(LRR_a), 2)
+            summary['LRR_accretion_min'] = round(min(LRR_a), 2)
+
+        if 'WLR' in selected_stats:
+            WLR = stat_values['WLR']
+            summary['WLR_avg'] = round(sum(WLR) / len(WLR), 2)
+            
+            WLR_e = [x for x in WLR if x < 0]
+            erosion_count = len(WLR_e)
+            summary['WLR_erosion_num_of_transects'] = erosion_count
+            summary['WLR_erosion_pct_transects'] = f'{(erosion_count / len(WLR)) * 100:.2f} %'
+            summary['WLR_erosion_avg'] = round(sum(WLR_e) / len(WLR_e), 2)
+            summary['WLR_erosion_max'] = round(max(WLR_e), 2)
+            summary['WLR_erosion_min'] = round(min(WLR_e), 2)
+
+            WLR_a = [x for x in WLR if x >= 0]
+            accretion_count = len(WLR_a)
+            summary['WLR_accretion_num_of_transects'] = accretion_count
+            summary['WLR_accretion_pct_transects'] = f'{(accretion_count / len(WLR)) * 100:.2f} %'
+            summary['WLR_accretion_avg'] = round(sum(WLR_a) / len(WLR_a), 2)
+            summary['WLR_accretion_max'] = round(max(WLR_a), 2)
+            summary['WLR_accretion_min'] = round(min(WLR_a), 2)
+
+        create_summary_shoreline_change(self, summary)
+
+
 
     # task = globals()['get_transects_intersections_task']
 
@@ -350,6 +470,8 @@ def compute_shoreline_change_stats(self):
     baseline_params = get_baseline_input_params(self)
     shorelines_params = get_shorelines_input_params(self)
     transects_params = get_transects_input_params(self)
+    shoreline_change_params = get_shoreline_change_input_params(self)
+
     transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
     shorelines = load_shorelines(shorelines_params)
     
@@ -359,6 +481,7 @@ def compute_shoreline_change_stats(self):
         shorelines_params,
         transects_params,
         baseline_params,
+        shoreline_change_params,
         self.dockwidget.qmlcb_stats_transects_layer,
     )
     globals()['get_transects_intersections_task'].taskCompleted.connect(
@@ -376,7 +499,7 @@ def compute_shoreline_change_stats(self):
     # all_values = []  # refers to attribute values to be added    
     # # For summary results, refers to distance and rate values
 
-    # # E.g. excludes trends, years, unc details
+    # E.g. excludes trends, years, unc details
     # stat_values = {}
 
     # # COMPUTE SELECTED STATS
@@ -399,133 +522,6 @@ def compute_shoreline_change_stats(self):
     #         # [0] consider just the first column value (e.g. SCE, exluding the
     #         # years, trends, unc details)
 
-    
-
-    # # ADD ONE LAYER STATS
-    # current_datetime = datetime_now()
-    # transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
-    # add_layer(
-    #     'LineString', 
-    #     transects, 
-    #     f'{user_params["baseline_layer_name"]}_Stats', 
-    #     all_fields, 
-    #     all_values,
-    #     datetime=current_datetime,
-    # )
-
-    # ADD SUMMARY REPORTS TEXT FILE
-    # summary = {}
-    
-    # # GENERAL
-    # summary['datetime'] = current_datetime
-    # summary['num_of_transects'] = len(transects)
-
-    # # RESULTS
-    # if 'SCE' in selected_stats:
-    #     SCE = stat_values['SCE']
-    #     summary['SCE_avg'] = round(sum(SCE) / len(SCE), 2)
-    #     summary['SCE_max'] = round(max(SCE), 2)
-    #     summary['SCE_min'] = round(min(SCE), 2)
-
-    # if 'NSM' in selected_stats:
-    #     NSM = stat_values['NSM']
-    #     unc = get_highest_unc_from_input(self)
-    #     summary['NSM_avg'] = round(sum(NSM) / len(NSM), 2)
-        
-    #     NSM_e = [x for x in NSM if x < -unc]
-    #     erosion_count = len(NSM_e)
-    #     summary['NSM_erosion_num_of_transects'] = erosion_count
-    #     summary['NSM_erosion_pct_transects'] = f'{(erosion_count / len(NSM)) * 100:.2f} %'
-    #     summary['NSM_erosion_avg'] = round(sum(NSM_e) / len(NSM_e), 2)
-    #     summary['NSM_erosion_max'] = round(max(NSM_e), 2)
-    #     summary['NSM_erosion_min'] = round(min(NSM_e), 2)
-
-    #     NSM_a = [x for x in NSM if x > unc]
-    #     accretion_count = len(NSM_a)
-    #     summary['NSM_accretion_num_of_transects'] = accretion_count
-    #     summary['NSM_accretion_pct_transects'] = f'{(accretion_count / len(NSM)) * 100:.2f} %'
-    #     summary['NSM_accretion_avg'] = round(sum(NSM_a) / len(NSM_a), 2)
-    #     summary['NSM_accretion_max'] = round(max(NSM_a), 2)
-    #     summary['NSM_accretion_min'] = round(min(NSM_a), 2)
-
-    #     NSM_s = [x for x in NSM if x >= -unc and x <= unc]
-    #     stable_count = len(NSM_s)
-    #     summary['NSM_stable_num_of_transects'] = stable_count
-    #     summary['NSM_stable_pct_transects'] = f'{(stable_count / len(NSM)) * 100:.2f} %'
-    #     summary['NSM_stable_avg'] = round(sum(NSM_s) / len(NSM_s), 2)
-    #     summary['NSM_stable_max'] = round(max(NSM_s), 2)
-    #     summary['NSM_stable_min'] = round(min(NSM_s), 2)
-
-    # if 'EPR' in selected_stats:
-    #     EPR = stat_values['EPR']
-    #     unc = get_epr_unc_from_input(self)
-    #     summary['EPR_avg'] = round(sum(EPR) / len(EPR), 2)
-        
-    #     EPR_e = [x for x in EPR if x < -unc]
-    #     erosion_count = len(EPR_e)
-    #     summary['EPR_erosion_num_of_transects'] = erosion_count
-    #     summary['EPR_erosion_pct_transects'] = f'{(erosion_count / len(EPR)) * 100:.2f} %'
-    #     summary['EPR_erosion_avg'] = round(sum(EPR_e) / len(EPR_e), 2)
-    #     summary['EPR_erosion_max'] = round(max(EPR_e), 2)
-    #     summary['EPR_erosion_min'] = round(min(EPR_e), 2)
-
-    #     EPR_a = [x for x in EPR if x > unc]
-    #     accretion_count = len(EPR_a)
-    #     summary['EPR_accretion_num_of_transects'] = accretion_count
-    #     summary['EPR_accretion_pct_transects'] = f'{(accretion_count / len(EPR)) * 100:.2f} %'
-    #     summary['EPR_accretion_avg'] = round(sum(EPR_a) / len(EPR_a), 2)
-    #     summary['EPR_accretion_max'] = round(max(EPR_a), 2)
-    #     summary['EPR_accretion_min'] = round(min(EPR_a), 2)
-
-    #     EPR_s = [x for x in EPR if x >= -unc and x <= unc]
-    #     stable_count = len(EPR_s)
-    #     summary['EPR_stable_num_of_transects'] = stable_count
-    #     summary['EPR_stable_pct_transects'] = f'{(stable_count / len(EPR)) * 100:.2f} %'
-    #     summary['EPR_stable_avg'] = round(sum(EPR_s) / len(EPR_s), 2)
-    #     summary['EPR_stable_max'] = round(max(EPR_s), 2)
-    #     summary['EPR_stable_min'] = round(min(EPR_s), 2)
-
-    # if 'LRR' in selected_stats:
-    #     LRR = stat_values['LRR']
-    #     summary['LRR_avg'] = round(sum(LRR) / len(LRR), 2)
-        
-    #     LRR_e = [x for x in LRR if x < 0]
-    #     erosion_count = len(LRR_e)
-    #     summary['LRR_erosion_num_of_transects'] = erosion_count
-    #     summary['LRR_erosion_pct_transects'] = f'{(erosion_count / len(LRR)) * 100:.2f} %'
-    #     summary['LRR_erosion_avg'] = round(sum(LRR_e) / len(LRR_e), 2)
-    #     summary['LRR_erosion_max'] = round(max(LRR_e), 2)
-    #     summary['LRR_erosion_min'] = round(min(LRR_e), 2)
-
-    #     LRR_a = [x for x in LRR if x >= 0]
-    #     accretion_count = len(LRR_a)
-    #     summary['LRR_accretion_num_of_transects'] = accretion_count
-    #     summary['LRR_accretion_pct_transects'] = f'{(accretion_count / len(LRR)) * 100:.2f} %'
-    #     summary['LRR_accretion_avg'] = round(sum(LRR_a) / len(LRR_a), 2)
-    #     summary['LRR_accretion_max'] = round(max(LRR_a), 2)
-    #     summary['LRR_accretion_min'] = round(min(LRR_a), 2)
-
-    # if 'WLR' in selected_stats:
-    #     WLR = stat_values['WLR']
-    #     summary['WLR_avg'] = round(sum(WLR) / len(WLR), 2)
-        
-    #     WLR_e = [x for x in WLR if x < 0]
-    #     erosion_count = len(WLR_e)
-    #     summary['WLR_erosion_num_of_transects'] = erosion_count
-    #     summary['WLR_erosion_pct_transects'] = f'{(erosion_count / len(WLR)) * 100:.2f} %'
-    #     summary['WLR_erosion_avg'] = round(sum(WLR_e) / len(WLR_e), 2)
-    #     summary['WLR_erosion_max'] = round(max(WLR_e), 2)
-    #     summary['WLR_erosion_min'] = round(min(WLR_e), 2)
-
-    #     WLR_a = [x for x in WLR if x >= 0]
-    #     accretion_count = len(WLR_a)
-    #     summary['WLR_accretion_num_of_transects'] = accretion_count
-    #     summary['WLR_accretion_pct_transects'] = f'{(accretion_count / len(WLR)) * 100:.2f} %'
-    #     summary['WLR_accretion_avg'] = round(sum(WLR_a) / len(WLR_a), 2)
-    #     summary['WLR_accretion_max'] = round(max(WLR_a), 2)
-    #     summary['WLR_accretion_min'] = round(min(WLR_a), 2)
-
-    # create_summary_shoreline_change(self, summary)
 
 
 def compute_single_stat_list_transects(
@@ -574,6 +570,8 @@ def compute_single_stat_list_transects(
     
     for years_intersections in list_years_intersections:
         # Filter years intersections first by user params oldest year and newest year
+        
+        # TODO: remove me, not needed
         years_intersections = filter_years_intersections_by_range(
             years_intersections,
             user_params['newest_year'],
