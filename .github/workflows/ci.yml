@@ -17,21 +17,28 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
-
+    defaults:
+      run:
+        shell: bash -el {0}
+        
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.10'
-    - name: Add conda to system path
-      run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        echo $CONDA/bin >> $GITHUB_PATH
-    - name: Install dependencies
-      run: |
-        conda env update --file conda_envs/env.yml --name base
-    - name: Test with pytest
-      run: |
-        conda install pytest
-        pytest tests/
+      - uses: conda-incubator/setup-miniconda@v3
+          with:
+            python-version: "3.10"
+            mamba-version: "*"
+            channels: conda-forge,defaults
+            channel-priority: true
+            activate-environment: anaconda-client-env
+      - name: Install Libmamba
+        run: |
+          conda config --set solver libmamba
+      - name: Install QGIS package from conda-forge
+        run: |
+          conda install -c conda-forge qgis=3.22.16
+      - name: Check environment
+        run: |
+          conda list
+      - name: PyTest
+        run: |
+          git clone https://github.com/louisfacun/qscat
+          pytest qscat/tests
