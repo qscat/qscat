@@ -1,26 +1,20 @@
-import os
-import configparser
-import math
-
 from datetime import datetime
-from pathlib import Path
-
-from qgis.core import QgsProject
-from qgis.core import QgsApplication
 
 
 def extract_month_year(month_year_string):
     """Extract the month and year from a string.
 
     Args:
-        month_year_string (str): string in the format 'mm/yyyy'
+        month_year_string (str): Format 'mm/yyyy'
 
     Returns:
-        tuple: (month, year)
-
+        tuple[int, int]: month and year
+        
     Raises:
         ValueError: if month_year_string is not in the format 'mm/yyyy'
-        TypeError: if month_year_string is not a string
+
+    Note:
+        May change in the future if we consider input MM/DD/YYYY.
     """
     try:
         date = datetime.strptime(month_year_string, '%m/%Y')
@@ -30,27 +24,40 @@ def extract_month_year(month_year_string):
         raise TypeError("Month and year must be a string.")
     else:
         return date.month, date.year
-    
+
+
 def get_day_of_year(month, year):
-    """get day of year from month and year, 
-    with default of day 01 for every month"""
+    """Get the day of a year given a month and year. Since we only have the 
+    month and year, we set the day to 1.
+
+    Args:
+        month (int): 1-12
+        year (int): YYYY
+
+    Returns:
+        int: day of year
+
+    Note:
+        May change in the future if we consider input MM/DD/YYYY.
+    """
     date = datetime(year, month, 1) # 1 = default day 1 every month
     day_of_year = date.timetuple().tm_yday
     return day_of_year
 
 
 def convert_to_decimal_year(month_year_string):
+    """Convert a month and year string to a decimal year.
+
+    Args:
+        month_year_string (str): Format 'mm/yyyy'
+
+    Returns:
+        float: decimal year
+    """
     month, year = extract_month_year(month_year_string)
-    if not isinstance(month, int) or not isinstance(year, int):
-        raise TypeError("Month and year must be integers.")
-
-    if month < 1 or month > 12:
-        raise ValueError("Month must be between 1 and 12.")
-
-    if year < 0:
-        raise ValueError("Year must be positive.")
-    
     day_of_year = get_day_of_year(month, year)
+
+    # Credit for the idea: https://code.usgs.gov/cch/dsas/-/blob/master/src/DSASv5Addin/DSASUtility.vb
     decimal_year = round(year + (day_of_year / 365.242199), 2)
     return decimal_year
 
