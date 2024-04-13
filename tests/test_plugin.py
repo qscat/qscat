@@ -1,7 +1,14 @@
-
-import pytest
-
 from pathlib import Path
+
+from qscat.qscat_plugin import QscatPlugin
+
+from qgis.testing.mocked import get_iface
+
+
+def test_plugin():
+    """Test the plugin class."""
+    plugin = QscatPlugin(get_iface())
+    plugin.initGui()
 
 
 def test_metadata():
