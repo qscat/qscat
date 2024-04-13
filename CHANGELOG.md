@@ -13,14 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Modify `Area Change Tab` to read newest and oldest date withot requiring to `Update` from `Shoreline Change Tab`.
 - Move default summary reports location to user's home directory to prevent summary reports getting deleted when the plugin is updated.
 - Change file naming and foldering of summary reports to ``<computation>/qscat_<version>_<computation>_<datetime>.txt``
-- Improve documentation of function `get_shorelines_dates()`.
+- Refactor and improve majority of the codes. 
 - Improve some parts of user manual (discussions and figures).
 
 ### Removed
 
-- Remove version number in dockwidget title for cleaner screenshots.
+- Remove version number in dock widget title for cleaner screenshots.
 
 ### Fixed
 
@@ -31,9 +32,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### TODO
 
 - Add `Shoreline Change Tab` input parameters saving.
+- Add area change, forecasting, summary reports, parameter saving
+- Add area change own transect layer and newest nsm selection?
 - Refactor inconsistent object naming.
 - Refactor statistics params to shoreline change params.
 
+
+tests
+- i need to do a sanity check if qscatplugin itself has no error.
+  -test each? like initGui qscatplugin etc.
+-test sorting function on update
+-test enable disable by radio button
+
+-test button signal? there should be no errors..?
+- or just the functions it is calling as unit test
+
+- test togg
 ## [0.1.0] - 2024-04-07
 
 _First release_.
