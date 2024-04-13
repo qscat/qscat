@@ -1,6 +1,6 @@
 # QGIS 3.36.1 (Latest Release - new features)
 
-name: "QGIS test (latest)"
+name: QGIS test (3.36.1)
 
 on:
   push:
