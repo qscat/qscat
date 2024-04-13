@@ -38,16 +38,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactor statistics params to shoreline change params.
 
 
-tests
-- i need to do a sanity check if qscatplugin itself has no error.
-  -test each? like initGui qscatplugin etc.
--test sorting function on update
--test enable disable by radio button
-
--test button signal? there should be no errors..?
-- or just the functions it is calling as unit test
-
-- test togg
 ## [0.1.0] - 2024-04-07
 
 _First release_.
