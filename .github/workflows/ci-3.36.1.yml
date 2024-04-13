@@ -1,6 +1,6 @@
-# QGIS 3.22.16 (latest stable version when QSCAT development started)
+# QGIS 3.36.1 (Latest Release - new features)
 
-name: 🧪 QGIS 3.22.16
+name: 🧪QGIS 3.36.1
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
           conda config --set solver libmamba
       - name: Install QGIS package from conda-forge
         run: |
-          conda install -c conda-forge qgis=3.22.16
+          conda install -c conda-forge qgis=3.36.1
       - name: Install pip packages
         run: |
           pip install pytest-cov "coremltools>=7.0; platform_system != 'Windows' and python_version <= '3.11'"
@@ -59,6 +59,6 @@ jobs:
       - name: Upload Coverage Reports to CodeCov
         uses: codecov/codecov-action@v4
         with:
-          flags: qgis-3.22.16-tests
+          flags: qgis-3.36.1-tests
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
