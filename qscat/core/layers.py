@@ -1,6 +1,8 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+import json
+
 from PyQt5.QtCore import QVariant
 
 from qgis.core import QgsCoordinateReferenceSystem
@@ -17,22 +19,23 @@ from qscat.core.utils.date import convert_to_decimal_year
 
 
 def create_add_layer(
-    geometry_type,
+    geometry,
     geometries,
     name,
     fields=None,
     values=None,
+    extra_values=None,
     datetime=None,
 ):
     """Create and add vector layer in memory (temporary).
     
     Args:
-        geometry_type (str): 'LineString', 'Polygon', etc.
+        geometry (str): 'LineString', 'Polygon', etc.
         geometries (list[QgsGeometry]): List of geometries.
         name (str): Name used as part of the layer name.
-        crs (str): Coordinate reference system.
         fields (list[dict]): List of fields.
         values (list[list[float,str]]): List of values.
+        extra_values (dict): A dict to be stored in the layer's custom properties.
         datetime (str): Date and time value to append to the layer name.
     
     Returns:
@@ -63,7 +66,7 @@ def create_add_layer(
         datetime = datetime_now()
 
     layer = QgsVectorLayer(
-        geometry_type, 
+        geometry, 
         f'{name} [{datetime}]', 
         'memory'
     )
@@ -92,30 +95,17 @@ def create_add_layer(
         feat.setAttributes([i+1] + value)
         dp.addFeature(feat)
 
-    layer.updateExtents()
+    # Add custom properties
+    if extra_values:
+        layer.setCustomProperty('newest_date', extra_values['newest_date'])
+        layer.setCustomProperty('oldest_date', extra_values['oldest_date'])
 
+    layer.updateExtents()
     QgsProject.instance().addMapLayers([layer])
     
     return layer
 
-
-def get_layer_tree_group_by_name(group_name):
-    root = QgsProject.instance().layerTreeRoot()
-    for child_node in root.children():
-        if isinstance(child_node, QgsLayerTreeGroup) and child_node.name() == group_name:
-            return child_node
-    return None
-
-
-def is_layer_group_exist(layer_group_name):
-    root = QgsProject.instance().layerTreeRoot()
-    for childNode in root.children():
-        if isinstance(childNode, QgsLayerTreeGroup) and childNode.name() == layer_group_name:
-            return True
-    else:
-        return False
-
-
+ 
 def load_shorelines(shorelines_params):
     """Read merged shoreline QGIS's vector layer object.
     
