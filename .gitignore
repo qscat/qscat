@@ -4,3 +4,6 @@ __pycache__
 
 notebooks
 .vscode
+
+# py-cov
+.coverage
