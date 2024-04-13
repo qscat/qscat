@@ -1,6 +1,6 @@
-# QGIS 3.22.16 (latest stable version when QSCAT development started)
+# Test for QGIS 3.22.16 (latest stable version when QSCAT development started)
 
-name: 🧪QGIS 3.22.16
+name: QGIS 3.22.16
 
 on:
   push:
