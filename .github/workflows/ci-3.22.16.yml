@@ -5,12 +5,12 @@ name: QGIS (3.22.16)
 on:
   push:
     branches: [master]
-    paths-ignore:
-      - "docs/**"
+    paths:
+      - "qscat/**"
   pull_request:
     branches: [master]
-    paths-ignore:
-      - "docs/**"
+    paths:
+      - "qscat/**"
 
 jobs:
   build-linux:
