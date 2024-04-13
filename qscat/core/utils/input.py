@@ -82,8 +82,8 @@ def get_shoreline_change_input_params(qscat):
         'is_choose_by_placement_seaward':  qscat.dockwidget.rb_choose_by_placement_seaward.isChecked(),
         'is_choose_by_placement_landward': qscat.dockwidget.rb_choose_by_placement_landward.isChecked(),
         'selected_stats':                  get_shoreline_change_stat_selected(qscat),
-        'oldest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_stats_oldest_year.currentText()),
-        'newest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_stats_newest_year.currentText()),
+        'oldest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_shoreline_change_oldest_date.currentText()),
+        'newest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_shoreline_change_newest_date.currentText()),
         'highest_unc':                     get_highest_unc_from_input(qscat),
     }
     return shoreline_change
@@ -99,8 +99,8 @@ def get_area_change_input_params(qscat):
         dict: A dictionary containing the input parameters in Area Change Tab.
     """
     area_change = {
-        'polygon_layer': qscat.dockwidget.qmlcb_stats_polygon_layer.currentLayer(),
-        'NSM_layer':  qscat.dockwidget.qmlcb_stats_NSM_layer.currentLayer(),
+        'polygon_layer': qscat.dockwidget.qmlcb_area_change_polygon_layer.currentLayer(),
+        'stat_layer':  qscat.dockwidget.qmlcb_area_change_stat_layer.currentLayer(),
     }
     return area_change
 
@@ -198,8 +198,8 @@ def is_no_unc_value(unc_field_value):
 
 def get_epr_unc_from_input(self):
     default_unc = float(self.dockwidget.le_shorelines_default_data_unc.text())
-    oldest_year_txt = self.dockwidget.cb_stats_oldest_year.currentText()
-    newest_year_txt = self.dockwidget.cb_stats_newest_year.currentText()
+    oldest_year_txt = self.dockwidget.cb_shoreline_change_oldest_date.currentText()
+    newest_year_txt = self.dockwidget.cb_shoreline_change_newest_date.currentText()
 
     newest_date_unc = get_unc_by_date(self, newest_year_txt)
     oldest_date_unc = get_unc_by_date(self, oldest_year_txt)

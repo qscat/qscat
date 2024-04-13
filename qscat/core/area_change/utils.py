@@ -4,6 +4,10 @@
 from qscat.core.utils.layer import is_field_in_layer
 
 
+def get_newest_oldest_date_from_layer(layer, date_field):
+    pass
+
+
 def get_interest_transects_within_polygon(layer, polygon, polygon_name):
     """Get transects within polygon.
     
@@ -77,8 +81,7 @@ def group_dict_by_key(dict, key):
 
 
 def load_shorelines_by_date(layer, date, date_field):
-    """
-    Load a multi line string shoreline geometry given by `date` column.
+    """Load a multi line string shoreline geometry given by field `date`.
 
     Args:
         layer (QgsVectorLayer): Vector layer of shorelines.
@@ -88,8 +91,8 @@ def load_shorelines_by_date(layer, date, date_field):
     Returns:
         QgsGeometry: MultiLineString
     """
-    features = layer.getFeatures()
+    feats = layer.getFeatures()
 
-    for feat in features:
+    for feat in feats:
         if feat[date_field] == date:
             return feat.geometry()

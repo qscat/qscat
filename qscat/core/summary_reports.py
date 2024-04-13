@@ -110,7 +110,7 @@ def create_summary_area_change(qscat, summary):
     f.write(f'[INPUT PARAMETERS]\n')
     f.write(f'\n')
     f.write(f'AREA:\n')
-    f.write(f'NSM layer: {area["NSM_layer"].name()}\n')
+    f.write(f'Stat layer: {area["stat_layer"].name()}\n')
     f.write(f'Polygon area layer: {area["polygon_layer"].name()}\n')
 
     f.write(f'\n')

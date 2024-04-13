@@ -46,8 +46,8 @@ def update_newest_oldest_date(qscat):
         qscat (QscatPlugin): QscatPlugin instance.
     """
     if qscat.dockwidget.qfcb_shorelines_date_field.count() > 0:
-        cb_newest_date = qscat.dockwidget.cb_stats_newest_year
-        cb_oldest_date = qscat.dockwidget.cb_stats_oldest_year
+        cb_newest_date = qscat.dockwidget.cb_shoreline_change_newest_date
+        cb_oldest_date = qscat.dockwidget.cb_shoreline_change_oldest_date
         cb_newest_date.clear()
         cb_oldest_date.clear()
         

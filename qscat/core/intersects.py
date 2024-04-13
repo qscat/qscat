@@ -109,10 +109,11 @@ def add_intersections_layer(transects_intersects, baseline_params):
     baseline_layer_name = baseline_params["baseline_layer"].name()
     
     create_add_layer(
-        'Point', 
-        geometries, 
-        f'{baseline_layer_name}_intersections', 
-        fields, values
+        geometry='Point', 
+        geometries=geometries, 
+        name=f'{baseline_layer_name}_intersections', 
+        fields=fields,
+        values=values
     )
 
 

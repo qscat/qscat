@@ -1,6 +1,7 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+import json
 import math
 import numpy as np
 import time
@@ -16,7 +17,6 @@ from qgis.core import QgsMessageLog
 from qgis.core import QgsPointXY
 from qgis.core import QgsTask
 from qgis.core import QgsWkbTypes
-from qgis.core import Qgis
 
 from qgis.utils import iface
 from qgis.PyQt.QtWidgets import QMessageBox
@@ -56,10 +56,7 @@ from qscat.core.utils.input import filter_years_intersections_by_range
 from qscat.core.utils.input import filter_uncs_by_range
 from qscat.core.layers import load_transects
 from qscat.core.summary_reports import create_summary_shoreline_change
-#import get_shorelines_years_uncs_from_input
 from qscat.core.utils.input import get_shorelines_years_uncs_from_input
-
-# MAIN FUNCTIONS
 
 class GetTransectsIntersectionsTask(QgsTask):
     def __init__(
@@ -234,7 +231,11 @@ class GetTransectsIntersectionsTask(QgsTask):
         # TODO: caching
 
 
-def get_transects_intersections_task_state_changed(self, selected_stats, user_params):
+def get_transects_intersections_task_state_changed(
+    self,
+    selected_stats,
+    user_params
+):
     task = globals()['get_transects_intersections_task']
 
     if task.status() == QgsTask.Complete:
@@ -269,27 +270,26 @@ def get_transects_intersections_task_state_changed(self, selected_stats, user_pa
                 # years, trends, unc details)
 
 
-        #ADD ONE LAYER STATS
+        # All stats in one layer
         current_datetime = datetime_now()
         transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
         create_add_layer(
-            'LineString', 
-            transects,
-            f'stats', 
-            #f'{user_params["baseline_layer_name"]}_Stats', 
-            all_fields, 
-            all_values,
+            geometry='LineString', 
+            geometries=transects,
+            name='ALL',
+            fields=all_fields,
+            values=all_values,
             datetime=current_datetime,
         )
 
-        # ADD SUMMARY REPORTS TEXT FILE
+        # Summary
         summary = {}
         
-        # GENERAL
+        # General
         summary['datetime'] = current_datetime
         summary['num_of_transects'] = len(transects)
 
-        # RESULTS
+        # Results
         if 'SCE' in selected_stats:
             SCE = stat_values['SCE']
             summary['SCE_avg'] = round(sum(SCE) / len(SCE), 2)
@@ -398,20 +398,25 @@ def get_transects_intersections_task_state_changed(self, selected_stats, user_pa
 
     
 def compute_shoreline_change_stats(self):
-    # User selections from Statistics Tab
+    baseline_params = get_baseline_input_params(self)
+    shorelines_params = get_shorelines_input_params(self)
+    transects_params = get_transects_input_params(self)
+    shoreline_change_params = get_shoreline_change_input_params(self)
+
     start_time = time.perf_counter()
     selected_stats = get_shoreline_change_stat_selected(self)
+
     user_params = {
         'confidence_interval': float(
             self.dockwidget.qdsb_stats_confidence_interval.text()),
-        'is_baseline_placement_sea': self.dockwidget.rb_baseline_placement_sea.isChecked(),
         'oldest_year': convert_to_decimal_year(
-            self.dockwidget.cb_stats_oldest_year.currentText()),
+            self.dockwidget.cb_shoreline_change_oldest_date.currentText()),
         'newest_year': convert_to_decimal_year(
-            self.dockwidget.cb_stats_newest_year.currentText()),
+            self.dockwidget.cb_shoreline_change_newest_date.currentText()),
+        'oldest_date': self.dockwidget.cb_shoreline_change_oldest_date.currentText(),
+        'newest_date': self.dockwidget.cb_shoreline_change_newest_date.currentText(),
         'epr_unc': get_epr_unc_from_input(self),
         'highest_unc': get_highest_unc_from_input(self),
-        #'baseline_layer_name': self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer().name(),
         'years_uncs': get_shorelines_years_uncs_from_input(self),
         'clip_transects' : self.dockwidget.cb_stats_clip_transects.isChecked(),
     }
@@ -424,11 +429,6 @@ def compute_shoreline_change_stats(self):
         user_params['newest_year'],
         user_params['oldest_year'],
     )
-    
-    baseline_params = get_baseline_input_params(self)
-    shorelines_params = get_shorelines_input_params(self)
-    transects_params = get_transects_input_params(self)
-    shoreline_change_params = get_shoreline_change_input_params(self)
 
     transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
     shorelines = load_shorelines(shorelines_params)
@@ -444,42 +444,16 @@ def compute_shoreline_change_stats(self):
     )
     globals()['get_transects_intersections_task'].taskCompleted.connect(
         lambda: get_transects_intersections_task_state_changed(
-            self, selected_stats, user_params
-        ))
+            self, 
+            selected_stats, 
+            user_params,
+        )
+    )
     QgsApplication.taskManager().addTask(globals()['get_transects_intersections_task'])
 
     end_time = time.perf_counter()
     elapsed_time = (end_time - start_time) * 1000
     print(f"Shoreline change: {elapsed_time:.2f} ms")
-
-    # # Init for storing fields and values for one QgsVectorLayer combined stats
-    # all_fields = []  # refers to attribute fields to be added
-    # all_values = []  # refers to attribute values to be added    
-    # # For summary results, refers to distance and rate values
-
-    # E.g. excludes trends, years, unc details
-    # stat_values = {}
-
-    # # COMPUTE SELECTED STATS
-    # for stat_name in selected_stats:
-    #     if compute_shoreline_change_stat_pre_checks(self, stat_name):
-    #         result = compute_single_stat_list_transects(
-    #             stat_name, 
-    #             list_years_intersections, 
-    #             user_params,
-    #         )
-    #         all_fields += result['fields']
-    #         all_values = combine_result_values(all_values, result['values'])
-    #         add_shoreline_change_stat_layer(stat_name, result, user_params)
-
-    #         # For summary result
-    #         # Transpose the list first since values are placed vertically,
-    #         # then only get the first list element where these are the values
-    #         # on each stat based on the fields @compute_shoreline_change_single_stat()
-    #         stat_values[stat_name] = transpose_list(result['values'])[0]
-    #         # [0] consider just the first column value (e.g. SCE, exluding the
-    #         # years, trends, unc details)
-
 
 
 def compute_single_stat_list_transects(
@@ -1224,73 +1198,6 @@ def validate_years_intersections(years_intersections):
         raise TypeError("Values must be dictionary.")
 
 
-# UTILITY FUNCTIONS
-def apply_trend_sign_WLR(old_value, year1, year2, is_baseline_placement_sea):
-    if is_baseline_placement_sea:
-        return -old_value
-    return old_value
-        
-
-def apply_trend_sign(old_value, year1, year2, is_baseline_placement_sea):
-    """Apply trend sign to old value based on year1 and year2. If year1 is
-    greater than year2, then the old value is multiplied by -1. Otherwise,
-    the old value is multiplied by 1.
-    
-    Args:
-        old_value (float): Old value (e.g. SCE, NSM, EPR..).
-        year1 (float): Year 1.
-        year2 (float): Year 2.
-        is_baseline_placement_sea (bool): Is baseline placement sea.
-
-    Returns:
-        float: New proper signed value (e.g erosion and accretion).
-
-    Raises:
-        TypeError: If old value, year 1, year 2, or is_baseline_placement_sea is None.
-        TypeError: If old value, year 1, or year 2 is not float.
-        TypeError: If is_baseline_placement_sea is not boolean.
-        ValueError: If year 1 and year 2 is negative.
-    """
-    # validate if parameters are not None 1 by 1
-    if old_value is None:
-        raise TypeError("Old value cannot be None.")
-    if year1 is None:
-        raise TypeError("Year 1 cannot be None.")
-    if year2 is None:
-        raise TypeError("Year 2 cannot be None.")
-    if is_baseline_placement_sea is None:
-        raise TypeError("Is baseline placement sea cannot be None.")
-    
-    # validate if old value, year 1 and year 2 is not float 1 by1
-    if not isinstance(old_value, float):
-        raise TypeError("Old value must be float.")
-    if not isinstance(year1, float):
-        raise TypeError("Year 1 must be float.")
-    if not isinstance(year2, float):
-        raise TypeError("Year 2 must be float.")
-    
-    # validate if is_baseline_placement_sea is not boolean
-    if not isinstance(is_baseline_placement_sea, bool):
-        raise TypeError("Is baseline placement sea must be boolean.")
-    
-    # validate if year 1 and year is negative 1 by 1
-    if year1 < 0:
-        raise ValueError("Year 1 must be non-negative.")
-    if year2 < 0:
-        raise ValueError("Year 2 must be non-negative.")
-    
-    if is_baseline_placement_sea:
-        if year1 > year2:
-            return old_value
-        else:
-            return -old_value
-    else:
-        if year1 > year2:
-            return -old_value
-        else:
-            return old_value
-        
-
 def get_change_trend(stat_value, unc_value):
     """Get change trend based on statistic value's (e.g. SCE, NSM, EPR..) sign,
     and uncertainty value. The positive-negative uncertainty value is used
@@ -1501,25 +1408,31 @@ def combine_result_values(existing_values, new_values):
         return new_values
 
 
-def add_shoreline_change_stat_layer(stat, result, params):
+def add_shoreline_change_stat_layer(stat, result, user_params):
     """ 
     Args:
         stat_acronym (str): statistic ACRONYM (SCE, NSM, LRR etc.)
         result (dict): 
     """
+    # Layer names
     if stat in ('NSM', 'EPR'):
-        #layer_name = f'{params["baseline_layer_name"]}_{stat} ({params["newest_year"]}-{params["oldest_year"]})'
-        layer_name = f'{stat} ({params["newest_year"]}-{params["oldest_year"]})'
+        name = f'{stat} ({user_params["newest_year"]}-{user_params["oldest_year"]})'
     elif stat in ('SCE', 'LRR', 'WLR'):
-        #layer_name = f'{params["baseline_layer_name"]}_{stat}'
-        layer_name = f'{stat}'
+        name = f'{stat}'
 
+    # Metadata dict
+    dates = {
+        'newest_date': user_params['newest_date'],
+        'oldest_date': user_params['oldest_date'],
+    }
+    
     create_add_layer(
-        'LineString',
-        result['clipped_transect_geoms'], 
-        layer_name, 
-        result['fields'],
-        result['values']
+        geometry='LineString',
+        geometries=result['clipped_transect_geoms'], 
+        name=name,
+        fields=result['fields'],
+        values=result['values'],
+        extra_values=dates,
     )
 
 

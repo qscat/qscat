@@ -71,17 +71,21 @@ def set_transects_tab_widget_properties(self):
     self.dockwidget.qsb_transects_smoothing_distance.setClearValue(500)
 
 
-def set_statistics_tab_widget_properties(self):
-    # plugin_dir = os.path.dirname(os.path.dirname(__file__))
-    # summary_reports_dir = os.path.join(plugin_dir, 'summary-reports')
-    # self.dockwidget.qfw_stat_summary_reports_location.setFilePath(
-    #     summary_reports_dir)
-    self.dockwidget.qmlcb_stats_NSM_layer.setFilters(
+def set_shoreline_change_tab_widget_properties(self):
+   pass
+
+
+def set_area_change_tab_widget_properties(self):
+    self.dockwidget.qmlcb_area_change_stat_layer.setFilters(
         QgsMapLayerProxyModel.LineLayer)
-    self.dockwidget.qmlcb_stats_polygon_layer.setFilters(
+    self.dockwidget.qmlcb_area_change_polygon_layer.setFilters(
         QgsMapLayerProxyModel.PolygonLayer)
-    self.dockwidget.qmlcb_stats_NSM_layer.showCrs()
-    self.dockwidget.qmlcb_stats_polygon_layer.showCrs()
+    self.dockwidget.qmlcb_area_change_stat_layer.showCrs()
+    self.dockwidget.qmlcb_area_change_polygon_layer.showCrs()
+
+
+def set_forecasting_tab_widget_properties(self):
+   pass
 
 
 def set_visualization_tab_widget_properties(self):
@@ -129,7 +133,9 @@ def set_plugin_widget_properties(self):
     set_shorelines_tab_widget_properties(self)
     set_baseline_tab_widget_properties(self)
     set_transects_tab_widget_properties(self)
-    set_statistics_tab_widget_properties(self)
+    set_shoreline_change_tab_widget_properties(self)
+    set_area_change_tab_widget_properties(self)
+    set_forecasting_tab_widget_properties(self)
     set_visualization_tab_widget_properties(self)
     set_summary_reports_tab_widget_properties(self)
     set_about_tab_widget_properties(self)

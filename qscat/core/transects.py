@@ -41,11 +41,11 @@ def add_transects_layer(
     fields = [{'name': 'angle', 'type': QVariant.Double}]
     values = [[a] for a in base_angles]
     transects_layer = create_add_layer(
-        'LineString',
-        transects,
-        f'{baseline_layer_name}_{transect_layer_output_name}',
-        fields,
-        values,
+        geometry='LineString',
+        geometries=transects,
+        name=f'{baseline_layer_name}_{transect_layer_output_name}',
+        fields=fields,
+        values=values,
     )
     qmlcb_stats_transects_layer.setLayer(transects_layer)
 

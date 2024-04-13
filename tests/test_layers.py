@@ -1,3 +1,5 @@
+import json
+
 from PyQt5.QtCore import QVariant
 
 from qgis.testing import start_app
@@ -28,7 +30,6 @@ def test_create_add_layer():
         ]),
     ]
     name = 'test_layer'
-    crs = 'EPSG:32651'
     fields = [
         {'name': 'field1', 'type':  QVariant.Double},
         {'name': 'field2', 'type':  QVariant.Double},
@@ -38,13 +39,20 @@ def test_create_add_layer():
         [3.0, 4.0],
     ]
 
+    extra_values = {
+        'newest_date': '09/2002',
+        'oldest_date': '09/1996'
+    }
+
     layer = create_add_layer(
         geometry_type, 
         geometries, 
         name,
         fields, 
         values,
+        extra_values,
     )
+
     # Project layer count
     assert len(project.mapLayers()) == initial_layer_count + 1
 
@@ -54,7 +62,7 @@ def test_create_add_layer():
     assert layer.geometryType() == QgsWkbTypes.LineGeometry
     assert 'test_layer' in layer.name()
     assert [field.name() for field in layer.fields()] == ['id', 'field1', 'field2']
-
+    
     # TODO: add crs if create_add_layer will accept crs
 
     # Layer features
@@ -62,3 +70,7 @@ def test_create_add_layer():
         assert feat.geometry().asPolyline() == geometry.asPolyline()
         assert feat['field1'] == value[0]
         assert feat['field2'] == value[1]
+
+    # Custom properties
+    assert layer.customProperty('newest_date') == extra_values['newest_date']
+    assert layer.customProperty('oldest_date') == extra_values['oldest_date']

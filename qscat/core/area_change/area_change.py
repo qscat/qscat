@@ -30,98 +30,26 @@ from .utils import load_shorelines_by_date
 _EXTEND_BY_SMALL_EPSILON = 1e-8
 
 
-def cluster_interest_transects(
-    newest_shorelines_as_lines, 
-    oldest_shorelines_as_lines,
-    interest_transects
-):
-    """Add a new `group` key to the list of interest transects. 
-    Grouping is based on the transect's intersection to the 
-    multi newest and oldest shorelines.
-
-    - TODO: Add illustration + link
-    - TODO: Group by whole shorelines
-        - Currently groups (hardcoded) by stat NSM and EPR (newest and oldest)
-
-    Args:
-        newest_shorelines_as_lines (list[QgsGeometry]): MultiLineString
-        oldest_shorelines_as_lines (list[QgsGeometry]): MultiLineString
-        interest_transects (list[dict[QgsGeometry, str, str]]): List of transects
-        
-    Returns:
-        list[dict[QgsGeometry, str, str, str]]: List of transects
-    """
-    # TODO: check if interest transects num = transects num
-    interest_transects_clustered = []
-
-    for ti, transect in enumerate(interest_transects):
-        new_group = ""
-        old_group = ""
-        
-        transect = transect['geom']
-        transect = transect.extendLine(_EXTEND_BY_SMALL_EPSILON,
-                                       _EXTEND_BY_SMALL_EPSILON)
-
-        # newest shorelines
-        for i, shoreline in enumerate(newest_shorelines_as_lines):
-            # Get the intersection nearest to the transect point
-            # Handles two or more intersections
-            if transect.intersects(shoreline):
-                new_group = str(i)
-
-        for i, shoreline in enumerate(oldest_shorelines_as_lines):
-            # Get the intersection nearest to the transect point
-            # Handles two or more intersections
-            if transect.intersects(shoreline):
-                old_group = str(i)
-        
-        interest_transects[ti]['group'] = new_group + old_group
-        interest_transects_clustered.append(interest_transects[ti])
-
-    return interest_transects_clustered
-
-
-# def get_interest_shorelines(polygon, shorelines):
-#     """Get interest shorelines that is inside a polygon (area).
-
-#     Arguments:
-#         polygon (QgsGeometry): Polygon
-#         shorelines (list[QgsGeometry]): 1 date/year only
-
-#     Returns:
-#         QgsGeometry: MultiLineString
-#     """
-#     interest_shorelines = []
-#     for shoreline in shorelines:
-#         intersection = shoreline.intersection(polygon)
-#         if not intersection.isEmpty():
-#             if intersection.wkbType() == QgsWkbTypes.MultiLineString:
-#                 for line_point in intersection.asMultiPolyline():
-#                     interest_shorelines.append(
-#                         QgsGeometry.fromPolylineXY(line_point)
-#                     )
-#             else:
-#                 interest_shorelines.append(intersection)
+def compute_area_change_stats(qscat):
+    """Compute area change statistics.
     
-#     multi_line = QgsGeometry.fromMultiPolylineXY([
-#         line.asPolyline() for line in interest_shorelines
-#     ])
-#     return multi_line
-
-
-def compute_area_change_stats(self):
-    area_change_params = get_area_change_input_params(self)
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+    """
+    area_change_params = get_area_change_input_params(qscat)
     # transects = load_transects(
     #     self.dockwidget.qmlcb_stats_transects_layer.currentLayer()
     # )
     # shorelines = load_shorelines_geoms(
     #     self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
     # )
+
+    # Note that area change compute supports multi feature polygon layer
     polygon_boundaries = load_polygons(area_change_params["polygon_layer"])
-    polygon_areas_stats = [] # Store each area stats per feature of the polygon layer
+
+    # Store each area stats per feature of the polygon layer
+    polygon_areas_stats = [] 
     
-    # Loop through each polygon boundary feature in one layer
-    # (supports multi feature polygon layer)
     for polygon_boundary in polygon_boundaries:
         # TODO: Add checks if all transects are inside of the polygon, no
         # transects must be outside of the polygon (even a small part)
@@ -132,23 +60,23 @@ def compute_area_change_stats(self):
 
         # Get transects inside polygon
         interest_transects, interest_transects_ids = get_interest_transects_within_polygon(
-            area_change_params["NSM_layer"], 
+            area_change_params['stat_layer'], 
             polygon_boundary['geom'],
             polygon_boundary['name']
         )
 
-        layer = self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
-        date_field = self.dockwidget.qfcb_shorelines_date_field.currentField()
+        layer = qscat.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
+        date_field = qscat.dockwidget.qfcb_shorelines_date_field.currentField()
 
         newest_shorelines = load_shorelines_by_date(
             layer,
-            self.dockwidget.cb_stats_newest_year.currentText(),
+            area_change_params['stat_layer'].customProperty('newest_date'),
             date_field 
         )
 
         oldest_shorelines = load_shorelines_by_date(
             layer,
-            self.dockwidget.cb_stats_oldest_year.currentText(),
+            area_change_params['stat_layer'].customProperty('oldest_date'),
             date_field
         )
         
@@ -342,17 +270,17 @@ def compute_area_change_stats(self):
 
     polygon_geoms = [p['geom'] for p in polygons]
     polygon_layer = create_add_layer(
-        'Polygon', 
-        polygon_geoms, 
-        f'{area_change_params["polygon_layer"].name()}_area', 
-        layer_fields, 
-        layer_values,
+        geometry='Polygon', 
+        geometries=polygon_geoms, 
+        name=f'{area_change_params["polygon_layer"].name()}_area', 
+        fields=layer_fields, 
+        values=layer_values,
         datetime=current_datetime,
     )
     
     if (
-        self.dockwidget.cb_enable_report_generation.isChecked() and 
-        self.dockwidget.cb_enable_area_change_report.isChecked()
+        qscat.dockwidget.cb_enable_report_generation.isChecked() and 
+        qscat.dockwidget.cb_enable_area_change_report.isChecked()
     ):
         summary = {}
         
@@ -429,7 +357,7 @@ def compute_area_change_stats(self):
         summary['length_stable_max'] = round(max(stable_lengths), 2) if stable_lengths else 0
         summary['length_stable_min'] = round(min(stable_lengths), 2) if stable_lengths else 0
         
-        create_summary_area_change(self, summary)
+        create_summary_area_change(qscat, summary)
     
     # Shoreline length geometry
     # interest_newest_shorelines = add_layer(
@@ -448,26 +376,52 @@ def compute_area_change_stats(self):
     # )
     apply_area_colors(polygon_layer)
 
+def cluster_interest_transects(
+    newest_shorelines_as_lines, 
+    oldest_shorelines_as_lines,
+    interest_transects
+):
+    """Add a new `group` key to the list of interest transects. 
+    Grouping is based on the transect's intersection to the 
+    multi newest and oldest shorelines.
 
-# def get_intersections(transect, shoreline):
-#     """Get final intersection of one transect per one shoreline.
+    - TODO: Add illustration + link
+    - TODO: Group by whole shorelines
+        - Currently groups (hardcoded) by stat NSM and EPR (newest and oldest)
 
-#     Args:
-#         transect (QgsGeometry: LineString)
-#         shoreline (QgsGeometry: LineString)
+    Args:
+        newest_shorelines_as_lines (list[QgsGeometry]): MultiLineString
+        oldest_shorelines_as_lines (list[QgsGeometry]): MultiLineString
+        interest_transects (list[dict[QgsGeometry, str, str]]): List of transects
+        
+    Returns:
+        list[dict[QgsGeometry, str, str, str]]: List of transects
+    """
+    # TODO: check if interest transects num = transects num
+    interest_transects_clustered = []
 
-#     Returns:
-#         list[QgsPointXY]
-#     """
-#     intersections = []
-#     intersect = transect.intersection(shoreline)
+    for ti, transect in enumerate(interest_transects):
+        new_group = ""
+        old_group = ""
+        
+        transect = transect['geom']
+        transect = transect.extendLine(_EXTEND_BY_SMALL_EPSILON,
+                                       _EXTEND_BY_SMALL_EPSILON)
 
-#     if not intersect.isEmpty():
-#         if intersect.wkbType() == QgsWkbTypes.MultiPoint:
-#             for i in intersect.asMultiPoint():
-#                 #intersections.append(QgsGeometry.fromPointXY(i))
-#                 intersections.append(i)
-#         else:
-#             intersections.append(intersect.asPoint())
+        # newest shorelines
+        for i, shoreline in enumerate(newest_shorelines_as_lines):
+            # Get the intersection nearest to the transect point
+            # Handles two or more intersections
+            if transect.intersects(shoreline):
+                new_group = str(i)
 
-#     return intersections
+        for i, shoreline in enumerate(oldest_shorelines_as_lines):
+            # Get the intersection nearest to the transect point
+            # Handles two or more intersections
+            if transect.intersects(shoreline):
+                old_group = str(i)
+        
+        interest_transects[ti]['group'] = new_group + old_group
+        interest_transects_clustered.append(interest_transects[ti])
+
+    return interest_transects_clustered

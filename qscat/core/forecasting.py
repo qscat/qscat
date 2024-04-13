@@ -140,9 +140,9 @@ def run_forecasting(self):
     start_time = time.perf_counter()
     # Initialize user selections from forecasting tab
     newest_year = convert_to_decimal_year(
-        self.dockwidget.cb_stats_newest_year.currentText())
+        self.dockwidget.cb_shoreline_change_newest_date.currentText())
     oldest_year = convert_to_decimal_year(
-        self.dockwidget.cb_stats_oldest_year.currentText())
+        self.dockwidget.cb_shoreline_change_oldest_date.currentText())
     years_uncs = get_shorelines_years_uncs_from_input(self)
     filter_uncs_by_range(
         years_uncs, 
@@ -243,13 +243,12 @@ def get_forecast_task_state_changed():
             forecasted_unc_polygon.area()
         ]]
         create_add_layer(
-            'Polygon',
-            [forecasted_unc_polygon], 
-            "forecast_uncertainty_band",
-            unc_fields,
-            unc_values,
+            geometry='Polygon',
+            geometries=[forecasted_unc_polygon], 
+            name="forecast_uncertainty_band",
+            fields=unc_fields,
+            values=unc_values,
         )
-
         # Add layer for forecasted line
         forecasted_line = QgsGeometry.fromPolylineXY(task.forecasted_points_line)
         line_fields = [
@@ -264,11 +263,11 @@ def get_forecast_task_state_changed():
         ]]
         
         create_add_layer(
-            'LineString',
-            [forecasted_line], 
-            "forecast_line",
-            line_fields,
-            line_values,
+            geometry='LineString',
+            geometries=[forecasted_line], 
+            name="forecast_line",
+            fields=line_fields,
+            values=line_values,
         )
         
         # Add layer for forecasted points
@@ -298,11 +297,11 @@ def get_forecast_task_state_changed():
             ])
 
         create_add_layer(
-            'Point',
-            task.forecasted_points, 
-            "forecast_points",
-            point_fields,
-            point_values,
+            geometry='Point',
+            geometries=task.forecasted_points, 
+            name="forecast_points",
+            fields=point_fields,
+            values=point_values,
         )
 
 

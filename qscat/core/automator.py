@@ -133,9 +133,9 @@ def automate_baseline_buffer(self):
     values = [[distance]]
     
     create_add_layer(
-        'MultiLineString',
-        [line_geometry],
-        f'Baseline Buffer - {distance} meters',
-        fields,
-        values
+        geometry='MultiLineString',
+        geometries=[line_geometry],
+        name=f'Baseline Buffer - {distance} meters',
+        fields=fields,
+        values=values,
     )
