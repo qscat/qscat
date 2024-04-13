@@ -27,7 +27,7 @@ from qscat.core.shoreline_change import get_sorted_years_distances
 from qscat.core.shoreline_change import get_sorted_uncs
 from qscat.core.shoreline_change import compute_LCI
 from qscat.core.shoreline_change import compute_LSE
-from qscat.core.layers import add_layer
+from qscat.core.layers import create_add_layer
 from qscat.core.layers import load_transects
 from qscat.core.utils.input import get_baseline_input_params
 from qscat.core.utils.input import get_shorelines_input_params
@@ -242,7 +242,7 @@ def get_forecast_task_state_changed():
             task.forecasted_year,
             forecasted_unc_polygon.area()
         ]]
-        add_layer(
+        create_add_layer(
             'Polygon',
             [forecasted_unc_polygon], 
             "forecast_uncertainty_band",
@@ -263,7 +263,7 @@ def get_forecast_task_state_changed():
             forecasted_line.length()
         ]]
         
-        add_layer(
+        create_add_layer(
             'LineString',
             [forecasted_line], 
             "forecast_line",
@@ -297,7 +297,7 @@ def get_forecast_task_state_changed():
                 points_line.y(),
             ])
 
-        add_layer(
+        create_add_layer(
             'Point',
             task.forecasted_points, 
             "forecast_points",

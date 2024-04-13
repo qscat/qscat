@@ -21,7 +21,7 @@ from qgis.utils import iface
 from qgis.PyQt.QtWidgets import QMessageBox
 
 from qscat.core.intersects import add_intersections_layer
-from qscat.core.layers import add_layer
+from qscat.core.layers import create_add_layer
 from qscat.core.layers import load_baseline
 from qscat.core.layers import load_shorelines
 from qscat.core.messages import display_message
@@ -40,7 +40,7 @@ def add_transects_layer(
 ):
     fields = [{'name': 'angle', 'type': QVariant.Double}]
     values = [[a] for a in base_angles]
-    transects_layer = add_layer(
+    transects_layer = create_add_layer(
         'LineString',
         transects,
         f'{baseline_layer_name}_{transect_layer_output_name}',

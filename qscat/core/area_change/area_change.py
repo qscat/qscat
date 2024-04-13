@@ -11,7 +11,7 @@ from qgis.core import QgsGeometry
 #from qgis.core import QgsPoint
 #from qgis.core import QgsWkbTypes
 
-from qscat.core.layers import add_layer
+from qscat.core.layers import create_add_layer
 from qscat.core.layers import load_polygons
 
 from qscat.core.summary_reports import create_summary_area_change
@@ -341,7 +341,7 @@ def compute_area_change_stats(self):
     current_datetime = datetime_now()
 
     polygon_geoms = [p['geom'] for p in polygons]
-    polygon_layer = add_layer(
+    polygon_layer = create_add_layer(
         'Polygon', 
         polygon_geoms, 
         f'{area_change_params["polygon_layer"].name()}_area', 

@@ -1,6 +1,7 @@
 from PyQt5.QtCore import QVariant
 
 from qgis.testing import start_app
+from qscat.core.layers import create_add_layer
 
 from qgis.core import QgsGeometry
 from qgis.core import QgsPointXY
@@ -9,14 +10,9 @@ from qgis.core import QgsWkbTypes
 
 start_app()
 
-from qscat.core.layers import add_layer
+def test_create_add_layer():
+    """Test creating and adding of layer utility function."""
 
-
-def test_add_layer():
-    """Test adding of layer utility function."""
-    
-    # TODO: Add more checks in add_layer function
-    # TODO: Test for invalid inputs
     project = QgsProject.instance()
     initial_layer_count = len(project.mapLayers())
 
@@ -32,6 +28,7 @@ def test_add_layer():
         ]),
     ]
     name = 'test_layer'
+    crs = 'EPSG:32651'
     fields = [
         {'name': 'field1', 'type':  QVariant.Double},
         {'name': 'field2', 'type':  QVariant.Double},
@@ -41,8 +38,13 @@ def test_add_layer():
         [3.0, 4.0],
     ]
 
-    layer = add_layer(geometry_type, geometries, name, fields, values)
-    
+    layer = create_add_layer(
+        geometry_type, 
+        geometries, 
+        name,
+        fields, 
+        values,
+    )
     # Project layer count
     assert len(project.mapLayers()) == initial_layer_count + 1
 
@@ -52,6 +54,8 @@ def test_add_layer():
     assert layer.geometryType() == QgsWkbTypes.LineGeometry
     assert 'test_layer' in layer.name()
     assert [field.name() for field in layer.fields()] == ['id', 'field1', 'field2']
+
+    # TODO: add crs if create_add_layer will accept crs
 
     # Layer features
     for feat, geometry, value in zip(layer.getFeatures(), geometries, values):

@@ -8,7 +8,7 @@ from qgis.core import QgsField
 from qgis.core import QgsGeometry
 from qgis.core import QgsWkbTypes
 
-from qscat.core.layers import add_layer
+from qscat.core.layers import create_add_layer
 from qscat.core.messages import display_message
 from qscat.core.utils.layer import is_field_in_layer
 
@@ -132,7 +132,7 @@ def automate_baseline_buffer(self):
     fields = [{'name': 'distance', 'type': QVariant.Int}]
     values = [[distance]]
     
-    add_layer(
+    create_add_layer(
         'MultiLineString',
         [line_geometry],
         f'Baseline Buffer - {distance} meters',

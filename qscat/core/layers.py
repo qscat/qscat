@@ -16,69 +16,80 @@ from qscat.core.utils.date import datetime_now
 from qscat.core.utils.date import convert_to_decimal_year
 
 
-def add_layer(
-    geometry_type: str,
-    geometries: list[QgsGeometry],
-    name: str,
-    fields=None, # list[dict]
-    values=None, # list[list[float,str]]
+def create_add_layer(
+    geometry_type,
+    geometries,
+    name,
+    fields=None,
+    values=None,
     datetime=None,
 ):
-    """
-    Add a vector layer to the current project.
-
+    """Create and add vector layer in memory (temporary).
+    
     Args:
-        TODO:
-
+        geometry_type (str): 'LineString', 'Polygon', etc.
+        geometries (list[QgsGeometry]): List of geometries.
+        name (str): Name used as part of the layer name.
+        crs (str): Coordinate reference system.
+        fields (list[dict]): List of fields.
+        values (list[list[float,str]]): List of values.
+        datetime (str): Date and time value to append to the layer name.
+    
     Returns:
-        QgsVectorLayer: The created vector layer.
+        QgsVectorLayer
+
+    Example:
+        layer = create_layer(
+            'LineString', 
+            [QgsGeometry.fromPolylineXY([QgsPointXY(0, 0), QgsPointXY(1, 1)]), 
+             QgsGeometry.fromPolylineXY([QgsPointXY(2, 2), QgsPointXY(3, 3)]), 
+            ],
+            'test_layer',
+            'EPSG:4326',
+            [
+                {'name': 'field1', 'type':  QVariant.Double},
+                {'name': 'field2', 'type':  QVariant.Double},
+            ],
+            [
+                [1.0, 2.0],
+                [3.0, 4.0],
+            ],
+            '2022-08-01 12:00:00',
+        )
     """
     crs = QgsProject.instance().crs().authid()
 
     if datetime is None:
-        layer = QgsVectorLayer(
-            geometry_type, 
-            f'{name} [{datetime_now()}]', 
-            'memory'
-        )
-    else: 
-        # For summary report use, we want to make sure the datetime is not
-        # dynamically generated so it will be the same as the datetime
-        # pass to the function
-        layer = QgsVectorLayer(
-            geometry_type, 
-            f'{name} [{datetime}]', 
-            'memory'
-        )
+        datetime = datetime_now()
+
+    layer = QgsVectorLayer(
+        geometry_type, 
+        f'{name} [{datetime}]', 
+        'memory'
+    )
     layer.setCrs(QgsCoordinateReferenceSystem(crs))
     
     # Add attributes / fields
     dp = layer.dataProvider()
-    attributes = []
-    attributes.append(QgsField('id', QVariant.Int)) # Fixed id field
+    fields_with_id = []
 
-    for f in fields:
-        attributes.append(QgsField(f['name'], f['type']))
-    dp.addAttributes(attributes)
+    # Add fix id field
+    fields_with_id.append(QgsField('id', QVariant.Int))
+    
+    ## Add custom fields
+    for field in fields:
+        fields_with_id.append(QgsField(field['name'], field['type']))
+    dp.addAttributes(fields_with_id)
     
     layer.updateFields()
 
-    for i, (g, v) in enumerate(zip(geometries, values)):
+    # Add geometries and values
+    for i, (geometry, value) in enumerate(zip(geometries, values)):
         feat = QgsFeature(layer.fields())
-        
-        # Add geometries
-        feat.setGeometry(g)
-        """
-         feature[field_name] = 'your_value'
-         layer.updateFeature(feature)
-        """
-        attributes = []
-        attributes.append(i+1) # Fixed id field
-
-        # Add values
-        for vd in v:
-            attributes.append(vd)
-        feat.setAttributes(attributes)
+        # Add geometry
+        feat.setGeometry(geometry)
+        # Add values: id + field1, field2, ...
+        feat.setAttributes([i+1] + value)
         dp.addFeature(feat)
 
     layer.updateExtents()

@@ -21,7 +21,7 @@ from qgis.core import Qgis
 from qgis.utils import iface
 from qgis.PyQt.QtWidgets import QMessageBox
 
-from qscat.core.layers import add_layer
+from qscat.core.layers import create_add_layer
 from qscat.core.messages import display_message
 from qscat.core.utils.date import convert_to_decimal_year
 from qscat.core.utils.input import get_epr_unc_from_input
@@ -272,7 +272,7 @@ def get_transects_intersections_task_state_changed(self, selected_stats, user_pa
         #ADD ONE LAYER STATS
         current_datetime = datetime_now()
         transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
-        add_layer(
+        create_add_layer(
             'LineString', 
             transects,
             f'stats', 
@@ -1514,7 +1514,7 @@ def add_shoreline_change_stat_layer(stat, result, params):
         #layer_name = f'{params["baseline_layer_name"]}_{stat}'
         layer_name = f'{stat}'
 
-    add_layer(
+    create_add_layer(
         'LineString',
         result['clipped_transect_geoms'], 
         layer_name, 

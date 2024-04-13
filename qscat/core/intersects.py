@@ -6,7 +6,7 @@ from PyQt5.QtCore import QVariant
 from qgis.core import QgsGeometry
 from qgis.core import QgsWkbTypes
 
-from qscat.core.layers import add_layer
+from qscat.core.layers import create_add_layer
 
 
 def load_list_years_intersections(transects_intersects):
@@ -108,7 +108,7 @@ def add_intersections_layer(transects_intersects, baseline_params):
     
     baseline_layer_name = baseline_params["baseline_layer"].name()
     
-    add_layer(
+    create_add_layer(
         'Point', 
         geometries, 
         f'{baseline_layer_name}_intersections', 
