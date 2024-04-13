@@ -34,7 +34,7 @@ jobs:
           conda config --set solver libmamba
       - name: Install QGIS package from conda-forge
         run: |
-          conda install -c conda-forge qgis=3.34.5
+          conda install -c conda-forge qgis=3.34.5 pyqt=5.15.7 pyqt5-sip=12.11.0
       - name: Install pip packages
         run: |
           pip install pytest-cov "coremltools>=7.0; platform_system != 'Windows' and python_version <= '3.11'"
