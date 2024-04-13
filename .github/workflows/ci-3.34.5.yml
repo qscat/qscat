@@ -1,0 +1,54 @@
+# QGIS 3.34.5 (Long Term Release - stable)
+
+name: QSCAT CI for QGIS 3.34.5
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - "docs/**"
+  pull_request:
+    branches: [master]
+    paths-ignore:
+      - "docs/**"
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+    defaults:
+      run:
+        shell: bash -el {0}
+        
+    steps:
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          python-version: "3.10"
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
+      - name: Install Libmamba
+        run: |
+          conda config --set solver libmamba
+      - name: Install QGIS package from conda-forge
+        run: |
+          conda install -c conda-forge qgis=3.34.5
+      - name: Install pip packages
+        run: |
+          pip install pytest-cov "coremltools>=7.0; platform_system != 'Windows' and python_version <= '3.11'"
+      - name: Check environment
+        run: |
+          conda list
+      - name: PyTest
+        run: |
+          git clone https://github.com/louisfacun/qscat
+          cd qscat
+          pytest --cov=qscat/ --cov-report xml tests/
+      - name: Upload Coverage Reports to CodeCov
+        uses: codecov/codecov-action@v4
+        with:
+          flags: qgis-3.34.5-tests
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
