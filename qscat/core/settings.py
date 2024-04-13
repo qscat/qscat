@@ -12,7 +12,7 @@ from qgis.gui import QgsFieldComboBox
 from qgis.gui import QgsMapLayerComboBox
 from qgis.gui import QgsSpinBox
 
-from qscat.core.projects import load_current_projection
+from qscat.core.project_setting import load_current_projection
 from qscat.core.utils.input import get_baseline_input_params
 from qscat.core.utils.input import get_project_settings_input_params
 from qscat.core.utils.input import get_shorelines_input_params

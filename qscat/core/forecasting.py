@@ -23,10 +23,10 @@ from qscat.core.intersects import load_list_years_intersections
 from qscat.core.utils.input import get_shorelines_years_uncs_from_input
 from qscat.core.utils.input import filter_years_intersections_by_range
 from qscat.core.utils.input import filter_uncs_by_range
-from qscat.core.statistics.shoreline_change import get_sorted_years_distances
-from qscat.core.statistics.shoreline_change import get_sorted_uncs
-from qscat.core.statistics.shoreline_change import compute_LCI
-from qscat.core.statistics.shoreline_change import compute_LSE
+from qscat.core.shoreline_change import get_sorted_years_distances
+from qscat.core.shoreline_change import get_sorted_uncs
+from qscat.core.shoreline_change import compute_LCI
+from qscat.core.shoreline_change import compute_LSE
 from qscat.core.layers import add_layer
 from qscat.core.layers import load_transects
 from qscat.core.utils.input import get_baseline_input_params
@@ -35,7 +35,7 @@ from qscat.core.utils.input import get_shoreline_change_input_params
 from qscat.core.utils.input import get_transects_input_params
 from qscat.core.layers import load_shorelines
 
-from qscat.core.statistics.shoreline_change import GetTransectsIntersectionsTask
+from qscat.core.shoreline_change import GetTransectsIntersectionsTask
 
 
 FORECASTING_ALGO_KALMAN_FILTER = "kalman_filter"

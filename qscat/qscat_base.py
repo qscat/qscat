@@ -21,8 +21,8 @@ from qscat.core.settings import save_baseline_tab_project_settings
 from qscat.core.settings import save_project_tab_project_settings
 from qscat.core.settings import save_shorelines_tab_project_settings
 from qscat.core.settings import save_transects_tab_project_settings
-from qscat.core.statistics.shoreline_change import compute_shoreline_change_stats
-from qscat.core.statistics.area_change.area_change import compute_area_change_stats
+from qscat.core.shoreline_change import compute_shoreline_change_stats
+from qscat.core.area_change.area_change import compute_area_change_stats
 from qscat.core.transects import cast_transects
 from qscat.core.update import check_updates_on_start
 from qscat.core.update import check_updates_on_click
