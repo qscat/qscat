@@ -18,6 +18,9 @@ jobs:
 
     - name: Clone QGIS repository
       run: git clone https://github.com/qgis/QGIS.git
+ 
+    - name: CD
+      run: cd QGIS
 
     - name: Build the QGIS Docker image
       run: |
