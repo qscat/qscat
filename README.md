@@ -1,8 +1,9 @@
 <div align="center">
 
 ![qscat](https://github.com/upmsi-coaster/qscat/assets/58874676/fb40ffde-8667-48bc-99ba-1f8c4b257eb1)
-
-[![QSCAT CI](https://github.com/louisfacun/qscat/actions/workflows/ci.yml/badge.svg)](https://github.com/louisfacun/qscat/actions/workflows/ci.yml)
+[![🧪QGIS 3.22.16](https://github.com/louisfacun/qscat/actions/workflows/ci-3.22.16.yml/badge.svg)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.22.16.yml)
+[![QGIS 3.34.5](https://github.com/louisfacun/qscat/actions/workflows/ci-3.34.5.yml/badge.svg)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.34.5.yml)
+[![🧪QGIS 3.36.1](https://github.com/louisfacun/qscat/actions/workflows/ci-3.36.1.yml/badge.svg)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.36.1.yml)
 [![codecov](https://codecov.io/gh/louisfacun/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/louisfacun/qscat)
 [![QGIS.org - 0.1.0](https://img.shields.io/badge/qgis.org-0.1.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
 [![Documentation Status](https://readthedocs.org/projects/qscat/badge/?version=latest)](https://qscat.readthedocs.io/en/latest/?badge=latest)
