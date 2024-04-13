@@ -1,6 +1,6 @@
 # QGIS 3.34.5 (Long Term Release - stable)
 
-name: QSCAT CI for QGIS 3.34.5
+name: 🧪 QGIS 3.34.5 Test
 
 on:
   push:
@@ -11,7 +11,6 @@ on:
     branches: [master]
     paths-ignore:
       - "docs/**"
-
 
 jobs:
   build-linux:
