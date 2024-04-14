@@ -7,223 +7,208 @@ import time
 
 from PyQt5.QtCore import QVariant
 
-from qgis.core import QgsApplication
+from qgis.core import Qgis
 from qgis.core import QgsGeometry
 from qgis.core import QgsLineString
-from qgis.core import QgsMessageLog
 from qgis.core import QgsPointXY
 from qgis.core import QgsProject
-from qgis.core import QgsTask
-from qgis.core import QgsWkbTypes
-from qgis.core import Qgis
 
-from qgis.PyQt.QtWidgets import QMessageBox
-
-from qscat.core.intersects import add_intersections_layer
 from qscat.core.layers import create_add_layer
 from qscat.core.layers import load_all_baselines
-from qscat.core.layers import load_shorelines
 from qscat.core.messages import display_message
-from qscat.core.intersects import load_list_years_intersections
 from qscat.core.utils.input import get_baseline_input_params
 from qscat.core.utils.input import get_shorelines_input_params
 from qscat.core.utils.input import get_transects_input_params
 
 
-def add_transects_layer(
-    transects: list[QgsGeometry],
-    base_angles,
-    baseline_layer_name,
-    transect_layer_output_name,
-    qmlcb_stats_transects_layer,
-):
-    fields = [{'name': 'angle', 'type': QVariant.Double}]
-    values = [[a] for a in base_angles]
-    transects_layer = create_add_layer(
-        geometry='LineString',
-        geometries=transects,
-        name=f'{baseline_layer_name}_{transect_layer_output_name}',
-        fields=fields,
-        values=values,
-    )
-    qmlcb_stats_transects_layer.setLayer(transects_layer)
-
-
-def cast_transects(qscat):
-    """Main function to cast transects.
+def cast_transects_button(qscat):
+    """Cast transect on button clicked.
     
     Args:
         qscat (QscatPlugin): QscatPlugin instance.
     """
-    start_time = time.perf_counter()
-    
     baseline_params = get_baseline_input_params(qscat)
     shorelines_params = get_shorelines_input_params(qscat)
     transects_params = get_transects_input_params(qscat)
+    project_crs = QgsProject.instance().crs()
+    shoreline_change_transects_layer = qscat.dockwidget.qmlcb_shoreline_change_transects_layer
 
+    cast_transects(
+        baseline_params,
+        shorelines_params,
+        transects_params,
+        project_crs,
+        shoreline_change_transects_layer
+    )
+
+
+def cast_transects(
+    baseline_params,
+    shorelines_params,
+    transects_params,
+    project_crs,
+    shoreline_change_transects_layer
+):
+    """Start casting transects.
+    
+    Args:
+        baseline_params (dict)
+        shorelines_params (dict)
+        transects_params (dict)
+        project_crs (QgsCoordinateReferenceSystem)
+        shoreline_change_transects_layer (QgsMapLayerComboBox)
+    """
+    start_time = time.perf_counter()
+    
     # Checks CRS of the layers
     are_prechecks_passed = prechecks(
         shorelines_params['shorelines_layer'].crs(),
         baseline_params['baseline_layer'].crs(),
-        QgsProject.instance().crs(),
+        project_crs,
     )
 
-    if are_prechecks_passed:
-        all_baselines = load_all_baselines(baseline_params)
+    if not are_prechecks_passed:
+        return
+    
+    all_baselines = load_all_baselines(baseline_params)
+    all_angles = []
+    all_transects = []
 
-        all_base_angles = []
-        all_transects = []
+    # Multi feature baseline
+    for baselines in all_baselines:
+        for baseline in baselines:
+            # Get transect origin points
+            distances = get_transect_points(baseline['line'], transects_params)
+            points = [
+                QgsPointXY(baseline['line'].interpolatePoint(distance)) 
+                for distance in distances
+            ]
 
-        # Multi feature baseline
-        for baselines in all_baselines:
-            for baseline in baselines:
-                # Get points that will use to draw the transects
-                if transects_params['is_by_transect_spacing']:
-                    distances = np.arange(
-                        0, baseline['line'].length(),
-                        int(transects_params['by_transect_spacing'])
-                    )
-                elif transects_params['is_by_number_of_transects']:
-                    distances = np.linspace(
-                        0, baseline['line'].length(),
-                        int(transects_params['by_number_of_transects'])
-                    )
+            # Smoothing distance angles
+            angles = [
+                get_smoothing_angle(
+                    baseline['line'],
+                    distance, 
+                    int(transects_params['smoothing_distance'])
+                ) 
+                for distance in distances
+            ]
 
-                transect_points = [QgsPointXY(baseline['line'].interpolatePoint(distance)) for distance in distances]
+            # Custom baseline fields
+            baseline_params_copy = baseline_params.copy()
+            
+            # Baseline placement
+            if baseline['placement'] == 'sea':
+                baseline_params_copy['is_baseline_placement_sea'] = True
+                baseline_params_copy['is_baseline_placement_land'] = False
+            elif baseline['placement'] == 'land':
+                baseline_params_copy['is_baseline_placement_sea'] = False
+                baseline_params_copy['is_baseline_placement_land'] = True
 
-                # Get the reference of baseline angle per transect points
-                base_angles = [
-                    get_baseline_angle(
-                        baseline['line'],
-                        distance, 
-                        int(transects_params['smoothing_distance'])
-                    ) 
-                    for distance in distances
-                ]
+            # Baseline orientation
+            if baseline['orientation'] == 'right':
+                baseline_params_copy['is_baseline_orientation_land_right'] = True
+                baseline_params_copy['is_baseline_orientation_land_left'] = False
+            elif baseline['orientation'] == 'left':
+                baseline_params_copy['is_baseline_orientation_land_right'] = False
+                baseline_params_copy['is_baseline_orientation_land_left'] = True
+            
+            # Transect length
+            transect_length = baseline['transect_length'] if baseline['transect_length'] else int(transects_params['length'])
 
-                # Check if baseline layer has specific or custom values of:
-                # placement, orientation, and transect length
-                baseline_params_copy = baseline_params.copy()
-                
-                # Optional field baseline placement
-                if baseline['placement'] == "sea":
-                    baseline_params_copy['is_baseline_placement_sea'] = True
-                    baseline_params_copy['is_baseline_placement_land'] = False
-                elif baseline['placement'] == "land":
-                    baseline_params_copy['is_baseline_placement_sea'] = False
-                    baseline_params_copy['is_baseline_placement_land'] = True
-
-                # Optional field baseline orientation
-                if baseline['orientation'] == "right":
-                    baseline_params_copy['is_baseline_orientation_land_right'] = True
-                    baseline_params_copy['is_baseline_orientation_land_left'] = False
-                elif baseline['orientation'] == "left":
-                    baseline_params_copy['is_baseline_orientation_land_right'] = False
-                    baseline_params_copy['is_baseline_orientation_land_left'] = True
-                
-                # Optional field baseline length
-                transect_length = baseline['transect_length'] if baseline['transect_length'] else int(transects_params['length'])
-
-                # Create normal line smooth
-                transects = [
-                    cast_transect(
-                        transect_point,
-                        base_angle,
-                        transect_length,
-                        baseline_params_copy
-                    )
-                    for (base_angle, transect_point) in zip(base_angles, transect_points)
-                ]
-                transects = [QgsGeometry.fromPolyline(t) for t in transects]
-
-                all_transects.append(transects)
-                all_base_angles.append(base_angles)
-
-        # Flatten the lists
-        transects = [t for transect in all_transects for t in transect]
-        base_angles = [a for angles in all_base_angles for a in angles]
-
-        # For intersection operations
-        #shorelines = load_shorelines(shorelines_params)
+            # Get the smoothed transects
+            transects = [
+                cast_transect(
+                    point,
+                    angle,
+                    transect_length,
+                    baseline_params_copy
+                ) 
+                for (point, angle) in zip(points, angles)
+            ]
         
-        # TODO: Make loading shorelines as a task
-        # For future if required for very big shorelines
-        # Ask users to divide.
+            all_transects.append(transects)
+            all_angles.append(angles)
 
-        add_transects_layer(
-            transects,
-            base_angles,
-            baseline_params["baseline_layer"].name(),
-            transects_params["layer_output_name"],
-            qscat.dockwidget.qmlcb_stats_transects_layer,
-        )
-        end_time = time.perf_counter()
-        elapsed_time = (end_time - start_time) * 1000
-        print(f"Elapsed time: {elapsed_time} ms")
+    # Flatten
+    transects = [t for transect in all_transects for t in transect]
+    angles = [a for angles in all_angles for a in angles]
+
+    # Add transects layer
+    fields = [{'name': 'angle', 'type': QVariant.Double}]
+    values = [[a] for a in angles]
+    transects_layer = create_add_layer(
+        geometry='LineString',
+        geometries=transects,
+        name=transects_params["layer_output_name"],
+        fields=fields,
+        values=values,
+    )
+
+    # Set shoreline change transects default layer 
+    # with the newly created transects layer
+    shoreline_change_transects_layer.setLayer(transects_layer)
+
+    end_time = time.perf_counter()
+    elapsed_time = (end_time - start_time) * 1000
+    print(f"Elapsed time: {elapsed_time} ms")
+        
+    # For tests
+    return (transects_layer, shoreline_change_transects_layer)
 
 
 
-def get_orig_baseline_transect_points(baseline, by, n):
-    """Get the transect points of the original baseline line string.
+def get_transect_points(baseline, transects_params):
+    """Get the transect points along the baseline.
 
     Args:
         baseline (QgsLineString)
-        by (int): Either by 0-distance between or 1-number of transects.
-        n (float): Either by distance or number of transects value.
+        transects_params (dict)
 
     Returns:
-        list[QgsPointXY]
+        list[float]
     """
-    if by == 0:
-        distances = np.arange(0, baseline.length(), n)[:-1]
-    elif by == 1:
-        distances = np.linspace(0, baseline.length(), n) 
+    if transects_params['is_by_transect_spacing']:
+        distances = np.arange(
+            0, baseline.length(),
+            int(transects_params['by_transect_spacing'])
+        )
+    elif transects_params['is_by_number_of_transects']:
+        distances = np.linspace(
+            0, baseline.length(),
+            int(transects_params['by_number_of_transects'])
+        )
 
-    return [QgsPointXY(baseline.interpolatePoint(distance)) for distance in distances]
+    return distances
 
 
-def get_arctan2(line):
-    """
+def get_arctan_angle(line):
+    """Calculate the arctangent of the slope of a line.
+
     Args:
-        line (QgsLineString)
+        line (QgsLineString): A LineString object representing a line.
 
     Returns:
-        float
+        float: The arctangent of the slope of the line in radians.
+
     """
-    #y = line.pointN(-1).y() - line.pointN(0).y()
-    #x = line.pointN(-1).x() - line.pointN(0).x()
     return math.atan2(
         line.pointN(-1).y() - line.pointN(0).y(), 
         line.pointN(-1).x() - line.pointN(0).x()
     )
 
 
-def contains(line, point):
-    """
-    Args:
-        line (QgsLineString)
-        point (QgsPointXY)
-    
-    Returns:
-        bool
-    """
-    geom_line = QgsGeometry.fromPolyline(line)
-    geom_point = QgsGeometry.fromPointXY(point)
-
-    # solves floating imprecision problem
-    return True if geom_line.distance(geom_point) < 1e-8 else False
-
-
 def cast_transect(origin, angle, distance, baseline):
-    """
+    """Cast a single transect from a given origin point, angle, and distance.
+
     Args:
         origin (QgsPointXY)
         angle (float)
         distance (float)
-        baseline (dict) : Contains the values in baseline tab
+        baseline (dict)
 
     Returns:
-        list[QgsLineString]: length of 2 (origin of transect and second point).
+        list[QgsLineString]
     """
     # Find the second point of the transect extended from 
     # the origin using the angle and distance
@@ -251,20 +236,27 @@ def cast_transect(origin, angle, distance, baseline):
     return QgsLineString(QgsGeometry(transect_geom).asPolyline())
 
 
-def get_baseline_angle(baseline, distance, smoothing_val):
-    """Get transection orientation (angle) of a smoothed transect.
+def get_smoothing_angle(baseline, distance, smoothing_val):
+    """Get the angle, in radians, that will serve as the new orientation of the transect.
+       This adjustment is performed by the smoothing distance feature.
 
     Args:
         baseline (QgsLineString)
-        distance (float)
-        smoothing_val (int)
+        distance (float): Current transect point distance along the baseline.
+        smoothing_val (int): Smoothing distance in meters.
+
+    Returns:
+        float: The angle in radians.
     """
-    d_left = distance - (smoothing_val/2)
-    d_right = distance + (smoothing_val/2)
     len = baseline.length()
-    pt_left = baseline.interpolatePoint(0 if d_left < 0 else d_left)
-    pt_right = baseline.interpolatePoint(len if d_right > len else d_right)
-    return get_arctan2(QgsLineString([pt_left, pt_right]))
+    
+    left_distance = distance - (smoothing_val/2)
+    right_distance = distance + (smoothing_val/2)
+    
+    left_pt = baseline.interpolatePoint(0 if left_distance < 0 else left_distance)
+    right_pt = baseline.interpolatePoint(len if right_distance > len else right_distance)
+
+    return get_arctan_angle(QgsLineString([left_pt, right_pt]))
 
 
 def prechecks(shorelines_layer_crs, baseline_layer_crs, project_crs):

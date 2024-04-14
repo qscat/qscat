@@ -23,7 +23,7 @@ from qscat.core.settings import save_shorelines_tab_project_settings
 from qscat.core.settings import save_transects_tab_project_settings
 from qscat.core.shoreline_change import compute_shoreline_change_stats
 from qscat.core.area_change.area_change import compute_area_change_stats
-from qscat.core.transects import cast_transects
+from qscat.core.transects import cast_transects_button
 from qscat.core.update import check_updates_on_start
 from qscat.core.update import check_updates_on_click
 from qscat.core.utils.plugin import get_plugin_dir
@@ -45,22 +45,18 @@ class QscatPlugin:
         #self.plugin_is_active = None
         self.icon = QIcon(str(Path(get_plugin_dir(), 'gui', 'icons', 'qscat.svg')))
 
-
     def initGui(self):
         self.action = QAction(self.icon, 'QSCAT', self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addToolBarIcon(self.action)
 
-
     def onClosePlugin(self):
         self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)    
         #self.plugin_is_active = False
 
-
     def unload(self):
         self.iface.removeToolBarIcon(self.action)
         del self.action
-
 
     def run(self):
         self.dockwidget = QscatDockWidget()
@@ -72,7 +68,6 @@ class QscatPlugin:
         self.dockwidget.tw_qscat.setStyleSheet("QTabWidget::tab { text-align: left; }")
         
         # Signals
-
         # Buttons in automator tab
         self.dockwidget.pb_automator_field_shoreline_apply.clicked.connect(
             lambda: automate_shoreline_field(self))
@@ -83,8 +78,12 @@ class QscatPlugin:
     
         self.dockwidget.pb_baseline_show_orientation.clicked.connect(
             lambda: show_baseline_orientation(self))
+        
+        # Transect Tab "Cast Transect" button
         self.dockwidget.pb_transects_cast.clicked.connect(
-            lambda: cast_transects(self))
+            lambda: cast_transects_button(self)
+        )
+        
         self.dockwidget.pb_stats_compute_shoreline_change.clicked.connect(
             lambda: compute_shoreline_change_stats(self))
         self.dockwidget.pb_stats_compute_area_change.clicked.connect(
