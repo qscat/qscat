@@ -12,6 +12,7 @@ from qgis.core import QgsWkbTypes
 
 start_app()
 
+
 def test_create_add_layer():
     """Test creating and adding of layer utility function."""
 
