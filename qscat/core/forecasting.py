@@ -47,16 +47,12 @@ class GetForecastTask(QgsTask):
         self,
         forecast_length,
         list_years_intersections,
-        newest_year,
-        oldest_year,
         years_uncs,
         confidence_interval
     ):
         super().__init__("Forecasting", QgsTask.CanCancel)
         self.forecast_length = forecast_length
         self.list_years_intersections = list_years_intersections
-        self.newest_year = newest_year
-        self.oldest_year = oldest_year
         self.years_uncs = years_uncs
         self.confidence_interval = confidence_interval
         
@@ -82,12 +78,7 @@ class GetForecastTask(QgsTask):
             for yid, years_intersections in enumerate(self.list_years_intersections):
                 if self.isCanceled():
                     return False
-                # Filter years intersections first by user params oldest year and newest year
-                years_intersections = filter_years_intersections_by_range(
-                    years_intersections,
-                    self.newest_year,
-                    self.oldest_year,
-                )
+                
                 forecast = run_forecasting_single_transect(
                     self.forecast_length,
                     years_intersections,
@@ -139,19 +130,15 @@ class GetForecastTask(QgsTask):
 def run_forecasting(self):
     start_time = time.perf_counter()
     # Initialize user selections from forecasting tab
+    
     newest_year = convert_to_decimal_year(
         self.dockwidget.cb_shoreline_change_newest_date.currentText())
     oldest_year = convert_to_decimal_year(
         self.dockwidget.cb_shoreline_change_oldest_date.currentText())
     years_uncs = get_shorelines_years_uncs_from_input(self)
-    filter_uncs_by_range(
-        years_uncs, 
-        newest_year, 
-        oldest_year,
-    )
+    
     confidence_interval = float(self.dockwidget.qdsb_stats_confidence_interval.text())
-    #stats_layer = self.dockwidget.qmlcb_forecasting_stats_layer.currentLayer()
-
+    
     # Get forecasting algorithms
     algorithms = []
     if self.dockwidget.cb_forecasting_algorithm_1.isChecked():
@@ -163,13 +150,13 @@ def run_forecasting(self):
     elif self.dockwidget.rb_forecasting_time_10y.isChecked():
         forecast_length = FORECASTING_TIME_PERIOD_10
 
-    # Load shoreline intersecttions
+    # Load shoreline intersections
     baseline_params = get_baseline_input_params(self)
     shorelines_params = get_shorelines_input_params(self)
     transects_params = get_transects_input_params(self)
     shoreline_change_params = get_shoreline_change_input_params(self)
 
-    transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
+    transects = load_transects(self.dockwidget.qmlcb_forecasting_transect_layer.currentLayer())
     shorelines = load_shorelines(shorelines_params)
 
     globals()['get_transects_intersections_task'] = GetTransectsIntersectionsTask(
@@ -373,8 +360,9 @@ def run_forecasting_single_transect(
             the forecasted shoreline uncertainty positive.
     """
     # TODO: Show error if not enough shorelines (atleast 3) to run forecasting
-
+    # TODO: Create cache of LRR shoreline change get sorted years distances, and read that here for forecasting
     years, distances = get_sorted_years_distances(years_intersections)
+
     uncs = get_sorted_uncs(years_uncs)
 
     LCI_value = compute_LCI(years, distances, confidence_interval)

@@ -1961,17 +1961,17 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_20">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="text">
-              <string>Select stats layer</string>
+              <string>Transect layer</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QgsMapLayerComboBox" name="qmlcb_forecasting_stats_layer">
+            <widget class="QgsMapLayerComboBox" name="qmlcb_forecasting_transect_layer">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="showCrs">
               <bool>true</bool>
