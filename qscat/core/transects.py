@@ -17,12 +17,11 @@ from qgis.core import QgsTask
 from qgis.core import QgsWkbTypes
 from qgis.core import Qgis
 
-from qgis.utils import iface
 from qgis.PyQt.QtWidgets import QMessageBox
 
 from qscat.core.intersects import add_intersections_layer
 from qscat.core.layers import create_add_layer
-from qscat.core.layers import load_baseline
+from qscat.core.layers import load_all_baselines
 from qscat.core.layers import load_shorelines
 from qscat.core.messages import display_message
 from qscat.core.intersects import load_list_years_intersections
@@ -50,28 +49,33 @@ def add_transects_layer(
     qmlcb_stats_transects_layer.setLayer(transects_layer)
 
 
-def cast_transects(self):
+def cast_transects(qscat):
+    """Main function to cast transects.
+    
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+    """
     start_time = time.perf_counter()
     
-    baseline_params = get_baseline_input_params(self)
-    shorelines_params = get_shorelines_input_params(self)
-    transects_params = get_transects_input_params(self)
+    baseline_params = get_baseline_input_params(qscat)
+    shorelines_params = get_shorelines_input_params(qscat)
+    transects_params = get_transects_input_params(qscat)
 
-    cast_transects_pre_checks_result = cast_transects_pre_checks(
-        self,
-        transects_params,
-        shorelines_params,
-        baseline_params
+    # Checks CRS of the layers
+    are_prechecks_passed = prechecks(
+        shorelines_params['shorelines_layer'].crs(),
+        baseline_params['baseline_layer'].crs(),
+        QgsProject.instance().crs(),
     )
 
-    # TODO: 2 for loop!
-    if cast_transects_pre_checks_result:
-        multi_baselines = load_baseline(baseline_params)
+    if are_prechecks_passed:
+        all_baselines = load_all_baselines(baseline_params)
 
-        multi_base_angles = []
-        multi_transects = []
+        all_base_angles = []
+        all_transects = []
 
-        for baselines in multi_baselines:
+        # Multi feature baseline
+        for baselines in all_baselines:
             for baseline in baselines:
                 # Get points that will use to draw the transects
                 if transects_params['is_by_transect_spacing']:
@@ -85,10 +89,7 @@ def cast_transects(self):
                         int(transects_params['by_number_of_transects'])
                     )
 
-                transect_points = [
-                    QgsPointXY(baseline['line'].interpolatePoint(distance)) 
-                    for distance in distances
-                ]
+                transect_points = [QgsPointXY(baseline['line'].interpolatePoint(distance)) for distance in distances]
 
                 # Get the reference of baseline angle per transect points
                 base_angles = [
@@ -135,12 +136,12 @@ def cast_transects(self):
                 ]
                 transects = [QgsGeometry.fromPolyline(t) for t in transects]
 
-                multi_transects.append(transects)
-                multi_base_angles.append(base_angles)
+                all_transects.append(transects)
+                all_base_angles.append(base_angles)
 
         # Flatten the lists
-        transects = [t for transect in multi_transects for t in transect]
-        base_angles = [a for angles in multi_base_angles for a in angles]
+        transects = [t for transect in all_transects for t in transect]
+        base_angles = [a for angles in all_base_angles for a in angles]
 
         # For intersection operations
         #shorelines = load_shorelines(shorelines_params)
@@ -148,19 +149,18 @@ def cast_transects(self):
         # TODO: Make loading shorelines as a task
         # For future if required for very big shorelines
         # Ask users to divide.
-   
 
         add_transects_layer(
             transects,
             base_angles,
             baseline_params["baseline_layer"].name(),
             transects_params["layer_output_name"],
-            self.dockwidget.qmlcb_stats_transects_layer,
+            qscat.dockwidget.qmlcb_stats_transects_layer,
         )
         end_time = time.perf_counter()
         elapsed_time = (end_time - start_time) * 1000
         print(f"Elapsed time: {elapsed_time} ms")
-        #show_message(self, 'Success', f'Transect cast in {get_duration_ms(end_transect, start_transect)} ms', 0)    
+
 
 
 def get_orig_baseline_transect_points(baseline, by, n):
@@ -267,26 +267,31 @@ def get_baseline_angle(baseline, distance, smoothing_val):
     return get_arctan2(QgsLineString([pt_left, pt_right]))
 
 
-def cast_transects_pre_checks(self, transects_params, shorelines_params, baseline_params):
-    proj_crs_authid = QgsProject.instance().crs().authid()
-
-    if not QgsProject.instance().fileName():
-        display_message(
-            'The QGIS project has not been saved yet. Save first to continue', 
-            Qgis.Critical,
-        )
-        return False
+def prechecks(shorelines_layer_crs, baseline_layer_crs, project_crs):
+    """Prechecks for casting transects. 
     
-    if shorelines_params['shorelines_layer'].crs().authid() != proj_crs_authid:
+    Note:
+        Currently checks layers CRS if they match the project CRS.
+        May add more prechecks in the future.
+
+    Args:
+        shorelines_layer_crs (QgsCoordinateReferenceSystem)
+        baseline_layer_crs (QgsCoordinateReferenceSystem)
+        project_crs (QgsCoordinateReferenceSystem)
+
+    Returns:
+        bool: True if prechecks passed, otherwise False.
+    """
+    if shorelines_layer_crs != project_crs:
         display_message(
             'The CRS of the selected shoreline layer does not match the project CRS.', 
             Qgis.Critical,
         )
         return False
 
-    if baseline_params['baseline_layer'].crs().authid() != proj_crs_authid:
+    if baseline_layer_crs != project_crs:
         display_message(
-            'The CRS of the baseline shoreline layer does not match the project CRS.', 
+            'The CRS of the selected baseline layer does not match the project CRS.', 
             Qgis.Critical,
         )
         return False
