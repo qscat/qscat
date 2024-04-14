@@ -1051,7 +1051,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Transect</string>
+           <string>Transects</string>
           </property>
           <property name="margin">
            <number>5</number>
@@ -1377,7 +1377,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QgsMapLayerComboBox" name="qmlcb_stats_transects_layer">
+            <widget class="QgsMapLayerComboBox" name="qmlcb_shoreline_change_transects_layer">
              <property name="showCrs">
               <bool>true</bool>
              </property>
