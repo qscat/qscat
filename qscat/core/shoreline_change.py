@@ -52,8 +52,8 @@ from qscat.core.utils.plugin import get_project_dir
 from qscat.core.intersects import load_list_years_intersections
 from qscat.core.utils.input import get_shoreline_change_stat_selected
 from qscat.core.utils.date import datetime_now
-from qscat.core.utils.input import filter_years_intersections_by_range
-from qscat.core.utils.input import filter_uncs_by_range
+# from qscat.core.utils.input import filter_years_intersections_by_range
+# from qscat.core.utils.input import filter_uncs_by_range
 from qscat.core.layers import load_transects
 from qscat.core.summary_reports import create_summary_shoreline_change
 from qscat.core.utils.input import get_shorelines_years_uncs_from_input
@@ -424,11 +424,11 @@ def compute_shoreline_change_stats(self):
     # TODO: Remove, not needed
     # Filter uncertainty by year range
     # Used for filtering LRR and WLR
-    user_params['years_uncs'] = filter_uncs_by_range(
-        user_params['years_uncs'],
-        user_params['newest_year'],
-        user_params['oldest_year'],
-    )
+    # user_params['years_uncs'] = filter_uncs_by_range(
+    #     user_params['years_uncs'],
+    #     user_params['newest_year'],
+    #     user_params['oldest_year'],
+    # )
 
     transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
     shorelines = load_shorelines(shorelines_params)
@@ -504,11 +504,11 @@ def compute_single_stat_list_transects(
         # Filter years intersections first by user params oldest year and newest year
         
         # TODO: remove me, not needed
-        years_intersections = filter_years_intersections_by_range(
-            years_intersections,
-            user_params['newest_year'],
-            user_params['oldest_year'],
-        )
+        # years_intersections = filter_years_intersections_by_range(
+        #     years_intersections,
+        #     user_params['newest_year'],
+        #     user_params['oldest_year'],
+        # )
         value, clipped_transect_geom = compute_single_stat_single_transects(
             stat_name,
             years_intersections, 

@@ -217,47 +217,47 @@ def get_epr_unc_from_input(self):
 
 
 # TODO: Remove soon
-def filter_years_intersections_by_range(years_intersections, newest_year, oldest_year):
-    """Filter years_intersections dict by range of years.
+# def filter_years_intersections_by_range(years_intersections, newest_year, oldest_year):
+#     """Filter years_intersections dict by range of years.
 
-    Args:
-        newest_year (float): decimal year
-        oldest_year (float): decimal year
-        years_intersections (dict): {year: {'unc': unc, 'distance': distance, 'intersect_x': x, 'intersect_y': y}}
+#     Args:
+#         newest_year (float): decimal year
+#         oldest_year (float): decimal year
+#         years_intersections (dict): {year: {'unc': unc, 'distance': distance, 'intersect_x': x, 'intersect_y': y}}
 
-    Returns:
-        dict: {year: {'unc': unc, 'distance': distance, 'intersect_x': x, 'intersect_y': y}}
+#     Returns:
+#         dict: {year: {'unc': unc, 'distance': distance, 'intersect_x': x, 'intersect_y': y}}
     
-    Raises:
-        TODO: TypeError: if newest_year or oldest_year is not a float
-        TODO: ValueError: if newest_year is less than oldest_year
-        TODO: Check if years is sorted
+#     Raises:
+#         TODO: TypeError: if newest_year or oldest_year is not a float
+#         TODO: ValueError: if newest_year is less than oldest_year
+#         TODO: Check if years is sorted
 
-    Example:
-        data = {
-        1.2: {'unc': 10, 'distance': 5, 'intersect_x': 2, 'intersect_y': 3},
-        2.5: {'unc': 8, 'distance': 7, 'intersect_x': 4, 'intersect_y': 1},
-        3.7: {'unc': 15, 'distance': 2, 'intersect_x': 7, 'intersect_y': 8},
-        4.9: {'unc': 12, 'distance': 6, 'intersect_x': 5, 'intersect_y': 6}
-        }
-        say, lowest = 2.5, highest 4.9
+#     Example:
+#         data = {
+#         1.2: {'unc': 10, 'distance': 5, 'intersect_x': 2, 'intersect_y': 3},
+#         2.5: {'unc': 8, 'distance': 7, 'intersect_x': 4, 'intersect_y': 1},
+#         3.7: {'unc': 15, 'distance': 2, 'intersect_x': 7, 'intersect_y': 8},
+#         4.9: {'unc': 12, 'distance': 6, 'intersect_x': 5, 'intersect_y': 6}
+#         }
+#         say, lowest = 2.5, highest 4.9
 
-        it should remove the dict entry of 1.2 since it is not on the range of 2.5 to 4.9
-    """
-    years_intersections_copy = years_intersections.copy()
-    years_to_remove = [year for year in years_intersections_copy.keys() if year < oldest_year or year > newest_year]
-    for year in years_to_remove:
-        del years_intersections_copy[year]
-    return years_intersections_copy
+#         it should remove the dict entry of 1.2 since it is not on the range of 2.5 to 4.9
+#     """
+#     years_intersections_copy = years_intersections.copy()
+#     years_to_remove = [year for year in years_intersections_copy.keys() if year < oldest_year or year > newest_year]
+#     for year in years_to_remove:
+#         del years_intersections_copy[year]
+#     return years_intersections_copy
 
 
-def filter_uncs_by_range(year_uncs, newest_year, oldest_year):
-    """
-    Example input data:
-        {2003.0: 15.0, 2006.0: 15.0, 2009.0: 15.0, 2014.0: 15.0, 2016.0: 15.0, 2018.0: 1.0, 2020.0: 15.0, 2022.0: 1.0, 1977.0: 25.0, 2011.0: 15.0}
-    """
-    year_uncs_copy = year_uncs.copy()
-    years_to_remove = [year for year in year_uncs_copy.keys() if year < oldest_year or year > newest_year]
-    for year in years_to_remove:
-        del year_uncs_copy[year]
-    return year_uncs_copy
+# def filter_uncs_by_range(year_uncs, newest_year, oldest_year):
+#     """
+#     Example input data:
+#         {2003.0: 15.0, 2006.0: 15.0, 2009.0: 15.0, 2014.0: 15.0, 2016.0: 15.0, 2018.0: 1.0, 2020.0: 15.0, 2022.0: 1.0, 1977.0: 25.0, 2011.0: 15.0}
+#     """
+#     year_uncs_copy = year_uncs.copy()
+#     years_to_remove = [year for year in year_uncs_copy.keys() if year < oldest_year or year > newest_year]
+#     for year in years_to_remove:
+#         del year_uncs_copy[year]
+#     return year_uncs_copy

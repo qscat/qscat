@@ -21,8 +21,6 @@ from qgis.utils import iface
 from qscat.core.utils.date import convert_to_decimal_year
 from qscat.core.intersects import load_list_years_intersections
 from qscat.core.utils.input import get_shorelines_years_uncs_from_input
-from qscat.core.utils.input import filter_years_intersections_by_range
-from qscat.core.utils.input import filter_uncs_by_range
 from qscat.core.shoreline_change import get_sorted_years_distances
 from qscat.core.shoreline_change import get_sorted_uncs
 from qscat.core.shoreline_change import compute_LCI
@@ -131,10 +129,6 @@ def run_forecasting(self):
     start_time = time.perf_counter()
     # Initialize user selections from forecasting tab
     
-    newest_year = convert_to_decimal_year(
-        self.dockwidget.cb_shoreline_change_newest_date.currentText())
-    oldest_year = convert_to_decimal_year(
-        self.dockwidget.cb_shoreline_change_oldest_date.currentText())
     years_uncs = get_shorelines_years_uncs_from_input(self)
     
     confidence_interval = float(self.dockwidget.qdsb_stats_confidence_interval.text())
@@ -171,8 +165,6 @@ def run_forecasting(self):
     globals()['get_transects_intersections_task'].taskCompleted.connect(
         lambda: get_transects_intersections_task_state_changed(
             forecast_length,
-            newest_year,
-            oldest_year,
             years_uncs,
             confidence_interval
         ))
@@ -184,8 +176,6 @@ def run_forecasting(self):
 
 def get_transects_intersections_task_state_changed(
     forecast_length,
-    newest_year,
-    oldest_year,
     years_uncs,
     confidence_interval
 ):
@@ -196,8 +186,6 @@ def get_transects_intersections_task_state_changed(
         globals()['get_forecast_task'] = GetForecastTask(
             forecast_length,
             list_years_intersections,
-            newest_year,
-            oldest_year,
             years_uncs,
             confidence_interval
         )
