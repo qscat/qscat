@@ -17,6 +17,8 @@ about=QSCAT offers the following features:
 
     * Reports: generates a comprehensive summary reports of the analysis results.
 
+    For changelog please visit https://github.com/louisfacun/qscat/blob/master/CHANGELOG.md
+
 version=0.2.0
 qgisMinimumVersion=3.22
 author=Louis Facun
