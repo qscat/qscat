@@ -38,7 +38,6 @@ def compute_area_change_stats(qscat):
     """
     area_change_params = get_area_change_input_params(qscat)
 
-    # Note that area change compute supports multi feature polygon layer
     polygon_boundaries = load_polygons(area_change_params["polygon_layer"])
 
     # Store each area stats per feature of the polygon layer
