@@ -60,8 +60,6 @@ def create_add_layer(
             '2022-08-01 12:00:00',
         )
     """
-    crs = QgsProject.instance().crs().authid()
-
     if datetime is None:
         datetime = datetime_now()
 
@@ -70,7 +68,7 @@ def create_add_layer(
         f'{name} [{datetime}]', 
         'memory'
     )
-    layer.setCrs(QgsCoordinateReferenceSystem(crs))
+    layer.setCrs(QgsProject.instance().crs())
     
     # Add attributes / fields
     dp = layer.dataProvider()
