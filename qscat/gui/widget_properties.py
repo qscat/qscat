@@ -61,9 +61,9 @@ def set_baseline_tab_widget_properties(self):
     
 
 def set_transects_tab_widget_properties(self):
-    self.dockwidget.qmlcb_stats_transects_layer.setFilters(
+    self.dockwidget.qmlcb_shoreline_change_transects_layer.setFilters(
         QgsMapLayerProxyModel.LineLayer)
-    self.dockwidget.qmlcb_stats_transects_layer.showCrs()
+    self.dockwidget.qmlcb_shoreline_change_transects_layer.showCrs()
     self.dockwidget.qsb_transects_by_transect_spacing.setClearValue(50)
     self.dockwidget.qsb_transects_by_number_of_transects.setClearValue(100)
     self.dockwidget.qsb_transects_by_number_of_transects.setEnabled(False)

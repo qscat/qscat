@@ -73,7 +73,7 @@ def get_shoreline_change_input_params(qscat):
         dict: A dictionary containing the input parameters in Shoreline Change Tab.
     """
     shoreline_change = {
-        'transect_layer':                  qscat.dockwidget.qmlcb_stats_transects_layer.currentLayer(),
+        'transect_layer':                  qscat.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer(),
         'is_clip_transects':               qscat.dockwidget.cb_stats_clip_transects.isChecked(),
         'is_choose_by_distance':           qscat.dockwidget.rb_choose_by_distance.isChecked(),
         'is_choose_by_distance_farthest':  qscat.dockwidget.rb_choose_by_distance_farthest.isChecked(),

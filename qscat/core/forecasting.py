@@ -160,7 +160,7 @@ def run_forecasting(self):
         transects_params,
         baseline_params,
         shoreline_change_params,
-        self.dockwidget.qmlcb_stats_transects_layer,
+        self.dockwidget.qmlcb_shoreline_change_transects_layer,
     )
     globals()['get_transects_intersections_task'].taskCompleted.connect(
         lambda: get_transects_intersections_task_state_changed(

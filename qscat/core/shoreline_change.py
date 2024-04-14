@@ -66,7 +66,7 @@ class GetTransectsIntersectionsTask(QgsTask):
         transects_params,
         baseline_params,
         shoreline_change_params,
-        qmlcb_stats_transects_layer
+        qmlcb_shoreline_change_transects_layer
     ):
         super().__init__("Getting transects intersections", QgsTask.CanCancel)
         self.transects = transects
@@ -75,7 +75,7 @@ class GetTransectsIntersectionsTask(QgsTask):
         self.transects_params = transects_params
         self.baseline_params = baseline_params
         self.shoreline_change_params = shoreline_change_params
-        self.qmlcb_stats_transects_layer = qmlcb_stats_transects_layer
+        self.qmlcb_shoreline_change_transects_layer = qmlcb_shoreline_change_transects_layer
 
         self.execution_time = ""
         self.transects_intersects = []
@@ -271,7 +271,7 @@ def get_transects_intersections_task_state_changed(
 
         # All stats in one layer
         current_datetime = datetime_now()
-        transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
+        transects = load_transects(self.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer())
         create_add_layer(
             geometry='LineString', 
             geometries=transects,
@@ -429,7 +429,7 @@ def compute_shoreline_change_stats(self):
     #     user_params['oldest_year'],
     # )
 
-    transects = load_transects(self.dockwidget.qmlcb_stats_transects_layer.currentLayer())
+    transects = load_transects(self.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer())
     shorelines = load_shorelines(shorelines_params)
     
     globals()['get_transects_intersections_task'] = GetTransectsIntersectionsTask(
@@ -439,7 +439,7 @@ def compute_shoreline_change_stats(self):
         transects_params,
         baseline_params,
         shoreline_change_params,
-        self.dockwidget.qmlcb_stats_transects_layer,
+        self.dockwidget.qmlcb_shoreline_change_transects_layer,
     )
     globals()['get_transects_intersections_task'].taskCompleted.connect(
         lambda: get_transects_intersections_task_state_changed(

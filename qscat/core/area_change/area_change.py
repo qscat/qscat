@@ -38,7 +38,7 @@ def compute_area_change_stats(qscat):
     """
     area_change_params = get_area_change_input_params(qscat)
     # transects = load_transects(
-    #     self.dockwidget.qmlcb_stats_transects_layer.currentLayer()
+    #     self.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer()
     # )
     # shorelines = load_shorelines_geoms(
     #     self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
