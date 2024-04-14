@@ -1,8 +1,9 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-from qgis.core import Qgis
 from qgis.utils import iface
+
+from qgis.core import Qgis
 
 
 def display_message(description, level, duration=None):

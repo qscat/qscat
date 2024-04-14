@@ -195,7 +195,7 @@ def load_transects(layer):
 #     return QgsLineString(baseline) # consider just the first line string for now
 
 
-def load_baseline(baseline_params):
+def load_all_baselines(baseline_params):
     """Load QGIS baseline layer as a list of multi line strings.
     
     Args:
@@ -204,15 +204,15 @@ def load_baseline(baseline_params):
     Returns:
         list[QgsLineString]
     """
-    multi_baselines = []
-    features = baseline_params['baseline_layer'].getFeatures()
+    all_baselines = []
+    feats = baseline_params['baseline_layer'].getFeatures()
 
     # Since fields are optional, first check if they are selected
     placement_field = baseline_params['placement_field'] if baseline_params['placement_field'] else None
     orientation_field = baseline_params['orientation_field'] if baseline_params['orientation_field'] else None
     transect_length_field = baseline_params['transect_length_field'] if baseline_params['transect_length_field'] else None 
 
-    for feat in features:
+    for feat in feats:
         # Access the value for each feature
         # If null, set to None
         if placement_field:
@@ -230,21 +230,21 @@ def load_baseline(baseline_params):
         else:
             transect_length = None
 
-        multi_baseline = []
+        baselines = []
         geom = feat.geometry()
         multi_line_string = geom.asMultiPolyline()
         
         for line_string in multi_line_string:
-            multi_baseline.append({
+            baselines.append({
                 'line': QgsLineString(line_string),
                 'placement': placement,
                 'orientation': orientation,
                 'transect_length': transect_length,
             })
 
-        multi_baselines.append(multi_baseline)
+        all_baselines.append(baselines)
 
-    return multi_baselines
+    return all_baselines
 
 
 def load_polygons(layer):

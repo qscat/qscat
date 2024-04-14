@@ -30,7 +30,6 @@ from qscat.core.utils.input import get_baseline_input_params
 from qscat.core.utils.input import get_shoreline_change_input_params
 from qscat.core.utils.input import get_shorelines_input_params
 from qscat.core.utils.input import get_transects_input_params
-from qscat.core.layers import load_baseline
 from qscat.core.layers import load_shorelines
 
 TREND_STABLE = "stable"
