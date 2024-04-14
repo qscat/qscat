@@ -12,6 +12,10 @@ on:
     paths:
       - "qscat/**"
 
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   build-linux:
     runs-on: ubuntu-latest
