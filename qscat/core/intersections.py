@@ -9,7 +9,7 @@ from qgis.core import QgsWkbTypes
 from qscat.core.layers import create_add_layer
 
 
-def load_list_years_intersections(transects_intersects):
+def load_all_years_intersections(transects_intersects):
     """Convert list of list of transect intersections to list of list of shoreline intersections where the year will be the dictionary key, and the values will 
     be the dictionary values.
     

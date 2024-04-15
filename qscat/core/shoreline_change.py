@@ -19,7 +19,7 @@ from qgis.core import QgsTask
 from qgis.core import QgsWkbTypes
 from qgis.utils import iface
 
-from qscat.core.intersects import load_all_years_intersections
+from qscat.core.intersections import load_all_years_intersections
 from qscat.core.layers import create_add_layer
 from qscat.core.layers import load_shorelines
 from qscat.core.layers import load_transects
@@ -223,7 +223,6 @@ class GetTransectsIntersectionsTask(QgsTask):
             message=f"Success task: <b>{self.description()}</b> in {self.execution_time}.",
             level=Qgis.Success,
         )
-        # TODO: caching
 
 
 def get_transects_intersections_task_state_changed(
