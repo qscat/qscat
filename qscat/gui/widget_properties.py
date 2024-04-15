@@ -85,7 +85,9 @@ def set_area_change_tab_widget_properties(self):
 
 
 def set_forecasting_tab_widget_properties(self):
-   pass
+    self.dockwidget.qmlcb_forecasting_transects_layer.setFilters(
+        QgsMapLayerProxyModel.LineLayer)
+    self.dockwidget.qmlcb_forecasting_transects_layer.showCrs()
 
 
 def set_visualization_tab_widget_properties(self):
