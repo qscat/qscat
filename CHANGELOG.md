@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add checkbox to hide `Baseline orientation`.
 
+### Changed
+
+- Improve gui icons design and made as svgs for better quality.
+
+### Fixed
+
+- Fix `Forecasting Tab` transect layer input to display line string layer only, and show CRS.
+ 
 ## [0.2.0] - 2024-04-14
 
 ### Added
