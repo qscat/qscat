@@ -81,7 +81,7 @@
       <widget class="QWidget" name="tab_proj">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/project-settings.png</normaloff>gui/icons/project-settings.png</iconset>
+         <normaloff>gui/icons/project_settings.svg</normaloff>gui/icons/project_settings.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
@@ -231,7 +231,7 @@
       <widget class="QWidget" name="tab_2">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/automator.png</normaloff>gui/icons/automator.png</iconset>
+         <normaloff>gui/icons/automator.svg</normaloff>gui/icons/automator.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
@@ -540,7 +540,7 @@
       <widget class="QWidget" name="tab_shorelines">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/shorelines.png</normaloff>gui/icons/shorelines.png</iconset>
+         <normaloff>gui/icons/shorelines.svg</normaloff>gui/icons/shorelines.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
@@ -743,7 +743,7 @@
       <widget class="QWidget" name="tab_baseline">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/baseline.png</normaloff>gui/icons/baseline.png</iconset>
+         <normaloff>gui/icons/baseline.svg</normaloff>gui/icons/baseline.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
@@ -1043,7 +1043,7 @@
       <widget class="QWidget" name="tab_transects">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/transect.png</normaloff>gui/icons/transect.png</iconset>
+         <normaloff>gui/icons/transects.svg</normaloff>gui/icons/transects.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
@@ -1345,7 +1345,7 @@
       <widget class="QWidget" name="tab_stats">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/shoreline-change.png</normaloff>gui/icons/shoreline-change.png</iconset>
+         <normaloff>gui/icons/shoreline_change.svg</normaloff>gui/icons/shoreline_change.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
@@ -1828,7 +1828,7 @@
       <widget class="QWidget" name="tab_5">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/area-change.png</normaloff>gui/icons/area-change.png</iconset>
+         <normaloff>gui/icons/area_change.svg</normaloff>gui/icons/area_change.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
@@ -1934,7 +1934,7 @@
       <widget class="QWidget" name="tab_4">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/forecasting.png</normaloff>gui/icons/forecasting.png</iconset>
+         <normaloff>gui/icons/forecasting.svg</normaloff>gui/icons/forecasting.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
@@ -2080,7 +2080,7 @@
       <widget class="QWidget" name="tab">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/visualization.png</normaloff>gui/icons/visualization.png</iconset>
+         <normaloff>gui/icons/visualization.svg</normaloff>gui/icons/visualization.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
@@ -2279,7 +2279,7 @@
       <widget class="QWidget" name="tab_6">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/summary-reports.png</normaloff>gui/icons/summary-reports.png</iconset>
+         <normaloff>gui/icons/summary_reports.svg</normaloff>gui/icons/summary_reports.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
@@ -2416,7 +2416,7 @@
       <widget class="QWidget" name="tab_3">
        <attribute name="icon">
         <iconset>
-         <normaloff>gui/icons/about.png</normaloff>gui/icons/about.png</iconset>
+         <normaloff>gui/icons/about.svg</normaloff>gui/icons/about.svg</iconset>
        </attribute>
        <attribute name="title">
         <string/>
