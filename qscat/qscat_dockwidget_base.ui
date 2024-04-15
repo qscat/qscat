@@ -1978,12 +1978,12 @@
               <bool>true</bool>
              </property>
              <property name="text">
-              <string>Transect layer</string>
+              <string>Transects layer</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QgsMapLayerComboBox" name="qmlcb_forecasting_transect_layer">
+            <widget class="QgsMapLayerComboBox" name="qmlcb_forecasting_transects_layer">
              <property name="enabled">
               <bool>true</bool>
              </property>
