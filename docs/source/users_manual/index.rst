@@ -21,6 +21,7 @@ QSCAT User's Manual
    tabs/area_change
    tabs/forecasting
    tabs/visualization
+   tabs/summary_reports
    tabs/about
    others/sample_workflow
    others/summary_report
