@@ -884,9 +884,23 @@
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QPushButton" name="pb_baseline_show_orientation">
+            <widget class="QCheckBox" name="cb_baseline_orientation">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <italic>false</italic>
+               <bold>true</bold>
+               <underline>false</underline>
+              </font>
+             </property>
              <property name="text">
-              <string>Show Baseline Orientation</string>
+              <string>Show baseline orientation</string>
+             </property>
+             <property name="autoRepeat">
+              <bool>false</bool>
+             </property>
+             <property name="tristate">
+              <bool>false</bool>
              </property>
             </widget>
            </item>

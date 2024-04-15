@@ -1,24 +1,81 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-from qgis.core import QgsApplication
+from PyQt5.QtGui import QColor
 
-def show_baseline_orientation(self):
-    # FIXME: Prevent adding more symbol layers for every button click
-    # TODO: Add letter `L` an d `R` symbol to show orientation
-    layer = self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()
+from qgis.core import QgsApplication
+from qgis.core import QgsLineSymbol
+from qgis.core import QgsMarkerLineSymbolLayer
+from qgis.core import QgsNullSymbolRenderer
+from qgis.core import QgsSimpleLineSymbolLayer
+from qgis.core import QgsSingleSymbolRenderer
+from qgis.core import QgsSvgMarkerSymbolLayer
+
+from qscat.core.utils.plugin import get_plugin_dir
+
+
+def show_hide_baseline_orientation(qscat):
+    """Update baseline layer symbology to show and hide orientation.
+    
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+
+    Notes:
+        Line (QgsLineSymbol)
+        -Marker Line (QgsMarkerLineSymbolLayer)
+        --Marker (QgsMarkerSymbol)
+        ---SVG Marker (QgsSvgMarkerSymbolLayer)
+    """
+    layer = qscat.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()
     registry = QgsApplication.symbolLayerRegistry()
-    symbol = layer.renderer().symbol()
-    marker_meta = registry.symbolLayerMetadata("MarkerLine")
-    marker_layer = marker_meta.createSymbolLayer(
-        {'width': '0.26', 'color': '0,0,0', 'interval': '3', 
-        'rotate': '1', 'placement': 'interval', 'offset': '0.0'})
-    marker_layer_sub_symbol = marker_layer.subSymbol()
-    marker_layer_sub_symbol.deleteSymbolLayer(0)
-    custom_marker = registry.symbolLayerMetadata("SimpleMarker").createSymbolLayer(
-        {'name': 'filled_arrowhead', 'color': '0,0,0', 'color_border': '0,0,0', 
-        'offset': '0,0', 'size': '3.0', 'angle': '0'})
-    marker_layer_sub_symbol.appendSymbolLayer(custom_marker)
-    #symbol.deleteSymbolLayer(0)
-    symbol.appendSymbolLayer(marker_layer)
+
+    # QgisLineSymbol
+    if isinstance(layer.renderer(), QgsNullSymbolRenderer):
+        # Create a default line symbol if there are no symbols
+        symbol = QgsLineSymbol()
+        layer.setRenderer(QgsSingleSymbolRenderer(symbol))
+    else:
+        symbol = layer.renderer().symbol()
+
+    # Change stroke color to black
+    for l in symbol.symbolLayers():
+        if isinstance(l, QgsSimpleLineSymbolLayer):
+            l.setColor(QColor(0, 0, 0))
+
+    if qscat.dockwidget.cb_baseline_orientation.isChecked():
+        # QgsSymbolLayerAbstractMetadata
+        marker_meta = registry.symbolLayerMetadata("MarkerLine")
+        
+        # QgsMarkerLineSymbolLayer
+        marker_layer = marker_meta.createSymbolLayer({
+            'width': '0.26',
+            'color': '0,0,0',
+            'interval': '3',
+            'rotate': '1',
+            'placement': 'interval',
+            'offset': '0.0',
+        })
+
+        # QgsMarkerSymbol
+        marker_layer_sub_symbol = marker_layer.subSymbol() 
+
+        # Remove existing SimpleMarker
+        marker_layer_sub_symbol.deleteSymbolLayer(0)
+
+        # QgsSvgMarkerSymbolLayer
+        custom_marker = QgsSvgMarkerSymbolLayer(
+            path=f'{get_plugin_dir()}/gui/icons/orientation.svg',
+            size=10
+        )
+        marker_layer_sub_symbol.appendSymbolLayer(custom_marker)
+
+        # Append the symbol layer to the symbol
+        symbol.appendSymbolLayer(marker_layer)
+    else:
+        # Get the indices of all QgsMarkerLineSymbolLayer
+        marker_indices = [i for i, l in enumerate(symbol.symbolLayers()) if isinstance(l, QgsMarkerLineSymbolLayer)]
+
+        for index in reversed(marker_indices):
+            symbol.deleteSymbolLayer(index)
+
     layer.triggerRepaint()

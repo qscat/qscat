@@ -14,7 +14,7 @@ from qscat.qscat_dockwidget import QscatDockWidget
 from qscat.core.automator import automate_shoreline_field
 from qscat.core.automator import automate_baseline_field
 from qscat.core.automator import automate_baseline_buffer
-from qscat.core.baseline import show_baseline_orientation
+from qscat.core.baseline import show_hide_baseline_orientation
 from qscat.core.forecasting import run_forecasting
 from qscat.core.settings import load_plugin_project_settings
 from qscat.core.settings import save_baseline_tab_project_settings
@@ -75,9 +75,10 @@ class QscatPlugin:
             lambda: automate_baseline_field(self))
         self.dockwidget.pb_automator_baseline_buffer_create.clicked.connect(
             lambda: automate_baseline_buffer(self))
-    
-        self.dockwidget.pb_baseline_show_orientation.clicked.connect(
-            lambda: show_baseline_orientation(self))
+
+        # Baseline Tab "Show baseline orientation" button
+        self.dockwidget.cb_baseline_orientation.stateChanged.connect(
+            lambda: show_hide_baseline_orientation(self))
         
         # Transect Tab "Cast Transect" button
         self.dockwidget.pb_transects_cast.clicked.connect(
