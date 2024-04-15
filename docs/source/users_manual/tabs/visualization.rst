@@ -10,11 +10,18 @@ Tab: Visualization
       :local:
       :depth: 2
 
-Visualization Parameters
-========================
+.. _figure_tab_visualization:
 
-Input stat layer
-----------------
+.. figure:: /img/visualization/visualization-tab.png
+   :align: center
+
+   User interface of Visualization Tab.
+
+Layer
+=====
+
+Stat layer
+----------
 
 Accept layers:
 

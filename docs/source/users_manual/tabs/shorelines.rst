@@ -12,6 +12,13 @@ Tab: Shorelines
 
 The :menuselection:`Shorelines Tab` allows the user to select and load the shorelines to be used for the analysis.
 
+.. _figure_tab_shorelines:
+
+.. figure:: /img/shorelines/shorelines-tab.png
+   :align: center
+
+   User interface of Shorelines Tab.
+
 .. _shorelines_parameters:
 
 Layer
@@ -20,7 +27,7 @@ Layer
 .. figure:: /img/shorelines/shorelines-tab-layer.png
    :align: center
 
-   Shorelines layer in Shorelines tab.
+   Shorelines layer in Shorelines Tab.
 
 #. **The input layer:** Should be the merged shorelines, created in :ref:`plugin_required_inputs_shorelines`; and
 

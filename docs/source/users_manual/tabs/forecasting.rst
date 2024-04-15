@@ -10,6 +10,12 @@ Tab: Forecasting
       :local:
       :depth: 2
       
+.. _figure_tab_forecasting:
+
+.. figure:: /img/forecasting/forecasting-tab.png
+   :align: center
+
+   User interface of Forecasting Tab.
 
 .. _tab_forecasting_algorithm:
 
