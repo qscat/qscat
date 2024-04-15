@@ -14,7 +14,7 @@ from qgis.core import QgsGeometry
 from qscat.core.layers import create_add_layer
 from qscat.core.layers import load_polygons
 
-from qscat.core.summary_reports import create_summary_area_change
+from qscat.core.summary_reports import SummaryReports
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.input import get_area_change_input_params
 from qscat.core.visualization import apply_area_colors
@@ -57,6 +57,8 @@ def compute_area_change_stats(qscat):
             polygon_boundary['geom'],
             polygon_boundary['name']
         )
+        
+        # TODO: If len(interest_transects) == 0, cant compute area change
 
         layer = qscat.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
         date_field = qscat.dockwidget.qfcb_shorelines_date_field.currentField()
@@ -89,7 +91,7 @@ def compute_area_change_stats(qscat):
             oldest_shorelines_as_lines,
             interest_transects,
         ) # -> list[dict]
-        
+
         # Group by list using the `group` key
         clustered_interest_transects = group_dict_by_key(
             partial_clustered_interest_transects, 
@@ -349,9 +351,10 @@ def compute_area_change_stats(qscat):
         summary['length_stable_avg'] = round(total_length_by_type['stable'] / len(polygons), 2)
         summary['length_stable_max'] = round(max(stable_lengths), 2) if stable_lengths else 0
         summary['length_stable_min'] = round(min(stable_lengths), 2) if stable_lengths else 0
-        
-        create_summary_area_change(qscat, summary)
-    
+ 
+        reports = SummaryReports(qscat, summary)
+        reports.area_change()
+
     # Shoreline length geometry
     # interest_newest_shorelines = add_layer(
     #     'LineString', 
@@ -368,6 +371,7 @@ def compute_area_change_stats(qscat):
     #     [['oldest']]
     # )
     apply_area_colors(polygon_layer)
+
 
 def cluster_interest_transects(
     newest_shorelines_as_lines, 
