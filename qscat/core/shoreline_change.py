@@ -1,36 +1,41 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-import json
 import math
-import numpy as np
 import time
 
-from qscat.lib.xalglib import invstudenttdistribution
+import numpy as np
+
+from qgis.PyQt.QtWidgets import QMessageBox
 
 from PyQt5.QtCore import QVariant
+
 from qgis.core import Qgis
-from qgis.core import QgsGeometry
-from qgis.core import QgsPointXY
 from qgis.core import QgsApplication
+from qgis.core import QgsGeometry
 from qgis.core import QgsMessageLog
 from qgis.core import QgsPointXY
 from qgis.core import QgsTask
 from qgis.core import QgsWkbTypes
-
 from qgis.utils import iface
-from qgis.PyQt.QtWidgets import QMessageBox
 
+from qscat.core.intersects import load_all_years_intersections
 from qscat.core.layers import create_add_layer
+from qscat.core.layers import load_shorelines
+from qscat.core.layers import load_transects
 from qscat.core.messages import display_message
 from qscat.core.utils.date import convert_to_decimal_year
+from qscat.core.utils.date import datetime_now
+from qscat.core.utils.input import get_baseline_input_params
 from qscat.core.utils.input import get_epr_unc_from_input
 from qscat.core.utils.input import get_highest_unc_from_input
-from qscat.core.utils.input import get_baseline_input_params
-from qscat.core.utils.input import get_shoreline_change_input_params
 from qscat.core.utils.input import get_shorelines_input_params
+from qscat.core.utils.input import get_shorelines_years_uncs_from_input
+from qscat.core.utils.input import get_shoreline_change_input_params
+from qscat.core.utils.input import get_shoreline_change_stat_selected
 from qscat.core.utils.input import get_transects_input_params
-from qscat.core.layers import load_shorelines
+from qscat.core.summary_reports import SummaryReports
+from qscat.lib.xalglib import invstudenttdistribution
 
 TREND_STABLE = "stable"
 TREND_ACCRETION = "accretion"
@@ -47,15 +52,6 @@ STAT_WR2 = "WR2"
 STAT_WCI = "WCI"
 STAT_WSE = "WSE"
 
-from qscat.core.utils.plugin import get_project_dir
-from qscat.core.intersects import load_list_years_intersections
-from qscat.core.utils.input import get_shoreline_change_stat_selected
-from qscat.core.utils.date import datetime_now
-# from qscat.core.utils.input import filter_years_intersections_by_range
-# from qscat.core.utils.input import filter_uncs_by_range
-from qscat.core.layers import load_transects
-from qscat.core.summary_reports import create_summary_shoreline_change
-from qscat.core.utils.input import get_shorelines_years_uncs_from_input
 
 class GetTransectsIntersectionsTask(QgsTask):
     def __init__(
@@ -111,7 +107,7 @@ class GetTransectsIntersectionsTask(QgsTask):
                     # Because a unique shoreline for a single can consists
                     # # segments
                     individual_shoreline_intersects = {}
-
+                    
                     # Used to track intersections' distance from transect 
                     # origin
                     intersections = {}
@@ -238,7 +234,7 @@ def get_transects_intersections_task_state_changed(
     task = globals()['get_transects_intersections_task']
 
     if task.status() == QgsTask.Complete:
-        list_years_intersections = load_list_years_intersections(task.transects_intersects)
+        all_years_intersections = load_all_years_intersections(task.transects_intersects)
 
         # Init for storing fields and values for one QgsVectorLayer combined stats
         all_fields = []  # refers to attribute fields to be added
@@ -253,7 +249,7 @@ def get_transects_intersections_task_state_changed(
             if compute_shoreline_change_stat_pre_checks(self, stat_name):
                 result = compute_single_stat_list_transects(
                     stat_name, 
-                    list_years_intersections, 
+                    all_years_intersections, 
                     user_params,
                 )
                 all_fields += result['fields']
@@ -268,24 +264,13 @@ def get_transects_intersections_task_state_changed(
                 # [0] consider just the first column value (e.g. SCE, exluding the
                 # years, trends, unc details)
 
-
-        # All stats in one layer
-        current_datetime = datetime_now()
-        transects = load_transects(self.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer())
-        create_add_layer(
-            geometry='LineString', 
-            geometries=transects,
-            name='ALL',
-            fields=all_fields,
-            values=all_values,
-            datetime=current_datetime,
-        )
-
         # Summary
         summary = {}
-        
-        # General
-        summary['datetime'] = current_datetime
+    
+        summary['datetime'] = datetime_now()
+        transects = load_transects(
+            self.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer()
+        )
         summary['num_of_transects'] = len(transects)
 
         # Results
@@ -393,7 +378,8 @@ def get_transects_intersections_task_state_changed(
             summary['WLR_accretion_max'] = round(max(WLR_a), 2)
             summary['WLR_accretion_min'] = round(min(WLR_a), 2)
 
-        create_summary_shoreline_change(self, summary)
+        reports = SummaryReports(self, summary)
+        reports.shoreline_change()
 
     
 def compute_shoreline_change_stats(self):
@@ -457,7 +443,7 @@ def compute_shoreline_change_stats(self):
 
 def compute_single_stat_list_transects(
     stat_name,
-    list_years_intersections,
+    all_years_intersections,
     user_params
 ):
     # Setup fields
@@ -499,7 +485,7 @@ def compute_single_stat_list_transects(
     values = []
     clipped_transect_geoms = []
     
-    for years_intersections in list_years_intersections:
+    for years_intersections in all_years_intersections:
         # Filter years intersections first by user params oldest year and newest year
         
         # TODO: remove me, not needed
