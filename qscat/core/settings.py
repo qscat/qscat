@@ -4,21 +4,25 @@
 from PyQt5.QtWidgets import QCheckBox
 from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QRadioButton
-from qgis.core import Qgis
 
+from qgis.core import Qgis
 from qgis.core import QgsProject
 
 from qgis.gui import QgsFieldComboBox
 from qgis.gui import QgsMapLayerComboBox
 from qgis.gui import QgsSpinBox
 
+from qscat.core.messages import display_message
 from qscat.core.project_setting import load_current_projection
 from qscat.core.utils.input import get_baseline_input_params
 from qscat.core.utils.input import get_project_settings_input_params
 from qscat.core.utils.input import get_shorelines_input_params
 from qscat.core.utils.input import get_transects_input_params
-from qscat.core.messages import display_message
 
+# Project setting != project settings
+# Project setting refers to QGIS' project setting saving (key, value)
+# TODO: Convert to class
+# TODO: Rename to `saver`
 
 def save_project_setting(key, value):
     if value is not None:
@@ -31,7 +35,6 @@ def save_project_setting(key, value):
         elif val_type is bool:
             project.writeEntryBool("qscat", key, value)
         else:
-            #print(val_type, value)
             raise Exception("Saving settings with types of: `str`, `int`, `double` and `int` only.")
 
 
@@ -52,16 +55,16 @@ def read_project_setting(key, _type=str):
 
 def load_project_setting(widget, key):
     """Populate the QT widget value given by a QT widget object and project 
-    setting `key`"""
+    setting `key`."""
     project = QgsProject.instance()
     _type = str
-    if isinstance(widget, QgsMapLayerComboBox) or \
-       isinstance(widget, QLineEdit) or \
-       isinstance(widget, QgsFieldComboBox) or \
-       isinstance(widget, QgsSpinBox):
+    if (isinstance(widget, QgsMapLayerComboBox) or
+        isinstance(widget, QLineEdit) or
+        isinstance(widget, QgsFieldComboBox) or
+        isinstance(widget, QgsSpinBox)):
         _type = str
-    elif isinstance(widget, QRadioButton) or \
-         isinstance(widget, QCheckBox):
+    elif (isinstance(widget, QRadioButton) or
+          isinstance(widget, QCheckBox)):
         _type = bool
 
     value, res = read_project_setting(key, _type)
@@ -133,31 +136,7 @@ def load_transects_tab_project_settings(self):
                         'length')
     load_project_setting(self.dockwidget.qsb_transects_smoothing_distance,
                         'smoothing_distance')
-    # load_project_setting(self.dockwidget.rb_choose_by_distance,
-    #                     'is_choose_by_distance')
-    # load_project_setting(self.dockwidget.rb_choose_by_distance_farthest,
-    #                     'is_choose_by_distance_farthest')
-    # load_project_setting(self.dockwidget.rb_choose_by_distance_closest,
-    #                     'is_choose_by_distance_closest')
-    # load_project_setting(self.dockwidget.rb_choose_by_placement,
-    #                     'is_choose_by_placement')
-    # load_project_setting(self.dockwidget.rb_choose_by_placement_seaward,
-    #                     'is_choose_by_placement_seaward')
-    # load_project_setting(self.dockwidget.rb_choose_by_placement_landward,
-    #                     'is_choose_by_placement_landward')
-    # Can't put on load_plugin_widget_properties because it should be called after
-    # project settings are loaded
-    if self.dockwidget.rb_choose_by_distance.isChecked():
-        self.dockwidget.gb_choose_by_placement.setEnabled(False)
-    elif self.dockwidget.rb_choose_by_placement.isChecked():
-        self.dockwidget.gb_choose_by_distance.setEnabled(False)
 
-    # load_project_setting(self.dockwidget.chb_transects_clip_transects,
-    #                     'is_clip_transects')
-    # load_project_setting(self.dockwidget.chb_transects_include_intersections,
-    #                     'is_include_intersections')
-
-    
 
 def load_plugin_project_settings(self):
     load_project_tab_project_settings(self)
@@ -192,6 +171,31 @@ def save_shorelines_tab_project_settings(self):
                     shorelines['date_field'])
     save_project_setting('uncertainty_field',
                     shorelines['uncertainty_field'])
+    
+    # load_project_setting(self.dockwidget.rb_choose_by_distance,
+    #                     'is_choose_by_distance')
+    # load_project_setting(self.dockwidget.rb_choose_by_distance_farthest,
+    #                     'is_choose_by_distance_farthest')
+    # load_project_setting(self.dockwidget.rb_choose_by_distance_closest,
+    #                     'is_choose_by_distance_closest')
+    # load_project_setting(self.dockwidget.rb_choose_by_placement,
+    #                     'is_choose_by_placement')
+    # load_project_setting(self.dockwidget.rb_choose_by_placement_seaward,
+    #                     'is_choose_by_placement_seaward')
+    # load_project_setting(self.dockwidget.rb_choose_by_placement_landward,
+    #                     'is_choose_by_placement_landward')
+    
+    # load_project_setting(self.dockwidget.chb_transects_clip_transects,
+    #                     'is_clip_transects')
+    # load_project_setting(self.dockwidget.chb_transects_include_intersections,
+    #                     'is_include_intersections')
+
+    # Can't put on load_plugin_widget_properties because it should be called after
+    # project settings are loaded
+    if self.dockwidget.rb_choose_by_distance.isChecked():
+        self.dockwidget.gb_choose_by_placement.setEnabled(False)
+    elif self.dockwidget.rb_choose_by_placement.isChecked():
+        self.dockwidget.gb_choose_by_distance.setEnabled(False)
 
     display_message('Inputs saved!', Qgis.Info)
    
@@ -229,7 +233,11 @@ def save_transects_tab_project_settings(self):
     save_project_setting('smoothing_distance',
                     transects['smoothing_distance'])
     
-    # save_project_setting('is_choose_by_distance',
+    display_message('Inputs saved!', Qgis.Info)
+
+
+def save_shoreline_change_tab_project_settings(self):
+        # save_project_setting('is_choose_by_distance',
     #                 transects['is_choose_by_distance'])
     # save_project_setting('is_choose_by_distance_farthest',
     #                 transects['is_choose_by_distance_farthest'])
@@ -247,7 +255,4 @@ def save_transects_tab_project_settings(self):
     # save_project_setting('is_include_intersections',
     #                 transects['is_include_intersections'])
 
-    display_message('Inputs saved!', Qgis.Info)
-
-def save_statistics_tab_project_settings(self):
     display_message('Inputs saved!', Qgis.Info)
