@@ -84,7 +84,7 @@ class QscatPlugin:
         
         # Transect Tab "Cast Transect" button
         self.dockwidget.pb_transects_cast.clicked.connect(
-            lambda: cast_transects_button(self)
+            lambda: cast_transects_button_clicked(self)
         )
         
         # Shoreline Change Tab "Compute Shoreline Change" button
