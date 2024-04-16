@@ -6,8 +6,8 @@ project = 'QSCAT'
 copyright = '2024, UP-MSI COASTER Team'
 author = 'UP-MSI COASTER Team'
 
-release = '0.1.0'
-version = '0.1.0'
+release = '0.3.0'
+version = '0.3.0'
 
 # -- General configuration
 
@@ -36,6 +36,13 @@ html_theme = 'sphinx_rtd_theme'
 
 # These folders are copied to the documentation's HTML output
 html_static_path = ['_static']
+html_theme_options = {
+    'collapse_navigation': False,
+    'sticky_navigation': True,
+    'logo_only': True,
+    # Other theme options...
+}
+html_logo = "qscat-logo.svg"
 # html_theme_options = {
 #     'logo_only': True,
 #     'display_version': False,
