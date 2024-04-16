@@ -21,7 +21,7 @@ from qscat.core.utils.input import get_shorelines_input_params
 from qscat.core.utils.input import get_transects_input_params
 
 
-def cast_transects_button(qscat):
+def cast_transects_button_clicked(qscat):
     """Cast transect on button clicked.
     
     Args:
