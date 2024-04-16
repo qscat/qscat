@@ -58,13 +58,13 @@ class QscatPlugin:
         self.iface.removeToolBarIcon(self.action)
         del self.action
 
-    def run(self):
+    def run(self, test=False):
         self.dockwidget = QscatDockWidget()
         self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
         self.dockwidget.setWindowTitle(f'QSCAT')
         self.dockwidget.show()
         self.dockwidget.tw_qscat.setStyleSheet("QTabWidget::tab { text-align: left; }")
-        
+
         # Signals
         # Buttons in Automator Tab
         self.dockwidget.pb_automator_field_shoreline_apply.clicked.connect(
@@ -112,22 +112,34 @@ class QscatPlugin:
             lambda: check_updates_on_click(self)
         )
         
+        # Shorelines Tab "Shorelines fields"
         self.dockwidget.qmlcb_shorelines_shorelines_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_shorelines_date_field.setLayer(
-                self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()))
+                self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
+            )
+        )
         self.dockwidget.qmlcb_shorelines_shorelines_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_shorelines_uncertainty_field.setLayer(
-                self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()))
-        
+                self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
+            )
+        )
+
+        # Baseline Tab "Baseline fields"
         self.dockwidget.qmlcb_baseline_baseline_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_baseline_placement_field.setLayer(
-                self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()))
+                self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()
+            )
+        )
         self.dockwidget.qmlcb_baseline_baseline_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_baseline_orientation_field.setLayer(
-                self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()))
+                self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()
+            )
+        )
         self.dockwidget.qmlcb_baseline_baseline_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_baseline_length_field.setLayer(
-                self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()))
+                self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()
+            )
+        )
 
         # Shoreline Change Tab "Select/Deselect All" checkbox
         self.dockwidget.cb_stats_select_all.stateChanged.connect(
@@ -154,9 +166,6 @@ class QscatPlugin:
                 self.dockwidget.qsb_transects_by_transect_spacing
             )
         )
-        self.button_group = QtWidgets.QButtonGroup()
-        self.button_group.addButton(self.dockwidget.rb_choose_by_distance)
-        self.button_group.addButton(self.dockwidget.rb_choose_by_placement)
 
         # Shorelines Tab "Transect-Shoreline Intersections"
         self.dockwidget.rb_choose_by_distance.toggled.connect(
@@ -184,19 +193,24 @@ class QscatPlugin:
 
         # Tabs "Save" input parameters
         self.dockwidget.pb_proj_save_settings.clicked.connect(
-            lambda: save_project_tab_project_settings(self))
+            lambda: save_project_tab_project_settings(self)
+        )
         self.dockwidget.pb_baseline_save_settings.clicked.connect(
-            lambda: save_baseline_tab_project_settings(self))
+            lambda: save_baseline_tab_project_settings(self)
+        )
         self.dockwidget.pb_transects_save_settings.clicked.connect(
-            lambda: save_transects_tab_project_settings(self))
+            lambda: save_transects_tab_project_settings(self)
+        )
         self.dockwidget.pb_shorelines_save_settings.clicked.connect(
-            lambda: save_shorelines_tab_project_settings(self))
+            lambda: save_shorelines_tab_project_settings(self)
+        )
 
-        # Set custom widget properties
-        set_plugin_widget_properties(self)
+        if not test:
+            # Set custom widget properties
+            set_plugin_widget_properties(self)
 
-        # Load saved input parameters
-        load_plugin_project_settings(self)
+            # Load saved input parameters
+            load_plugin_project_settings(self)
 
-        # Check QSCAT updates on start
-        #check_updates_on_start()
+            # Check QSCAT updates on start
+            #check_updates_on_start()
