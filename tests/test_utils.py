@@ -47,7 +47,6 @@ def test_utils_date():
 
 def test_utils_is_field_in_layer():
     """Test if field is in the layer function."""
-    
     layer = QgsVectorLayer(
         'LineString?crs=EPSG:4326&field=id:integer&field=name:string(20)', 
         'test_layer', 
