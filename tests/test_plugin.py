@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from unittest.mock import patch
+from unittest.mock import MagicMock
 from qscat.qscat_plugin import QscatPlugin
 
 from qgis.testing.mocked import get_iface
@@ -9,6 +11,7 @@ def test_plugin():
     """Test the plugin class."""
     plugin = QscatPlugin(get_iface())
     plugin.initGui()
+    plugin.run(test=True)
 
 
 def test_metadata():
