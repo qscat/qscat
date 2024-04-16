@@ -13,15 +13,87 @@ from qscat.core.messages import display_message
 from qscat.core.utils.layer import is_field_in_layer
 
 
-def automate_shoreline_field(self):
-    layer = self.dockwidget.qmlcb_automator_field_shoreline_layer.currentLayer()
-    date_field = self.dockwidget.le_automator_field_shoreline_date_field_name.text()
-    unc_field = self.dockwidget.le_automator_field_shoreline_unc_field_name.text()
+# On button clicks
+def automate_shoreline_field_button_clicked(qscat):
+    """Automate creation of shoreline field on button clicked.
+    
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+    """
+    layer = qscat.dockwidget.qmlcb_automator_field_shoreline_layer.currentLayer()
+    date_field = qscat.dockwidget.le_automator_field_shoreline_date_field_name.text()
+    unc_field = qscat.dockwidget.le_automator_field_shoreline_unc_field_name.text()
 
+    is_date_field_checked = qscat.dockwidget.chb_automator_field_shoreline_date_field.isChecked()
+    is_unc_field_checked = qscat.dockwidget.chb_automator_field_shoreline_unc_field.isChecked()
+    
+    automate_shoreline_field(
+        layer,
+        date_field,
+        unc_field,
+        is_date_field_checked,
+        is_unc_field_checked,
+    )
+
+def automate_baseline_field_button_clicked(qscat):
+    """Automate creation of baseline field on button clicked.
+    
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+    """
+    layer = qscat.dockwidget.qmlcb_automator_field_baseline_layer.currentLayer()
+    placement_field = qscat.dockwidget.le_automator_field_baseline_placement_field_name.text()
+    orientation_field = qscat.dockwidget.le_automator_field_baseline_orientation_field_name.text()
+    length_field = qscat.dockwidget.le_automator_field_baseline_length_field_name.text()
+
+    is_placement_field_checked = qscat.dockwidget.chb_automator_field_baseline_placement_field.isChecked()
+    is_orientation_field_checked = qscat.dockwidget.chb_automator_field_baseline_orientation_field.isChecked()
+    is_length_field_checked = qscat.dockwidget.chb_automator_field_baseline_length_field.isChecked()
+
+    automate_baseline_field(
+        layer,
+        placement_field,
+        orientation_field,
+        length_field,
+        is_placement_field_checked,
+        is_orientation_field_checked,
+        is_length_field_checked,
+    )
+
+
+def automate_baseline_buffer_button_clicked(qscat):
+    """Automate creation of baseline buffer on button clicked.
+    
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+    """
+    layer = qscat.dockwidget.qmlcb_automator_baseline_shorelines_layer.currentLayer()
+    distance = int(qscat.dockwidget.qsb_automator_baseline_buffer_distance.text())
+
+    automate_baseline_buffer(layer, distance)
+
+
+# Main functions
+def automate_shoreline_field(
+    layer,
+    date_field,
+    unc_field,
+    is_date_field_checked,
+    is_unc_field_checked,
+):
+    """Automate creation of shoreline field.
+
+    Args:
+        layer (QgsVectorLayer): Shorelines layer.
+        date_field (str): Date field name.
+        unc_field (str): Uncertainty field name.
+        is_date_field_checked (bool): Date field checkbox.
+        is_unc_field_checked (bool): Uncertainty field checkbox.
+    """
     dp = layer.dataProvider()
     attributes = []
 
-    if self.dockwidget.chb_automator_field_shoreline_date_field.isChecked():
+    if is_date_field_checked:
         if is_field_in_layer(date_field, layer):
             display_message(
                 f'<b>{date_field}</b> already exist!', 
@@ -33,7 +105,7 @@ def automate_shoreline_field(self):
                 f'<b>{date_field}</b> added!', 
                 Qgis.Success,
             )
-    if self.dockwidget.chb_automator_field_shoreline_unc_field.isChecked():
+    if is_unc_field_checked:
         if is_field_in_layer(unc_field, layer):
             display_message(
                 f'<b>{unc_field}</b> already exist!', 
@@ -50,17 +122,30 @@ def automate_shoreline_field(self):
     layer.updateFields()
 
 
-def automate_baseline_field(self):
-    layer = self.dockwidget.qmlcb_automator_field_baseline_layer.currentLayer()
-    placement_field = self.dockwidget.le_automator_field_baseline_placement_field_name.text()
-    orientation_field = self.dockwidget.le_automator_field_baseline_orientation_field_name.text()
-    length_field = self.dockwidget.le_automator_field_baseline_length_field_name.text()
-
+def automate_baseline_field(
+    layer,
+    placement_field,
+    orientation_field,
+    length_field,
+    is_placement_field_checked,
+    is_orientation_field_checked,
+    is_length_field_checked,
+):
+    """Automate creation of baseline field.
+    
+    Args:
+        layer (QgsVectorLayer): Baseline layer.
+        placement_field (str): Placement field name.
+        orientation_field (str): Orientation field name.
+        length_field (str): Length field name.
+        is_placement_field_checked (bool): Placement field checkbox.
+        is_orientation_field_checked (bool): Orientation field checkbox.
+        is_length_field_checked (bool): Length field checkbox.
+    """
     dp = layer.dataProvider()
     attributes = []
 
-    # TODO: show a list of message
-    if self.dockwidget.chb_automator_field_baseline_placement_field.isChecked():
+    if is_placement_field_checked:
         if is_field_in_layer(placement_field, layer):
             display_message(
                 f'<b>{placement_field}</b> already exist!', 
@@ -73,7 +158,7 @@ def automate_baseline_field(self):
                 Qgis.Success,
             )
 
-    if self.dockwidget.chb_automator_field_baseline_orientation_field.isChecked():
+    if is_orientation_field_checked:
         if is_field_in_layer(orientation_field, layer):
             display_message(
                 f'<b>{orientation_field}</b> already exist!', 
@@ -86,7 +171,7 @@ def automate_baseline_field(self):
                 Qgis.Success,
             )
 
-    if self.dockwidget.chb_automator_field_baseline_length_field.isChecked():
+    if is_length_field_checked:
         if is_field_in_layer(length_field, layer):
             display_message(
                 f'<b>{length_field}</b> already exist!', 
@@ -103,10 +188,16 @@ def automate_baseline_field(self):
     layer.updateFields()
 
 
-def automate_baseline_buffer(self):
-    layer = self.dockwidget.qmlcb_automator_baseline_shorelines_layer.currentLayer()
-    distance = int(self.dockwidget.qsb_automator_baseline_buffer_distance.text())
+def automate_baseline_buffer(layer, distance):
+    """Automate creation of baseline buffer.
+    
+    Args:
+        layer (QgsVectorLayer): Shorelines layer.
+        distance (float): Distance in meters.
 
+    Returns:
+        QgsVectorLayer: Baseline buffer layer.
+    """
     geoms = []
     for feat in layer.getFeatures():
         geom = feat.geometry()
@@ -119,23 +210,24 @@ def automate_baseline_buffer(self):
         )
         geoms.append(buffered_geometry)
 
-    # dissolve result
+    # Dissolve result
     unioned_geometry = QgsGeometry().unaryUnion(geoms)
-    #print(unioned_geometry)
 
-    # convert to the geometry to linestring
+    # Convert the geometry to linestring
     line_geometry = unioned_geometry.convertToType(
         destType=QgsWkbTypes.LineGeometry,
         destMultipart=True,
     )
-    #print(line_geometry)
+
     fields = [{'name': 'distance', 'type': QVariant.Int}]
     values = [[distance]]
     
-    create_add_layer(
+    layer = create_add_layer(
         geometry='MultiLineString',
         geometries=[line_geometry],
         name=f'Baseline Buffer - {distance} meters',
         fields=fields,
         values=values,
     )
+
+    return layer

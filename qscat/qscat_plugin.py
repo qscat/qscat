@@ -11,9 +11,9 @@ from qgis.PyQt import QtWidgets
 
 from qscat.qscat_dockwidget import QscatDockWidget
 
-from qscat.core.automator import automate_shoreline_field
-from qscat.core.automator import automate_baseline_field
-from qscat.core.automator import automate_baseline_buffer
+from qscat.core.automator import automate_shoreline_field_button_clicked
+from qscat.core.automator import automate_baseline_field_button_clicked
+from qscat.core.automator import automate_baseline_buffer_button_clicked
 from qscat.core.baseline import show_hide_baseline_orientation
 from qscat.core.forecasting import run_forecasting
 from qscat.core.settings import load_plugin_project_settings
@@ -23,7 +23,7 @@ from qscat.core.settings import save_shorelines_tab_project_settings
 from qscat.core.settings import save_transects_tab_project_settings
 from qscat.core.shoreline_change import compute_shoreline_change_stats
 from qscat.core.area_change.main import compute_area_change_stats
-from qscat.core.transects import cast_transects_button
+from qscat.core.transects import cast_transects_button_clicked
 from qscat.core.update import check_updates_on_start
 from qscat.core.update import check_updates_on_click
 from qscat.core.utils.plugin import get_plugin_dir
@@ -61,40 +61,56 @@ class QscatPlugin:
     def run(self):
         self.dockwidget = QscatDockWidget()
         self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
-
         self.dockwidget.setWindowTitle(f'QSCAT')
         self.dockwidget.show()
-
         self.dockwidget.tw_qscat.setStyleSheet("QTabWidget::tab { text-align: left; }")
         
         # Signals
-        # Buttons in automator tab
+        # Buttons in Automator Tab
         self.dockwidget.pb_automator_field_shoreline_apply.clicked.connect(
-            lambda: automate_shoreline_field(self))
+            lambda: automate_shoreline_field_button_clicked(self)
+        )
         self.dockwidget.pb_automator_field_baseline_apply.clicked.connect(
-            lambda: automate_baseline_field(self))
+            lambda: automate_baseline_field_button_clicked(self)
+        )
         self.dockwidget.pb_automator_baseline_buffer_create.clicked.connect(
-            lambda: automate_baseline_buffer(self))
+            lambda: automate_baseline_buffer_button_clicked(self)
+        )
 
         # Baseline Tab "Show baseline orientation" button
         self.dockwidget.cb_baseline_orientation.stateChanged.connect(
-            lambda: show_hide_baseline_orientation(self))
+            lambda: show_hide_baseline_orientation(self)
+        )
         
         # Transect Tab "Cast Transect" button
         self.dockwidget.pb_transects_cast.clicked.connect(
             lambda: cast_transects_button(self)
         )
         
+        # Shoreline Change Tab "Compute Shoreline Change" button
         self.dockwidget.pb_stats_compute_shoreline_change.clicked.connect(
-            lambda: compute_shoreline_change_stats(self))
+            lambda: compute_shoreline_change_stats(self)
+        )
+
+        # Area Change Tab "Compute Area Change" button
         self.dockwidget.pb_stats_compute_area_change.clicked.connect(
-            lambda: compute_area_change_stats(self))
+            lambda: compute_area_change_stats(self)
+        )
+
+        # Forecasting Tab "Forecast" button
         self.dockwidget.pb_forecasting_run_forecasting.clicked.connect(
-            lambda: run_forecasting(self))
+            lambda: run_forecasting(self)
+        )
+
+        # Visualization Tab "Visualize" button
         self.dockwidget.pb_vis_apply.clicked.connect(
-            lambda: apply_color_ramp(self))
+            lambda: apply_color_ramp(self)
+        )
+
+        # About Tab "Check for updates" button
         self.dockwidget.pb_about_check_for_updates.clicked.connect(
-            lambda: check_updates_on_click(self))
+            lambda: check_updates_on_click(self)
+        )
         
         self.dockwidget.qmlcb_shorelines_shorelines_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_shorelines_date_field.setLayer(
@@ -113,14 +129,17 @@ class QscatPlugin:
             lambda: self.dockwidget.qfcb_baseline_length_field.setLayer(
                 self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()))
 
-        # For Shoreline Change Tab
+        # Shoreline Change Tab "Select/Deselect All" checkbox
         self.dockwidget.cb_stats_select_all.stateChanged.connect(
-            lambda: select_all_stats_checkbox(self))
+            lambda: select_all_stats_checkbox(self)
+        )
 
-        # Transect Count section in the Transect tab
+        # Shoreline Change Tab "Update" button
         self.dockwidget.pb_stats_update_newest_oldest_year.clicked.connect(
-            lambda: update_newest_oldest_date(self))
-        
+            lambda: update_newest_oldest_date(self)
+        )
+
+        # Transect Tab "Transect Count" 
         self.dockwidget.rb_transects_by_transect_spacing.toggled.connect(
             lambda: enable_disable_widgets_by_radio_button(
                 self.dockwidget.rb_transects_by_transect_spacing,
@@ -128,7 +147,6 @@ class QscatPlugin:
                 self.dockwidget.qsb_transects_by_number_of_transects
             )
         )
-        
         self.dockwidget.rb_transects_by_number_of_transects.toggled.connect(
             lambda: enable_disable_widgets_by_radio_button(
                 self.dockwidget.rb_transects_by_number_of_transects,
@@ -136,12 +154,11 @@ class QscatPlugin:
                 self.dockwidget.qsb_transects_by_transect_spacing
             )
         )
-        
         self.button_group = QtWidgets.QButtonGroup()
         self.button_group.addButton(self.dockwidget.rb_choose_by_distance)
         self.button_group.addButton(self.dockwidget.rb_choose_by_placement)
 
-        # Transect-Shoreline Intersections in Shorelines Tab
+        # Shorelines Tab "Transect-Shoreline Intersections"
         self.dockwidget.rb_choose_by_distance.toggled.connect(
             lambda: enable_disable_widgets_by_radio_button(
                 self.dockwidget.rb_choose_by_distance,
@@ -157,7 +174,7 @@ class QscatPlugin:
             )
         )
 
-        # General section in Summary Reports Tab
+        # Summary Reports Tab "General" section
         self.dockwidget.cb_enable_report_generation.toggled.connect(
            lambda: enable_disable_groupbox_by_checkbox(
                 self.dockwidget.cb_enable_report_generation,
@@ -165,7 +182,7 @@ class QscatPlugin:
             ) 
         )
 
-        # Save input parameters for different tabs
+        # Tabs "Save" input parameters
         self.dockwidget.pb_proj_save_settings.clicked.connect(
             lambda: save_project_tab_project_settings(self))
         self.dockwidget.pb_baseline_save_settings.clicked.connect(
@@ -175,6 +192,11 @@ class QscatPlugin:
         self.dockwidget.pb_shorelines_save_settings.clicked.connect(
             lambda: save_shorelines_tab_project_settings(self))
 
+        # Set custom widget properties
         set_plugin_widget_properties(self)
+
+        # Load saved input parameters
         load_plugin_project_settings(self)
+
+        # Check QSCAT updates on start
         #check_updates_on_start()
