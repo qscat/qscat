@@ -24,264 +24,259 @@ from qscat.core.layers import create_add_layer
 from qscat.core.layers import load_shorelines
 from qscat.core.layers import load_transects
 from qscat.core.messages import display_message
-from qscat.core.utils.date import convert_to_decimal_year
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.input import get_baseline_input_params
-from qscat.core.utils.input import get_epr_unc_from_input
-from qscat.core.utils.input import get_highest_unc_from_input
 from qscat.core.utils.input import get_shorelines_input_params
-from qscat.core.utils.input import get_shorelines_years_uncs_from_input
 from qscat.core.utils.input import get_shoreline_change_input_params
-from qscat.core.utils.input import get_shoreline_change_stat_selected
 from qscat.core.utils.input import get_transects_input_params
-from qscat.core.summary_reports import SummaryReports
+from qscat.core.report import SummaryReport
 from qscat.lib.xalglib import invstudenttdistribution
 
-TREND_STABLE = "stable"
-TREND_ACCRETION = "accretion"
-TREND_EROSION = "erosion"
-STAT_EPR = "EPR"
-STAT_SCE = "SCE"
-STAT_NSM = "NSM"
-STAT_LRR = "LRR"
-STAT_LR2 = "LR2"
-STAT_LSE = "LSE"
-STAT_LCI = "LCI"
-STAT_WLR = "WLR"
-STAT_WR2 = "WR2"
-STAT_WCI = "WCI"
-STAT_WSE = "WSE"
+from qscat.core.constants import Statistic
+from qscat.core.constants import Trend
 
 
-class GetTransectsIntersectionsTask(QgsTask):
-    def __init__(
-        self,
-        transects,
-        shorelines,
+def compute_shoreline_change_button_clicked(qscat):
+    """
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+    """
+    baseline_params = get_baseline_input_params(qscat)
+    shorelines_params = get_shorelines_input_params(qscat)
+    transects_params = get_transects_input_params(qscat)
+    shoreline_change_params = get_shoreline_change_input_params(qscat)
+    
+    transects = load_transects(
+        qscat.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer()
+    )
+    shorelines = load_shorelines(shorelines_params)
+    transects_layer_widget = shoreline_change_params['transects_layer_widget']
+    reports = SummaryReport(qscat=qscat)
+
+    shoreline_change = ShorelineChange(
+        baseline_params,
         shorelines_params,
         transects_params,
-        baseline_params,
         shoreline_change_params,
-        qmlcb_shoreline_change_transects_layer
+        transects,
+        shorelines,
+        transects_layer_widget,
+        reports,
+    )
+
+    shoreline_change.compute_shoreline_change()
+
+
+class ShorelineChange:
+    def __init__(
+        self,
+        baseline_params,
+        shorelines_params,
+        transects_params,
+        shoreline_change_params,
+        transects,
+        shorelines,
+        transects_layer_widget,
+        reports,
     ):
-        super().__init__("Getting transects intersections", QgsTask.CanCancel)
-        self.transects = transects
-        self.shorelines = shorelines
+        # Inputs
+        self.baseline_params = baseline_params
         self.shorelines_params = shorelines_params
         self.transects_params = transects_params
-        self.baseline_params = baseline_params
         self.shoreline_change_params = shoreline_change_params
-        self.qmlcb_shoreline_change_transects_layer = qmlcb_shoreline_change_transects_layer
+        self.transects = transects
+        self.shorelines = shorelines
+        self.transects_layer_widget = transects_layer_widget
+        self.reports = reports
 
-        self.execution_time = ""
-        self.transects_intersects = []
-        
-        self.exception = None
+        # Layer fields
+        self.fields = {
+            Statistic.SCE: [
+                {'name': 'SCE', 'type': QVariant.Double},
+                {'name': 'SCE_highest_unc', 'type': QVariant.Double},
+                {'name': 'SCE_trend', 'type': QVariant.String},
+                {'name': 'SCE_closest_year', 'type': QVariant.Int},
+                {'name': 'SCE_farthest_year', 'type': QVariant.Int},
+            ],
+            Statistic.NSM: [
+                {'name': 'NSM', 'type': QVariant.Double},
+                {'name': 'NSM_highest_unc', 'type': QVariant.Double},
+                {'name': 'NSM_trend', 'type': QVariant.String},
+                # {'name': 'NSM_full_transect_point1_x', 'type': QVariant.Double},
+                # {'name': 'NSM_full_transect_point1_y', 'type': QVariant.Double},
+                # {'name': 'NSM_full_transect_point2_x', 'type': QVariant.Double},
+                # {'name': 'NSM_full_transect_point2_y', 'type': QVariant.Double},
+            ],
+            Statistic.EPR: [
+                {'name': 'EPR', 'type': QVariant.Double},
+                {'name': 'EPR_unc', 'type': QVariant.Double},
+                {'name': 'EPR_trend', 'type': QVariant.String},
+            ],
+            Statistic.LRR: [
+                {'name': 'LRR', 'type': QVariant.Double},
+                {'name': 'LR2', 'type': QVariant.Double},
+                {'name': 'LSE', 'type': QVariant.Double},
+                {'name': 'LCI', 'type': QVariant.Double},
+            ],
+            Statistic.WLR: [
+                {'name': 'WLR', 'type': QVariant.Double},
+                {'name': 'WR2', 'type': QVariant.Double},
+                {'name': 'WSE', 'type': QVariant.Double},
+                {'name': 'WCI', 'type': QVariant.Double},
+            ]
+        }
 
-    def run(self):
-        QgsMessageLog.logMessage(
-            message=f"Started task: <b>{self.description()}</b>.",
-            level=Qgis.Info,
+        self.stat_map = {
+            Statistic.SCE: {
+                'get_year1': self.get_closest_distance_year,
+                'get_year2': self.get_farthest_distance_year,
+                'get_main_values': [self.get_SCE],
+                'get_trend_ref': self.shoreline_change_params['highest_unc'],
+                'get_extra_values': [
+                    self.get_closest_distance_year,
+                    self.get_farthest_distance_year,
+                ],
+            },
+            Statistic.NSM: {
+                'get_year1': self.get_oldest_year,
+                'get_year2': self.get_newest_year,
+                'get_main_values': [self.get_NSM],
+                'get_trend_ref': self.shoreline_change_params['highest_unc'],
+                'get_extra_values': None,
+                # 'get_extra_values': [
+                #     get_fullest_transect_point1_x,
+                #     get_fullest_transect_point1_y,
+                #     get_fullest_transect_point2_x,
+                #     get_fullest_transect_point2_y,
+                #     get_fullest_transect_trend,
+                # ],
+            },
+            Statistic.EPR: {
+                'get_year1': self.get_oldest_year,
+                'get_year2': self.get_newest_year,
+                'get_main_values': [self.get_EPR],
+                'get_trend_ref': self.shoreline_change_params['epr_unc'],
+                'get_extra_values': None,
+            },
+            Statistic.LRR: {
+                'get_year1': self.get_closest_distance_year,
+                'get_year2': self.get_farthest_distance_year,
+                'get_main_values': [self.get_LRR, self.get_LR2, self.get_LSE, self.get_LCI],
+                'get_trend_ref': None,
+                'get_extra_values': None,
+            },
+            Statistic.WLR: {
+                'get_year1': self.get_closest_distance_year,
+                'get_year2': self.get_farthest_distance_year,
+                'get_main_values': [self.get_WLR, self.get_WR2, self.get_WSE, self.get_WCI],
+                'get_trend_ref': None,
+                'get_extra_values': None,
+            },
+        }
+
+    
+    def compute_shoreline_change(self):
+        """Compute shoreline change stats."""
+        globals()['get_transects_intersections_task'] = GetTransectsIntersectionsTask(
+            self.transects,
+            self.shorelines,
+            self.shorelines_params,
+            self.transects_params,
+            self.baseline_params,
+            self.shoreline_change_params,
         )
+        globals()['get_transects_intersections_task'].taskCompleted.connect(
+            lambda: self.get_transects_intersections_task_state_changed()
+        )
+        QgsApplication.taskManager().addTask(globals()['get_transects_intersections_task'])
 
-        try:
-            start_time = time.perf_counter()
-            intersect_id = 1
 
-            for ti, transect in enumerate(self.transects):
-                if self.isCanceled():
-                    return False
-                
-                skip_transect = False
+    def get_transects_intersections_task_state_changed(self):
+        task = globals()['get_transects_intersections_task']
 
-                # List of intersections per one transect
-                individual_transect_intersects = []
+        if task.status() == QgsTask.Complete:
+            all_years_intersections = load_all_years_intersections(
+                task.transects_intersects
+            )
 
-                transect_origin = QgsGeometry.fromPointXY(
-                    QgsPointXY(transect.vertexAt(0))
-                )
-                # Loop through individual shoreline MultiLineString features
-                for si, shoreline in enumerate(self.shorelines):
+            # One layer for all stats
+            all_fields = []
+            all_values = np.array([])
+            all_geoms = []
 
-                    # Used to store multiple intersections at one shoreline
-                    # Because a unique shoreline for a single can consists
-                    # # segments
-                    individual_shoreline_intersects = {}
-                    
-                    # Used to track intersections' distance from transect 
-                    # origin
-                    intersections = {}
+            # For summary reports
+            stat_values = {}
 
-                    # Check intersections per segments
-                    for segment in shoreline['geoms']:
-                        intersect = transect.intersection(segment)
-                        
-                        if not intersect.isEmpty():
-                            if intersect.wkbType() == QgsWkbTypes.MultiPoint:
-                                for i in intersect.asMultiPoint():
-                                    i = QgsGeometry.fromPointXY(i)
-                                    intersections[i] = i.distance(transect_origin) 
-                            else:
-                                intersections[intersect] = intersect.distance(transect_origin)
+            # Compute all selected stats
+            for stat in self.shoreline_change_params['selected_stats']:
+                if self.compute_shoreline_change_stat_prechecks(stat):
+                    values, geoms = self.compute_single_stat_all_transects(
+                        stat, 
+                        all_years_intersections,
+                    )
 
-                    if intersections:
-                        if self.shoreline_change_params['is_choose_by_distance']:
-                            if self.shoreline_change_params['is_choose_by_distance_farthest']:
-                                final_intersect = max(intersections, key=intersections.get)
-                            elif self.shoreline_change_params['is_choose_by_distance_closest']:
-                                final_intersect = min(intersections, key=intersections.get)
-                        elif self.shoreline_change_params['is_choose_by_placement']:
-                            if self.shoreline_change_params['is_choose_by_placement_seaward']:
-                                if self.baseline_params['is_baseline_placement_sea']:
-                                    final_intersect = min(intersections, key=intersections.get)
-                                elif self.baseline_params['is_baseline_placement_land']:
-                                    final_intersect = max(intersections, key=intersections.get)
-                            elif self.shoreline_change_params['is_choose_by_placement_landward']:
-                                if self.baseline_params['is_baseline_placement_sea']:
-                                    final_intersect = max(intersections, key=intersections.get)
-                                elif self.baseline_params['is_baseline_placement_land']:
-                                    final_intersect = min(intersections, key=intersections.get)
-                        
-                        # Keep track of "fullest" intersection regardless
-                        # of chosen transect-shoreline intersections
-                        if self.baseline_params['is_baseline_placement_sea']:
-                            final_fullest_intersect = min(intersections, key=intersections.get)
-                        elif self.baseline_params['is_baseline_placement_land']:
-                            final_fullest_intersect = min(intersections, key=intersections.get)
+                    self.add_shoreline_change_stat_layer(
+                        stat,
+                        values,
+                        geoms,
+                        self.fields[stat],
+                    )
 
-                        # individual_shoreline_intersects['fullest_intersect_x']
-                        # individual_shoreline_intersects['fullest_intersect_y']
-
-                        individual_shoreline_intersects['transect_origin'] = transect_origin #.asWkt() # so we can pickle
-                        individual_shoreline_intersects['geom'] = final_intersect #.asWkt() # so we can pickle (adding intersection points layer)
-                        individual_shoreline_intersects['id'] = intersect_id
-                        individual_shoreline_intersects['transect_id'] = ti+1
-                        individual_shoreline_intersects['shoreline_id'] =  si+1
-                        individual_shoreline_intersects['shoreline_year'] = shoreline['year']
-                        individual_shoreline_intersects['shoreline_unc'] = shoreline['unc']
-                        
-                        # DSAS way
-                        # They apply negatives if baseline is placed on sea
-                        # This is the value passed to the stat calculations
-                        if self.baseline_params['is_baseline_placement_sea']:
-                            individual_shoreline_intersects['distance'] = -intersections[final_intersect]
-                        else:
-                            individual_shoreline_intersects['distance'] = intersections[final_intersect]
-
-                        individual_shoreline_intersects['intersect_x'] = float((final_intersect.asPoint().x()))
-                        individual_shoreline_intersects['intersect_y'] = float((final_intersect.asPoint().y()))
-                        
-                        # TODO: store only one time
-                        individual_shoreline_intersects['orig_transect_geom'] = transect
-
-                        individual_transect_intersects.append(individual_shoreline_intersects)
-
-                        intersect_id += 1
-
-                    # No intersections means this transect is not intersecting
-                    # all shorelines, so it must be skipped
+                    # One layer for all stats
+                    all_fields += self.fields[stat]
+                    if not all_values.size > 0:
+                        all_values = np.array(values)
                     else:
-                        skip_transect = True
-                        break
+                        all_values = np.hstack((all_values, values))
                     
+                    # Get first stat geom computed as the geom representation
+                    if not all_geoms:
+                        all_geoms = geoms
 
-                if skip_transect:
-                    self.setProgress((ti / len(self.transects)) * 100)
-                    continue
-                else:
-                    self.transects_intersects.append(individual_transect_intersects)
-                    self.setProgress((ti / len(self.transects)) * 100)
-                    
-            end_time = time.perf_counter()
-            elapsed_time = (end_time - start_time) * 1000
-            self.execution_time = f"{elapsed_time:.2f} ms"
-            #self.execution_time = time.strftime("%M:%S", time.gmtime(elapsed_time))
-            print(f"Intersection: {elapsed_time:.2f} ms")
-            return True
-        
-        except Exception as e:
-            self.exception = e
-            return False
+                    # For summary reports, extract main values as a 1d list
+                    stat_values[stat] = [sublist[0] for sublist in values]
 
-    def finished(self, result):
-        if self.isCanceled():
-            QgsMessageLog.logMessage(
-                message=f"Canceled task: <b>{self.description()}</b>.",
-                level=Qgis.Warning,
+            # One layer for all stats
+            create_add_layer(
+                geometry='LineString',
+                geometries=all_geoms,
+                name='ALL STATS',
+                fields=all_fields,
+                values=all_values.tolist(),
             )
-            return
+
+            # Create summary report
+            self.create_summary_report(stat_values)
+
+
+    def create_summary_report(self, stat_values):
+        """Create summary report for shoreline change stats.
         
-        elif not result:
-            QMessageBox.critical(
-                iface.mainWindow(),
-                f"Task error: : <b>{self.description()}</b>.",
-                f"The following error occurred:\n{self.exception.__class__.__name__}: {self.exception}",
-            )
-            return
-        
-        QgsMessageLog.logMessage(
-            message=f"Success task: <b>{self.description()}</b> in {self.execution_time}.",
-            level=Qgis.Success,
-        )
+        Args:
+            stat_values (dict): Dictionary of shoreline change stats values.
 
-
-def get_transects_intersections_task_state_changed(
-    self,
-    selected_stats,
-    user_params
-):
-    task = globals()['get_transects_intersections_task']
-
-    if task.status() == QgsTask.Complete:
-        all_years_intersections = load_all_years_intersections(task.transects_intersects)
-
-        # Init for storing fields and values for one QgsVectorLayer combined stats
-        all_fields = []  # refers to attribute fields to be added
-        all_values = []  # refers to attribute values to be added    
-        # For summary results, refers to distance and rate values
-
-        # E.g. excludes trends, years, unc details
-        stat_values = {}
-
-        # COMPUTE SELECTED STATS
-        for stat_name in selected_stats:
-            if compute_shoreline_change_stat_pre_checks(self, stat_name):
-                result = compute_single_stat_list_transects(
-                    stat_name, 
-                    all_years_intersections, 
-                    user_params,
-                )
-                all_fields += result['fields']
-                all_values = combine_result_values(all_values, result['values'])
-                add_shoreline_change_stat_layer(stat_name, result, user_params)
-
-                # For summary result
-                # Transpose the list first since values are placed vertically,
-                # then only get the first list element where these are the values
-                # on each stat based on the fields @compute_shoreline_change_single_stat()
-                stat_values[stat_name] = transpose_list(result['values'])[0]
-                # [0] consider just the first column value (e.g. SCE, exluding the
-                # years, trends, unc details)
-
+        Example: 
+            { 'SCE': [0.1, 0.2, 0.3, ...], ... }
+        """
         # Summary
         summary = {}
     
         summary['datetime'] = datetime_now()
         transects = load_transects(
-            self.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer()
+            self.shoreline_change_params['transects_layer']
         )
         summary['num_of_transects'] = len(transects)
 
         # Results
-        if 'SCE' in selected_stats:
-            SCE = stat_values['SCE']
+        if Statistic.SCE in self.shoreline_change_params['selected_stats']:
+            SCE = stat_values[Statistic.SCE]
             summary['SCE_avg'] = round(sum(SCE) / len(SCE), 2)
             summary['SCE_max'] = round(max(SCE), 2)
             summary['SCE_min'] = round(min(SCE), 2)
 
-        if 'NSM' in selected_stats:
-            NSM = stat_values['NSM']
-            unc = get_highest_unc_from_input(self)
+        if Statistic.NSM in self.shoreline_change_params['selected_stats']:
+            NSM = stat_values[Statistic.NSM]
+            unc = self.shoreline_change_params['highest_unc']
             summary['NSM_avg'] = round(sum(NSM) / len(NSM), 2)
             
             NSM_e = [x for x in NSM if x < -unc]
@@ -308,9 +303,9 @@ def get_transects_intersections_task_state_changed(
             summary['NSM_stable_max'] = round(max(NSM_s), 2)
             summary['NSM_stable_min'] = round(min(NSM_s), 2)
 
-        if 'EPR' in selected_stats:
-            EPR = stat_values['EPR']
-            unc = get_epr_unc_from_input(self)
+        if Statistic.EPR in self.shoreline_change_params['selected_stats']:
+            EPR = stat_values[Statistic.EPR]
+            unc = self.shoreline_change_params['epr_unc']
             summary['EPR_avg'] = round(sum(EPR) / len(EPR), 2)
             
             EPR_e = [x for x in EPR if x < -unc]
@@ -337,8 +332,8 @@ def get_transects_intersections_task_state_changed(
             summary['EPR_stable_max'] = round(max(EPR_s), 2)
             summary['EPR_stable_min'] = round(min(EPR_s), 2)
 
-        if 'LRR' in selected_stats:
-            LRR = stat_values['LRR']
+        if Statistic.LRR in self.shoreline_change_params['selected_stats']:
+            LRR = stat_values[Statistic.LRR]
             summary['LRR_avg'] = round(sum(LRR) / len(LRR), 2)
             
             LRR_e = [x for x in LRR if x < 0]
@@ -357,8 +352,8 @@ def get_transects_intersections_task_state_changed(
             summary['LRR_accretion_max'] = round(max(LRR_a), 2)
             summary['LRR_accretion_min'] = round(min(LRR_a), 2)
 
-        if 'WLR' in selected_stats:
-            WLR = stat_values['WLR']
+        if Statistic.WLR in self.shoreline_change_params['selected_stats']:
+            WLR = stat_values[Statistic.WLR]
             summary['WLR_avg'] = round(sum(WLR) / len(WLR), 2)
             
             WLR_e = [x for x in WLR if x < 0]
@@ -377,424 +372,288 @@ def get_transects_intersections_task_state_changed(
             summary['WLR_accretion_max'] = round(max(WLR_a), 2)
             summary['WLR_accretion_min'] = round(min(WLR_a), 2)
 
-        reports = SummaryReports(self, summary)
-        reports.shoreline_change()
-
-    
-def compute_shoreline_change_stats(self):
-    baseline_params = get_baseline_input_params(self)
-    shorelines_params = get_shorelines_input_params(self)
-    transects_params = get_transects_input_params(self)
-    shoreline_change_params = get_shoreline_change_input_params(self)
-
-    start_time = time.perf_counter()
-    selected_stats = get_shoreline_change_stat_selected(self)
-
-    user_params = {
-        'confidence_interval': float(
-            self.dockwidget.qdsb_stats_confidence_interval.text()),
-        'oldest_year': convert_to_decimal_year(
-            self.dockwidget.cb_shoreline_change_oldest_date.currentText()),
-        'newest_year': convert_to_decimal_year(
-            self.dockwidget.cb_shoreline_change_newest_date.currentText()),
-        'oldest_date': self.dockwidget.cb_shoreline_change_oldest_date.currentText(),
-        'newest_date': self.dockwidget.cb_shoreline_change_newest_date.currentText(),
-        'epr_unc': get_epr_unc_from_input(self),
-        'highest_unc': get_highest_unc_from_input(self),
-        'years_uncs': get_shorelines_years_uncs_from_input(self),
-        'clip_transects' : self.dockwidget.cb_stats_clip_transects.isChecked(),
-    }
-
-    # TODO: Remove, not needed
-    # Filter uncertainty by year range
-    # Used for filtering LRR and WLR
-    # user_params['years_uncs'] = filter_uncs_by_range(
-    #     user_params['years_uncs'],
-    #     user_params['newest_year'],
-    #     user_params['oldest_year'],
-    # )
-
-    transects = load_transects(self.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer())
-    shorelines = load_shorelines(shorelines_params)
-    
-    globals()['get_transects_intersections_task'] = GetTransectsIntersectionsTask(
-        transects,
-        shorelines,
-        shorelines_params,
-        transects_params,
-        baseline_params,
-        shoreline_change_params,
-        self.dockwidget.qmlcb_shoreline_change_transects_layer,
-    )
-    globals()['get_transects_intersections_task'].taskCompleted.connect(
-        lambda: get_transects_intersections_task_state_changed(
-            self, 
-            selected_stats, 
-            user_params,
-        )
-    )
-    QgsApplication.taskManager().addTask(globals()['get_transects_intersections_task'])
-
-    end_time = time.perf_counter()
-    elapsed_time = (end_time - start_time) * 1000
-    print(f"Shoreline change: {elapsed_time:.2f} ms")
+        self.reports.summary = summary
+        self.reports.shoreline_change()
 
 
-def compute_single_stat_list_transects(
-    stat_name,
-    all_years_intersections,
-    user_params
-):
-    # Setup fields
-    fields = {
-        'SCE': [
-            {'name': 'SCE', 'type': QVariant.Double},
-            {'name': 'SCE_highest_unc', 'type': QVariant.Double},
-            {'name': 'SCE_trend', 'type': QVariant.String},
-            {'name': 'SCE_closest_year', 'type': QVariant.Int},
-            {'name': 'SCE_farthest_year', 'type': QVariant.Int},
-        ],
-        'NSM': [
-            {'name': 'NSM', 'type': QVariant.Double},
-            {'name': 'NSM_highest_unc', 'type': QVariant.Double},
-            {'name': 'NSM_trend', 'type': QVariant.String},
-            {'name': 'NSM_full_transect_point1_x', 'type': QVariant.Double},
-            {'name': 'NSM_full_transect_point1_y', 'type': QVariant.Double},
-            {'name': 'NSM_full_transect_point2_x', 'type': QVariant.Double},
-            {'name': 'NSM_full_transect_point2_y', 'type': QVariant.Double},
-        ],
-        'EPR': [
-            {'name': 'EPR', 'type': QVariant.Double},
-            {'name': 'EPR_unc', 'type': QVariant.Double},
-            {'name': 'EPR_trend', 'type': QVariant.String},
-        ],
-        'LRR': [
-            {'name': 'LRR', 'type': QVariant.Double},
-            {'name': 'LR2', 'type': QVariant.Double},
-            {'name': 'LSE', 'type': QVariant.Double},
-            {'name': 'LCI', 'type': QVariant.Double},
-        ],
-        'WLR': [
-            {'name': 'WLR', 'type': QVariant.Double},
-            {'name': 'WR2', 'type': QVariant.Double},
-            {'name': 'WSE', 'type': QVariant.Double},
-            {'name': 'WCI', 'type': QVariant.Double},
-        ]
-    }
-    values = []
-    clipped_transect_geoms = []
-    
-    for years_intersections in all_years_intersections:
-        # Filter years intersections first by user params oldest year and newest year
+    def compute_single_stat_all_transects(self, stat, all_years_intersections):
+        """Compute a single shoreline change stat for all transects.
+
+        Args:
+            stat (Statistic): Shoreline change statistic.
+            all_years_intersections (list[dict]): List of all years intersections.
+
+        Returns:
+            all_values: List of computed values
+            geoms: List of transect geometries
+        """
+        all_values = []
+        geoms = []
         
-        # TODO: remove me, not needed
-        # years_intersections = filter_years_intersections_by_range(
-        #     years_intersections,
-        #     user_params['newest_year'],
-        #     user_params['oldest_year'],
-        # )
-        value, clipped_transect_geom = compute_single_stat_single_transects(
-            stat_name,
-            years_intersections, 
-            user_params,
-        )
-        values.append(value)
-        clipped_transect_geoms.append(clipped_transect_geom)
-
-    result =  {
-        'fields': fields[stat_name], 
-        'values': values, 
-        'clipped_transect_geoms': clipped_transect_geoms
-    }
-    return result
-
-
-def compute_single_stat_single_transects(
-    stat_name,
-    years_intersections,
-    user_params
-):
-    """Compute a specific statistic value for a single transect.
-    
-    Args:
-        stat_name (str): Statistic name (e.g. EPR, SCE, NSM, LRR, LR2, WLR, WR2).
-        years_intersections (dict): Dictionary of year intersections
-
-    Return:
-        tuple: Tuple of statistic value and clipped transect geometry.
-    """
-
-    # validate if higher unc matches the current years intersections
-
-
-    # validate if epr unc matches the current years intersections
-
-
-    # validate if user params oldest_year and newest year are in years_intersections
-    stat_map = {
-        STAT_SCE: {
-            "get_year1": get_closest_distance_year,
-            "get_year2": get_farthest_distance_year,
-            "get_main_values": [get_SCE],
-            "get_trend_ref": user_params['highest_unc'],
-            "get_extra_values": [
-                get_closest_distance_year,
-                get_farthest_distance_year,
-            ],
-        },
-        STAT_NSM: {
-            "get_year1": get_oldest_year,
-            "get_year2": get_newest_year,
-            "get_main_values": [get_NSM],
-            "get_trend_ref": user_params['highest_unc'],
-            "get_extra_values": [
-                get_fullest_transect_point1_x,
-                get_fullest_transect_point1_y,
-                get_fullest_transect_point2_x,
-                get_fullest_transect_point2_y,
-                get_fullest_transect_trend,
-            ],
-        },
-        STAT_EPR: {
-            "get_year1": get_oldest_year,
-            "get_year2": get_newest_year,
-            "get_main_values": [get_EPR],
-            "get_trend_ref": user_params['epr_unc'],
-            "get_extra_values": None,
-        },
-        STAT_LRR: {
-            "get_year1": get_closest_distance_year,
-            "get_year2": get_farthest_distance_year,
-            "get_main_values": [get_LRR, get_LR2, get_LSE, get_LCI],
-            "get_trend_ref": None,
-            "get_extra_values": None,
-        },
-        STAT_WLR: {
-            "get_year1": get_closest_distance_year,
-            "get_year2": get_farthest_distance_year,
-            "get_main_values": [get_WLR, get_WR2, get_WSE, get_WCI],
-            "get_trend_ref": None,
-            "get_extra_values": None,
-        },
-    }
-    
-    year1 = stat_map[stat_name]["get_year1"](years_intersections, user_params)
-    year2 = stat_map[stat_name]["get_year2"](years_intersections, user_params)
-
-    distance1 = years_intersections[year1]['distance']
-    distance2 = years_intersections[year2]['distance']
-    
-    # Get main stat values
-    compute_params = {
-        "year1": year1,
-        "year2": year2,
-        "distance1": distance1,
-        "distance2": distance2,
-        "years_intersections": years_intersections, # Dictionary
-        "user_params": user_params, # Dictionary
-    }
-    single_transect_values = []
-
-    # Get main value functions (e.g. SCE, LRR, LR2 etc.)
-    main_values_functions = stat_map[stat_name]["get_main_values"]
-    for mvf in main_values_functions:
-        single_transect_values.append(mvf(compute_params))
-
-    # Are there trends?
-    trend_reference = stat_map[stat_name]["get_trend_ref"]
-    if trend_reference:
-        # Append the unc value (e.g. SCE_highest_unc, NSM_highest_unc, EPR_unc)
-        single_transect_values.append(trend_reference)
-
-        # Get change trend (e.g. stable, accretion, erosion)
-        stat_value_trend = get_change_trend(
-            single_transect_values[0], 
-            trend_reference
-        )
-        
-        # Append the trend string (e.g. SCE_trend, NSM_trend, EPR_trend)
-        single_transect_values.append(stat_value_trend)
-
-    # Are there extra values?
-    extra_values_functions = stat_map[stat_name]["get_extra_values"]
-    if extra_values_functions:
-        for evf in extra_values_functions:
-            single_transect_values.append(
-                evf(years_intersections, user_params)
+        for years_intersections in all_years_intersections:
+            values, geom = self.compute_single_stat_single_transects(
+                stat,
+                years_intersections,
             )
+            all_values.append(values)
+            geoms.append(geom)
 
-    if user_params['clip_transects']:
-        start_pt = QgsPointXY(years_intersections[year1]['intersect_x'], 
-                            years_intersections[year1]['intersect_y'])
-        end_pt = QgsPointXY(years_intersections[year2]['intersect_x'], 
-                            years_intersections[year2]['intersect_y'])
-        transect_geom = QgsGeometry.fromPolylineXY([start_pt, end_pt])
-    else:
-        transect_geom = years_intersections[year1]['orig_transect_geom']
-
-    # modify SCE_values as absolute
-    # TODO: simplify code
-    if stat_name == STAT_SCE:
-        values_temp = []
-        for vi, v in enumerate(single_transect_values):
-            if vi == 0:
-                values_temp.append(abs(v))
-            else:
-                values_temp.append(v)
-        single_transect_values = values_temp
-
-    return single_transect_values, transect_geom
+        return all_values, geoms
 
 
-# GET VALUES FUNCTIONS
-def get_SCE(compute_params):
-    SCE_value = compute_SCE(
-        compute_params['distance1'],
-        compute_params['distance2']
-    )
-    return round(SCE_value, 2)
+    def compute_single_stat_single_transects(self, stat, years_intersections):
+        """Compute a single shoreline change stat for a single transect.
+
+        Args:
+            stat (Statistic): Shoreline change statistic.
+            years_intersections (dict): Dictionary of years intersections.
+        
+        Returns:
+            values: List of computed values (per column)
+            geom: Transect geometry
+        """
+        year1 = self.stat_map[stat]['get_year1'](years_intersections)
+        year2 = self.stat_map[stat]['get_year2'](years_intersections)
+
+        distance1 = years_intersections[year1]['distance']
+        distance2 = years_intersections[year2]['distance']
+        
+        # Get main stat values
+        compute_params = {
+            'year1': year1,
+            'year2': year2,
+            'distance1': distance1,
+            'distance2': distance2,
+            'years_intersections': years_intersections,
+        }
+        values = []
+
+        # Main values (e.g. SCE, LRR, LR2 etc.)
+        main_values_funcs = self.stat_map[stat]['get_main_values']
+        for main_values_func in main_values_funcs:
+            values.append(main_values_func(compute_params))
+
+        # Trends
+        trend_reference = self.stat_map[stat]['get_trend_ref']
+        if trend_reference:
+            # Append the unc value (e.g. SCE_highest_unc, NSM_highest_unc, EPR_unc)
+            values.append(trend_reference)
+
+            # Get change trend (e.g. stable, accreting, eroding)
+            stat_value_trend = get_change_trend(
+                values[0], 
+                trend_reference
+            )
+            
+            # Append the trend string (e.g. SCE_trend, NSM_trend, EPR_trend)
+            values.append(stat_value_trend)
+
+        # Extra values
+        get_extra_values_funcs = self.stat_map[stat]['get_extra_values']
+        if get_extra_values_funcs:
+            for get_extra_values_func in get_extra_values_funcs:
+                values.append(
+                    get_extra_values_func(years_intersections)
+                )
+
+        # Clip transects
+        if self.shoreline_change_params['is_clip_transects']:
+            start_pt = QgsPointXY(
+                years_intersections[year1]['intersect_x'],
+                years_intersections[year1]['intersect_y']
+            )
+            end_pt = QgsPointXY(
+                years_intersections[year2]['intersect_x'], 
+                years_intersections[year2]['intersect_y']
+            )
+            geom = QgsGeometry.fromPolylineXY([start_pt, end_pt])
+        else:
+            geom = years_intersections[year1]['orig_transect_geom']
+
+        return values, geom
 
 
-def get_NSM(compute_params):
-    NSM_value = compute_NSM(
-        compute_params['distance1'], 
-        compute_params['distance2']
-    )
-    return round(NSM_value, 2)
+    def add_shoreline_change_stat_layer(self, stat, all_values, geoms, fields):
+        """Add shoreline change stat layer to the map canvas.
+
+        Args:
+            stat (Statistic): Shoreline change statistic.
+            all_values (list): List of computed values.
+            geoms (list): List of transect geometries.
+            fields (list): List of layer fields.
+        """
+        # Layer names
+        if stat in [Statistic.NSM, Statistic.EPR]:
+            name = f'{stat} ({self.shoreline_change_params["newest_year"]}-{self.shoreline_change_params["oldest_year"]})'
+        elif stat in [Statistic.SCE, Statistic.LRR, Statistic.WLR]:
+            name = f'{stat}'
+
+        # Metadata dict
+        dates = {
+            'newest_date': self.shoreline_change_params['newest_date'],
+            'oldest_date': self.shoreline_change_params['oldest_date'],
+        }
+        
+        create_add_layer(
+            geometry='LineString',
+            geometries=geoms, 
+            name=name,
+            fields=fields,
+            values=all_values,
+            extra_values=dates,
+        )
 
 
-def get_EPR(compute_params):
-    NSM_value = compute_NSM(
-        compute_params['distance1'], 
-        compute_params['distance2']
-    )
-    EPR_value = compute_EPR(
-        NSM_value, 
-        compute_params['year1'], 
-        compute_params['year2']
-    )
-    return round(EPR_value, 2)
+    def compute_shoreline_change_stat_prechecks(self, stat):
+        """Prechecks for computation of any shoreline change stats.
+
+        Args:
+            stat (Statistic): Shoreline change statistic.
+        
+        Returns:
+            boolean
+        """
+        shoreline_layer = self.shorelines_params['shorelines_layer']
+
+        if stat in [Statistic.LRR, Statistic.WLR]:
+            if shoreline_layer.featureCount() < 3:
+                display_message(
+                    'LRR and WLR requires atleast 3 shorelines.', 
+                    Qgis.Warning,
+                )
+                return False
+        return True
 
 
-def get_EPR_unc(compute_params):
-    pass
-
-"""
-def get_EPR_unc(compute_params):
-    oldest_year_unc = compute_params['years_intersections'][compute_params['year1']]['unc']
-    newest_year_unc = compute_params['years_intersections'][compute_params['year2']]['unc']
-    oldest_year = compute_params['year1']
-    newest_year = compute_params['year2']
-    EPR_unc_value = compute_EPR_unc(newest_year_unc, oldest_year_unc, newest_year, oldest_year)
-    return round(EPR_unc_value, 2)
-"""
-
-def get_LRR(compute_params):
-    years, distances = get_sorted_years_distances(
-        compute_params['years_intersections']
-    )
-    LRR_value = compute_LRR(years, distances)
-    return round(LRR_value, 2)
+    # Get year 1 and year 2 functions
+    def get_closest_distance_year(self, years_intersections):
+        closest_distance_year = min(
+            years_intersections.items(), key=lambda x: x[1]['distance'])[0]
+        return closest_distance_year
 
 
-def get_LR2(compute_params):
-    years, distances = get_sorted_years_distances(
-        compute_params['years_intersections']
-    )
-    LR2_value = compute_LR2(years, distances)
-    return round(LR2_value, 2)
-
-
-def get_LSE(compute_params):
-    years, distances = get_sorted_years_distances(
-        compute_params['years_intersections']
-    )
-    LSE_value = compute_LSE(years, distances)
-    return round(LSE_value, 2)
-
-
-def get_LCI(compute_params):
-    years, distances = get_sorted_years_distances(
-        compute_params['years_intersections']
-    )
-    LCI_value = compute_LCI(
-        years,
-        distances,
-        compute_params['user_params']['confidence_interval'])
-    return round(LCI_value, 2)
-
-
-def get_WLR(compute_params):
-    # validate if dict key years in years_intersections and uncs are existing in both dict
-
-    years, distances = get_sorted_years_distances(
-        compute_params['years_intersections']
-    )
-    uncs = get_sorted_uncs(compute_params['user_params']['years_uncs'])
-    WLR_value = compute_WLR(years, distances, uncs)
-    return round(WLR_value, 2)
-
-
-def get_WR2(compute_params):
-    # validate if dict key years in years_intersections and uncs are existing in both dict
-    years, distances = get_sorted_years_distances(
-        compute_params['years_intersections']
-    )
-    uncs = get_sorted_uncs(compute_params['user_params']['years_uncs'])
-    WR2_value = compute_WR2(years, distances, uncs)
-    return round(WR2_value, 2)
-
-
-def get_WSE(compute_params):
-    years, distances = get_sorted_years_distances(
-        compute_params['years_intersections']
-    )
-    uncs = get_sorted_uncs(compute_params['user_params']['years_uncs'])
-    WSE_value = compute_WSE(years, distances, uncs)
-    return round(WSE_value, 2)
-
-
-def get_WCI(compute_params):
-    years, distances = get_sorted_years_distances(
-        compute_params['years_intersections']
-    )
-    uncs = get_sorted_uncs(compute_params['user_params']['years_uncs'])
-    WCI_value = compute_WCI(
-        years,
-        distances,
-        uncs,
-        compute_params['user_params']['confidence_interval'])
-    return round(WCI_value, 2)
-
-
-# COMPUTATION FUNCTIONS
-def subtract_two_distances(distance1, distance2):
-    """Subtract two distance values. Used for SCE and NSM.
+    def get_farthest_distance_year(self, years_intersections):
+        farthest_distance_year = max(
+            years_intersections.items(), key=lambda x: x[1]['distance'])[0]
+        return farthest_distance_year
     
-    Args:
-        distance1 (float)
-        distance2 (float)
 
-    Returns:
-        float: Difference of distance2 and distance1.
-    
-    Raises:
-        TypeError: If distance 1 and 2 values are None.
-        TypeError: If distance 1 and 2 values are not floats.
-    """
-    if distance1 is None:
-      raise TypeError("Distance 1 value cannot be None.") 
-    if distance2 is None:
-         raise TypeError("Distance 2 value cannot be None.")
-
-    if not isinstance(distance1, float):
-        raise TypeError("Distance 1 value must be float.")
-    if not isinstance(distance2, float):
-        raise TypeError("Distance 2 value must be float.")
-    
-    return distance2 - distance1
+    def get_oldest_year(self, years_intersections):
+        oldest_year = self.shoreline_change_params['oldest_year']
+        return oldest_year
 
 
+    def get_newest_year(self, years_intersections):
+        newest_year = self.shoreline_change_params['newest_year']
+        return newest_year
+
+
+    # Get main values functions
+    def get_SCE(self, compute_params):
+        SCE_value = compute_SCE(
+            compute_params['distance1'],
+            compute_params['distance2']
+        )
+        return round(SCE_value, 2)
+
+
+    def get_NSM(self, compute_params):
+        NSM_value = compute_NSM(
+            compute_params['distance1'], 
+            compute_params['distance2']
+        )
+        return round(NSM_value, 2)
+
+
+    def get_EPR(self, compute_params):
+        NSM_value = compute_NSM(
+            compute_params['distance1'], 
+            compute_params['distance2']
+        )
+        EPR_value = compute_EPR(
+            NSM_value, 
+            compute_params['year1'], 
+            compute_params['year2']
+        )
+        return round(EPR_value, 2)
+
+
+    def get_LRR(self, compute_params):
+        years, distances = get_sorted_years_distances(
+            compute_params['years_intersections']
+        )
+        LRR_value = compute_LRR(years, distances)
+        return round(LRR_value, 2)
+
+
+    def get_LR2(self, compute_params):
+        years, distances = get_sorted_years_distances(
+            compute_params['years_intersections']
+        )
+        LR2_value = compute_LR2(years, distances)
+        return round(LR2_value, 2)
+
+
+    def get_LSE(self, compute_params):
+        years, distances = get_sorted_years_distances(
+            compute_params['years_intersections']
+        )
+        LSE_value = compute_LSE(years, distances)
+        return round(LSE_value, 2)
+
+
+    def get_LCI(self, compute_params):
+        years, distances = get_sorted_years_distances(
+            compute_params['years_intersections']
+        )
+        LCI_value = compute_LCI(
+            years,
+            distances,
+            self.shoreline_change_params['confidence_interval'])
+        return round(LCI_value, 2)
+
+
+    def get_WLR(self, compute_params):
+        years, distances = get_sorted_years_distances(
+            compute_params['years_intersections']
+        )
+        uncs = get_sorted_uncs(self.shoreline_change_params['years_uncs'])
+        WLR_value = compute_WLR(years, distances, uncs)
+        return round(WLR_value, 2)
+
+
+    def get_WR2(self, compute_params):
+        years, distances = get_sorted_years_distances(
+            compute_params['years_intersections']
+        )
+        uncs = get_sorted_uncs(self.shoreline_change_params['years_uncs'])
+        WR2_value = compute_WR2(years, distances, uncs)
+        return round(WR2_value, 2)
+
+
+    def get_WSE(self, compute_params):
+        years, distances = get_sorted_years_distances(
+            compute_params['years_intersections']
+        )
+        uncs = get_sorted_uncs(self.shoreline_change_params['years_uncs'])
+        WSE_value = compute_WSE(years, distances, uncs)
+        return round(WSE_value, 2)
+
+
+    def get_WCI(self, compute_params):
+        years, distances = get_sorted_years_distances(
+            compute_params['years_intersections']
+        )
+        uncs = get_sorted_uncs(self.shoreline_change_params['years_uncs'])
+        WCI_value = compute_WCI(
+            years,
+            distances,
+            uncs,
+            self.shoreline_change_params['confidence_interval'])
+        return round(WCI_value, 2)
+
+
+# Computation functions
 def compute_SCE(closest_distance, farthest_distance):
     """Compute Shoreline Change Envelope (SCE) value.
 
@@ -805,9 +664,8 @@ def compute_SCE(closest_distance, farthest_distance):
     Returns:
         float: SCE value.
     """
-    # TODO: validate closest distance always < farthest distance
-    SCE_value = subtract_two_distances(closest_distance, farthest_distance)
-    return SCE_value
+    SCE_value = farthest_distance - closest_distance
+    return abs(SCE_value)
 
 
 def compute_NSM(distance1, distance2):
@@ -820,7 +678,7 @@ def compute_NSM(distance1, distance2):
     Returns:
         float: NSM value.
     """
-    NSM_value = subtract_two_distances(distance1, distance2)
+    NSM_value = distance2 - distance1
     return NSM_value
 
 
@@ -1160,28 +1018,6 @@ def compute_WCI(years, distances, uncertainties, conf=99.7):
     return WCI_value
 
 
-def validate_years_intersections(years_intersections):
-    # validate if years_intersections is not None
-    if years_intersections is None:
-        raise TypeError("Years intersections cannot be None.")
-    
-    # validate if years_intersections is not empty
-    if len(years_intersections) == 0:
-        raise ValueError("Years intersections cannot be empty.")
-    
-    # validate if years_intersections is not dictionary
-    if not isinstance(years_intersections, dict):
-        raise TypeError("Years intersections must be dictionary.")
-    
-    # validate if keys are not float
-    if not all(isinstance(k, float) for k in years_intersections.keys()):
-        raise TypeError("Keys must be float.")
-    
-    # validate if values are not dictionary
-    if not all(isinstance(v, dict) for v in years_intersections.values()):
-        raise TypeError("Values must be dictionary.")
-
-
 def get_change_trend(stat_value, unc_value):
     """Get change trend based on statistic value's (e.g. SCE, NSM, EPR..) sign,
     and uncertainty value. The positive-negative uncertainty value is used
@@ -1204,11 +1040,11 @@ def get_change_trend(stat_value, unc_value):
         raise ValueError("Uncertainty value cannot be zero.")
 
     if stat_value >= -unc_value and stat_value <= unc_value:
-        return TREND_STABLE
+        return Trend.STABLE
     elif stat_value > unc_value:
-        return TREND_ACCRETION
+        return Trend.ACCRETING
     elif stat_value < -unc_value:
-        return TREND_EROSION
+        return Trend.ERODING
 
 
 def get_sorted_years_distances(years_intersections):
@@ -1244,7 +1080,7 @@ def get_sorted_years_distances(years_intersections):
                 'distance': 0.3
             }...
     """
-    validate_years_intersections(years_intersections)
+    #validate_years_intersections(years_intersections)
 
     yi_sorted = sorted(years_intersections)
     years_intersections = {key:years_intersections[key] for key in yi_sorted}
@@ -1255,170 +1091,176 @@ def get_sorted_years_distances(years_intersections):
 
 
 def get_sorted_uncs(uncs):
-    # SORT UNCS BASED ON YEAR?  
     uncs_sorted = sorted(uncs)
     uncs = {key:uncs[key] for key in uncs_sorted}
     uncs = np.array([v for v in uncs.values()])
     return uncs
 
+class GetTransectsIntersectionsTask(QgsTask):
+    def __init__(
+        self,
+        transects,
+        shorelines,
+        shorelines_params,
+        transects_params,
+        baseline_params,
+        shoreline_change_params,
+    ):
+        super().__init__("Getting transects intersections", QgsTask.CanCancel)
+        self.transects = transects
+        self.shorelines = shorelines
+        self.shorelines_params = shorelines_params
+        self.transects_params = transects_params
+        self.baseline_params = baseline_params
+        self.shoreline_change_params = shoreline_change_params
 
-def get_closest_distance_year(years_intersections, user_params):
-    closest_distance_year = min(
-        years_intersections.items(), key=lambda x: x[1]['distance'])[0]
-    return closest_distance_year
+        self.execution_time = ""
+        self.transects_intersects = []
+        
+        self.exception = None
 
+    def run(self):
+        QgsMessageLog.logMessage(
+            message=f"Started task: <b>{self.description()}</b>.",
+            level=Qgis.Info,
+        )
 
+        try:
+            start_time = time.perf_counter()
+            intersect_id = 1
 
-def get_farthest_distance_year(years_intersections, user_params):
-    farthest_distance_year = max(
-        years_intersections.items(), key=lambda x: x[1]['distance'])[0]
-    return farthest_distance_year
+            for ti, transect in enumerate(self.transects):
+                if self.isCanceled():
+                    return False
+                
+                skip_transect = False
 
+                # List of intersections per one transect
+                individual_transect_intersects = []
 
-def get_fullest_transect_points(years_intersections):
-    """Get fullest transect regardless of transect-shoreline intersections chosen.
-    """
-    min_distance = float('inf')
-    max_distance = float('-inf')
-    min_coordinates = None
-    max_coordinates = None
+                transect_origin = QgsGeometry.fromPointXY(
+                    QgsPointXY(transect.vertexAt(0))
+                )
+                # Loop through individual shoreline MultiLineString features
+                for si, shoreline in enumerate(self.shorelines):
 
-    for _, value in years_intersections.items():
-        if value['distance'] < min_distance:
-            min_distance = value['distance']
-            min_coordinates = (value['intersect_x'], value['intersect_y'])
-        if value['distance'] > max_distance:
-            max_distance = value['distance']
-            max_coordinates = (value['intersect_x'], value['intersect_y'])
+                    # Used to store multiple intersections at one shoreline
+                    # Because a unique shoreline for a single can consists
+                    # # segments
+                    individual_shoreline_intersects = {}
+                    
+                    # Used to track intersections' distance from transect 
+                    # origin
+                    intersections = {}
 
-    return min_coordinates, max_coordinates
+                    # Check intersections per segments
+                    for segment in shoreline['geoms']:
+                        intersect = transect.intersection(segment)
+                        
+                        if not intersect.isEmpty():
+                            if intersect.wkbType() == QgsWkbTypes.MultiPoint:
+                                for i in intersect.asMultiPoint():
+                                    i = QgsGeometry.fromPointXY(i)
+                                    intersections[i] = i.distance(transect_origin) 
+                            else:
+                                intersections[intersect] = intersect.distance(transect_origin)
 
+                    if intersections:
+                        if self.shoreline_change_params['is_choose_by_distance']:
+                            if self.shoreline_change_params['is_choose_by_distance_farthest']:
+                                final_intersect = max(intersections, key=intersections.get)
+                            elif self.shoreline_change_params['is_choose_by_distance_closest']:
+                                final_intersect = min(intersections, key=intersections.get)
+                        elif self.shoreline_change_params['is_choose_by_placement']:
+                            if self.shoreline_change_params['is_choose_by_placement_seaward']:
+                                if self.baseline_params['is_baseline_placement_sea']:
+                                    final_intersect = min(intersections, key=intersections.get)
+                                elif self.baseline_params['is_baseline_placement_land']:
+                                    final_intersect = max(intersections, key=intersections.get)
+                            elif self.shoreline_change_params['is_choose_by_placement_landward']:
+                                if self.baseline_params['is_baseline_placement_sea']:
+                                    final_intersect = max(intersections, key=intersections.get)
+                                elif self.baseline_params['is_baseline_placement_land']:
+                                    final_intersect = min(intersections, key=intersections.get)
+                        
+                        # Keep track of "fullest" intersection regardless
+                        # of chosen transect-shoreline intersections
+                        if self.baseline_params['is_baseline_placement_sea']:
+                            final_fullest_intersect = min(intersections, key=intersections.get)
+                        elif self.baseline_params['is_baseline_placement_land']:
+                            final_fullest_intersect = min(intersections, key=intersections.get)
 
-def get_fullest_transect_point1(years_intersections):
-    min, _ = get_fullest_transect_points(years_intersections)
-    return min
+                        # individual_shoreline_intersects['fullest_intersect_x']
+                        # individual_shoreline_intersects['fullest_intersect_y']
 
+                        individual_shoreline_intersects['transect_origin'] = transect_origin #.asWkt() # so we can pickle
+                        individual_shoreline_intersects['geom'] = final_intersect #.asWkt() # so we can pickle (adding intersection points layer)
+                        individual_shoreline_intersects['id'] = intersect_id
+                        individual_shoreline_intersects['transect_id'] = ti+1
+                        individual_shoreline_intersects['shoreline_id'] =  si+1
+                        individual_shoreline_intersects['shoreline_year'] = shoreline['year']
+                        individual_shoreline_intersects['shoreline_unc'] = shoreline['unc']
+                        
+                        # DSAS way
+                        # They apply negatives if baseline is placed on sea
+                        # This is the value passed to the stat calculations
+                        if self.baseline_params['is_baseline_placement_sea']:
+                            individual_shoreline_intersects['distance'] = -intersections[final_intersect]
+                        else:
+                            individual_shoreline_intersects['distance'] = intersections[final_intersect]
 
-def get_fullest_transect_point1_x(years_intersections, user_params):
-    x, _ = get_fullest_transect_point1(years_intersections)
-    return x
+                        individual_shoreline_intersects['intersect_x'] = float((final_intersect.asPoint().x()))
+                        individual_shoreline_intersects['intersect_y'] = float((final_intersect.asPoint().y()))
+                        
+                        # TODO: store only one time
+                        individual_shoreline_intersects['orig_transect_geom'] = transect
 
+                        individual_transect_intersects.append(individual_shoreline_intersects)
 
-def get_fullest_transect_point1_y(years_intersections, user_params):
-    _, y = get_fullest_transect_point1(years_intersections)
-    return y
+                        intersect_id += 1
 
+                    # No intersections means this transect is not intersecting
+                    # all shorelines, so it must be skipped
+                    else:
+                        skip_transect = True
+                        break
+                    
 
-def get_fullest_transect_point2(years_intersections):
-    _, max = get_fullest_transect_points(years_intersections)
-    return max
-
-
-def get_fullest_transect_point2_x(years_intersections, user_params):
-    x, _ = get_fullest_transect_point2(years_intersections)
-    return x
-
-
-def get_fullest_transect_point2_y(years_intersections, user_params):
-    _, y = get_fullest_transect_point2(years_intersections)
-    return y
-
-
-def get_fullest_transect_trend(years_intersections, user_params):
-    user_params['highest_unc']
-
-
-def get_oldest_year(years_intersections, user_params):
-    oldest_year = user_params['oldest_year']
-    return oldest_year
-
-
-def get_newest_year(years_intersections, user_params):
-    newest_year = user_params['newest_year']
-    return newest_year
-
-
-def compute_shoreline_change_stat_pre_checks(self, stat):
-    """Pre-checks for computation of any shoreline change stats.
-    
-    Args:
-        self (QtDockWidget)
-        stat (str): Stat name to check.
-
-    Returns:
-        boolean
-    """
-    shoreline_layer = self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
-
-    if stat in ('LRR', 'WLR'):
-        if shoreline_layer.featureCount() < 3:
-            display_message(
-                'LRR and WLR requires atleast 3 shorelines.', 
-                Qgis.Warning,
-            )
+                if skip_transect:
+                    self.setProgress((ti / len(self.transects)) * 100)
+                    continue
+                else:
+                    self.transects_intersects.append(individual_transect_intersects)
+                    self.setProgress((ti / len(self.transects)) * 100)
+                    
+            end_time = time.perf_counter()
+            elapsed_time = (end_time - start_time) * 1000
+            self.execution_time = f"{elapsed_time:.2f} ms"
+            #self.execution_time = time.strftime("%M:%S", time.gmtime(elapsed_time))
+            print(f"Intersection: {elapsed_time:.2f} ms")
+            return True
+        
+        except Exception as e:
+            self.exception = e
             return False
-    
-    return True
 
-
-def combine_result_values(existing_values, new_values):
-    """Used for creating one layer statistics. Combine result values into
-    existing result values. Includes condition, if existing_values is empty
-    then just return the new_values.
-
-    Example:
-        existing_values = [[1, 2, 3],
-                           [1, 2, 3]]
-
-        new_values = [[4],
-                      [4]]
-
-        combined_values = [[1, 2, 3, 4],
-                           [1, 2, 3, 4]]
-
-    Args:
-        existing_result_values (list)
-
-    Returns:
-        list
-    """
-    if existing_values:
-        combined_values = []
-        for ev, nv in zip(existing_values, new_values):
-            combined_value = ev + nv
-            combined_values.append(combined_value)
-        return combined_values
-    else:
-        return new_values
-
-
-def add_shoreline_change_stat_layer(stat, result, user_params):
-    """ 
-    Args:
-        stat_acronym (str): statistic ACRONYM (SCE, NSM, LRR etc.)
-        result (dict): 
-    """
-    # Layer names
-    if stat in ('NSM', 'EPR'):
-        name = f'{stat} ({user_params["newest_year"]}-{user_params["oldest_year"]})'
-    elif stat in ('SCE', 'LRR', 'WLR'):
-        name = f'{stat}'
-
-    # Metadata dict
-    dates = {
-        'newest_date': user_params['newest_date'],
-        'oldest_date': user_params['oldest_date'],
-    }
-    
-    create_add_layer(
-        geometry='LineString',
-        geometries=result['clipped_transect_geoms'], 
-        name=name,
-        fields=result['fields'],
-        values=result['values'],
-        extra_values=dates,
-    )
-
-
-def transpose_list(old_list):
-    return [list(x) for x in zip(*old_list)]
+    def finished(self, result):
+        if self.isCanceled():
+            QgsMessageLog.logMessage(
+                message=f"Canceled task: <b>{self.description()}</b>.",
+                level=Qgis.Warning,
+            )
+            return
+        
+        elif not result:
+            QMessageBox.critical(
+                iface.mainWindow(),
+                f"Task error: : <b>{self.description()}</b>.",
+                f"The following error occurred:\n{self.exception.__class__.__name__}: {self.exception}",
+            )
+            return
+        
+        QgsMessageLog.logMessage(
+            message=f"Success task: <b>{self.description()}</b> in {self.execution_time}.",
+            level=Qgis.Success,
+        )

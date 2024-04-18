@@ -28,7 +28,7 @@ from qscat.core.shoreline_change import compute_LCI
 from qscat.core.shoreline_change import compute_LSE
 from qscat.core.shoreline_change import get_sorted_uncs
 from qscat.core.shoreline_change import get_sorted_years_distances
-from qscat.core.summary_reports import SummaryReports
+from qscat.core.report import SummaryReport
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.input import get_baseline_input_params
 from qscat.core.utils.input import get_shorelines_years_uncs_from_input
@@ -297,7 +297,7 @@ def get_forecast_task_state_changed(qscat):
         summary = {}
         summary['datetime'] = current_datetime
 
-        report = SummaryReports(qscat, summary)
+        report = SummaryReport(qscat, summary)
         report.forecasting()
 
 

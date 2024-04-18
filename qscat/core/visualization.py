@@ -85,13 +85,13 @@ def apply_color_ramp(self):
 
     if is_field_in_layer('SCE', layer):
         stat = 'SCE'
-        uncertainty = get_highest_unc_from_input(self)
+        uncertainty = get_highest_unc_from_input(self) # TODO: get from layer custom property
     elif is_field_in_layer('NSM', layer):
         stat = 'NSM'
-        uncertainty = get_highest_unc_from_input(self)
+        uncertainty = get_highest_unc_from_input(self) # TODO: get from layer custom property
     elif is_field_in_layer('EPR', layer):
         stat = 'EPR'
-        uncertainty = get_epr_unc_from_input(self)
+        uncertainty = get_epr_unc_from_input(self) # TODO: get from layer custom property
     elif is_field_in_layer('LRR', layer):
         stat = 'LRR'
         uncertainty = None
@@ -112,7 +112,7 @@ def apply_color_ramp(self):
         # blue - end color
         color_ramp.setColor2(QColor(34,101,188))
    
-    elif stat == 'NSM' or stat == 'EPR' or stat == 'LRR' or stat == 'WLR':
+    elif stat in ['NSM', 'EPR', 'LRR', 'WLR']:
         # red - start color
         color_ramp.setColor1(QColor(173,29,42))
 

@@ -16,7 +16,7 @@ from qscat.core.utils.input import get_shoreline_change_input_params
 from qscat.core.utils.input import get_transects_input_params
 from qscat.core.utils.plugin import get_metadata_version
 from qscat.core.utils.plugin import get_project_dir
-
+from qscat.core.constants import Statistic
 
 class ComputationType:
     SHORELINE_CHANGE = 0
@@ -24,8 +24,8 @@ class ComputationType:
     FORECASTING = 2
 
 
-class SummaryReports:
-    def __init__(self, qscat, summary):
+class SummaryReport:
+    def __init__(self, qscat, summary=None):
         """Create a summary report for shoreline change, area change, and forecasting computations.
         
         Args:
@@ -155,7 +155,7 @@ class SummaryReports:
 
         f.write('\n')
         f.write('STATISTICS TAB:\n')
-        f.write(f'Transect layer: {shoreline_change["transect_layer"].name()}\n')
+        f.write(f'Transect layer: {shoreline_change["transects_layer"].name()}\n')
 
         if shoreline_change["is_choose_by_distance"]:
             f.write('Intersection: Choose by distance\n')
@@ -183,14 +183,14 @@ class SummaryReports:
 
         selected_stats = shoreline_change['selected_stats']
 
-        if 'SCE' in selected_stats:
+        if Statistic.SCE in selected_stats:
             f.write('SHORELINE CHANGE ENVELOPE (SCE):\n')
             f.write(f'Avg. value: {self.summary["SCE_avg"]}\n')
             f.write(f'Max. value: {self.summary["SCE_max"]}\n')
             f.write(f'Min. value: {self.summary["SCE_min"]}\n')
             f.write('\n')
 
-        if 'NSM' in selected_stats:
+        if Statistic.NSM in selected_stats:
             f.write('NET SHORELINE MOVEMENT (NSM):\n')
             f.write(f'Avg. distance: {self.summary["NSM_avg"]}:\n')
             f.write('\n')
@@ -216,7 +216,7 @@ class SummaryReports:
             f.write(f'Min. value: {self.summary["NSM_stable_min"]}\n')
             f.write('\n')
 
-        if 'EPR' in selected_stats:
+        if Statistic.EPR in selected_stats:
             f.write('END POINT RATE (EPR):\n')
             f.write(f'Avg. rate: {None}:\n')
             f.write('\n')
@@ -242,7 +242,7 @@ class SummaryReports:
             f.write(f'Min. value: {self.summary["EPR_stable_min"]}\n')
             f.write('\n')
 
-        if 'LRR' in selected_stats:
+        if Statistic.LRR in selected_stats:
             f.write('LINEAR REGRESSION RATE (LRR):\n')
             f.write('Erosion:\n')
             f.write(f'No. of transects: {self.summary["LRR_erosion_num_of_transects"]}\n')
@@ -259,7 +259,7 @@ class SummaryReports:
             f.write(f'Min. value: {self.summary["LRR_accretion_min"]}\n')
             f.write('\n')
 
-        if 'WLR' in selected_stats:
+        if Statistic.WLR in selected_stats:
             f.write('WEIGHTED LINEAR REGRESSION (WLR):\n')
             f.write('Erosion:\n')
             f.write(f'No. of transects: {self.summary["WLR_erosion_num_of_transects"]}\n')

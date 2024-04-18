@@ -6,7 +6,7 @@ import math
 from qgis.core import QgsProject
 
 from qscat.core.utils.date import convert_to_decimal_year
-
+from qscat.core.constants import Statistic
 
 def get_project_settings_input_params(self):
     project_settings = {
@@ -73,7 +73,8 @@ def get_shoreline_change_input_params(qscat):
         dict: A dictionary containing the input parameters in Shoreline Change Tab.
     """
     shoreline_change = {
-        'transect_layer':                  qscat.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer(),
+        'transects_layer':                  qscat.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer(),
+        'transects_layer_widget':          qscat.dockwidget.qmlcb_shoreline_change_transects_layer,
         'is_clip_transects':               qscat.dockwidget.cb_stats_clip_transects.isChecked(),
         'is_choose_by_distance':           qscat.dockwidget.rb_choose_by_distance.isChecked(),
         'is_choose_by_distance_farthest':  qscat.dockwidget.rb_choose_by_distance_farthest.isChecked(),
@@ -82,11 +83,32 @@ def get_shoreline_change_input_params(qscat):
         'is_choose_by_placement_seaward':  qscat.dockwidget.rb_choose_by_placement_seaward.isChecked(),
         'is_choose_by_placement_landward': qscat.dockwidget.rb_choose_by_placement_landward.isChecked(),
         'selected_stats':                  get_shoreline_change_stat_selected(qscat),
+        'oldest_date': qscat.dockwidget.cb_shoreline_change_oldest_date.currentText(),
+        'newest_date': qscat.dockwidget.cb_shoreline_change_newest_date.currentText(),
         'oldest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_shoreline_change_oldest_date.currentText()),
         'newest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_shoreline_change_newest_date.currentText()),
-        'highest_unc':                     get_highest_unc_from_input(qscat),
+        'confidence_interval': float(
+            qscat.dockwidget.qdsb_stats_confidence_interval.text()),
+        'epr_unc': get_epr_unc_from_input(qscat),
+        'highest_unc': get_highest_unc_from_input(qscat),
+        'years_uncs': get_shorelines_years_uncs_from_input(qscat),
     }
     return shoreline_change
+
+
+def get_shoreline_change_stat_selected(self):
+    stats = []
+    if self.dockwidget.cb_stats_SCE.isChecked():
+        stats.append(Statistic.SCE)
+    if self.dockwidget.cb_stats_NSM.isChecked():
+        stats.append(Statistic.NSM)
+    if self.dockwidget.cb_stats_EPR.isChecked():
+        stats.append(Statistic.EPR)
+    if self.dockwidget.cb_stats_LRR.isChecked():
+        stats.append(Statistic.LRR)
+    if self.dockwidget.cb_stats_WLR.isChecked():
+        stats.append(Statistic.WLR)
+    return stats
 
 
 def get_area_change_input_params(qscat):
@@ -105,19 +127,7 @@ def get_area_change_input_params(qscat):
     return area_change
 
 
-def get_shoreline_change_stat_selected(self):
-    stats = []
-    if self.dockwidget.cb_stats_SCE.isChecked():
-        stats.append('SCE')
-    if self.dockwidget.cb_stats_NSM.isChecked():
-        stats.append('NSM')
-    if self.dockwidget.cb_stats_EPR.isChecked():
-        stats.append('EPR')
-    if self.dockwidget.cb_stats_LRR.isChecked():
-        stats.append('LRR')
-    if self.dockwidget.cb_stats_WLR.isChecked():
-        stats.append('WLR')
-    return stats
+
 
 
 def get_shorelines_dates(qscat):

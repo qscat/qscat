@@ -21,7 +21,8 @@ from qscat.core.settings import save_baseline_tab_project_settings
 from qscat.core.settings import save_project_tab_project_settings
 from qscat.core.settings import save_shorelines_tab_project_settings
 from qscat.core.settings import save_transects_tab_project_settings
-from qscat.core.shoreline_change import compute_shoreline_change_stats
+from qscat.core.shoreline_change import compute_shoreline_change_button_clicked
+#from qscat.core.shoreline_change import compute_shoreline_change_stats
 from qscat.core.area_change.main import compute_area_change_stats
 from qscat.core.transects import cast_transects_button_clicked
 from qscat.core.update import check_updates_on_start
@@ -89,9 +90,11 @@ class QscatPlugin:
         
         # Shoreline Change Tab "Compute Shoreline Change" button
         self.dockwidget.pb_stats_compute_shoreline_change.clicked.connect(
-            lambda: compute_shoreline_change_stats(self)
+            lambda: compute_shoreline_change_button_clicked(self)
         )
-
+        # self.dockwidget.pb_stats_compute_shoreline_change.clicked.connect(
+        #     lambda: compute_shoreline_change_stats(self)
+        # )
         # Area Change Tab "Compute Area Change" button
         self.dockwidget.pb_stats_compute_area_change.clicked.connect(
             lambda: compute_area_change_stats(self)

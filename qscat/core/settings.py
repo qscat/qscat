@@ -138,13 +138,42 @@ def load_transects_tab_project_settings(self):
                         'smoothing_distance')
 
 
+def load_shoreline_change_tab_project_settings(self):
+    # load_project_setting(self.dockwidget.rb_choose_by_distance,
+    #                     'is_choose_by_distance')
+    # load_project_setting(self.dockwidget.rb_choose_by_distance_farthest,
+    #                     'is_choose_by_distance_farthest')
+    # load_project_setting(self.dockwidget.rb_choose_by_distance_closest,
+    #                     'is_choose_by_distance_closest')
+    # load_project_setting(self.dockwidget.rb_choose_by_placement,
+    #                     'is_choose_by_placement')
+    # load_project_setting(self.dockwidget.rb_choose_by_placement_seaward,
+    #                     'is_choose_by_placement_seaward')
+    # load_project_setting(self.dockwidget.rb_choose_by_placement_landward,
+    #                     'is_choose_by_placement_landward')
+    
+    # load_project_setting(self.dockwidget.chb_transects_clip_transects,
+    #                     'is_clip_transects')
+    # load_project_setting(self.dockwidget.chb_transects_include_intersections,
+    #                     'is_include_intersections')
+
+    # Can't put on load_plugin_widget_properties because it should be called after
+    # project settings are loaded
+    if self.dockwidget.rb_choose_by_distance.isChecked():
+        self.dockwidget.gb_choose_by_placement.setEnabled(False)
+    elif self.dockwidget.rb_choose_by_placement.isChecked():
+        self.dockwidget.gb_choose_by_distance.setEnabled(False)
+
+
 def load_plugin_project_settings(self):
     load_project_tab_project_settings(self)
     load_shorelines_tab_project_settings(self)
     load_baseline_tab_project_settings(self)
     load_transects_tab_project_settings(self)
+    load_shoreline_change_tab_project_settings(self)
 
 
+# Save project settings
 def save_project_tab_project_settings(self):
     QgsProject.instance().setCrs(
         self.dockwidget.qpsw_proj_selected_crs.crs())
@@ -172,31 +201,6 @@ def save_shorelines_tab_project_settings(self):
     save_project_setting('uncertainty_field',
                     shorelines['uncertainty_field'])
     
-    # load_project_setting(self.dockwidget.rb_choose_by_distance,
-    #                     'is_choose_by_distance')
-    # load_project_setting(self.dockwidget.rb_choose_by_distance_farthest,
-    #                     'is_choose_by_distance_farthest')
-    # load_project_setting(self.dockwidget.rb_choose_by_distance_closest,
-    #                     'is_choose_by_distance_closest')
-    # load_project_setting(self.dockwidget.rb_choose_by_placement,
-    #                     'is_choose_by_placement')
-    # load_project_setting(self.dockwidget.rb_choose_by_placement_seaward,
-    #                     'is_choose_by_placement_seaward')
-    # load_project_setting(self.dockwidget.rb_choose_by_placement_landward,
-    #                     'is_choose_by_placement_landward')
-    
-    # load_project_setting(self.dockwidget.chb_transects_clip_transects,
-    #                     'is_clip_transects')
-    # load_project_setting(self.dockwidget.chb_transects_include_intersections,
-    #                     'is_include_intersections')
-
-    # Can't put on load_plugin_widget_properties because it should be called after
-    # project settings are loaded
-    if self.dockwidget.rb_choose_by_distance.isChecked():
-        self.dockwidget.gb_choose_by_placement.setEnabled(False)
-    elif self.dockwidget.rb_choose_by_placement.isChecked():
-        self.dockwidget.gb_choose_by_distance.setEnabled(False)
-
     display_message('Inputs saved!', Qgis.Info)
    
 
@@ -254,5 +258,5 @@ def save_shoreline_change_tab_project_settings(self):
     #                 transects['is_clip_transects'])
     # save_project_setting('is_include_intersections',
     #                 transects['is_include_intersections'])
-
+        
     display_message('Inputs saved!', Qgis.Info)
