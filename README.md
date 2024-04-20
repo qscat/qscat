@@ -39,7 +39,7 @@ QSCAT offers the following features:
 ## Installation
 
 <details open>
-<summary>Inside QGIS software</summary>
+<summary>Plugins Repository</summary>
 
 ### Instructions
 
@@ -58,7 +58,7 @@ QSCAT offers the following features:
 </details>
 
 <details open>
-<summary>By ZIP File (GitHub or QGIS plugin repository website)</summary>
+<summary>ZIP file</summary>
 
 ### Instructions
 
