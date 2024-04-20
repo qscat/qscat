@@ -6,8 +6,8 @@ project = 'QSCAT'
 copyright = '2024, QSCAT'
 author = 'Louis Facun, Fernando Siringan, Floribeth Cuison, Ara Rivina Malaya, Ma. Yvainne Sta. Maria, Jamela Jirah Clemente, Angelo Maon, Ellen Mae Carmelo, and Rodel Ducao'
 
-release = '0.3.0'
-version = '0.3.0'
+release = '0.3.1'
+version = '0.3.1'
 
 # -- General configuration
 
