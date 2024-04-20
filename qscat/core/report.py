@@ -383,3 +383,5 @@ class SummaryReport:
         f.write('\n')
 
         f.write('FORECASTING\n')
+
+        f.close()
