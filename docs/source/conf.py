@@ -3,8 +3,8 @@
 # -- Project information
 
 project = 'QSCAT'
-copyright = '2024, UP-MSI COASTER Team'
-author = 'UP-MSI COASTER Team'
+copyright = '2024, QSCAT'
+author = 'Louis Facun, Fernando Siringan, Floribeth Cuison, Ara Rivina Malaya, Ma. Yvainne Sta. Maria, Jamela Jirah Clemente, Angelo Maon, Ellen Mae Carmelo, and Rodel Ducao'
 
 release = '0.3.0'
 version = '0.3.0'
@@ -37,7 +37,7 @@ html_theme = 'sphinx_rtd_theme'
 # These folders are copied to the documentation's HTML output
 html_static_path = ['_static']
 html_theme_options = {
-    'collapse_navigation': False,
+    'collapse_navigation': True,
     'sticky_navigation': True,
     'logo_only': True,
     # Other theme options...
