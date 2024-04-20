@@ -63,8 +63,6 @@ def test_create_add_layer():
     assert layer.geometryType() == QgsWkbTypes.LineGeometry
     assert 'test_layer' in layer.name()
     assert [field.name() for field in layer.fields()] == ['id', 'field1', 'field2']
-    
-    # TODO: add crs if create_add_layer will accept crs
 
     # Layer features
     for feat, geometry, value in zip(layer.getFeatures(), geometries, values):
@@ -73,5 +71,5 @@ def test_create_add_layer():
         assert feat['field2'] == value[1]
 
     # Custom properties
-    assert layer.customProperty('newest_date') == extra_values['newest_date']
-    assert layer.customProperty('oldest_date') == extra_values['oldest_date']
+    for key, value in extra_values.items():
+        assert layer.customProperty(key) == value

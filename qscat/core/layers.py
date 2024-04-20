@@ -5,10 +5,8 @@ import json
 
 from PyQt5.QtCore import QVariant
 
-from qgis.core import QgsCoordinateReferenceSystem
 from qgis.core import QgsFeature
 from qgis.core import QgsField
-from qgis.core import QgsLayerTreeGroup
 from qgis.core import QgsLineString
 from qgis.core import QgsGeometry
 from qgis.core import QgsProject
@@ -95,8 +93,8 @@ def create_add_layer(
 
     # Add custom properties
     if extra_values:
-        layer.setCustomProperty('newest_date', extra_values['newest_date'])
-        layer.setCustomProperty('oldest_date', extra_values['oldest_date'])
+        for key, value in extra_values.items():
+            layer.setCustomProperty(key, value)
 
     layer.updateExtents()
     QgsProject.instance().addMapLayers([layer])
