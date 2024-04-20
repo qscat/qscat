@@ -7,10 +7,12 @@ on:
     branches: [master]
     paths:
       - "qscat/**"
+      - "tests/**"
   pull_request:
     branches: [master]
     paths:
       - "qscat/**"
+      - "tests/**"
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
