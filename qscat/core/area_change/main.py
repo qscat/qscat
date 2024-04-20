@@ -8,8 +8,8 @@ from PyQt5.QtCore import QVariant
 from qgis.core import QgsGeometry
 
 from qscat.core.constants import AreaChangeField
-from qscat.core.layers import create_add_layer
-from qscat.core.layers import load_polygons
+from qscat.core.layer import create_add_layer
+from qscat.core.layer import load_polygons
 from qscat.core.report import SummaryReport
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.input import get_area_change_input_params

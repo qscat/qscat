@@ -20,9 +20,9 @@ from qgis.core import QgsTask
 from qgis.utils import iface
 
 from qscat.core.intersections import load_all_years_intersections
-from qscat.core.layers import create_add_layer
-from qscat.core.layers import load_shorelines
-from qscat.core.layers import load_transects
+from qscat.core.layer import create_add_layer
+from qscat.core.layer import load_shorelines
+from qscat.core.layer import load_transects
 from qscat.core.shoreline_change import GetTransectsIntersectionsTask
 from qscat.core.shoreline_change import compute_LCI
 from qscat.core.shoreline_change import compute_LSE

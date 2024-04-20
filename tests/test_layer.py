@@ -3,7 +3,7 @@ import json
 from PyQt5.QtCore import QVariant
 
 from qgis.testing import start_app
-from qscat.core.layers import create_add_layer
+from qscat.core.layer import create_add_layer
 
 from qgis.core import QgsGeometry
 from qgis.core import QgsPointXY

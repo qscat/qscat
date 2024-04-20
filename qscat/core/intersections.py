@@ -6,7 +6,7 @@ from PyQt5.QtCore import QVariant
 from qgis.core import QgsGeometry
 from qgis.core import QgsWkbTypes
 
-from qscat.core.layers import create_add_layer
+from qscat.core.layer import create_add_layer
 
 
 def load_all_years_intersections(transects_intersects):

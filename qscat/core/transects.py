@@ -13,8 +13,8 @@ from qgis.core import QgsLineString
 from qgis.core import QgsPointXY
 from qgis.core import QgsProject
 
-from qscat.core.layers import create_add_layer
-from qscat.core.layers import load_all_baselines
+from qscat.core.layer import create_add_layer
+from qscat.core.layer import load_all_baselines
 from qscat.core.messages import display_message
 from qscat.core.utils.input import get_baseline_input_params
 from qscat.core.utils.input import get_shorelines_input_params

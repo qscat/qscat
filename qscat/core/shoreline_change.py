@@ -20,9 +20,9 @@ from qgis.core import QgsWkbTypes
 from qgis.utils import iface
 
 from qscat.core.intersections import load_all_years_intersections
-from qscat.core.layers import create_add_layer
-from qscat.core.layers import load_shorelines
-from qscat.core.layers import load_transects
+from qscat.core.layer import create_add_layer
+from qscat.core.layer import load_shorelines
+from qscat.core.layer import load_transects
 from qscat.core.messages import display_message
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.input import get_baseline_input_params
