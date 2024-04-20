@@ -163,7 +163,6 @@ def run_forecasting(qscat):
         transects_params,
         baseline_params,
         shoreline_change_params,
-        qscat.dockwidget.qmlcb_shoreline_change_transects_layer,
     )
     globals()['get_transects_intersections_task'].taskCompleted.connect(
         lambda: get_transects_intersections_task_state_changed(
