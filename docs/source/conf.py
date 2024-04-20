@@ -43,6 +43,8 @@ html_theme_options = {
     # Other theme options...
 }
 html_logo = "qscat-logo.svg"
+html_favicon = "favicon.ico"
+
 # html_theme_options = {
 #     'logo_only': True,
 #     'display_version': False,
