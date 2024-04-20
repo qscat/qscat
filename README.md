@@ -20,21 +20,20 @@ QSCAT was initially developed by UP-MSI CoastER team for a [government-funded in
 
 </div>
 
+![qscat](https://github.com/louisfacun/qscat/assets/58874676/df5f0bb2-ce42-4270-bf01-7d4f01d58ae6)
+
 ## Features
 
 QSCAT offers the following features:
 
-* **Shoreline Change:** computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR).
-
-* **Area Change:** calculates length and area of accreting, stable, and eroding coastal segments.
-
-* **Forecasting:** predict future shoreline positions including uncertainty areas.
-
-* **Automator:** tools that automate manual repetitive tasks.
-
-* **Visualization:** shoreline and area change, forecasting results are visualized in the map for easy interpretation.
-
-* **Summary Reports:** generates a comprehensive summary reports of the analysis results.
+| Feature | Description |
+| ------ | ----- |
+| **Shoreline Change** | Computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR). |
+| **Area Change** | Calculates length and area of accreting, stable, and eroding coastal segments. |
+| **Forecasting**| Predicts future shoreline positions including uncertainty areas. |
+| **Automator** | Automates manual repetitive tasks. |
+| **Visualization** | Visualizes shoreline and area change, forecasting results in the map for easy interpretation. |
+| **Summary Report** | Generates a comprehensive summary report of the results. |
 
 ## Installation
 
@@ -83,7 +82,7 @@ See [QSCAT User Manual - Sample Workflow](https://qscat.readthedocs.io/en/latest
 
 ## Contributing
 
-We welcome contributions to QSCAT! Given that the plugin is in its initial stage, **bug reports are our top priority** as they help us identify and address issues to improve the stability and functionality of QSCAT. Whether it's code improvements, bug fixes, documentation enhancements, or translations, every contribution helps make QSCAT better for everyone. Please see our [Contribution Guide](CONTRIBUTING.md) for more details on how to get involved.
+- We welcome contributions to QSCAT! Given that the plugin is in its initial stage, **bug reports are our top priority** as they help us identify and address issues to improve the stability and functionality of QSCAT. Whether it's code improvements, bug fixes, documentation enhancements, or translations, every contribution helps make QSCAT better for everyone. Please see our [Contribution Guide](CONTRIBUTING.md) for more details on how to get involved.
 
 ## License
 - **[GPL License 3.0](LICENSE):** The QSCAT plugin is licensed under GPL 3.0, per [QGIS'](https://blog.qgis.org/2016/05/29/licensing-requirements-for-qgis-plugins/) Open Source Software principles. This decision aligns with the requirement for plugins to comply with GPL version 2 or greater for distribution through the QGIS plugin system.
