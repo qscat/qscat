@@ -64,3 +64,7 @@ epub_show_urls = 'footnote'
 # Enable numeric figure references
 numfig = True
 numfig_secnum_depth = 2
+
+# disable epub mimetype warnings
+# https://github.com/sphinx-doc/sphinx/issues/10350#issuecomment-1484401954
+suppress_warnings = ["epub.unknown_project_files"]
