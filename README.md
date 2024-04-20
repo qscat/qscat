@@ -27,13 +27,13 @@ QSCAT was initially developed by UP-MSI CoastER team for a [government-funded in
 QSCAT offers the following features:
 
 | Feature | Description |
-| ------ | ----- |
-| **Shoreline Change** | Computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR). |
-| **Area Change** | Calculates length and area of accreting, stable, and eroding coastal segments. |
-| **Forecasting**| Predicts future shoreline positions including uncertainty areas. |
-| **Automator** | Automates manual repetitive tasks. |
-| **Visualization** | Visualizes shoreline and area change, forecasting results in the map for easy interpretation. |
-| **Summary Report** | Generates a comprehensive summary report of the results. |
+| - | -- |
+| [**Shoreline Change**](https://qscat.readthedocs.io/en/latest/tabs/shoreline_change.html) | Computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR). |
+| [**Area Change**](https://qscat.readthedocs.io/en/latest/tabs/area_change.html) | Calculates length and area of accreting, stable, and eroding coastal segments. |
+| [**Forecasting**](https://qscat.readthedocs.io/en/latest/tabs/forecasting.html) | Predicts future shoreline positions including uncertainty areas. |
+| [**Automator**](https://qscat.readthedocs.io/en/latest/tabs/automator.html) | Automates manual repetitive tasks. |
+| [**Visualization**](https://qscat.readthedocs.io/en/latest/tabs/visualization.html) | Visualizes shoreline and area change, forecasting results in the map for easy interpretation. |
+| [**Summary Report**](https://qscat.readthedocs.io/en/latest/tabs/summary_reports.html) | Generates a comprehensive summary report of the results. |
 
 ## Installation
 
