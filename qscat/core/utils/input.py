@@ -8,38 +8,60 @@ from qgis.core import QgsProject
 from qscat.core.utils.date import convert_to_decimal_year
 from qscat.core.constants import Statistic
 
-def get_project_settings_input_params(self):
-    project_settings = {
+
+def get_project_settings_input_params(qscat):
+    """Returns a dictionary containing the input parameters in Project Settings Tab.
+    
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+        
+    Returns:
+        dict: A dictionary containing the input parameters in Project Settings Tab.
+    """
+    return {
         'crs_id':             QgsProject.instance().crs().authid(),
-        'author_full_name':   self.dockwidget.le_proj_author_full_name.text(),
-        'author_affiliation': self.dockwidget.le_proj_author_affiliation.text(),
-        'author_email':       self.dockwidget.le_proj_author_email.text(),
+        'author_full_name':   qscat.dockwidget.le_proj_author_full_name.text(),
+        'author_affiliation': qscat.dockwidget.le_proj_author_affiliation.text(),
+        'author_email':       qscat.dockwidget.le_proj_author_email.text(),
     }
-    return project_settings
 
 
-def get_baseline_input_params(self):
-    baseline = {
-        'baseline_layer':                     self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer(),
-        'is_baseline_placement_sea':          self.dockwidget.rb_baseline_placement_sea.isChecked(),
-        'is_baseline_placement_land':         self.dockwidget.rb_baseline_placement_land.isChecked(),
-        'is_baseline_orientation_land_right': self.dockwidget.rb_baseline_orientation_land_right.isChecked(),
-        'is_baseline_orientation_land_left':  self.dockwidget.rb_baseline_orientation_land_left.isChecked(),
-        'placement_field':                    self.dockwidget.qfcb_baseline_placement_field.currentField(),
-        'orientation_field':                  self.dockwidget.qfcb_baseline_orientation_field.currentField(),
-        'transect_length_field':              self.dockwidget.qfcb_baseline_length_field.currentField(),
+def get_baseline_input_params(qscat):
+    """Returns a dictionary containing the input parameters in Baseline Tab.
+
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+
+    Returns:
+        dict: A dictionary containing the input parameters in Baseline Tab.
+    """
+    return {
+        'baseline_layer':                     qscat.dockwidget.qmlcb_baseline_baseline_layer.currentLayer(),
+        'is_baseline_placement_sea':          qscat.dockwidget.rb_baseline_placement_sea.isChecked(),
+        'is_baseline_placement_land':         qscat.dockwidget.rb_baseline_placement_land.isChecked(),
+        'is_baseline_orientation_land_right': qscat.dockwidget.rb_baseline_orientation_land_right.isChecked(),
+        'is_baseline_orientation_land_left':  qscat.dockwidget.rb_baseline_orientation_land_left.isChecked(),
+        'placement_field':                    qscat.dockwidget.qfcb_baseline_placement_field.currentField(),
+        'orientation_field':                  qscat.dockwidget.qfcb_baseline_orientation_field.currentField(),
+        'transect_length_field':              qscat.dockwidget.qfcb_baseline_length_field.currentField(),
     }
-    return baseline
 
 
-def get_shorelines_input_params(self):
-    shorelines = {
-        'shorelines_layer':         self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer(),
-        'default_data_uncertainty': self.dockwidget.le_shorelines_default_data_unc.text(),
-        'date_field':               self.dockwidget.qfcb_shorelines_date_field.currentField(),
-        'uncertainty_field':        self.dockwidget.qfcb_shorelines_uncertainty_field.currentField(),
+def get_shorelines_input_params(qscat):
+    """Returns a dictionary containing the input parameters in Shorelines Tab.
+
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+
+    Returns:
+        dict: A dictionary containing the input parameters in Shorelines Tab.
+    """
+    return {
+        'shorelines_layer':         qscat.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer(),
+        'default_data_uncertainty': qscat.dockwidget.le_shorelines_default_data_unc.text(),
+        'date_field':               qscat.dockwidget.qfcb_shorelines_date_field.currentField(),
+        'uncertainty_field':        qscat.dockwidget.qfcb_shorelines_uncertainty_field.currentField(),
     }
-    return shorelines
 
 
 def get_transects_input_params(qscat):
@@ -51,7 +73,7 @@ def get_transects_input_params(qscat):
     Returns:
         dict: A dictionary containing the input parameters in Transects Tab.
     """
-    transects = {
+    return {
         'layer_output_name':         qscat.dockwidget.le_transects_layer_output_name.text(),
         'is_by_transect_spacing':    qscat.dockwidget.rb_transects_by_transect_spacing.isChecked(),
         'is_by_number_of_transects': qscat.dockwidget.rb_transects_by_number_of_transects.isChecked(),
@@ -60,7 +82,6 @@ def get_transects_input_params(qscat):
         'length':                    qscat.dockwidget.qsb_transects_length.text(),
         'smoothing_distance':        qscat.dockwidget.qsb_transects_smoothing_distance.text(),
     }
-    return transects
 
 
 def get_shoreline_change_input_params(qscat):
@@ -72,8 +93,8 @@ def get_shoreline_change_input_params(qscat):
     Returns:
         dict: A dictionary containing the input parameters in Shoreline Change Tab.
     """
-    shoreline_change = {
-        'transects_layer':                  qscat.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer(),
+    return {
+        'transects_layer':                 qscat.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer(),
         'transects_layer_widget':          qscat.dockwidget.qmlcb_shoreline_change_transects_layer,
         'is_clip_transects':               qscat.dockwidget.cb_stats_clip_transects.isChecked(),
         'is_choose_by_distance':           qscat.dockwidget.rb_choose_by_distance.isChecked(),
@@ -83,30 +104,36 @@ def get_shoreline_change_input_params(qscat):
         'is_choose_by_placement_seaward':  qscat.dockwidget.rb_choose_by_placement_seaward.isChecked(),
         'is_choose_by_placement_landward': qscat.dockwidget.rb_choose_by_placement_landward.isChecked(),
         'selected_stats':                  get_shoreline_change_stat_selected(qscat),
-        'oldest_date': qscat.dockwidget.cb_shoreline_change_oldest_date.currentText(),
-        'newest_date': qscat.dockwidget.cb_shoreline_change_newest_date.currentText(),
+        'oldest_date':                     qscat.dockwidget.cb_shoreline_change_oldest_date.currentText(),
+        'newest_date':                     qscat.dockwidget.cb_shoreline_change_newest_date.currentText(),
         'oldest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_shoreline_change_oldest_date.currentText()),
         'newest_year':                     convert_to_decimal_year(qscat.dockwidget.cb_shoreline_change_newest_date.currentText()),
-        'confidence_interval': float(
-            qscat.dockwidget.qdsb_stats_confidence_interval.text()),
-        'epr_unc': get_epr_unc_from_input(qscat),
-        'highest_unc': get_highest_unc_from_input(qscat),
-        'years_uncs': get_shorelines_years_uncs_from_input(qscat),
+        'confidence_interval':             float(qscat.dockwidget.qdsb_stats_confidence_interval.text()),
+        'epr_unc':                         get_epr_unc_from_input(qscat),
+        'highest_unc':                     get_highest_unc_from_input(qscat),
+        'years_uncs':                      get_shorelines_years_uncs_from_input(qscat),
     }
-    return shoreline_change
 
 
-def get_shoreline_change_stat_selected(self):
+def get_shoreline_change_stat_selected(qscat):
+    """Returns a list of selected statistics in Shoreline Change Tab.
+
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+
+    Returns:
+        list[Statistic]: A list of selected statistics.
+    """
     stats = []
-    if self.dockwidget.cb_stats_SCE.isChecked():
+    if qscat.dockwidget.cb_stats_SCE.isChecked():
         stats.append(Statistic.SCE)
-    if self.dockwidget.cb_stats_NSM.isChecked():
+    if qscat.dockwidget.cb_stats_NSM.isChecked():
         stats.append(Statistic.NSM)
-    if self.dockwidget.cb_stats_EPR.isChecked():
+    if qscat.dockwidget.cb_stats_EPR.isChecked():
         stats.append(Statistic.EPR)
-    if self.dockwidget.cb_stats_LRR.isChecked():
+    if qscat.dockwidget.cb_stats_LRR.isChecked():
         stats.append(Statistic.LRR)
-    if self.dockwidget.cb_stats_WLR.isChecked():
+    if qscat.dockwidget.cb_stats_WLR.isChecked():
         stats.append(Statistic.WLR)
     return stats
 
@@ -120,14 +147,27 @@ def get_area_change_input_params(qscat):
     Returns:
         dict: A dictionary containing the input parameters in Area Change Tab.
     """
-    area_change = {
+    return {
         'polygon_layer': qscat.dockwidget.qmlcb_area_change_polygon_layer.currentLayer(),
-        'stat_layer':  qscat.dockwidget.qmlcb_area_change_stat_layer.currentLayer(),
+        'stat_layer':    qscat.dockwidget.qmlcb_area_change_stat_layer.currentLayer(),
     }
-    return area_change
 
 
+def get_summary_report_input_params(qscat):
+    """Returns a dictionary containing the input parameters in Summary Report Tab.
 
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
+
+    Returns:
+        dict: A dictionary containing the input parameters in Summary Report Tab.
+    """
+    return {
+        'is_report':                  qscat.dockwidget.cb_enable_report_generation.isChecked(),
+        'is_shoreline_change_report': qscat.dockwidget.cb_enable_shoreline_change_report.isChecked(),
+        'is_area_change_report':      qscat.dockwidget.cb_enable_area_change_report.isChecked(),
+        'is_forecasting_report':      qscat.dockwidget.cb_enable_forecasting_report.isChecked(),
+    }
 
 
 def get_shorelines_dates(qscat):
@@ -161,9 +201,7 @@ def get_shorelines_uncs(self):
 
 
 def get_shorelines_years_uncs_from_input(self):
-    """"
-        Returns a dict of {year: unc}
-    """
+    """Returns a dict of {year: unc}"""
     layer = self.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
     feats = layer.getFeatures()
 
@@ -224,50 +262,3 @@ def get_epr_unc_from_input(self):
         / (convert_to_decimal_year(newest_year_txt)-convert_to_decimal_year(oldest_year_txt))
 
     return round(EPR_unc, 2)
-
-
-# TODO: Remove soon
-# def filter_years_intersections_by_range(years_intersections, newest_year, oldest_year):
-#     """Filter years_intersections dict by range of years.
-
-#     Args:
-#         newest_year (float): decimal year
-#         oldest_year (float): decimal year
-#         years_intersections (dict): {year: {'unc': unc, 'distance': distance, 'intersect_x': x, 'intersect_y': y}}
-
-#     Returns:
-#         dict: {year: {'unc': unc, 'distance': distance, 'intersect_x': x, 'intersect_y': y}}
-    
-#     Raises:
-#         TODO: TypeError: if newest_year or oldest_year is not a float
-#         TODO: ValueError: if newest_year is less than oldest_year
-#         TODO: Check if years is sorted
-
-#     Example:
-#         data = {
-#         1.2: {'unc': 10, 'distance': 5, 'intersect_x': 2, 'intersect_y': 3},
-#         2.5: {'unc': 8, 'distance': 7, 'intersect_x': 4, 'intersect_y': 1},
-#         3.7: {'unc': 15, 'distance': 2, 'intersect_x': 7, 'intersect_y': 8},
-#         4.9: {'unc': 12, 'distance': 6, 'intersect_x': 5, 'intersect_y': 6}
-#         }
-#         say, lowest = 2.5, highest 4.9
-
-#         it should remove the dict entry of 1.2 since it is not on the range of 2.5 to 4.9
-#     """
-#     years_intersections_copy = years_intersections.copy()
-#     years_to_remove = [year for year in years_intersections_copy.keys() if year < oldest_year or year > newest_year]
-#     for year in years_to_remove:
-#         del years_intersections_copy[year]
-#     return years_intersections_copy
-
-
-# def filter_uncs_by_range(year_uncs, newest_year, oldest_year):
-#     """
-#     Example input data:
-#         {2003.0: 15.0, 2006.0: 15.0, 2009.0: 15.0, 2014.0: 15.0, 2016.0: 15.0, 2018.0: 1.0, 2020.0: 15.0, 2022.0: 1.0, 1977.0: 25.0, 2011.0: 15.0}
-#     """
-#     year_uncs_copy = year_uncs.copy()
-#     years_to_remove = [year for year in year_uncs_copy.keys() if year < oldest_year or year > newest_year]
-#     for year in years_to_remove:
-#         del year_uncs_copy[year]
-#     return year_uncs_copy

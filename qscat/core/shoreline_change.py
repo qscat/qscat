@@ -26,6 +26,7 @@ from qscat.core.layers import load_transects
 from qscat.core.messages import display_message
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.input import get_baseline_input_params
+from qscat.core.utils.input import get_summary_report_input_params
 from qscat.core.utils.input import get_shorelines_input_params
 from qscat.core.utils.input import get_shoreline_change_input_params
 from qscat.core.utils.input import get_transects_input_params
@@ -45,23 +46,26 @@ def compute_shoreline_change_button_clicked(qscat):
     shorelines_params = get_shorelines_input_params(qscat)
     transects_params = get_transects_input_params(qscat)
     shoreline_change_params = get_shoreline_change_input_params(qscat)
+    report_params = get_summary_report_input_params(qscat)
     
     transects = load_transects(
         qscat.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer()
     )
     shorelines = load_shorelines(shorelines_params)
     transects_layer_widget = shoreline_change_params['transects_layer_widget']
-    reports = SummaryReport(qscat=qscat)
+
+    report = SummaryReport(qscat)
 
     shoreline_change = ShorelineChange(
         baseline_params,
         shorelines_params,
         transects_params,
         shoreline_change_params,
+        report_params,
         transects,
         shorelines,
         transects_layer_widget,
-        reports,
+        report,
     )
 
     shoreline_change.compute_shoreline_change()
@@ -74,6 +78,7 @@ class ShorelineChange:
         shorelines_params,
         transects_params,
         shoreline_change_params,
+        report_params,
         transects,
         shorelines,
         transects_layer_widget,
@@ -84,6 +89,8 @@ class ShorelineChange:
         self.shorelines_params = shorelines_params
         self.transects_params = transects_params
         self.shoreline_change_params = shoreline_change_params
+        self.report_params = report_params
+
         self.transects = transects
         self.shorelines = shorelines
         self.transects_layer_widget = transects_layer_widget
@@ -245,8 +252,12 @@ class ShorelineChange:
                 values=all_values.tolist(),
             )
 
-            # Create summary report
-            self.create_summary_report(stat_values)
+            # Summary
+            if (
+                self.report_params['is_report'] and 
+                self.report_params['is_shoreline_change_report']
+            ):
+                self.create_summary_report(stat_values)
 
 
     def create_summary_report(self, stat_values):

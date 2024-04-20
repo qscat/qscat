@@ -294,11 +294,15 @@ def get_forecast_task_state_changed(qscat):
         )
 
         # Summary
-        summary = {}
-        summary['datetime'] = current_datetime
+        if (
+            qscat.dockwidget.cb_enable_report_generation.isChecked() and 
+            qscat.dockwidget.cb_enable_forecasting_report.isChecked()
+        ):
+            summary = {}
+            summary['datetime'] = current_datetime
 
-        report = SummaryReport(qscat, summary)
-        report.forecasting()
+            report = SummaryReport(qscat, summary)
+            report.forecasting()
 
 
 def get_angle(point1, point2):
