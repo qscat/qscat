@@ -49,19 +49,19 @@ def apply_area_colors(layer):
 
     categories = [
         QgsRendererCategory(
-            value=Trend.ACCRETING,
-            symbol=accretion_symbol,
-            label=Trend.ACCRETING,
+            Trend.ACCRETING,
+            accretion_symbol,
+            Trend.ACCRETING,
         ),
         QgsRendererCategory(
-            value=Trend.ERODING,
-            symbol=erosion_symbol,
-            label=Trend.ERODING,
+            Trend.ERODING,
+            erosion_symbol,
+            Trend.ERODING,
         ),
         QgsRendererCategory(
-            value=Trend.STABLE,
-            symbol=stable_symbol,
-            label=Trend.STABLE,
+            Trend.STABLE,
+            stable_symbol,
+            Trend.STABLE,
         ),
     ]
     renderer = QgsCategorizedSymbolRenderer(field_name, categories)
