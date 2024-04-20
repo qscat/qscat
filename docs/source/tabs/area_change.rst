@@ -119,7 +119,7 @@ Area
    * - ``area_percent``
      - ``double``
      - Percentage of the current area in total area change.
-   * - ``area_type``
+   * - ``area_trend``
      - ``string``
      - Trends (stable, erosion, or accretion) based on stat's transects used. 
    * - ``shoreline_length``

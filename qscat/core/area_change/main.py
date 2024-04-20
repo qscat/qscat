@@ -6,12 +6,10 @@
 from PyQt5.QtCore import QVariant
 
 from qgis.core import QgsGeometry
-#from qgis.core import QgsPoint
-#from qgis.core import QgsWkbTypes
 
+from qscat.core.constants import AreaChangeField
 from qscat.core.layers import create_add_layer
 from qscat.core.layers import load_polygons
-
 from qscat.core.report import SummaryReport
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.input import get_area_change_input_params
@@ -233,7 +231,7 @@ def compute_area_change_stats(qscat):
     layer_fields = [
         {'name': 'area', 'type': QVariant.Double},
         {'name': 'area_percent', 'type': QVariant.Double},
-        {'name': 'area_type', 'type': QVariant.String},
+        {'name': AreaChangeField.TREND, 'type': QVariant.String},
         {'name': 'shoreline_length', 'type': QVariant.Double},
         {'name': 'shoreline_length_percent', 'type': QVariant.Double},
         {'name': 'name', 'type': QVariant.String},

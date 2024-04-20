@@ -21,41 +21,35 @@ from qscat.core.utils.input import get_highest_unc_from_input
 from qscat.core.utils.input import get_epr_unc_from_input
 from qscat.core.utils.layer import is_field_in_layer
 
+from qscat.core.constants import AreaChangeField
 from qscat.core.constants import Statistic
 from qscat.core.constants import Trend
 
 
 def apply_area_colors(layer):
     """Apply colors to the layer output of the area change feature based 
-       on `area_type` field.
+       on `AreaChangeField.TREND`.
 
     Args:
         layer (QgsVectorLayer): The layer to apply the colors to.
     """
-    field_name = 'area_type'
-
-    accretion_symbol = QgsFillSymbol.createSimple(
+    accreting_symbol = QgsFillSymbol.createSimple(
         {'color': QColor(34,101,188,255), 'style': 'solid'}
     )
-    erosion_symbol = QgsFillSymbol.createSimple(
+    eroding_symbol = QgsFillSymbol.createSimple(
         {'color': QColor(173,29,42,255), 'style': 'solid'}
     )
     stable_symbol = QgsFillSymbol.createSimple(
         {'color': QColor(229,228,218,255), 'style': 'solid'}
     )
-    accretion_symbol.setOpacity(0.5)
-    erosion_symbol.setOpacity(0.5)
+    accreting_symbol.setOpacity(0.5)
+    eroding_symbol.setOpacity(0.5)
     stable_symbol.setOpacity(0.5)
 
     categories = [
         QgsRendererCategory(
-            Trend.ACCRETING,
-            accretion_symbol,
-            Trend.ACCRETING,
-        ),
-        QgsRendererCategory(
             Trend.ERODING,
-            erosion_symbol,
+            eroding_symbol,
             Trend.ERODING,
         ),
         QgsRendererCategory(
@@ -63,8 +57,13 @@ def apply_area_colors(layer):
             stable_symbol,
             Trend.STABLE,
         ),
+        QgsRendererCategory(
+            Trend.ACCRETING,
+            accreting_symbol,
+            Trend.ACCRETING,
+        )
     ]
-    renderer = QgsCategorizedSymbolRenderer(field_name, categories)
+    renderer = QgsCategorizedSymbolRenderer(AreaChangeField.TREND, categories)
     layer.setRenderer(renderer)
     layer.triggerRepaint()
 

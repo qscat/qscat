@@ -3,6 +3,7 @@ class Trend:
     ACCRETING = 'accreting'
     ERODING = 'eroding'
 
+
 class Statistic:
     SCE = 'SCE'
     EPR = 'EPR'
@@ -15,3 +16,7 @@ class Statistic:
     WR2 = 'WR2'
     WSE = 'WSE'
     WCI = 'WCI'
+
+
+class AreaChangeField:
+    TREND = 'area_trend'
