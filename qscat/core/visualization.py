@@ -21,16 +21,16 @@ from qscat.core.utils.input import get_highest_unc_from_input
 from qscat.core.utils.input import get_epr_unc_from_input
 from qscat.core.utils.layer import is_field_in_layer
 
+from qscat.core.constants import Statistic
+from qscat.core.constants import Trend
+
 
 def apply_area_colors(layer):
     """Apply colors to the layer output of the area change feature based 
-    on `area_type` field.
+       on `area_type` field.
 
     Args:
         layer (QgsVectorLayer): The layer to apply the colors to.
-    
-    Returns:
-        None
     """
     field_name = 'area_type'
 
@@ -49,22 +49,19 @@ def apply_area_colors(layer):
 
     categories = [
         QgsRendererCategory(
-            'accretion', 
-            #QgsSymbol.defaultSymbol(layer.geometryType()),
-            accretion_symbol,
-            'accretion',
+            value=Trend.ACCRETING,
+            symbol=accretion_symbol,
+            label=Trend.ACCRETING,
         ),
         QgsRendererCategory(
-            'erosion', 
-            #QgsSymbol.defaultSymbol(layer.geometryType()),
-            erosion_symbol,
-            'erosion',
+            value=Trend.ERODING,
+            symbol=erosion_symbol,
+            label=Trend.ERODING,
         ),
         QgsRendererCategory(
-            'stable', 
-            #QgsSymbol.defaultSymbol(layer.geometryType()),
-            stable_symbol,
-            'stable', 
+            value=Trend.STABLE,
+            symbol=stable_symbol,
+            label=Trend.STABLE,
         ),
     ]
     renderer = QgsCategorizedSymbolRenderer(field_name, categories)
@@ -74,8 +71,6 @@ def apply_area_colors(layer):
 
 def apply_color_ramp(self):
     """Apply color ramp to the layer based on the selected stat layer in the GUI.
-    
-    
     """
     layer = self.dockwidget.qmlcb_vis_stat_layer.currentLayer()
     mode = self.dockwidget.cb_vis_mode.currentIndex()
@@ -83,20 +78,20 @@ def apply_color_ramp(self):
     pos_classes = int(self.dockwidget.qsb_vis_pos_classes.text())
     neg_classes = int(self.dockwidget.qsb_vis_neg_classes.text())
 
-    if is_field_in_layer('SCE', layer):
-        stat = 'SCE'
+    if is_field_in_layer(Statistic.SCE, layer):
+        stat = Statistic.SCE
         uncertainty = get_highest_unc_from_input(self) # TODO: get from layer custom property
-    elif is_field_in_layer('NSM', layer):
-        stat = 'NSM'
+    elif is_field_in_layer(Statistic.NSM, layer):
+        stat = Statistic.NSM
         uncertainty = get_highest_unc_from_input(self) # TODO: get from layer custom property
-    elif is_field_in_layer('EPR', layer):
-        stat = 'EPR'
+    elif is_field_in_layer(Statistic.EPR, layer):
+        stat = Statistic.EPR
         uncertainty = get_epr_unc_from_input(self) # TODO: get from layer custom property
-    elif is_field_in_layer('LRR', layer):
-        stat = 'LRR'
+    elif is_field_in_layer(Statistic.LRR, layer):
+        stat = Statistic.LRR
         uncertainty = None
-    elif is_field_in_layer('WLR', layer):
-        stat = 'WLR'
+    elif is_field_in_layer(Statistic.WLR, layer):
+        stat = Statistic.WLR
         uncertainty = None
 
     feats = layer.getFeatures()
@@ -105,14 +100,14 @@ def apply_color_ramp(self):
     default_style = QgsStyle().defaultStyle()
     color_ramp = default_style.colorRamp("Greys")
    
-    if stat == 'SCE':
+    if stat == Statistic.SCE:
         # grey - start color
         color_ramp.setColor1(QColor(229,228,218))
 
         # blue - end color
         color_ramp.setColor2(QColor(34,101,188))
    
-    elif stat in ['NSM', 'EPR', 'LRR', 'WLR']:
+    elif stat in [Statistic.NSM, Statistic.EPR, Statistic.LRR, Statistic.WLR]:
         # red - start color
         color_ramp.setColor1(QColor(173,29,42))
 
@@ -133,7 +128,8 @@ def apply_color_ramp(self):
     classification_method.setLabelPrecision(2)
     classification_method.setLabelTrimTrailingZeroes(True)
     
-    if stat == 'NSM' or stat == 'EPR':
+    # Determine if color ramp has uncertainty value
+    if stat == Statistic.NSM or stat == Statistic.EPR:
         neg_minimum = min(values)
         neg_maximum = -uncertainty
         #neg_classes = 4
@@ -174,7 +170,7 @@ def apply_color_ramp(self):
         )
         ranges = neg_ranges + unc_range + pos_ranges
     
-    elif stat == 'SCE':
+    elif stat == Statistic.SCE:
         pos_maximum = max(values)
         if mode == 0 or mode == 2:
             ranges = classification_method.classes(
@@ -188,7 +184,7 @@ def apply_color_ramp(self):
                 pos_classes
             )
 
-    elif stat == 'LRR' or stat == 'WLR':
+    elif stat == Statistic.LRR or stat == Statistic.WLR:
         if mode == 0 or mode == 2:
             ranges = classification_method.classes(
                 values,
