@@ -5,7 +5,7 @@
 [![QGIS (3.34.5)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.34.5.yml/badge.svg)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.34.5.yml)
 [![QGIS (3.36.1)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.36.1.yml/badge.svg)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.36.1.yml)
 [![codecov](https://codecov.io/gh/louisfacun/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/louisfacun/qscat)
-[![QGIS.org - 0.3.0](https://img.shields.io/badge/qgis.org-0.3.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
+[![QGIS.org - 0.3.1](https://img.shields.io/badge/qgis.org-0.3.1-green.svg)](https://plugins.qgis.org/plugins/qscat)
 [![Documentation Status](https://readthedocs.org/projects/qscat/badge/?version=latest)](https://qscat.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/louisfacun/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/louisfacun/qscat)

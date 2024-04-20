@@ -27,6 +27,6 @@ authors:
 - family-names: "Cuison"
   given-names: "Floribeth"
 
-version: 0.3.0
-date-released: "2024-04-07"
+version: 0.3.1
+date-released: "2024-04-21"
 url: "https://github.com/louisfacun/qscat"
