@@ -1,2 +1,2 @@
 sphinxcontrib-bibtex
-sphinx-rtd-theme
+pydata_sphinx_theme
