@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+html[data-theme="light"] {
+    --pst-color-primary: rgb(46, 126, 230);
+    --pst-color-secondary: rgb(51, 51, 51);
+}
+
+html[data-theme="dark"] {
+    --pst-color-primary: rgb(46, 126, 230);
+    --pst-color-secondary: rgb(200, 200, 200);
+}
+
+:root {
+    --pst-font-family-base: 'Open Sans', var(--pst-font-family-base-system);
+    --pst-font-family-heading: 'Lato', var(--pst-font-family-base-system);
+    --pst-font-family-monospace: 'Consolas', var(--pst-font-family-monospace-system);
+}
+
+a {
+    text-decoration: none;
+}
+
+a:active, a:hover {
+    text-decoration: none;
+}
+
+/* side bar left */
+nav.bd-links li>a:active, nav.bd-links li>a:hover {
+    color: var(--pst-color-primary);
+    text-decoration: none;
+}
+
+/* header */
+.bd-header .navbar-nav li a.nav-link:hover {
+    color: var(--pst-color-primary);
+    text-decoration: none;
+}
+
+.navbar-icon-links li.nav-item a.nav-link:hover {
+   text-decoration: none;
+}
+
+/* side bar right */
+.toc-entry a.nav-link:active, .toc-entry a.nav-link:hover {
+    color: var(--pst-color-primary);
+    text-decoration: none;
+}
+
+.bd-links__title { display: none; }
+
+/* .caption-text { text-transform: uppercase; } */
+
+

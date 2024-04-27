@@ -4,7 +4,10 @@
 
 project = 'QSCAT'
 copyright = '2024, QSCAT'
-author = 'Louis Facun, Fernando Siringan, Floribeth Cuison, Ara Rivina Malaya, Ma. Yvainne Sta. Maria, Jamela Jirah Clemente, Angelo Maon, Ellen Mae Carmelo, and Rodel Ducao'
+author = """Louis Facun, Fernando Siringan, Floribeth Cuison, Ara Rivina Malaya,
+Ma. Yvainne Sta. Maria, Jamela Jirah Clemente, Angelo Maon, Ellen Mae Carmelo, 
+and Rodel Ducao
+"""
 
 release = '0.3.1'
 version = '0.3.1'
@@ -19,6 +22,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinxcontrib.bibtex',
 ]
+
 # -- Bibtex configuration
 bibtex_bibfiles = ['refs.bib']
 bibtex_reference_style = 'author_year'
@@ -31,32 +35,42 @@ intersphinx_disabled_domains = ['std']
 
 templates_path = ['_templates']
 
-# -- Options for HTML output
-html_theme = 'sphinx_rtd_theme'
+# -----------------------------------------------------------------------------
+# HTML output
+# -----------------------------------------------------------------------------
 
-# These folders are copied to the documentation's HTML output
-html_static_path = ['_static']
+html_theme = "pydata_sphinx_theme"
+
 html_theme_options = {
-    'collapse_navigation': True,
-    'sticky_navigation': True,
-    'logo_only': True,
-    # Other theme options...
+    "show_nav_level": 2,
+    "logo": {
+      "image_light": "_static/qscat-logo.svg",
+      "image_dark": "_static/qscat-logo-dark.svg",
+   },
+   "external_links": [
+      {"name": "GitHub", "url": "https://github.com/qscat/qscat"},
+    ],
+    "icon_links": [
+        {
+            "name": "Facebook",
+            "url": "https://facebook.com/QSCATplugin",
+            "icon": "fa-brands fa-square-facebook",
+        },
+        {
+            "name": "Twitter",
+            "url": "https://twitter.com/QSCATplugin",
+            "icon": "fa-brands fa-square-twitter",
+        }
+    ],
 }
-html_logo = "qscat-logo.svg"
+
+html_title = "%s v%s Documentation" % (project, version)
+html_static_path = ['_static']
+html_sidebars = {'**': ['search-field', 'sidebar-nav-bs']}
 html_favicon = "favicon.ico"
-
-# html_theme_options = {
-#     'logo_only': True,
-#     'display_version': False,
-# }
-# html_logo = "qscat-logo.svg"
 html_last_updated_fmt = '%Y %b %d, %H:%M %z'
-
-# These paths are either relative to html_static_path
-# or fully qualified paths (eg. https://...)
-html_css_files = [
-    'css/custom.css',
-]
+html_css_files = ['css/qscat.css']
+html_context = {"default_mode": "light"}
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
