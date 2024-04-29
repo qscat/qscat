@@ -46,7 +46,7 @@ How it works
 
 .. figure:: /img/area_change/area-change-process.png
    :align: center
-
+  
    Process of Area Change.
    
 This feature allows users to analyze shoreline changes further by obtaining area measurements. It utilizes transects from the stat layer output of shoreline change and uses statistical values to group trends into erosion, stability, and accretion. This functionality also enables the extraction of new shoreline lengths. Currently, it supports NSM and EPR statistics for area change. The process for determining area change in QSCAT involves clustering the transects, grouping them by trends for each cluster, creating boundary transects between groups, and finally extracting the area between each boundary. The subsequent sections will delve deeper into each of these processes. As an example, we will use randomly drawn shorelines and transects to illustrate the process (:numref:`figure_area_change_process`).
@@ -121,13 +121,25 @@ Area
      - Percentage of the current area in total area change.
    * - ``area_trend``
      - ``string``
-     - Trends (stable, erosion, or accretion) based on stat's transects used. 
-   * - ``shoreline_length``
+     - Trends (stable, eroding, or accreting) based on stat's transects used. 
+   * - ``newest_shoreline_length``
      - ``double``
-     - Vector length of the new shoreline in meters.
-   * - ``shoreline_length_percent``
+     - Vector length of the newest shoreline in meters.
+   * - ``newest_shoreline_length_percent``
      - ``double``
-     - Percentage of the current shoreline length in total shoreline length.
+     - Percentage of the current newest shoreline length in total newest shoreline length.
+   * - ``oldest_shoreline_length``
+     - ``double``
+     - Vector length of the oldest shoreline in meters.
+   * - ``oldest_shoreline_length_percent``
+     - ``double``
+     - Percentage of the current oldest shoreline length in total oldest shoreline length.
+   * - ``avg_shoreline_length``
+     - ``double``
+     - Average of newest and oldest shoreline length in meters.
+   * - ``mean_shoreline_displacement``
+     - ``double``
+     - Area value divided by the average shoreline length in meters.
    * - ``name``
      - ``string``
      - Attribute value of field ``name`` in the (multi) polygon boundary layer.
