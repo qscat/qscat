@@ -1,6 +1,7 @@
 <div align="center">
    
-![qscat](https://github.com/upmsi-coaster/qscat/assets/58874676/fb40ffde-8667-48bc-99ba-1f8c4b257eb1)
+![QSCAT logo](https://github.com/qscat/qscat/assets/58874676/fefa611f-c4a9-4551-979d-1c3b193d38ea)
+
 
 [![QGIS](https://img.shields.io/badge/qgis-3.22.16_|_3.34.5_|_3.36.1-green)](https://download.qgis.org/downloads/)
 [![QGIS.org - 0.3.1](https://img.shields.io/badge/qgis.org-0.3.1-green.svg)](https://plugins.qgis.org/plugins/qscat)
