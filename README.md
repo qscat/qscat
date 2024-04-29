@@ -80,7 +80,7 @@ The latest QSCAT plugin is available as a ZIP file for installation. The steps t
 
 </details>
 
-See [QSCAT User Manual - Sample Workflow](https://qscat.readthedocs.io/en/latest/others/sample_workflow.html) for sample usage.
+See [QSCAT User Manual - Sample Workflow](https://qscat.readthedocs.io/en/latest/manual/others/sample_workflow.html) for sample usage.
 
 ## Resources
 - [QSCAT User Manual](https://qscat.readthedocs.io)
