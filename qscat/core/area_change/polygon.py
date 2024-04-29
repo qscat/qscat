@@ -7,7 +7,7 @@ from qgis.core import QgsWkbTypes
 
 def extract_area_polygon(shoreline1, shoreline2, transect1, transect2):
     """Extract the area's polygon(s) between two shorelines and two transects.
-    
+
     # TODO: illustration + link
 
     Args:
@@ -24,13 +24,17 @@ def extract_area_polygon(shoreline1, shoreline2, transect1, transect2):
     extended_transect2 = transect2.extendLine(EPSILON, EPSILON)
 
     transect1_shoreline1_intersections = get_transect_shoreline_intersections(
-        extended_transect1, shoreline1)
+        extended_transect1, shoreline1
+    )
     transect1_shoreline2_intersections = get_transect_shoreline_intersections(
-        extended_transect1, shoreline2)
+        extended_transect1, shoreline2
+    )
     transect2_shoreline1_intersections = get_transect_shoreline_intersections(
-        extended_transect2, shoreline1)
+        extended_transect2, shoreline1
+    )
     transect2_shoreline2_intersections = get_transect_shoreline_intersections(
-        extended_transect2, shoreline2)
+        extended_transect2, shoreline2
+    )
 
     # Determine which transect end points touches which shoreline
     if transect1.asPolyline()[0] in transect1_shoreline1_intersections:
@@ -45,7 +49,7 @@ def extract_area_polygon(shoreline1, shoreline2, transect1, transect2):
         shoreline2_transect2_point = transect2.asPolyline()[-1]
     else:
         shoreline1_transect2_point = transect2.asPolyline()[-1]
-        shoreline2_transect2_point = transect2.asPolyline()[0] 
+        shoreline2_transect2_point = transect2.asPolyline()[0]
 
     """
     if we have origin on middle of transect, we can say that
@@ -89,14 +93,16 @@ def extract_area_polygon(shoreline1, shoreline2, transect1, transect2):
     transect1_left_sub_transects = [
         (
             transect1_shoreline1_intersections[i],
-            transect1_shoreline1_intersections[i+1],
-        ) for i in range(1, len(transect1_shoreline1_intersections), 2)
+            transect1_shoreline1_intersections[i + 1],
+        )
+        for i in range(1, len(transect1_shoreline1_intersections), 2)
     ]
     transect1_right_sub_transects = [
         (
             transect1_shoreline2_intersections[i],
-            transect1_shoreline2_intersections[i+1],
-        ) for i in range(1, len(transect1_shoreline2_intersections), 2)
+            transect1_shoreline2_intersections[i + 1],
+        )
+        for i in range(1, len(transect1_shoreline2_intersections), 2)
     ]
 
     # transect2_middle_sub_transect = (
@@ -106,40 +112,41 @@ def extract_area_polygon(shoreline1, shoreline2, transect1, transect2):
     transect2_left_sub_transects = [
         (
             transect2_shoreline1_intersections[i],
-            transect2_shoreline1_intersections[i+1],
-        ) for i in range(1, len(transect2_shoreline1_intersections), 2)
+            transect2_shoreline1_intersections[i + 1],
+        )
+        for i in range(1, len(transect2_shoreline1_intersections), 2)
     ]
     transect2_right_sub_transects = [
         (
             transect2_shoreline2_intersections[i],
-            transect2_shoreline2_intersections[i+1],
-        ) for i in range(1, len(transect2_shoreline2_intersections), 2)
+            transect2_shoreline2_intersections[i + 1],
+        )
+        for i in range(1, len(transect2_shoreline2_intersections), 2)
     ]
 
     # Determine which side we will compare
     both_left_sub_transects_empty = (
-        len(transect1_left_sub_transects) == 0 and
-        len(transect2_left_sub_transects) == 0
+        len(transect1_left_sub_transects) == 0
+        and len(transect2_left_sub_transects) == 0
     )
     both_right_sub_transects_empty = (
-        len(transect1_right_sub_transects) == 0 and
-        len(transect2_right_sub_transects) == 0
+        len(transect1_right_sub_transects) == 0
+        and len(transect2_right_sub_transects) == 0
     )
     one_of_left_sub_transects_not_empty = (
-        len(transect1_left_sub_transects) != 0 or
-        len(transect2_left_sub_transects) != 0
-    ) 
+        len(transect1_left_sub_transects) != 0 or len(transect2_left_sub_transects) != 0
+    )
     one_of_right_sub_transects_not_empty = (
-        len(transect1_right_sub_transects) != 0 or
-        len(transect2_right_sub_transects) != 0
+        len(transect1_right_sub_transects) != 0
+        or len(transect2_right_sub_transects) != 0
     )
 
     if both_left_sub_transects_empty and both_right_sub_transects_empty:
         shoreline1_transect1_intersection = transect1_shoreline1_intersections[0]
         shoreline2_transect1_intersection = transect1_shoreline2_intersections[0]
-        
+
         combined_transects = extended_transect1.combine(extended_transect2)
-        
+
         # Fix the problem of perfectly place shoreline point and transect point
         # not finding an intersection
         # for 1 element on a cluster fix
@@ -149,15 +156,17 @@ def extract_area_polygon(shoreline1, shoreline2, transect1, transect2):
             shoreline_geom = shoreline_geom.extendLine(EPSILON, EPSILON)
             if shoreline_geom.intersects(extended_transect1):
                 divided_shoreline1 = shoreline_geom.difference(
-                    combined_transects)#.asMultiPolyline()[1] 
-                
+                    combined_transects
+                )  # .asMultiPolyline()[1]
+
         for shoreline in shoreline2.asMultiPolyline():
             shoreline_geom = QgsGeometry.fromPolylineXY(shoreline)
             shoreline_geom = shoreline_geom.extendLine(EPSILON, EPSILON)
             if shoreline_geom.intersects(extended_transect1):
                 divided_shoreline2 = shoreline_geom.difference(
-                    combined_transects)#.asMultiPolyline()[1] 
-       
+                    combined_transects
+                )  # .asMultiPolyline()[1]
+
         # get second part of divided shoreline
         interest_shoreline1 = divided_shoreline1.asMultiPolyline()[1]
         interest_shoreline2 = divided_shoreline2.asMultiPolyline()[1]
@@ -169,24 +178,27 @@ def extract_area_polygon(shoreline1, shoreline2, transect1, transect2):
             interest_shoreline2.reverse()
 
         # Connect line strings as one line string
-        poly_points = interest_shoreline1 \
-            + interest_shoreline2 \
-            + [interest_shoreline1[0]]
+        poly_points = (
+            interest_shoreline1 + interest_shoreline2 + [interest_shoreline1[0]]
+        )
 
         # Finally, create the polygon out of that line string
         polygon = QgsGeometry.fromPolygonXY([poly_points])
-        
+
         # For stat
         new_newest_shoreline = QgsGeometry.fromPolylineXY(interest_shoreline1)
-        # print("===========================================")
-        return polygon, new_newest_shoreline
-    
+        new_oldest_shoreline = QgsGeometry.fromPolylineXY(interest_shoreline2)
+
+        return polygon, new_newest_shoreline, new_oldest_shoreline
+
     elif both_left_sub_transects_empty and one_of_right_sub_transects_not_empty:
         print("both_left_sub_transects_empty and one_of_right_sub_transects_not_empty")
     elif both_right_sub_transects_empty and one_of_left_sub_transects_not_empty:
         print("both_right_sub_transects_empty and one_of_left_sub_transects_not_empty")
     elif one_of_left_sub_transects_not_empty and one_of_right_sub_transects_not_empty:
-        print("one_of_left_sub_transects_not_empty and one_of_right_sub_transects_not_empty")
+        print(
+            "one_of_left_sub_transects_not_empty and one_of_right_sub_transects_not_empty"
+        )
 
 
 def get_transect_shoreline_intersections(transect, shoreline):
@@ -211,5 +223,5 @@ def get_transect_shoreline_intersections(transect, shoreline):
                     intersections.append(i)
             else:
                 intersections.append(intersect.asPoint())
-                
+
     return intersections
