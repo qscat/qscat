@@ -48,6 +48,10 @@ nav.bd-links li>a:active, nav.bd-links li>a:hover {
 
 .bd-links__title { display: none; }
 
-/* .caption-text { text-transform: uppercase; } */
+.sd-card-text strong {
+    font-size: 1.25em;
+}
 
-
+ol {
+    margin-bottom: 0;
+}

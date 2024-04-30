@@ -1,8 +1,6 @@
 User Manual
 ===========
 
-Welcome to **QSCAT** User Manual.
-
 .. note::
    This project is under active development.
 

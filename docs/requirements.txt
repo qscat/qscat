@@ -1,3 +1,4 @@
+pydata_sphinx_theme
 sphinxcontrib-bibtex
 sphinx_sitemap
-pydata_sphinx_theme
+sphinx-design

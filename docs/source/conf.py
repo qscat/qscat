@@ -22,6 +22,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinxcontrib.bibtex",
     "sphinx_sitemap",
+    "sphinx_design",
 ]
 
 html_baseurl = "https://qscat.github.io/docs/"
@@ -88,7 +89,7 @@ html_theme_options = {
 }
 
 
-html_title = "%s v%s Documentation" % (project, version)
+html_title = f"{project} v{version}"
 html_static_path = ["_static"]
 html_sidebars = {"**": ["search-field", "sidebar-nav-bs", "sidebar-ethical-ads"]}
 html_favicon = "favicon.ico"
