@@ -2342,7 +2342,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label_46">
              <property name="text">
-              <string>Report save location:</string>
+              <string>Reports save location:</string>
              </property>
             </widget>
            </item>
@@ -2394,7 +2394,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Enable report generation</string>
+              <string>Enable reports generation</string>
              </property>
              <property name="checked">
               <bool>true</bool>
@@ -2487,14 +2487,14 @@
         <item>
          <widget class="QLabel" name="lbl_about_current_version">
           <property name="text">
-           <string>Current Version: x.x.x</string>
+           <string>Installed version: x.x.x</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="lbl_about_latest_version">
           <property name="text">
-           <string>Latest Version: x (Last checked: xx)</string>
+           <string>Latest version available: x (Last checked: xx)</string>
           </property>
          </widget>
         </item>
