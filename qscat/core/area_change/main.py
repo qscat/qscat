@@ -8,7 +8,7 @@ from qgis.core import QgsGeometry
 from qscat.core.constants import AreaChangeField
 from qscat.core.layer import create_add_layer
 from qscat.core.layer import load_polygons
-from qscat.core.report import SummaryReport
+from qscat.core.reports import SummaryReport
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.input import get_area_change_input_params
 from qscat.core.visualization import apply_area_colors
