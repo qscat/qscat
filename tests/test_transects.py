@@ -80,7 +80,7 @@ def test_prechecks():
         crs2 = QgsCoordinateReferenceSystem("EPSG:3857")
         crs3 = QgsCoordinateReferenceSystem("EPSG:32651")
 
-        assert prechecks(crs1, crs1, crs1) == True
-        assert prechecks(crs1, crs2, crs3) == False
-        assert prechecks(crs2, crs1, crs1) == False
-        assert prechecks(crs1, crs2, crs1) == False
+        assert prechecks(crs1, crs1, crs1) is True
+        assert prechecks(crs1, crs2, crs3) is False
+        assert prechecks(crs2, crs1, crs1) is False
+        assert prechecks(crs1, crs2, crs1) is False

@@ -32,7 +32,7 @@ def test_apply_area_colors():
     # Create features with different area trend values
     for value in field_values:
         feat = QgsFeature(layer.fields())
-        feat.setGeometry(QgsGeometry.fromWkt(f"POLYGON ((0 0, 1 0, 1 1, 0 1, 0 0))"))
+        feat.setGeometry(QgsGeometry.fromWkt("POLYGON ((0 0, 1 0, 1 1, 0 1, 0 0))"))
         feat.setAttribute(field_name, value)
         dp.addFeature(feat)
 

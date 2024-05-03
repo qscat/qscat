@@ -53,6 +53,6 @@ def test_utils_is_field_in_layer():
         "memory",
     )
 
-    assert is_field_in_layer("id", layer) == True
-    assert is_field_in_layer("name", layer) == True
-    assert is_field_in_layer("non_existent", layer) == False
+    assert is_field_in_layer("id", layer) is True
+    assert is_field_in_layer("name", layer) is True
+    assert is_field_in_layer("non_existent", layer) is False
