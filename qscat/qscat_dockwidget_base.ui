@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>711</width>
+    <width>733</width>
     <height>903</height>
    </rect>
   </property>
@@ -2320,7 +2320,30 @@
            <string>General</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_3">
-           <item row="1" column="1">
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="cb_enable_report_generation">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Enable reports generation</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_46">
+             <property name="text">
+              <string>Reports save location:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
             <widget class="QgsFileWidget" name="qfw_report_save_location">
              <property name="fileWidgetButtonVisible">
               <bool>true</bool>
@@ -2339,23 +2362,16 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_46">
-             <property name="text">
-              <string>Reports save location:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
+           <item row="3" column="1">
             <widget class="QGroupBox" name="gb_enable_individual_reports">
              <property name="title">
               <string/>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_15">
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <widget class="QCheckBox" name="cb_enable_shoreline_change_report">
+               <widget class="QCheckBox" name="cb_enable_forecasting_report">
                 <property name="text">
-                 <string>Shoreline Change</string>
+                 <string>Forecasting</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -2373,9 +2389,9 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="cb_enable_forecasting_report">
+               <widget class="QCheckBox" name="cb_enable_shoreline_change_report">
                 <property name="text">
-                 <string>Forecasting</string>
+                 <string>Shoreline Change</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -2383,22 +2399,6 @@
                </widget>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QCheckBox" name="cb_enable_report_generation">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Enable reports generation</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
             </widget>
            </item>
           </layout>
