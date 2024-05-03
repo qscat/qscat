@@ -7,7 +7,6 @@ from PyQt5.QtCore import Qt
 from qgis.PyQt.QtGui import QIcon
 
 from qgis.PyQt.QtWidgets import QAction
-from qgis.PyQt import QtWidgets
 
 from qscat.qscat_dockwidget import QscatDockWidget
 
@@ -22,10 +21,10 @@ from qscat.core.settings import save_project_tab_project_settings
 from qscat.core.settings import save_shorelines_tab_project_settings
 from qscat.core.settings import save_transects_tab_project_settings
 from qscat.core.shoreline_change import compute_shoreline_change_button_clicked
-#from qscat.core.shoreline_change import compute_shoreline_change_stats
+
+# from qscat.core.shoreline_change import compute_shoreline_change_stats
 from qscat.core.area_change.main import compute_area_change_stats
 from qscat.core.transects import cast_transects_button_clicked
-from qscat.core.update import check_updates_on_start
 from qscat.core.update import check_updates_on_click
 from qscat.core.utils.plugin import get_plugin_dir
 from qscat.core.visualization import apply_color_ramp
@@ -36,33 +35,44 @@ from qscat.gui.utils import enable_disable_widgets_by_radio_button
 from qscat.gui.utils import enable_disable_groupbox_by_checkbox
 from qscat.gui.widget_properties import set_plugin_widget_properties
 
+
 class QscatPlugin:
     def __init__(self, iface):
         self.iface = iface
-        #self.actions = []
-        #self.action = None
+        # self.actions = []
+        self.action = None
         self.dockwidget = None
-        #self.layers = None
-        #self.plugin_is_active = None
-        self.icon = QIcon(str(Path(get_plugin_dir(), 'gui', 'icons', 'qscat.svg')))
+        # self.layers = None
+        # self.plugin_is_active = None
+        self.icon = QIcon(str(Path(get_plugin_dir(), "gui", "icons", "qscat.svg")))
 
     def initGui(self):
-        self.action = QAction(self.icon, 'QSCAT', self.iface.mainWindow())
+        self.action = QAction(self.icon, "QSCAT", self.iface.mainWindow())
         self.action.triggered.connect(self.run)
+
+        # Add to Plugins Toolbar
         self.iface.addToolBarIcon(self.action)
 
+        # Add to Plugins Menu
+        self.iface.addPluginToMenu("QSCAT", self.action)
+
     def onClosePlugin(self):
-        self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)    
-        #self.plugin_is_active = False
+        self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
+        # self.plugin_is_active = False
 
     def unload(self):
+        # Remove from Plugins Toolbar
         self.iface.removeToolBarIcon(self.action)
+
+        # Remove from Plugins Menu
+        self.iface.removePluginMenu("QSCAT", self.action)
+
         del self.action
 
     def run(self, test=False):
         self.dockwidget = QscatDockWidget()
         self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
-        self.dockwidget.setWindowTitle(f'QSCAT')
+        self.dockwidget.setWindowTitle("QSCAT")
         self.dockwidget.show()
         self.dockwidget.tw_qscat.setStyleSheet("QTabWidget::tab { text-align: left; }")
 
@@ -82,12 +92,12 @@ class QscatPlugin:
         self.dockwidget.cb_baseline_orientation.stateChanged.connect(
             lambda: show_hide_baseline_orientation(self)
         )
-        
+
         # Transect Tab "Cast Transect" button
         self.dockwidget.pb_transects_cast.clicked.connect(
             lambda: cast_transects_button_clicked(self)
         )
-        
+
         # Shoreline Change Tab "Compute Shoreline Change" button
         self.dockwidget.pb_stats_compute_shoreline_change.clicked.connect(
             lambda: compute_shoreline_change_button_clicked(self)
@@ -106,15 +116,13 @@ class QscatPlugin:
         )
 
         # Visualization Tab "Visualize" button
-        self.dockwidget.pb_vis_apply.clicked.connect(
-            lambda: apply_color_ramp(self)
-        )
+        self.dockwidget.pb_vis_apply.clicked.connect(lambda: apply_color_ramp(self))
 
         # About Tab "Check for updates" button
         self.dockwidget.pb_about_check_for_updates.clicked.connect(
             lambda: check_updates_on_click(self)
         )
-        
+
         # Shorelines Tab "Shorelines fields"
         self.dockwidget.qmlcb_shorelines_shorelines_layer.layerChanged.connect(
             lambda: self.dockwidget.qfcb_shorelines_date_field.setLayer(
@@ -154,19 +162,19 @@ class QscatPlugin:
             lambda: update_newest_oldest_date(self)
         )
 
-        # Transect Tab "Transect Count" 
+        # Transect Tab "Transect Count"
         self.dockwidget.rb_transects_by_transect_spacing.toggled.connect(
             lambda: enable_disable_widgets_by_radio_button(
                 self.dockwidget.rb_transects_by_transect_spacing,
                 self.dockwidget.qsb_transects_by_transect_spacing,
-                self.dockwidget.qsb_transects_by_number_of_transects
+                self.dockwidget.qsb_transects_by_number_of_transects,
             )
         )
         self.dockwidget.rb_transects_by_number_of_transects.toggled.connect(
             lambda: enable_disable_widgets_by_radio_button(
                 self.dockwidget.rb_transects_by_number_of_transects,
                 self.dockwidget.qsb_transects_by_number_of_transects,
-                self.dockwidget.qsb_transects_by_transect_spacing
+                self.dockwidget.qsb_transects_by_transect_spacing,
             )
         )
 
@@ -188,10 +196,10 @@ class QscatPlugin:
 
         # Summary Reports Tab "General" section
         self.dockwidget.cb_enable_report_generation.toggled.connect(
-           lambda: enable_disable_groupbox_by_checkbox(
+            lambda: enable_disable_groupbox_by_checkbox(
                 self.dockwidget.cb_enable_report_generation,
                 self.dockwidget.gb_enable_individual_reports,
-            ) 
+            )
         )
 
         # Tabs "Save" input parameters
@@ -216,4 +224,4 @@ class QscatPlugin:
             load_plugin_project_settings(self)
 
             # Check QSCAT updates on start
-            #check_updates_on_start()
+            # check_updates_on_start()

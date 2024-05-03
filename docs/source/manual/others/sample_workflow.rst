@@ -406,7 +406,7 @@ Computing the shoreline change
 
 #. Go to :guilabel:`Shoreline Change Tab`.
 
-   In :guilabel:`General` section, select the created transect layer (note that after every cast the transects layer will be automatically selected here). You can optionally |checkbox| :guilabel:`Clip transects` if you want, this is only for visualization purposes and does not affect statistics. Choose where you want the summary reports to be saved in :guilabel:`Summary reports location` (see :ref:`summary_report`).
+   In :guilabel:`General` section, select the created transect layer (note that after every cast the transects layer will be automatically selected here). You can optionally |checkbox| :guilabel:`Clip transects` if you want, this is only for visualization purposes and does not affect statistics. Choose where you want the summary reports to be saved in :guilabel:`Summary reports location` (see :ref:`tab_summary_reports`).
 
    In :guilabel:`Transect-Shoreline Intersections`, leave |radiobutton| :guilabel:`Distance` and :guilabel:`Farthest` as is (see :ref:`tab_shoreline_change_tsi`).
 
