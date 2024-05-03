@@ -1,14 +1,13 @@
-import json
-
 from PyQt5.QtCore import QVariant
 
 from qgis.testing import start_app
-from qscat.core.layer import create_add_layer
 
 from qgis.core import QgsGeometry
 from qgis.core import QgsPointXY
 from qgis.core import QgsProject
 from qgis.core import QgsWkbTypes
+
+from qscat.core.layer import create_add_layer
 
 start_app()
 
@@ -19,37 +18,38 @@ def test_create_add_layer():
     project = QgsProject.instance()
     initial_layer_count = len(project.mapLayers())
 
-    geometry_type = 'LineString'
+    geometry_type = "LineString"
     geometries = [
-        QgsGeometry.fromPolylineXY([
-            QgsPointXY(0, 0),
-            QgsPointXY(1, 1),
-        ]),
-        QgsGeometry.fromPolylineXY([
-            QgsPointXY(2, 2),
-            QgsPointXY(3, 3),
-        ]),
+        QgsGeometry.fromPolylineXY(
+            [
+                QgsPointXY(0, 0),
+                QgsPointXY(1, 1),
+            ]
+        ),
+        QgsGeometry.fromPolylineXY(
+            [
+                QgsPointXY(2, 2),
+                QgsPointXY(3, 3),
+            ]
+        ),
     ]
-    name = 'test_layer'
+    name = "test_layer"
     fields = [
-        {'name': 'field1', 'type':  QVariant.Double},
-        {'name': 'field2', 'type':  QVariant.Double},
+        {"name": "field1", "type": QVariant.Double},
+        {"name": "field2", "type": QVariant.Double},
     ]
     values = [
         [1.0, 2.0],
         [3.0, 4.0],
     ]
 
-    extra_values = {
-        'newest_date': '09/2002',
-        'oldest_date': '09/1996'
-    }
+    extra_values = {"newest_date": "09/2002", "oldest_date": "09/1996"}
 
     layer = create_add_layer(
-        geometry_type, 
-        geometries, 
+        geometry_type,
+        geometries,
         name,
-        fields, 
+        fields,
         values,
         extra_values,
     )
@@ -61,14 +61,14 @@ def test_create_add_layer():
     assert layer.isValid()
     assert layer.featureCount() == 2
     assert layer.geometryType() == QgsWkbTypes.LineGeometry
-    assert 'test_layer' in layer.name()
-    assert [field.name() for field in layer.fields()] == ['id', 'field1', 'field2']
+    assert "test_layer" in layer.name()
+    assert [field.name() for field in layer.fields()] == ["id", "field1", "field2"]
 
     # Layer features
     for feat, geometry, value in zip(layer.getFeatures(), geometries, values):
         assert feat.geometry().asPolyline() == geometry.asPolyline()
-        assert feat['field1'] == value[0]
-        assert feat['field2'] == value[1]
+        assert feat["field1"] == value[0]
+        assert feat["field2"] == value[1]
 
     # Custom properties
     for key, value in extra_values.items():

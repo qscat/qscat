@@ -33,11 +33,11 @@ def test_utils_date():
         extract_month_year([2022])
         extract_month_year((2022,))
         extract_month_year(None)
-    
+
     assert get_day_of_year(1, 2022) == 1
     assert get_day_of_year(2, 2022) == 32
     assert get_day_of_year(3, 2023) == 60
-    assert get_day_of_year(3, 2024) == 61 
+    assert get_day_of_year(3, 2024) == 61
 
     assert convert_to_decimal_year("01/2022") == 2022.0
     assert convert_to_decimal_year("2/2022") == 2022.09
@@ -48,11 +48,11 @@ def test_utils_date():
 def test_utils_is_field_in_layer():
     """Test if field is in the layer function."""
     layer = QgsVectorLayer(
-        'LineString?crs=EPSG:4326&field=id:integer&field=name:string(20)', 
-        'test_layer', 
-        'memory'
+        "LineString?crs=EPSG:4326&field=id:integer&field=name:string(20)",
+        "test_layer",
+        "memory",
     )
 
-    assert is_field_in_layer('id', layer) == True
-    assert is_field_in_layer('name', layer) == True
-    assert is_field_in_layer('non_existent', layer) == False
+    assert is_field_in_layer("id", layer) == True
+    assert is_field_in_layer("name", layer) == True
+    assert is_field_in_layer("non_existent", layer) == False

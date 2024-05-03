@@ -21,20 +21,18 @@ start_app()
 def test_apply_area_colors():
     """Test if the layer is categorized based on the `AreaChangeField.TREND` field."""
     field_name = AreaChangeField.TREND
-    field_values = ['accreting', 'stable', 'eroding']
-    layer = QgsVectorLayer('Polygon', 'test_layer', 'memory')
+    field_values = ["accreting", "stable", "eroding"]
+    layer = QgsVectorLayer("Polygon", "test_layer", "memory")
 
-    # Add AreaChangeField.TREND field 
+    # Add AreaChangeField.TREND field
     dp = layer.dataProvider()
     dp.addAttributes([QgsField(field_name, QVariant.String)])
     layer.updateFields()
-    
+
     # Create features with different area trend values
     for value in field_values:
         feat = QgsFeature(layer.fields())
-        feat.setGeometry(
-            QgsGeometry.fromWkt(f'POLYGON ((0 0, 1 0, 1 1, 0 1, 0 0))')
-        )
+        feat.setGeometry(QgsGeometry.fromWkt(f"POLYGON ((0 0, 1 0, 1 1, 0 1, 0 0))"))
         feat.setAttribute(field_name, value)
         dp.addFeature(feat)
 
@@ -42,7 +40,7 @@ def test_apply_area_colors():
 
     apply_area_colors(layer)
 
-    assert layer.renderer().type() == 'categorizedSymbol'
+    assert layer.renderer().type() == "categorizedSymbol"
     assert len(layer.renderer().categories()) == 3
 
     assert layer.renderer().categories()[0].label() == Trend.ERODING
