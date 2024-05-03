@@ -25,8 +25,8 @@ extensions = [
     "sphinx_design",
 ]
 
-html_baseurl = "https://qscat.github.io/docs/"
-sitemap_url_scheme = "{link}"
+# html_baseurl = "https://qscat.github.io/docs/"
+# sitemap_url_scheme = "{link}"
 
 # -- Bibtex configuration
 bibtex_bibfiles = ["refs.bib"]
