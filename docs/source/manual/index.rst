@@ -9,9 +9,9 @@ User Manual
    :caption: User Manual
 
    introduction/overview
-   introduction/system_requirements
    introduction/features
-   introduction/installation_steps
+   introduction/requirements
+   introduction/installation
    plugin/required_inputs
    tabs/project_settings
    tabs/automator
@@ -25,7 +25,6 @@ User Manual
    tabs/summary_reports
    tabs/about
    others/sample_workflow
-   others/summary_report
    others/help_and_support
    others/contributors
    others/appendices/index

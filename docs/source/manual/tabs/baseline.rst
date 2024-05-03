@@ -10,7 +10,7 @@ Tab: Baseline
       :local:
       :depth: 2
 
-The :guilabel:`Baseline tab` allows users to select the baseline layer, placement, and orientation.
+The :guilabel:`Baseline Tab` allows users to select the baseline layer, placement, and orientation.
 
 .. _figure_tab_baseline:
 

@@ -75,8 +75,8 @@ Plugin offer tools that automate manual repetitive tasks.
 
 *screenshot figure of automated vectors*
 
-Data Visualization
-------------------
+Visualization
+-------------
 
 Shoreline and area change, forecasting results are visualized in the map for easy interpretation.
 

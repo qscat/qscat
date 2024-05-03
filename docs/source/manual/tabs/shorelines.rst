@@ -10,7 +10,7 @@ Tab: Shorelines
       :local:
       :depth: 2
 
-The :menuselection:`Shorelines Tab` allows the user to select and load the shorelines to be used for the analysis.
+The :guilabel:`Shorelines Tab` allows the user to select and load the shorelines to be used for the analysis.
 
 .. _figure_tab_shorelines:
 
