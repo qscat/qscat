@@ -12,12 +12,13 @@ Tab: Summary Reports
 
 The :guilabel:`Summary Reports Tab` allows the user to configure the save location of the summary reports and enable or disable the generation of summary reports. The summary reports are text files that contain the base information and the summary of results of the shoreline change, area change, and forecasting. The summary reports are saved in the folder specified by the user.
 
-.. _figure_tab_summary_report:
+.. _figure_tab_summary_reports:
 
 .. figure:: /img/summary_reports/summary-reports-tab.png
    :align: center
+   :alt: User interface of Summary Reports Tab
 
-   User interface of Summary Reports Tab.
+   User interface of Summary Reports Tab
 
 General
 =======

@@ -16,8 +16,9 @@ The :guilabel:`Automator Tab` allows the user to automate repetitive tasks direc
 
 .. figure:: /img/automator/automator-tab.png
    :align: center
+   :alt: User interface of Automator Tab
 
-   User interface of Automator Tab.
+   User interface of Automator Tab
 
 Shorelines
 ==========
@@ -29,8 +30,9 @@ Shoreline Fields
 
 .. figure:: /img/automator/automator-tab-shoreline-fields.png
    :align: center
+   :alt: Shoreline Fields section in Automator Tab
 
-   Shoreline Fields section in Automator tab.
+   Shoreline Fields section in Automator Tab
 
 The :guilabel:`Shorelines Fields` automator simplifies the process of adding attributes by automatically assigning pre-defined data types and custom field names. By simply defining the desired field name, the plugin takes care of the necessary data type assignments for each field. This requires the following input:
 

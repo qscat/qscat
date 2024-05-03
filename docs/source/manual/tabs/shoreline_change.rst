@@ -16,8 +16,9 @@ The :guilabel:`Shoreline Change Tab` calculates the following shoreline change s
 
 .. figure:: /img/shoreline_change/shoreline-change-tab.png
    :align: center
+   :alt: User interface of Shoreline Change Tab
 
-   User interface of Shoreline Change tab.
+   User interface of Shoreline Change Tab
 
 General
 =======
@@ -26,8 +27,9 @@ General
 
 .. figure:: /img/shoreline_change/shoreline-change-tab-general.png
    :align: center
+   :alt: General section in Shoreline Change Tab
 
-   General section in Shoreline Change tab.
+   General section in Shoreline Change Tab
 
 Transects layer
 ---------------
@@ -48,15 +50,17 @@ Transect-Shoreline Intersections
 
 .. figure:: /img/shoreline_change/shoreline-change-tab-transect-shorelines-intersections.png
    :align: center
+   :alt: Transects-Shoreline Intersections in Shoreline Change Tab
 
-   Transect-Shoreline Intersections section in Shoreline Change tab.
+   Transect-Shoreline Intersections section in Shoreline Change Tab
 
 .. _figure_transects_shoreline_intersections:
 
 .. figure:: /img/shoreline_change/transects-shorelines-intersections.png
    :align: center
-  
-   Transects-Shoreline Intersections.
+   :alt: Guide on determining the intersection point of transects and shorelines
+
+   Guide on determining the intersection point of transects and shorelines
   
 Sometimes, a transect intersects the shoreline vector at more than one point, particularly on curved segments (:numref:`figure_transects_shoreline_intersections`). To handle shoreline vector/s with multiple intersections, QSCAT allows the user to choose the intersection point by distance (i.e., farthest or closest to the baseline) or by placement (seaward or landward, similar to DSAS). As it will affect the distance between the intersection points at the baseline and the shoreline, it is recommended that the selected option be applied to all shorelines for analysis.
 
@@ -69,8 +73,9 @@ Shoreline Change Statistics
 
 .. figure:: /img/shoreline_change/shoreline-change-tab-shoreline-change-statistics.png
    :align: center
+   :alt: Shoreline Change Statistics in Shoreline Change Tab
 
-   Shoreline Change Statistics section in Shoreline Change tab.
+   Shoreline Change Statistics section in Shoreline Change Tab
 
 The shoreline change statistics in QSCAT and the resulting sample attribute table (:numref:`table_shoreline_change_statistics`) are described below. 
 
@@ -255,8 +260,9 @@ Pairwise Comparison of Shorelines
 
 .. figure:: /img/shoreline_change/shoreline-change-tab-pairwise-comparison-of-shorelines.png
    :align: center
+   :alt: Pairwise Comparison of Shorelines in Shoreline Change Tab
 
-   Shoreline Change Statistics section in Shoreline Change tab.
+   Pairwise Comparison of Shorelines in Shoreline Change Tab
 
 By default, NSM and EPR calculate the magnitude and rate of shoreline changes between the oldest and most recent shorelines, even if multiple shorelines are available. In QSCAT, the algorithm for calculating NSM and EPR can be applied to any two shorelines from the selected shoreline layer by specifying the dates of the two shorelines for comparison. While LRR can estimate the net rate of change among multiple shorelines, the pairwise comparison can better understand how the shoreline has evolved over different periods, as well as the possible causes of the observed trends.
 
@@ -268,8 +274,9 @@ Additional Parameters
 
 .. figure:: /img/shoreline_change/shoreline-change-tab-additional-parameters.png
    :align: center
+   :alt: Additional Parameters in Shoreline Change Tab
 
-   Additional Parameters section in Shoreline Change tab.
+   Additional Parameters section in Shoreline Change Tab
 
 Currently, additional parameters include a field that defines the confidence interval value for calculating LCI and WCI. The default value is 99.7%, based on DSAS :cite:p:`2018:dsasv5`.
 

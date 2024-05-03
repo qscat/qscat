@@ -16,8 +16,10 @@ The :guilabel:`Project Settings Tab` is the first tab in the plugin interface. T
 
 .. figure:: /img/project_settings/project-settings-tab.png
    :align: center
+   :alt: User interface of Project Settings Tab
 
-   User interface of Project Settings tab.
+   User interface of Project Settings Tab
+
 
 Coordinate Reference System
 ===========================
@@ -35,8 +37,10 @@ The :guilabel:`Coordinate Reference System` or CRS setting in this plugin enable
 
 .. figure:: /img/project_settings/project-settings-tab-crs-error.png
    :align: center
+   :alt: Example error message when the CRS of the input layers does not match the project CRS
 
-   Example error message when the CRS of the input layers does not match the project CRS.
+   Example error message when the CRS of the input layers does not match the project CRS
+
 
 Metadata
 ========

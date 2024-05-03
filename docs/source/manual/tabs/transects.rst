@@ -16,8 +16,9 @@ The :menuselection:`Transects Tab` allows the user to cast transects based on th
 
 .. figure:: /img/transects/transects-tab.png
    :align: center
+   :alt: User interface of Transects Tab
 
-   User interface of Transects tab.
+   User interface of Transects Tab
 
 * Transects will be cast perpendicular to the baseline.
 * Shoreline change statistics are calculated on each transect within each shoreline intersection point.
@@ -29,8 +30,9 @@ Layer
 
 .. figure:: /img/transects/transects-tab-layer.png
    :align: center
+   :alt: Layer section in Transects Tab
 
-   Layer section in Transects tab.
+   Layer section in Transects Tab
 
 Layer output name
 -----------------
@@ -45,8 +47,9 @@ Count
 
 .. figure:: /img/transects/transects-tab-count.png
    :align: center
+   :alt: Count section in Transects Tab
 
-   Count section in Transects tab.
+   Count section in Transects Tab
 
 This section allows the user to determine the number of transects for casting by transect spacing or the number of transects.
 
@@ -57,8 +60,9 @@ By transect spacing
 
 .. figure:: /img/transects/transects-spacing.png
   :align: center
+  :alt: Guide for determining transect spacing
    
-  Transect spacing.
+  Guide for determining transect spacing
 
 Based on a user-defined spacing or interval between transects, in meters, this automatically calculates the number of transects to be cast.
 
@@ -68,9 +72,10 @@ By number of transects
 .. _figure_transects_count:
 
 .. figure:: /img/transects/transects-count.png
-  :align: center
-   
-  Number of transects.
+   :align: center
+   :alt: Guide for determining number of transects
+
+   Guide for determining number of transects
 
 Based on the user-defined number of transects, QSCAT estimates the appropriate spacing between transects for a particular baseline.
 
@@ -84,8 +89,9 @@ Parameters
 
 .. figure:: /img/transects/transects-tab-parameters.png
    :align: center
+   :alt: Parameters section in Transects Tab
 
-   Parameters section in Transects tab.
+   Parameters section in Transects Tab
 
 Other important parameters are the transect length and smoothing distance value to ensure the transects are oriented perpendicular to the baseline.
 
@@ -98,8 +104,9 @@ Transect length
 
 .. figure:: /img/transects/transects-length.png
   :align: center
-   
-  Transects length.
+  :alt: Guide for determining transect length
+
+  Guide for determining transect length
 
 DSAS uses the term search distance, which is the distance (in meters) that DSAS uses to search for intersection points from the baseline to the shoreline vectors along a transect. The baseline will be the starting point for calculating distances. As depicted in :numref:`figure_transect_length`, the concept of search distance is similar to transect length. Thus, in QSCAT, search distance is referred to as transect length. 
 
@@ -119,8 +126,9 @@ Smoothing distance is applied to the baseline to ensure that the cast transects 
 
 .. figure:: /img/transects/transects-smoothing-distance.png
    :align: center
-  
-   Smoothing distance calculation.
+   :alt: Smoothing distance calculation
+
+   Smoothing distance calculation
 
    A smoothing applied to a single transect with 200 meters distance. First, the baseline traverses half the distance on both left and right. Second, the two points are connected, which will be the baseline where the smooth transect will be cast perpendicularly.
 

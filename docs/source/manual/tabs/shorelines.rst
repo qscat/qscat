@@ -16,8 +16,9 @@ The :guilabel:`Shorelines Tab` allows the user to select and load the shorelines
 
 .. figure:: /img/shorelines/shorelines-tab.png
    :align: center
+   :alt: User interface of Shorelines Tab
 
-   User interface of Shorelines Tab.
+   User interface of Shorelines Tab
 
 .. _shorelines_parameters:
 
@@ -26,8 +27,9 @@ Layer
 
 .. figure:: /img/shorelines/shorelines-tab-layer.png
    :align: center
+   :alt: Layer section in Shorelines Tab
 
-   Shorelines layer in Shorelines Tab.
+   Layer section in Shorelines Tab
 
 #. **The input layer:** Should be the merged shorelines, created in :ref:`plugin_required_inputs_shorelines`; and
 
@@ -41,7 +43,8 @@ Fields
 
 .. figure:: /img/shorelines/shorelines-tab-fields.png
    :align: center
+   :alt: Fields section in Shorelines Tab
 
-   Shorelines fields in Shorelines tab.
+   Fields section in Shorelines Tab
 
 Under the :menuselection:`Shoreline Fields`, select the ``date`` and ``uncertainty`` fields of the currently selected shoreline layer to be used. These are the fields that are automatically created in :ref:`tab_automator_shoreline_fields` automator or manually created.

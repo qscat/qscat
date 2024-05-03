@@ -14,8 +14,9 @@ Tab: Area Change (Beta)
 
 .. figure:: /img/area_change/area-change-tab.png
    :align: center
+   :alt: User interface of Area Change Tab
 
-   User interface of Area Change tab.
+   User interface of Area Change Tab
 
 The :guilabel:`Area Change Tab`  offers functionality for estimating the area change between two shoreline vectors for a given polygon layer. The polygon layer can be manually drawn or based on geographic boundaries (e.g., shapefiles of barangay, municipal boundaries), for which this type of analysis may be more meaningful. Monitoring how much coastal land a barangay or municipality has gained or lost is important for coastal planning and management. It is required that the boundary drawn encompasses all shorelines.
 
@@ -24,8 +25,9 @@ General
 
 .. figure:: /img/area_change/area-change-tab-general.png
    :align: center
+   :alt: General section in Area Change Tab
 
-   General section in Area Change tab.
+   General section in Area Change Tab
 
 
 Polygon boundary
@@ -46,8 +48,9 @@ How it works
 
 .. figure:: /img/area_change/area-change-process.png
    :align: center
+   :alt: Process of Area Change feature
   
-   Process of Area Change.
+   Process of Area Change feature
    
 This feature allows users to analyze shoreline changes further by obtaining area measurements. It utilizes transects from the stat layer output of shoreline change and uses statistical values to group trends into erosion, stability, and accretion. This functionality also enables the extraction of new shoreline lengths. Currently, it supports NSM and EPR statistics for area change. The process for determining area change in QSCAT involves clustering the transects, grouping them by trends for each cluster, creating boundary transects between groups, and finally extracting the area between each boundary. The subsequent sections will delve deeper into each of these processes. As an example, we will use randomly drawn shorelines and transects to illustrate the process (:numref:`figure_area_change_process`).
 

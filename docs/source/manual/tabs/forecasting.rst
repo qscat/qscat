@@ -14,8 +14,9 @@ Tab: Forecasting
 
 .. figure:: /img/forecasting/forecasting-tab.png
    :align: center
+   :alt: User interface of Forecasting Tab
 
-   User interface of Forecasting Tab.
+   User interface of Forecasting Tab
 
 .. _tab_forecasting_algorithm:
 
@@ -31,6 +32,7 @@ Kalman Filter
 -------------
 
 *Content for this section will be added soon.*
+
 
 .. _tab_forecasting_time_period:
 

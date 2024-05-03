@@ -14,8 +14,9 @@ Tab: Visualization
 
 .. figure:: /img/visualization/visualization-tab.png
    :align: center
+   :alt: User interface of Visualization Tab
 
-   User interface of Visualization Tab.
+   User interface of Visualization Tab
 
 Layer
 =====
