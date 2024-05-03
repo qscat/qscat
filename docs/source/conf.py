@@ -28,6 +28,14 @@ extensions = [
 # html_baseurl = "https://qscat.github.io/docs/"
 # sitemap_url_scheme = "{link}"
 
+html_baseurl = "https://qscat.readthedocs.io/"
+sitemap_url_scheme = "{lang}latest/{link}"
+sitemap_excludes = [
+    "search.html",
+    "genindex.html",
+]
+html_extra_path = ['robots.txt']
+
 # -- Bibtex configuration
 bibtex_bibfiles = ["refs.bib"]
 bibtex_reference_style = "author_year"
