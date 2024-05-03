@@ -13,19 +13,19 @@ about=QSCAT offers the following features:
 
     * Automator: tools that automate manual repetitive tasks.
 
-    * Visualization: shoreline and area change, forecasting results are visualized in the map for easy interpretation.
+    * Visualization: shoreline change, area change, and forecasting results are visualized in the map for easy interpretation.
 
-    * Reports: generates a comprehensive summary reports of the analysis results.
+    * Summary Reports: generates a comprehensive summary reports of the analysis results.
 
-    For changelog please visit https://github.com/louisfacun/qscat/blob/master/CHANGELOG.md
+    For changelog please visit https://github.com/qscat/qscat/blob/master/CHANGELOG.md
 
-version=0.3.1
+version=0.4.0
 qgisMinimumVersion=3.22
 author=Louis Facun
 email=louisfacun@gmail.com
 experimental=True
 tags=coastal erosion,shoreline,shoreline change,shoreline change analyis,shoreline,coastline
 homepage=https://qscat.readthedocs.io
-repository=https://github.com/louisfacun/qscat
-tracker=https://github.com/louisfacun/qscat/issues
+repository=https://github.com/qscat/qscat
+tracker=https://github.com/qscat/qscat/issues
 icon=qscat.png

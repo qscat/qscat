@@ -9,8 +9,8 @@ Ma. Yvainne Sta. Maria, Jamela Jirah Clemente, Angelo Maon, Ellen Mae Carmelo,
 and Rodel Ducao
 """
 
-release = "0.3.1"
-version = "0.3.1"
+release = "0.4.0"
+version = "0.4.0"
 
 # -- General configuration
 
