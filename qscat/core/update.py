@@ -29,28 +29,28 @@ from qscat.core.utils.date import datetime_now
 from qscat.core.utils.plugin import get_metadata_version
 
 
-LOCAL_PLUGIN_NAME = 'qscat'
-REPOSITORY_NAME = 'qscat'
-REPOSITORY_USERNAME = 'louisfacun'
+LOCAL_PLUGIN_NAME = "qscat"
+REPOSITORY_NAME = "qscat"
+REPOSITORY_USERNAME = "louisfacun"
 
 
-def check_updates_on_click(self):
-    globals()['check_updates_on_click'] = CheckUpdatesTask()
-    QgsApplication.taskManager().addTask(globals()['check_updates_on_click'])
+def check_updates_button_clicked(self):
+    globals()["task_check_updates_on_click"] = CheckUpdatesTask()
+    QgsApplication.taskManager().addTask(globals()["task_check_updates_on_click"])
 
-    globals()['check_updates_on_click'].taskCompleted.connect(
+    globals()["task_check_updates_on_click"].taskCompleted.connect(
         lambda: check_updates_on_click_task_complete(self)
     )
 
 
 def check_updates_on_click_task_complete(self):
-    task = globals()['check_updates_on_click']
+    task = globals()["task_check_updates_on_click"]
     if task.status() == QgsTask.Complete:
         release_info = task.release_info
 
-        latest_version = release_info['tag_name']
-        release_zip_url = release_info['zipball_url']
-        
+        latest_version = release_info["tag_name"]
+        release_zip_url = release_info["zipball_url"]
+
         s = QgsSettings()
         s.setValue("qscat/latest_version", latest_version)
 
@@ -59,14 +59,14 @@ def check_updates_on_click_task_complete(self):
 
         last_checked_datetime = datetime_now()
         self.dockwidget.lbl_about_latest_version.setText(
-            f'You have the latest version ({latest_version}) '\
-            f'(last checked {last_checked_datetime})'
+            f"You have the latest version ({latest_version}) "
+            f"(last checked {last_checked_datetime})"
         )
         # Compare the versions and update if necessary
         if is_newer_version(latest_version, current_version):
-            release_note = release_info['body']
+            release_note = release_info["body"]
             show_update_details_dialog(
-                current_version, 
+                current_version,
                 latest_version,
                 release_note,
                 release_zip_url,
@@ -78,24 +78,24 @@ def check_updates_on_click_task_complete(self):
 
 
 def check_updates_on_start():
-    globals()['check_updates_on_start'] = CheckUpdatesTask()
-    QgsApplication.taskManager().addTask(globals()['check_updates_on_start'])
+    globals()["check_updates_on_start"] = CheckUpdatesTask()
+    QgsApplication.taskManager().addTask(globals()["check_updates_on_start"])
 
-    globals()['check_updates_on_start'].taskCompleted.connect(
+    globals()["check_updates_on_start"].taskCompleted.connect(
         check_updates_on_start_task_complete
     )
 
 
 def check_updates_on_start_task_complete():
-    task = globals()['check_updates_on_start']
+    task = globals()["check_updates_on_start"]
     if task.status() == QgsTask.Complete:
         release_info = task.release_info
 
         # For on start update, we only care about success status
-        if release_info['status'] == 'SUCCESS':
-            latest_version = release_info['tag_name']
-            release_zip_url = release_info['zipball_url']
-            release_note = release_info['body']
+        if release_info["status"] == "SUCCESS":
+            latest_version = release_info["tag_name"]
+            release_zip_url = release_info["zipball_url"]
+            release_note = release_info["body"]
 
             s = QgsSettings()
             s.setValue("qscat/latest_version", latest_version)
@@ -104,23 +104,26 @@ def check_updates_on_start_task_complete():
             current_version = get_metadata_version()
             if is_newer_version(latest_version, current_version):
                 widget = iface.messageBar().createMessage(
-                    'Notice',
-                    f'A new version qscat-{latest_version} is available!'
+                    "Notice", f"A new version qscat-{latest_version} is available!"
                 )
                 button = QPushButton(widget)
                 button.setText("View details")
-                button.pressed.connect(lambda: show_update_details_dialog(
-                    current_version, 
-                    latest_version,
-                    release_note,
-                    release_zip_url,
-                ))
+                button.pressed.connect(
+                    lambda: show_update_details_dialog(
+                        current_version,
+                        latest_version,
+                        release_note,
+                        release_zip_url,
+                    )
+                )
                 widget.layout().addWidget(button)
                 iface.messageBar().pushWidget(widget, Qgis.Info)
 
 
 def open_latest_release_url():
-    url = QUrl(f"https://github.com/{REPOSITORY_USERNAME}/{REPOSITORY_NAME}/releases/latest")
+    url = QUrl(
+        f"https://github.com/{REPOSITORY_USERNAME}/{REPOSITORY_NAME}/releases/latest"
+    )
     QDesktopServices.openUrl(url)
 
 
@@ -162,7 +165,7 @@ class CheckUpdatesTask(QgsTask):
         try:
             self.release_info = check_updates()
             return True
-        
+
         except Exception as e:
             self.exception = e
             return False
@@ -178,7 +181,7 @@ class CheckUpdatesTask(QgsTask):
             QMessageBox.critical(
                 iface.mainWindow(),
                 f"Task error: : <b>{self.description()}</b>.",
-                f"The following error occurred:" \
+                f"The following error occurred:"
                 f"\n{self.exception.__class__.__name__}: {self.exception}",
             )
             return
@@ -205,7 +208,7 @@ class CheckUpdatesTask(QgsTask):
 #             install_plugin(release_zip)
 
 #             return True
-        
+
 #         except Exception as e:
 #             self.exception = e
 #             return False
@@ -225,7 +228,7 @@ class CheckUpdatesTask(QgsTask):
 #                 f"\n{self.exception.__class__.__name__}: {self.exception}",
 #             )
 #             return
-        
+
 #         QgsMessageLog.logMessage(
 #             message=f"Success task: <b>{self.description()}</b>",
 #             level=Qgis.Success,
@@ -269,7 +272,7 @@ class CheckUpdatesTask(QgsTask):
 
 #     # Define where to save the release zip
 #     release_zip = os.path.join(plugin_dir, 'release.zip')
-    
+
 #     # Save the zip file from response
 #     with open(release_zip, 'wb') as f:
 #         f.write(response.content)
@@ -279,7 +282,7 @@ class CheckUpdatesTask(QgsTask):
 
 def check_updates():
     release_info = get_latest_release_info(
-        REPOSITORY_USERNAME ,
+        REPOSITORY_USERNAME,
         REPOSITORY_NAME,
     )
     return release_info
@@ -287,7 +290,7 @@ def check_updates():
 
 def get_latest_release_info(username, repository):
     """Get latest release info from the GitHub repository.
-    
+
     Args:
         username (str): GitHub username (louisfacun)
         repository (str): GitHub repository (qscat)
@@ -295,24 +298,24 @@ def get_latest_release_info(username, repository):
     Returns:
         dict: tag_name, body, zipball_url
     """
-    api_url = f'https://api.github.com/repos/{username}/{repository}/releases/latest'
-    #headers = {"Authorization": f"token {access_token}"}
+    api_url = f"https://api.github.com/repos/{username}/{repository}/releases/latest"
+    # headers = {"Authorization": f"token {access_token}"}
 
     try:
         response = requests.get(api_url, timeout=50)
         response_json = response.json()
         return {
-            'status': 'SUCCESS',
-            'tag_name': response_json['tag_name'],
-            'body': response_json['body'],
-            'zipball_url': response_json['zipball_url'],
+            "status": "SUCCESS",
+            "tag_name": response_json["tag_name"],
+            "body": response_json["body"],
+            "zipball_url": response_json["zipball_url"],
         }
     except requests.exceptions.Timeout:
-        return {'status': 'TIMEOUT'}
+        return {"status": "TIMEOUT"}
     except requests.exceptions.TooManyRedirects:
-        return {'status': 'BAD_URL'}
+        return {"status": "BAD_URL"}
     except requests.exceptions.RequestException as e:
-        return {'status': 'UNKNOWN_ERROR'}
+        return {"status": "UNKNOWN_ERROR"}
 
 
 def is_newer_version(tag_name, version):
@@ -326,7 +329,7 @@ def is_newer_version(tag_name, version):
     Returns:
         boolean
     """
-    latest_version = packaging.version.parse(tag_name.lstrip('v'))
+    latest_version = packaging.version.parse(tag_name.lstrip("v"))
     current_version = packaging.version.parse(version)
     return latest_version > current_version
 
@@ -339,6 +342,7 @@ def show_no_update_dialog():
     msg_box.setStandardButtons(QMessageBox.Ok)
     msg_box.setIcon(QMessageBox.Information)
     msg_box.exec_()
+
 
 """
 def show_update_complete_dialog():
@@ -369,27 +373,27 @@ def show_update_confirmation_dialog(dialog, release_zip_url):
         dialog.close()
 """
 
+
 def show_update_details_dialog(
-    current_version,
-    latest_version,
-    release_note,
-    release_zip_url
- ):
+    current_version, latest_version, release_note, release_zip_url
+):
     # Let's just remove symbols from this markdown
-    release_note = release_note.replace('#', '')
-    release_note = release_note.replace('`', '')
+    release_note = release_note.replace("#", "")
+    release_note = release_note.replace("`", "")
 
     dialog = QDialog()
     dialog.setWindowTitle("QSCAT - Update is available!")
 
-    update_note = f'Your current version: v{current_version}.\n' \
-                  f'Latest version available: {latest_version}.\n\n{release_note}'
+    update_note = (
+        f"Your current version: v{current_version}.\n"
+        f"Latest version available: {latest_version}.\n\n{release_note}"
+    )
     text_browser = QTextBrowser()
     text_browser.setPlainText(update_note)
     text_browser.setOpenExternalLinks(True)
     text_browser.setTextInteractionFlags(
-        text_browser.textInteractionFlags() 
-        | Qt.LinksAccessibleByMouse 
+        text_browser.textInteractionFlags()
+        | Qt.LinksAccessibleByMouse
         | Qt.LinksAccessibleByKeyboard
     )
 
