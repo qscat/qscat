@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Add missing stable class for SCE of `Visualization Tab`.
+- `Visualization Tab`: Add missing stable class for SCE.
 
 ### Added
 
@@ -19,9 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Improve `Visualization Tab` UI and reading of input.
 - Refactor and style some codes using pylint, ruff, and black.
 - Docs: Improve some sections.
+
+### Breaking Changes 🚨
+
+- `Visualization Tab`: Improved UI and reading of input. This change requires all previous stat layers to be regenerated.
 
 ## [0.3.1] - 2024-04-21
 
