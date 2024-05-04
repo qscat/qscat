@@ -2162,7 +2162,7 @@
            </sizepolicy>
           </property>
           <property name="title">
-           <string>Color Ramp</string>
+           <string>Color ramp</string>
           </property>
           <layout class="QFormLayout" name="formLayout_16">
            <property name="fieldGrowthPolicy">
@@ -2171,7 +2171,14 @@
            <property name="horizontalSpacing">
             <number>15</number>
            </property>
-           <item row="0" column="1">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_30">
+             <property name="text">
+              <string>Number of negative class</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
             <widget class="QgsSpinBox" name="qsb_vis_neg_classes">
              <property name="keyboardTracking">
               <bool>true</bool>
@@ -2196,14 +2203,14 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QLabel" name="label_28">
              <property name="text">
-              <string>Positive classes</string>
+              <string>Number of positive class</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
+           <item row="2" column="1">
             <widget class="QgsSpinBox" name="qsb_vis_pos_classes">
              <property name="keyboardTracking">
               <bool>true</bool>
@@ -2228,22 +2235,15 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="0" column="0">
             <widget class="QLabel" name="label_29">
              <property name="text">
-              <string>Mode</string>
+              <string>Classification mode</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
+           <item row="0" column="1">
             <widget class="QComboBox" name="cb_vis_mode"/>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_30">
-             <property name="text">
-              <string>Negative classes</string>
-             </property>
-            </widget>
            </item>
           </layout>
          </widget>
