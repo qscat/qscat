@@ -104,7 +104,7 @@ def apply_color_ramp(
     stat = layer.customProperty("stat")
 
     feats = layer.getFeatures()
-    values = [f[stat] for f in feats]
+    vals = [f[stat] for f in feats]
 
     default_style = QgsStyle().defaultStyle()
     color_ramp = default_style.colorRamp("Greys")
@@ -134,7 +134,7 @@ def apply_color_ramp(
     classification_method.setLabelPrecision(2)
     classification_method.setLabelTrimTrailingZeroes(True)
 
-    # For stable value we equal interval classification
+    # For stable value we use equal interval classification
     classification_method_unc = QgsClassificationEqualInterval()
     classification_method_unc.setLabelFormat("%1 – %2")
     classification_method_unc.setLabelPrecision(2)
@@ -142,55 +142,68 @@ def apply_color_ramp(
 
     # Negative, Stable, Positive class
     if stat in (Statistic.NSM, Statistic.EPR):
-        neg_minimum = min(values)
-        neg_maximum = -unc
-
-        pos_minimum = unc
-        pos_maximum = max(values)
+        neg_min = min(vals)
+        neg_max = -unc
+        pos_min = unc
+        pos_max = max(vals)
 
         if mode in (0, 2):
-            neg_values = sorted(i for i in values if i <= unc)
-            pos_values = sorted(i for i in values if i >= unc)
-            neg_ranges = classification_method.classes(neg_values, num_of_neg_classes)
-            pos_ranges = classification_method.classes(pos_values, num_of_pos_classes)
+            neg_vals = sorted(i for i in vals if i <= unc)
+            pos_vals = sorted(i for i in vals if i >= unc)
+            neg_ranges = classification_method.classes(
+                values=neg_vals, nclasses=num_of_neg_classes
+            )
+            pos_ranges = classification_method.classes(
+                values=pos_vals, nclasses=num_of_pos_classes
+            )
 
         elif mode in (1, 3):
             neg_ranges = classification_method.classes(
-                neg_minimum, neg_maximum, num_of_neg_classes
+                minimum=neg_min, maximum=neg_max, nclasses=num_of_neg_classes
             )
             pos_ranges = classification_method.classes(
-                pos_minimum, pos_maximum, num_of_pos_classes
+                minimum=pos_min, maximum=pos_max, nclasses=num_of_pos_classes
             )
 
         # Stable value
-        unc_range = classification_method_unc.classes(-unc, unc, 1)
+        unc_range = classification_method_unc.classes(
+            minimum=-unc, maximum=unc, nclasses=1
+        )
         ranges = neg_ranges + unc_range + pos_ranges
 
     # Stable, Positive class
     elif stat == Statistic.SCE:
-        pos_minimum = unc
-        pos_maximum = max(values)
+        pos_min = unc
+        pos_max = max(vals)
 
         if mode in (0, 2):
-            pos_values = sorted(i for i in values if i >= unc)
-            pos_ranges = classification_method.classes(pos_values, num_of_pos_classes)
+            pos_vals = sorted(i for i in vals if i >= unc)
+            pos_ranges = classification_method.classes(
+                values=pos_vals, nclasses=num_of_pos_classes
+            )
 
         elif mode in (1, 3):
             pos_ranges = classification_method.classes(
-                pos_minimum, pos_maximum, num_of_pos_classes
+                minimum=pos_min, maximum=pos_max, nclasses=num_of_pos_classes
             )
 
         # Stable value
-        unc_range = classification_method_unc.classes(0, unc, 1)
+        unc_range = classification_method_unc.classes(
+            minimum=0, maximum=unc, nclasses=1
+        )
         ranges = unc_range + pos_ranges
 
-    # Negative, Positive class
+    # Negative, Positive class in one range
     elif stat in (Statistic.LRR, Statistic.WLR):
         if mode in (0, 2):
-            ranges = classification_method.classes(values, num_of_pos_classes * 2)
+            ranges = classification_method.classes(
+                values=vals, nclasses=num_of_pos_classes * 2
+            )
         elif mode in (1, 3):
             ranges = classification_method.classes(
-                min(values), max(values), num_of_pos_classes * 2
+                minimum=min(vals),
+                maximum=max(vals),
+                nclasses=num_of_pos_classes * 2,
             )
 
     symbol = QgsLineSymbol.createSimple({"capstyle": "round"})
