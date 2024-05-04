@@ -25,9 +25,9 @@ from qscat.core.shoreline_change import compute_shoreline_change_button_clicked
 # from qscat.core.shoreline_change import compute_shoreline_change_stats
 from qscat.core.area_change.main import compute_area_change_stats
 from qscat.core.transects import cast_transects_button_clicked
-from qscat.core.update import check_updates_on_click
+from qscat.core.update import check_updates_button_clicked
 from qscat.core.utils.plugin import get_plugin_dir
-from qscat.core.visualization import apply_color_ramp
+from qscat.core.visualization import apply_color_ramp_button_clicked
 
 from qscat.gui.statistics import update_newest_oldest_date
 from qscat.gui.statistics import select_all_stats_checkbox
@@ -116,11 +116,13 @@ class QscatPlugin:
         )
 
         # Visualization Tab "Visualize" button
-        self.dockwidget.pb_vis_apply.clicked.connect(lambda: apply_color_ramp(self))
+        self.dockwidget.pb_vis_apply.clicked.connect(
+            lambda: apply_color_ramp_button_clicked(self)
+        )
 
         # About Tab "Check for updates" button
         self.dockwidget.pb_about_check_for_updates.clicked.connect(
-            lambda: check_updates_on_click(self)
+            lambda: check_updates_button_clicked(self)
         )
 
         # Shorelines Tab "Shorelines fields"
