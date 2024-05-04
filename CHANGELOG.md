@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - `Visualization Tab`: Add missing stable class for SCE.
+- `Visualization Tab`: Fix Quantile and Jenks negative classification that includes stable values.
 
 ### Added
 
