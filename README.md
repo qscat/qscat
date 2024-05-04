@@ -7,7 +7,7 @@
 [![QGIS.org - 0.3.1](https://img.shields.io/badge/qgis.org-0.3.1-green.svg)](https://plugins.qgis.org/plugins/qscat)
 [![Documentation Status](https://readthedocs.org/projects/qscat/badge/?version=latest)](https://qscat.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/louisfacun/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/louisfacun/qscat)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/qscat/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/qscat/qscat)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8758/badge)](https://www.bestpractices.dev/projects/8758)
 
 
@@ -17,16 +17,16 @@ QSCAT was initially developed by UP-MSI CoastER team for a [government-funded in
 
 </div>
 
-![qscat](https://github.com/louisfacun/qscat/assets/58874676/df5f0bb2-ce42-4270-bf01-7d4f01d58ae6)
+![qscat](https://github.com/qscat/qscat/assets/58874676/df5f0bb2-ce42-4270-bf01-7d4f01d58ae6)
 
 ## QGIS versions compatibility
 
 | Name  | Status |
 | - | - |
-| test coverage (ongoing) | [![codecov](https://codecov.io/gh/louisfacun/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/louisfacun/qscat) |
-| **3.22.16** | [![QGIS (3.22.16)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.22.16.yml/badge.svg)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.22.16.yml) |
-| **3.34.5** | [![QGIS (3.34.5)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.34.5.yml/badge.svg)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.34.5.yml) |
-| **3.36.1**| [![QGIS (3.36.1)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.36.1.yml/badge.svg)](https://github.com/louisfacun/qscat/actions/workflows/ci-3.36.1.yml) |
+| test coverage (ongoing) | [![codecov](https://codecov.io/gh/qscat/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/qscat/qscat) |
+| **3.22.16** | [![QGIS (3.22.16)](https://github.com/qscat/qscat/actions/workflows/ci-3.22.16.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.22.16.yml) |
+| **3.34.5** | [![QGIS (3.34.5)](https://github.com/qscat/qscat/actions/workflows/ci-3.34.5.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.34.5.yml) |
+| **3.36.1**| [![QGIS (3.36.1)](https://github.com/qscat/qscat/actions/workflows/ci-3.36.1.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.36.1.yml) |
 
 ## Features
 
@@ -69,7 +69,7 @@ QSCAT offers the following features:
 
 The latest QSCAT plugin is available as a ZIP file for installation. The steps to install the plugin on any operating system (Windows, Linux, Mac OS) are as follows:
 
-1. Download the latest `qscat.zip` file from the following link: [https://github.com/louisfacun/qscat/releases/latest](https://github.com/louisfacun/qscat/releases/latest). OR `qscat-x.y-z.zip` from [https://plugins.qgis.org/plugins/qscat/](https://plugins.qgis.org/plugins/qscat/).
+1. Download the latest `qscat.zip` file from the following link: [https://github.com/qscat/qscat/releases/latest](https://github.com/qscat/qscat/releases/latest). OR `qscat-x.y-z.zip` from [https://plugins.qgis.org/plugins/qscat/](https://plugins.qgis.org/plugins/qscat/).
 
 2. Open `QGIS`, `Plugins ‣ Manage and Install Plugins… ‣ Install from ZIP`.
 
