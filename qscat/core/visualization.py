@@ -27,20 +27,20 @@ from qscat.core.constants import Trend
 
 
 def apply_area_colors(layer):
-    """Apply colors to the layer output of the area change feature based 
+    """Apply colors to the layer output of the area change feature based
        on `AreaChangeField.TREND`.
 
     Args:
         layer (QgsVectorLayer): The layer to apply the colors to.
     """
     accreting_symbol = QgsFillSymbol.createSimple(
-        {'color': QColor(34,101,188,255), 'style': 'solid'}
+        {"color": QColor(34, 101, 188, 255), "style": "solid"}
     )
     eroding_symbol = QgsFillSymbol.createSimple(
-        {'color': QColor(173,29,42,255), 'style': 'solid'}
+        {"color": QColor(173, 29, 42, 255), "style": "solid"}
     )
     stable_symbol = QgsFillSymbol.createSimple(
-        {'color': QColor(229,228,218,255), 'style': 'solid'}
+        {"color": QColor(229, 228, 218, 255), "style": "solid"}
     )
     accreting_symbol.setOpacity(0.5)
     eroding_symbol.setOpacity(0.5)
@@ -61,31 +61,67 @@ def apply_area_colors(layer):
             Trend.ACCRETING,
             accreting_symbol,
             Trend.ACCRETING,
-        )
+        ),
     ]
     renderer = QgsCategorizedSymbolRenderer(AreaChangeField.TREND, categories)
     layer.setRenderer(renderer)
     layer.triggerRepaint()
 
 
-def apply_color_ramp(self):
-    """Apply color ramp to the layer based on the selected stat layer in the GUI.
+def apply_color_ramp_button_clicked(qscat):
+    """Apply custom graduated symbology values on the selected shoreline change
+    statistic layer (on button clicked).
+
+    Args:
+        qscat (QscatPlugin): QscatPlugin instance.
     """
-    layer = self.dockwidget.qmlcb_vis_stat_layer.currentLayer()
-    mode = self.dockwidget.cb_vis_mode.currentIndex()
+    layer = qscat.dockwidget.qmlcb_vis_stat_layer.currentLayer()
+    mode = qscat.dockwidget.cb_vis_mode.currentIndex()
 
-    pos_classes = int(self.dockwidget.qsb_vis_pos_classes.text())
-    neg_classes = int(self.dockwidget.qsb_vis_neg_classes.text())
+    num_of_pos_classes = int(qscat.dockwidget.qsb_vis_pos_classes.text())
+    num_of_neg_classes = int(qscat.dockwidget.qsb_vis_neg_classes.text())
 
+    highest_unc = get_highest_unc_from_input(qscat)
+    epr_unc = get_epr_unc_from_input(qscat)
+
+    apply_color_ramp(
+        layer,
+        mode,
+        num_of_pos_classes,
+        num_of_neg_classes,
+        highest_unc,
+        epr_unc,
+    )
+
+
+def apply_color_ramp(
+    layer,
+    mode,
+    num_of_pos_classes,
+    num_of_neg_classes,
+    highest_unc,
+    epr_unc,
+):
+    """Apply custom graduated symbology values on the selected shoreline change
+    statistic layer.
+
+    Args:
+        layer (QgsVectorLayer): The layer to apply the colors to.
+        mode (int): The mode of classification.
+        num_of_pos_classes (int): The number of positive classes.
+        num_of_neg_classes (int): The number of negative classes.
+        highest_unc (float): The highest uncertainty value.
+        epr_unc (float): The EPR uncertainty value.
+    """
     if is_field_in_layer(Statistic.SCE, layer):
         stat = Statistic.SCE
-        uncertainty = get_highest_unc_from_input(self) # TODO: get from layer custom property
+        uncertainty = highest_unc
     elif is_field_in_layer(Statistic.NSM, layer):
         stat = Statistic.NSM
-        uncertainty = get_highest_unc_from_input(self) # TODO: get from layer custom property
+        uncertainty = highest_unc
     elif is_field_in_layer(Statistic.EPR, layer):
         stat = Statistic.EPR
-        uncertainty = get_epr_unc_from_input(self) # TODO: get from layer custom property
+        uncertainty = epr_unc
     elif is_field_in_layer(Statistic.LRR, layer):
         stat = Statistic.LRR
         uncertainty = None
@@ -98,111 +134,101 @@ def apply_color_ramp(self):
 
     default_style = QgsStyle().defaultStyle()
     color_ramp = default_style.colorRamp("Greys")
-   
+
+    # Colors
     if stat == Statistic.SCE:
-        # grey - start color
-        color_ramp.setColor1(QColor(229,228,218))
+        color_ramp.setColor1(QColor(229, 228, 218))  # greyish
+        color_ramp.setColor2(QColor(34, 101, 188))  # bluish
 
-        # blue - end color
-        color_ramp.setColor2(QColor(34,101,188))
-   
-    elif stat in [Statistic.NSM, Statistic.EPR, Statistic.LRR, Statistic.WLR]:
-        # red - start color
-        color_ramp.setColor1(QColor(173,29,42))
+    elif stat in (Statistic.NSM, Statistic.EPR, Statistic.LRR, Statistic.WLR):
+        color_ramp.setColor1(QColor(173, 29, 42))  # reddish
+        color_ramp.setColor2(QColor(34, 101, 188))  # bluish
 
-        # blue - end color
-        color_ramp.setColor2(QColor(34,101,188))
-
-        # grey mid color
-        color_ramp.setStops([QgsGradientStop(0.5, QColor(229,228,218))])
+        # For LRR and WLR, also sets middle color to greyish
+        color_ramp.setStops(
+            [QgsGradientStop(0.5, QColor(229, 228, 218))]
+        )  # greyish - middle
 
     classification_methods = [
         QgsClassificationQuantile(),
         QgsClassificationEqualInterval(),
         QgsClassificationJenks(),
-        QgsClassificationPrettyBreaks()
+        QgsClassificationPrettyBreaks(),
     ]
     classification_method = classification_methods[mode]
-    classification_method.setLabelFormat("%1 – %2")
-    classification_method.setLabelPrecision(2)
+    classification_method.setLabelFormat("%1 – %2")  # Legend
+    classification_method.setLabelPrecision(2)  # Round to 2 decimal places
     classification_method.setLabelTrimTrailingZeroes(True)
-    
-    # Determine if color ramp has uncertainty value
-    if stat == Statistic.NSM or stat == Statistic.EPR:
+
+    # Negative, Stable, Positive class
+    if stat in (Statistic.NSM, Statistic.EPR):
         neg_minimum = min(values)
         neg_maximum = -uncertainty
-        #neg_classes = 4
 
         pos_minimum = uncertainty
         pos_maximum = max(values)
-        #pos_classes = 4
 
-        # Specific modes need list of values, and max and min
-        if mode == 0 or mode == 2:
+        if mode in (0, 2):
             neg_values = sorted(i for i in values if i <= uncertainty)
             pos_values = sorted(i for i in values if i >= uncertainty)
+            neg_ranges = classification_method.classes(neg_values, num_of_neg_classes)
+            pos_ranges = classification_method.classes(pos_values, num_of_pos_classes)
+
+        elif mode in (1, 3):
             neg_ranges = classification_method.classes(
-                neg_values, 
-                neg_classes
+                neg_minimum, neg_maximum, num_of_neg_classes
             )
             pos_ranges = classification_method.classes(
-                pos_values,
-                pos_classes
+                pos_minimum, pos_maximum, num_of_pos_classes
             )
 
-        elif mode == 1 or mode == 3:
-            neg_ranges = classification_method.classes(
-                neg_minimum, neg_maximum, neg_classes
-            )
-            pos_ranges = classification_method.classes(
-                pos_minimum, pos_maximum, pos_classes
-            )
-        
-        # For stable values
+        # For stable value
         classification_method_unc = QgsClassificationEqualInterval()
         classification_method_unc.setLabelFormat("%1 – %2")
         classification_method_unc.setLabelPrecision(2)
         classification_method_unc.setLabelTrimTrailingZeroes(True)
-        
-        unc_range = classification_method_unc.classes(
-            -uncertainty, uncertainty, 1
-        )
+
+        unc_range = classification_method_unc.classes(-uncertainty, uncertainty, 1)
         ranges = neg_ranges + unc_range + pos_ranges
-    
+
+    # Stable, Positive class
     elif stat == Statistic.SCE:
+        pos_minimum = uncertainty
         pos_maximum = max(values)
-        if mode == 0 or mode == 2:
-            ranges = classification_method.classes(
-                values,
-                pos_classes
-            )
-        elif mode == 1 or mode == 3:
-            ranges = classification_method.classes(
-                0.0,
-                pos_maximum,
-                pos_classes
+
+        if mode in (0, 2):
+            pos_values = sorted(i for i in values if i >= uncertainty)
+            pos_ranges = classification_method.classes(pos_values, num_of_pos_classes)
+
+        elif mode in (1, 3):
+            pos_ranges = classification_method.classes(
+                pos_minimum, pos_maximum, num_of_pos_classes
             )
 
-    elif stat == Statistic.LRR or stat == Statistic.WLR:
-        if mode == 0 or mode == 2:
+        # For stable value
+        classification_method_unc = QgsClassificationEqualInterval()
+        classification_method_unc.setLabelFormat("%1 – %2")
+        classification_method_unc.setLabelPrecision(2)
+        classification_method_unc.setLabelTrimTrailingZeroes(True)
+
+        unc_range = classification_method_unc.classes(0, uncertainty, 1)
+        ranges = unc_range + pos_ranges
+
+    # Negative, Positive class
+    elif stat in (Statistic.LRR, Statistic.WLR):
+        if mode in (0, 2):
+            ranges = classification_method.classes(values, num_of_pos_classes * 2)
+        elif mode in (1, 3):
             ranges = classification_method.classes(
-                values,
-                pos_classes*2
-            )
-        elif mode == 1 or mode == 3:
-            ranges = classification_method.classes(
-                min(values),
-                max(values),
-                pos_classes*2
+                min(values), max(values), num_of_pos_classes * 2
             )
 
-    symbol = QgsLineSymbol.createSimple({'capstyle': 'round'})
+    symbol = QgsLineSymbol.createSimple({"capstyle": "round"})
     symbol.setWidth(1.5)
-    
+
     render_ranges = [
-        QgsRendererRange(
-            r, QgsSymbol.defaultSymbol(layer.geometryType())
-        ) for r in ranges
+        QgsRendererRange(r, QgsSymbol.defaultSymbol(layer.geometryType()))
+        for r in ranges
     ]
     renderer = QgsGraduatedSymbolRenderer(stat, render_ranges)
     renderer.updateColorRamp(color_ramp)
