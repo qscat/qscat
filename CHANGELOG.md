@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.0] - Unreleased
 
+### Fixed
+
+- Add missing stable class for SCE of `Visualization Tab`.
+
 ### Added
 
 - Add attributes for oldest shoreline length, average shoreline length, and mean shoreline displacement in area change vector layer output.
@@ -15,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Improve `Visualization Tab` UI and reading of input.
 - Refactor and style some codes using pylint, ruff, and black.
 - Docs: Improve some sections.
 
