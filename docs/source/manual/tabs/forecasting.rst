@@ -4,6 +4,8 @@
 Tab: Forecasting
 ****************
 
+The :guilabel:`Forecasting Tab` allows you to forecast the shoreline position based on the Kalman Filter algorithm.
+
 .. only:: html
 
    .. contents::
@@ -23,23 +25,19 @@ Tab: Forecasting
 Algorithm
 =========
 
-*Content for this section will be added soon.*
-
-
 .. _tab_forecasting_kalman_filter:
 
 Kalman Filter
 -------------
 
-*Content for this section will be added soon.*
-
+Based on :cite:`long2012extended`, according to DSAS :cite:`2018:dsasv5`.
 
 .. _tab_forecasting_time_period:
 
 Time Period
 ===========
 
-Allows you to select the forecast period (10 or 20 years) from now.
+Allows you to select the forecast period (10 or 20 years) from now. "From now" refers to system date when the forecasting algorithm is executed.
 
 
 Vector layer output
@@ -74,7 +72,6 @@ Layers
 
 Attributes
 ----------
-
 
 Forecast Point
 ..............
