@@ -13,12 +13,12 @@ from qscat.core.utils.date import datetime_now
 from qscat.core.utils.input import get_area_change_input_params
 from qscat.core.visualization import apply_area_colors
 
-from .extra_transect import insert_extra_transects
-from .half_transect import get_half_transect
-from .polygon import extract_area_polygon
-from .utils import group_dict_by_key
-from .utils import get_interest_transects_within_polygon
-from .utils import load_shorelines_by_date
+from qscat.core.area_change.extra_transect import insert_extra_transects
+from qscat.core.area_change.half_transect import get_half_transect
+from qscat.core.area_change.polygon import extract_area_polygon
+from qscat.core.area_change.utils import group_dict_by_key
+from qscat.core.area_change.utils import get_interest_transects_within_polygon
+from qscat.core.area_change.utils import load_shorelines_by_date
 
 from qscat.core.constants import Trend
 
