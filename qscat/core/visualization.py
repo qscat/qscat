@@ -148,7 +148,7 @@ def apply_color_ramp(
         pos_max = max(vals)
 
         if mode in (0, 2):
-            neg_vals = sorted(i for i in vals if i <= unc)
+            neg_vals = sorted(i for i in vals if i <= -unc)
             pos_vals = sorted(i for i in vals if i >= unc)
             neg_ranges = classification_method.classes(
                 values=neg_vals, nclasses=num_of_neg_classes
