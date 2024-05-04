@@ -1,0 +1,19 @@
+==================================
+QSCAT 0.3.0 Changelog - 2024-04-20
+==================================
+
+Added
+=====
+
+- Add checkbox to hide `Baseline orientation`.
+- Add `Forecasting Tab` summary report.
+
+Changed
+=======
+
+- Improve GUI icons design and made as SVGs for better quality.
+
+Fixed
+=====
+
+- Fix `Forecasting Tab` transect layer input to display line string layer only, and show CRS.

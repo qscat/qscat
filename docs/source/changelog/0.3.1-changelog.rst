@@ -1,0 +1,9 @@
+==================================
+QSCAT 0.3.1 Changelog - 2024-04-21
+==================================
+
+Fixed
+=====
+
+- Fix `Area Change Tab` visualization error.
+- Fix `Forecasting Tab` error.

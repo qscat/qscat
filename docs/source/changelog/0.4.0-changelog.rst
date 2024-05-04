@@ -1,0 +1,26 @@
+==================================
+QSCAT 0.4.0 Changelog - Unreleased
+==================================
+
+Fixed
+=====
+
+- `Visualization Tab`: Add missing stable class for SCE.
+
+Added
+=====
+
+- Add attributes for oldest shoreline length, average shoreline length, and mean shoreline displacement in area change vector layer output.
+- Add QSCAT access to the plugin menu.
+- Add transect cast, shoreline change, and forecasting execution time in QGIS message log.
+
+Changed
+=======
+
+- Refactor and style some codes using pylint, ruff, and black.
+- Docs: Improve some sections.
+
+Breaking Changes
+================
+
+- `Visualization Tab`: Improved UI and reading of input. This change requires all previous stat layers to be regenerated.
