@@ -31,7 +31,7 @@ from qscat.core.utils.plugin import get_metadata_version
 
 LOCAL_PLUGIN_NAME = "qscat"
 REPOSITORY_NAME = "qscat"
-REPOSITORY_USERNAME = "louisfacun"
+REPOSITORY_USERNAME = "qscat"
 
 
 def check_updates_button_clicked(self):
@@ -292,7 +292,7 @@ def get_latest_release_info(username, repository):
     """Get latest release info from the GitHub repository.
 
     Args:
-        username (str): GitHub username (louisfacun)
+        username (str): GitHub username (qscat)
         repository (str): GitHub repository (qscat)
 
     Returns:

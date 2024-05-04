@@ -59,7 +59,7 @@ jobs:
           conda list
       - name: PyTest
         run: |
-          git clone https://github.com/louisfacun/qscat
+          git clone https://github.com/qscat/qscat
           cd qscat
           pytest --cov=qscat/ --cov-report xml tests/
       - name: Upload Coverage Reports to CodeCov

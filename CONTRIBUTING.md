@@ -5,12 +5,12 @@ Thank you for considering contributing to QSCAT! 🌟 Your contributions help ma
 ## Plugin Contributions
 
 ### Bug Reports and Feature Requests
-If you encounter a bug or have an idea for a new feature, please [open an issue](https://github.com/louisfacun/qscat/issues) on GitHub. Be sure to provide detailed information about the bug or feature request, including steps to reproduce the issue.
+If you encounter a bug or have an idea for a new feature, please [open an issue](https://github.com/qscat/qscat/issues) on GitHub. Be sure to provide detailed information about the bug or feature request, including steps to reproduce the issue.
 
 ### Code Contributions
 We welcome code contributions to QSCAT! To contribute code:
 
-1. Fork the [QSCAT repository](https://github.com/louisfacun/qscat).
+1. Fork the [QSCAT repository](https://github.com/qscat/qscat).
 2. Create a new branch for your changes.
 3. Make your changes and commit them to your branch.
 4. Submit a pull request (PR) with a clear description of your changes.
