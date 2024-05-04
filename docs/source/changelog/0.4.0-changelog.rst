@@ -6,6 +6,7 @@ Fixed
 =====
 
 - `Visualization Tab`: Add missing stable class for SCE.
+- `Visualization Tab`: Fix Quantile and Jenks negative classification that includes stable values.
 
 Added
 =====
