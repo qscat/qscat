@@ -23,7 +23,7 @@ from qscat.core.utils.input import get_transects_input_params
 
 
 def cast_transects_button_clicked(qscat):
-    """Cast transect on button clicked.
+    """Cast transect (on button clicked).
 
     Args:
         qscat (QscatPlugin): QscatPlugin instance.
