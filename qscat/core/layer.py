@@ -26,7 +26,7 @@ def create_add_layer(
     datetime=None,
 ):
     """Create and add vector layer in memory (temporary).
-    
+
     Args:
         geometry (str): 'LineString', 'Polygon', etc.
         geometries (list[QgsGeometry]): List of geometries.
@@ -35,15 +35,15 @@ def create_add_layer(
         values (list[list[float,str]]): List of values.
         extra_values (dict): A dict to be stored in the layer's custom properties.
         datetime (str): Date and time value to append to the layer name.
-    
+
     Returns:
         QgsVectorLayer
 
     Example:
         layer = create_layer(
-            'LineString', 
-            [QgsGeometry.fromPolylineXY([QgsPointXY(0, 0), QgsPointXY(1, 1)]), 
-             QgsGeometry.fromPolylineXY([QgsPointXY(2, 2), QgsPointXY(3, 3)]), 
+            'LineString',
+            [QgsGeometry.fromPolylineXY([QgsPointXY(0, 0), QgsPointXY(1, 1)]),
+             QgsGeometry.fromPolylineXY([QgsPointXY(2, 2), QgsPointXY(3, 3)]),
             ],
             'test_layer',
             'EPSG:4326',
@@ -61,25 +61,21 @@ def create_add_layer(
     if datetime is None:
         datetime = datetime_now()
 
-    layer = QgsVectorLayer(
-        geometry, 
-        f'{name} [{datetime}]', 
-        'memory'
-    )
+    layer = QgsVectorLayer(geometry, f"{name} [{datetime}]", "memory")
     layer.setCrs(QgsProject.instance().crs())
-    
+
     # Add attributes / fields
     dp = layer.dataProvider()
     fields_with_id = []
 
     # Add fix id field
-    fields_with_id.append(QgsField('id', QVariant.Int))
-    
+    fields_with_id.append(QgsField("id", QVariant.Int))
+
     ## Add custom fields
     for field in fields:
-        fields_with_id.append(QgsField(field['name'], field['type']))
+        fields_with_id.append(QgsField(field["name"], field["type"]))
     dp.addAttributes(fields_with_id)
-    
+
     layer.updateFields()
 
     # Add geometries and values
@@ -88,7 +84,7 @@ def create_add_layer(
         # Add geometry
         feat.setGeometry(geometry)
         # Add values: id + field1, field2, ...
-        feat.setAttributes([i+1] + value)
+        feat.setAttributes([i + 1] + value)
         dp.addFeature(feat)
 
     # Add custom properties
@@ -98,13 +94,13 @@ def create_add_layer(
 
     layer.updateExtents()
     QgsProject.instance().addMapLayers([layer])
-    
+
     return layer
 
- 
+
 def load_shorelines(shorelines_params):
     """Read merged shoreline QGIS's vector layer object.
-    
+
     Example dictionary:
         shorelines = [
             {'year': 1990.xx, 'geoms': [list of QgsGeometry], 'unc': 143},
@@ -116,23 +112,28 @@ def load_shorelines(shorelines_params):
 
     Args:
         layer (QgsVectorLayer)
-    
+
     Returns:
         list[dict(year:int, geoms:list[QgsGeometry.LineString])]
     """
     shorelines = []
-    features = shorelines_params['shorelines_layer'].getFeatures()
-    
+    features = shorelines_params["shorelines_layer"].getFeatures()
+
     for feat in features:
         shoreline = {}
-        decimal_year = convert_to_decimal_year(feat[shorelines_params['date_field']])
-        shoreline['year'] = decimal_year
-        #shoreline['year'] = convert_to_decimal_year(feat[shorelines_params['date_field']])
-        shoreline['geoms'] = [QgsGeometry.fromPolylineXY(l) for l in feat.geometry().asMultiPolyline()]
-        if feat[shorelines_params['uncertainty_field']] is None or not feat[shorelines_params['uncertainty_field']] > 0.0:
-            shoreline['unc'] = float(shorelines_params['default_data_uncertainty'])
+        decimal_year = convert_to_decimal_year(feat[shorelines_params["date_field"]])
+        shoreline["year"] = decimal_year
+        # shoreline['year'] = convert_to_decimal_year(feat[shorelines_params['date_field']])
+        shoreline["geoms"] = [
+            QgsGeometry.fromPolylineXY(l) for l in feat.geometry().asMultiPolyline()
+        ]
+        if (
+            feat[shorelines_params["uncertainty_field"]] is None
+            or not feat[shorelines_params["uncertainty_field"]] > 0.0
+        ):
+            shoreline["unc"] = float(shorelines_params["default_data_uncertainty"])
         else:
-            shoreline['unc'] = float(feat[shorelines_params['uncertainty_field']])
+            shoreline["unc"] = float(feat[shorelines_params["uncertainty_field"]])
         shorelines.append(shoreline)
 
     return shorelines
@@ -140,7 +141,7 @@ def load_shorelines(shorelines_params):
 
 def load_shorelines_geoms(layer):
     """Load shorelines geoms only
-    
+
     Args:
         layer (QgsVectorLayer)
 
@@ -176,7 +177,7 @@ def load_transects(layer):
 
 #     Args:
 #         layer (QgsVectorLayer)
-    
+
 #     Returns:
 #         QgsLineString
 #     """
@@ -184,7 +185,7 @@ def load_transects(layer):
 #     for feature in features:
 #         geom = feature.geometry()
 #         multi_line_string = geom.asMultiPolyline()
-        
+
 #         for line_string in multi_line_string:
 #             baseline = line_string
 
@@ -193,20 +194,32 @@ def load_transects(layer):
 
 def load_all_baselines(baseline_params):
     """Load QGIS baseline layer as a list of multi line strings.
-    
+
     Args:
         layer (QgsVectorLayer)
-        
+
     Returns:
         list[QgsLineString]
     """
     all_baselines = []
-    feats = baseline_params['baseline_layer'].getFeatures()
+    feats = baseline_params["baseline_layer"].getFeatures()
 
     # Since fields are optional, first check if they are selected
-    placement_field = baseline_params['placement_field'] if baseline_params['placement_field'] else None
-    orientation_field = baseline_params['orientation_field'] if baseline_params['orientation_field'] else None
-    transect_length_field = baseline_params['transect_length_field'] if baseline_params['transect_length_field'] else None 
+    placement_field = (
+        baseline_params["placement_field"]
+        if baseline_params["placement_field"]
+        else None
+    )
+    orientation_field = (
+        baseline_params["orientation_field"]
+        if baseline_params["orientation_field"]
+        else None
+    )
+    transect_length_field = (
+        baseline_params["transect_length_field"]
+        if baseline_params["transect_length_field"]
+        else None
+    )
 
     for feat in feats:
         # Access the value for each feature
@@ -222,21 +235,25 @@ def load_all_baselines(baseline_params):
             orientation = None
 
         if transect_length_field:
-            transect_length = feat[transect_length_field] if feat[transect_length_field] else None
+            transect_length = (
+                feat[transect_length_field] if feat[transect_length_field] else None
+            )
         else:
             transect_length = None
 
         baselines = []
         geom = feat.geometry()
         multi_line_string = geom.asMultiPolyline()
-        
+
         for line_string in multi_line_string:
-            baselines.append({
-                'line': QgsLineString(line_string),
-                'placement': placement,
-                'orientation': orientation,
-                'transect_length': transect_length,
-            })
+            baselines.append(
+                {
+                    "line": QgsLineString(line_string),
+                    "placement": placement,
+                    "orientation": orientation,
+                    "transect_length": transect_length,
+                }
+            )
 
         all_baselines.append(baselines)
 
@@ -253,11 +270,13 @@ def load_polygons(layer):
     # return polygons_geom
     multi_polygons = []
     for feat in layer.getFeatures():
-        name = feat['name'] if 'name' in feat.fields().names() else None
+        name = feat["name"] if "name" in feat.fields().names() else None
         multi_polygon = feat.geometry()
-        multi_polygons.append({
-            'geom': multi_polygon,
-            'name': name,
-        })
+        multi_polygons.append(
+            {
+                "geom": multi_polygon,
+                "name": name,
+            }
+        )
 
     return multi_polygons

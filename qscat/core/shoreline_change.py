@@ -528,11 +528,18 @@ class ShorelineChange:
         elif stat in [Statistic.SCE, Statistic.LRR, Statistic.WLR]:
             name = f"{stat}"
 
-        # Metadata dict
+        # Custom properties
         dates = {
             "newest_date": self.shoreline_change_params["newest_date"],
             "oldest_date": self.shoreline_change_params["oldest_date"],
+            "stat": stat,
         }
+
+        # Add uncertainty value in custom properties
+        if stat in [Statistic.SCE, Statistic.NSM]:
+            dates["unc"] = self.shoreline_change_params["highest_unc"]
+        elif stat == Statistic.EPR:
+            dates["unc"] = self.shoreline_change_params["epr_unc"]
 
         create_add_layer(
             geometry="LineString",
