@@ -4,13 +4,13 @@
 Tab: Project Settings
 *********************
 
+The :guilabel:`Project Settings Tab` allows you to configure the plugin for the QGIS project.
+
 .. only:: html
 
    .. contents::
       :local:
       :depth: 2
-
-The :guilabel:`Project Settings Tab` is the first tab in the plugin interface. This tab contains settings that are used to configure the plugin for the QGIS project. The settings in this tab are used to set the coordinate reference system (CRS) and metadata for the project.
 
 .. _figure_tab_project_settings:
 
@@ -31,7 +31,7 @@ Coordinate Reference System
 
    Coordinate Reference System (CRS) section in Project Settings tab.
 
-The :guilabel:`Coordinate Reference System` or CRS setting in this plugin enables users to directly set the CRS from the plugin. This setting ensures that both input Shoreline and Baseline layers to the plugin match the current project CRS before casting transects in :ref:`tab_transects`. If the CRS of the input layers does not match, the plugin will generate an error to notify the user as shown in :numref:`figure_tab_project_settings_crs_error`.
+The :guilabel:`Coordinate Reference System` or CRS setting in this plugin enables you to directly set the CRS from the plugin. This setting ensures that both input Shoreline and Baseline layers to the plugin match the current project CRS before casting transects in :ref:`tab_transects`. If the CRS of the input layers does not match, the plugin will generate an error to notify you as shown in :numref:`figure_tab_project_settings_crs_error`.
 
 .. _figure_tab_project_settings_crs_error:
 

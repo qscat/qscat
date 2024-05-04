@@ -72,7 +72,7 @@ Field                       Name         Data Type   Format
 Baseline Layer
 ==============
 
-Another important input data is the :menuselection:`Baseline`, a vector constructed by the user that is parallel to and at a certain distance from the shoreline. Similar to ``DSAS``, the :menuselection:`Baseline` is the starting point for all shoreline change calculations to be made in ``QSCAT``.  It is not part of the ``QSCAT`` plugin but can be generated using ``QGIS`` or any GIS software with the same functionality.
+Another important input data is the Baseline, a vector constructed that is parallel to and at a certain distance from the shoreline. Similar to ``DSAS``, the :menuselection:`Baseline` is the starting point for all shoreline change calculations to be made in ``QSCAT``.  It is not part of the ``QSCAT`` plugin but can be generated using ``QGIS`` or any GIS software with the same functionality.
 
 Unlike ``DSAS``, ``QSCAT`` does not currently supports multiple base segments on a single transect casting. It is recommended to run separate transect casting for each baseline segment to increase versatility, allowing for different input parameters for each baseline segment. Thus, ``QSCAT`` does not have any required attribute table for the baseline layer.
 

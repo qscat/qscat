@@ -4,13 +4,13 @@
 Tab: Shoreline Change
 *********************
 
+The :guilabel:`Shoreline Change Tab` allows you to calculate the following shoreline change statistics: (a) Shoreline Change Envelope (SCE), (b) Net Shoreline Movement (NSM), (c) End-Point Rate (EPR), and (d) Linear Regression Rate (LRR). The first three statistics (SCE, NSM, and EPR) require only two shoreline vectors, while LRR requires at least three (3) shoreline vectors to compute the rate of change. SCE and NSM refer to magnitude or distance in meters (m), while EPR and LRR are rate-of-change statistics in meters/year (m/y).
+
 .. only:: html
 
    .. contents::
       :local:
       :depth: 3
-
-The :guilabel:`Shoreline Change Tab` calculates the following shoreline change statistics: (a) Shoreline Change Envelope (SCE), (b) Net Shoreline Movement (NSM), (c) End-Point Rate (EPR), and (d) Linear Regression Rate (LRR). The first three statistics (SCE, NSM, and EPR) require only two shoreline vectors, while LRR requires at least three (3) shoreline vectors to compute the rate of change. SCE and NSM refer to magnitude or distance in meters (m), while EPR and LRR are rate-of-change statistics in meters/year (m/y).
 
 .. _figure_tab_shoreline_change:
 
@@ -62,7 +62,7 @@ Transect-Shoreline Intersections
 
    Guide on determining the intersection point of transects and shorelines
   
-Sometimes, a transect intersects the shoreline vector at more than one point, particularly on curved segments (:numref:`figure_transects_shoreline_intersections`). To handle shoreline vector/s with multiple intersections, QSCAT allows the user to choose the intersection point by distance (i.e., farthest or closest to the baseline) or by placement (seaward or landward, similar to DSAS). As it will affect the distance between the intersection points at the baseline and the shoreline, it is recommended that the selected option be applied to all shorelines for analysis.
+Sometimes, a transect intersects the shoreline vector at more than one point, particularly on curved segments (:numref:`figure_transects_shoreline_intersections`). To handle shoreline vector/s with multiple intersections, QSCAT allows you to choose the intersection point by distance (i.e., farthest or closest to the baseline) or by placement (seaward or landward, similar to DSAS). As it will affect the distance between the intersection points at the baseline and the shoreline, it is recommended that the selected option be applied to all shorelines for analysis.
 
 .. _tab_shoreline_change_scs:
 

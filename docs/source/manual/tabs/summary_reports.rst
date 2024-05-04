@@ -4,13 +4,13 @@
 Tab: Summary Reports
 ********************
 
+The :guilabel:`Summary Reports Tab` allows you to configure the save location of the summary reports and enable or disable the generation of summary reports. The summary reports are text files that contain the base information and the summary of results of the shoreline change, area change, and forecasting. The summary reports are saved in the folder specified by you.
+
 .. only:: html
 
    .. contents::
       :local:
       :depth: 2
-
-The :guilabel:`Summary Reports Tab` allows the user to configure the save location of the summary reports and enable or disable the generation of summary reports. The summary reports are text files that contain the base information and the summary of results of the shoreline change, area change, and forecasting. The summary reports are saved in the folder specified by the user.
 
 .. _figure_tab_summary_reports:
 
@@ -26,7 +26,7 @@ General
 Reports save location
 ---------------------
 
-Allows users to choose the folder in which to save the summary reports. Defaults to ``QSCATSummaryReports`` under user home directory. Additionally, each results type (shoreline change, area change, and forecasting) will be saved inside another folder within the specified folder. The filename of the report will be in the format ``qscat_<version>_<result_type>_<datetime>.txt``, where the datetime is in the format ``MM-DD-YY HH-MM-SS``. The following table shows the folder structure and the filename format of the summary reports.
+Allows you to choose the folder in which to save the summary reports. Defaults to ``QSCATSummaryReports`` under your user home directory. Additionally, each results type (shoreline change, area change, and forecasting) will be saved inside another folder within the specified folder. The filename of the report will be in the format ``qscat_<version>_<result_type>_<datetime>.txt``, where the datetime is in the format ``MM-DD-YY HH-MM-SS``. The following table shows the folder structure and the filename format of the summary reports.
 
 .. list-table:: 
    :header-rows: 1
@@ -70,7 +70,7 @@ Example of the folder structure and file name
 Enable reports generation
 -------------------------
 
-A convenient way to enable or disable the generation of summary reports. Users can also enable or disable the generation of individual reports: Shoreline Change, Area Change, and Forecasting.
+A convenient way to enable or disable the generation of summary reports. You can also enable or disable the generation of individual reports: Shoreline Change, Area Change, and Forecasting.
 
 
 Content of summary reports

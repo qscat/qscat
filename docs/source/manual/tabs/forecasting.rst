@@ -39,7 +39,7 @@ Kalman Filter
 Time Period
 ===========
 
-Allows user to select the forecast period (10 or 20 years) from now.
+Allows you to select the forecast period (10 or 20 years) from now.
 
 
 Vector layer output

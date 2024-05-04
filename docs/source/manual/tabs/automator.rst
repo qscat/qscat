@@ -4,13 +4,13 @@
 Tab: Automator
 **************
 
+The :guilabel:`Automator Tab` allows you to automate repetitive tasks directly from the plugin such as adding fields to the shoreline layer and baseline layer.
+
 .. only:: html
 
    .. contents::
       :local:
       :depth: 2
-
-The :guilabel:`Automator Tab` allows the user to automate repetitive tasks directly from the plugin such as adding fields to the shoreline layer and baseline layer.
 
 .. _figure_tab_automator:
 
@@ -49,7 +49,7 @@ Field name                   Data type
 ``<uncertainty_field_name>`` ``Double``
 ============================ ==========
 
-Without the automator, the ``date`` and ``uncertainty`` fields can be manually added on the :menuselection:`Attribute Table` of the shoreline input layer. Basically, this means that the user is responsible for selecting the attribute data type. To check full details about shorelines layer, please refer to the :ref:`preparing_the_shoreline_vectors`.
+Without the automator, the ``date`` and ``uncertainty`` fields can be manually added on the :menuselection:`Attribute Table` of the shoreline input layer. Basically, this means that you are responsible for selecting the attribute data type. To check full details about shorelines layer, please refer to the :ref:`preparing_the_shoreline_vectors`.
 
 Baseline
 ========
