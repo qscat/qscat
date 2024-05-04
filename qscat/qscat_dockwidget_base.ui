@@ -2133,7 +2133,7 @@
               <bool>true</bool>
              </property>
              <property name="text">
-              <string>Stat layer</string>
+              <string>Shoreline change statistic layer</string>
              </property>
             </widget>
            </item>
