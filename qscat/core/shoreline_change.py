@@ -38,7 +38,8 @@ from qscat.core.constants import Trend
 
 
 def compute_shoreline_change_button_clicked(qscat):
-    """
+    """Compute shoreline change stats (on button clicked).
+
     Args:
         qscat (QscatPlugin): QscatPlugin instance.
     """
@@ -78,6 +79,7 @@ def compute_shoreline_change_button_clicked(qscat):
         "Execution time",
         level=Qgis.Info,
     )
+
 
 class ShorelineChange:
     def __init__(
