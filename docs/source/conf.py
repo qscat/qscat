@@ -74,12 +74,12 @@ html_theme_options = {
     "icon_links": [
         {
             "name": "Facebook",
-            "url": "https://facebook.com/QSCATplugin",
+            "url": "https://facebook.com/qscatplugin",
             "icon": "fa-brands fa-square-facebook",
         },
         {
             "name": "Twitter",
-            "url": "https://twitter.com/QSCATplugin",
+            "url": "https://twitter.com/qscatplugin",
             "icon": "fa-brands fa-square-twitter",
         },
     ],
@@ -97,7 +97,8 @@ html_theme_options = {
 }
 
 
-html_title = f"{project} v{version}"
+html_title = f"{project}"
+#html_title = f"{project} v{version}"
 html_static_path = ["_static"]
 html_sidebars = {"**": ["search-field", "sidebar-nav-bs", "sidebar-ethical-ads"]}
 html_favicon = "favicon.ico"
