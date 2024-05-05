@@ -4,7 +4,7 @@
 Tab: Visualization
 ******************
 
-The :guilabel:`Visualization Tab` allows you to generate a custom Graduated Symbology of a selected shoreline change statistic layer. It dynamically generates symbology colors and values based on the selected mode of classification, and number of negative and positive classes.
+The :guilabel:`Visualization Tab` allows you to generate a custom graduated symbology of a selected shoreline change statistic layer. It dynamically generates symbology class colors, values, and legend based on the selected mode of classification, and number of negative and positive classes.
 
 .. only:: html
 

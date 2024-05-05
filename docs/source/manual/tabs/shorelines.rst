@@ -47,4 +47,4 @@ Fields
 
    Fields section in Shorelines Tab
 
-Under the :menuselection:`Shoreline Fields`, select the ``date`` and ``uncertainty`` fields of the currently selected shoreline layer to be used. These are the fields that are automatically created in :ref:`tab_automator_shoreline_fields` automator or manually created.
+Under the :menuselection:`Shorelines fields`, select the ``date`` and ``uncertainty`` fields of the currently selected shoreline layer to be used. These are the fields that are automatically created in :ref:`tab_automator_shorelines_fields` automator or manually created.

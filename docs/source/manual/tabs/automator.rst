@@ -23,18 +23,18 @@ The :guilabel:`Automator Tab` allows you to automate repetitive tasks directly f
 Shorelines
 ==========
 
-.. _tab_automator_shoreline_fields:
+.. _tab_automator_shorelines_fields:
 
-Shoreline Fields
-----------------
+Shorelines fields
+-----------------
 
-.. figure:: /img/automator/automator-tab-shoreline-fields.png
+.. figure:: /img/automator/automator-tab-shorelines-fields.png
    :align: center
-   :alt: Shoreline Fields section in Automator Tab
+   :alt: Shorelines fields section in Automator Tab
 
-   Shoreline Fields section in Automator Tab
+   Shorelines fields section in Automator Tab
 
-The :guilabel:`Shorelines Fields` automator simplifies the process of adding attributes by automatically assigning pre-defined data types and custom field names. By simply defining the desired field name, the plugin takes care of the necessary data type assignments for each field. This requires the following input:
+The :guilabel:`Shorelines fields` automator simplifies the process of adding attributes by automatically assigning pre-defined data types and custom field names. By simply defining the desired field name, the plugin takes care of the necessary data type assignments for each field. This requires the following input:
 
 #. **Input layer:** vector layer containing the merged shorelines.
 #. **Date field name:** field name that represents the date of the source of shoreline data, following the format ``mm/yyyy``.
@@ -56,10 +56,17 @@ Baseline
 
 .. _tab_automator_baseline_fields:
 
-Baseline Fields
+Baseline fields
 ---------------
 
-The :guilabel:`Baseline Fields` automator simplifies the process of adding attributes by automatically assigning pre-defined data types and custom field names. By simply defining the desired field name, the plugin takes care of the necessary data type assignments for each field. This requires the following input:
+.. figure:: /img/automator/automator-tab-baseline-fields.png
+   :align: center
+   :alt: Baseline fields section in Automator Tab
+
+   Baseline fields section in Automator Tab
+
+
+The :guilabel:`Baseline fields` automator simplifies the process of adding attributes by automatically assigning pre-defined data types and custom field names. By simply defining the desired field name, the plugin takes care of the necessary data type assignments for each field. This requires the following input:
 
 #. **Input layer:** vector layer containing the merged baseline.
 #. **Placement field name:** field name that represents placement of baseline.
@@ -80,10 +87,16 @@ For more information about these fields, please refer to :ref:`optional_multiple
 
 .. _tab_automator_baseline_buffer:
 
-Baseline Buffer
+Baseline buffer
 ---------------
 
-The :guilabel:`Baseline Buffer` automator simplifies the process of creating a buffer around the baseline. This requires the following input:
+.. figure:: /img/automator/automator-tab-baseline-buffer.png
+   :align: center
+   :alt: Baseline buffer section in Automator Tab
+
+   Baseline buffer section in Automator Tab
+
+The :guilabel:`Baseline buffer` automator simplifies the process of creating a buffer around the baseline. This requires the following input:
 
 #. **Input layer:** vector layer containing the merged shorelines.
 #. **Buffer distance:** distance in meters to create the buffer around the baseline.

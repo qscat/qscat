@@ -65,7 +65,7 @@ Field                       Name         Data Type   Format
 
 .. tip:: **Automating attribute table**
 
-   You can manually add the attribute table, but you can also automate the addition of the required attribute fields name and data types using the ``QSCAT`` :ref:`tab_automator_shoreline_fields` automator.
+   You can manually add the attribute table, but you can also automate the addition of the required attribute fields name and data types using the ``QSCAT`` :ref:`tab_automator_shorelines_fields` automator.
 
 .. _plugin_required_inputs_baseline:
 

@@ -297,7 +297,7 @@ Next, we need to add details of each shoreline such as its date and its uncertai
         - 04/2022
         - 15
 
-   According to :ref:`tab_automator_shoreline_fields`, date is in the format of ``MM/YYYY`` and uncertainty is in meters. Also, make sure that details aligns based on the shoreline layer.
+   According to :ref:`tab_automator_shorelines_fields`, date is in the format of ``MM/YYYY`` and uncertainty is in meters. Also, make sure that details aligns based on the shoreline layer.
 
    .. figure:: /img/workflow/simple_data/attributes/opening-attribute-table.png
       :align: center

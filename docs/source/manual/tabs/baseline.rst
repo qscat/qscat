@@ -31,7 +31,7 @@ Layer
    :align: center
    :alt: Baseline layer section Baseline Tab
 
-   Baseline layer section in Baseline Tab.
+   Baseline layer section in Baseline Tab
 
 
 The input layer is the baseline created in :ref:`generating_the_baseline_vectors`.
