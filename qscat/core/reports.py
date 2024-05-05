@@ -155,29 +155,32 @@ class SummaryReport:
         f.write(f'Smoothing distance: {transects["smoothing_distance"]} meters\n')
 
         f.write("\n")
-        f.write("STATISTICS TAB:\n")
-        f.write(f'Transect layer: {shoreline_change["transects_layer"].name()}\n')
+        f.write("SHORELINE CHANGE TAB:\n")
+        f.write(f'Transects layer: {shoreline_change["transects_layer"].name()}\n')
+        clip_transects = "Yes" if shoreline_change["is_clip_transects"] else "No"
 
+        f.write(f"Clip transects: {clip_transects}\n")
         if shoreline_change["is_choose_by_distance"]:
-            f.write("Intersection: Choose by distance\n")
+            f.write("Intersections: Choose by distance\n")
             if shoreline_change["is_choose_by_distance_farthest"]:
                 f.write("By distance: Farthest\n")
             elif shoreline_change["is_choose_by_distance_closest"]:
                 f.write("By distance: Closest\n")
         elif shoreline_change["is_choose_by_placement"]:
-            f.write("Intersection: Choose by placement\n")
+            f.write("Intersections: Choose by placement\n")
             if shoreline_change["is_choose_by_placement_seaward"]:
-                f.write("By distance: Seaward\n")
+                f.write("By placement: Seaward\n")
             elif shoreline_change["is_choose_by_placement_landward"]:
-                f.write("By distance: Landward\n")
+                f.write("By placement: Landward\n")
 
-        clip_transects = "Yes" if shoreline_change["is_clip_transects"] else "No"
-        f.write(f"Clip transects: {clip_transects}\n")
         f.write(
             f'Selected statistics: {", ".join(shoreline_change["selected_stats"])}\n'
         )
-        f.write(f'Newest date: {shoreline_change["newest_year"]}\n')
-        f.write(f'Oldest date: {shoreline_change["oldest_year"]}\n')
+        f.write(f'Newest date: {shoreline_change["newest_date"]}\n')
+        f.write(f'Oldest date: {shoreline_change["oldest_date"]}\n')
+        f.write(f'Newest year: {shoreline_change["newest_year"]}\n')
+        f.write(f'Oldest year: {shoreline_change["oldest_year"]}\n')
+        f.write(f'Confidence interval: {shoreline_change["confidence_interval"]}\n')
         f.write("\n")
         f.write("[SUMMARY OF RESULTS]\n")
         f.write("\n")
@@ -197,7 +200,8 @@ class SummaryReport:
             f.write("NET SHORELINE MOVEMENT (NSM):\n")
             f.write(f'Avg. distance: {self.summary["NSM_avg"]}:\n')
             f.write("\n")
-            f.write("Erosion:\n")
+
+            f.write("Eroding:\n")
             f.write(
                 f'No. of transects: {self.summary["NSM_erosion_num_of_transects"]}\n'
             )
@@ -206,7 +210,7 @@ class SummaryReport:
             f.write(f'Max. value: {self.summary["NSM_erosion_max"]}\n')
             f.write(f'Min. value: {self.summary["NSM_erosion_min"]}\n')
             f.write("\n")
-            f.write("Accretion:\n")
+            f.write("Accreting:\n")
             f.write(
                 f'No. of transects: {self.summary["NSM_accretion_num_of_transects"]}\n'
             )
@@ -227,9 +231,10 @@ class SummaryReport:
 
         if Statistic.EPR in selected_stats:
             f.write("END POINT RATE (EPR):\n")
-            f.write(f"Avg. rate: {None}:\n")
+            f.write(f"Avg. rate: {self.summary["EPR_avg"]}\n")
             f.write("\n")
-            f.write("Erosion:\n")
+
+            f.write("Eroding:\n")
             f.write(
                 f'No. of transects: {self.summary["EPR_erosion_num_of_transects"]}\n'
             )
@@ -238,7 +243,7 @@ class SummaryReport:
             f.write(f'Max. value: {self.summary["EPR_erosion_max"]}\n')
             f.write(f'Min. value: {self.summary["EPR_erosion_min"]}\n')
             f.write("\n")
-            f.write("Accretion:\n")
+            f.write("Accreting:\n")
             f.write(
                 f'No. of transects: {self.summary["EPR_accretion_num_of_transects"]}\n'
             )
@@ -259,7 +264,8 @@ class SummaryReport:
 
         if Statistic.LRR in selected_stats:
             f.write("LINEAR REGRESSION RATE (LRR):\n")
-            f.write("Erosion:\n")
+
+            f.write("Eroding:\n")
             f.write(
                 f'No. of transects: {self.summary["LRR_erosion_num_of_transects"]}\n'
             )
@@ -268,7 +274,7 @@ class SummaryReport:
             f.write(f'Max. value: {self.summary["LRR_erosion_max"]}\n')
             f.write(f'Min. value: {self.summary["LRR_erosion_min"]}\n')
             f.write("\n")
-            f.write("Accretion:\n")
+            f.write("Accreting:\n")
             f.write(
                 f'No. of transects: {self.summary["LRR_accretion_num_of_transects"]}\n'
             )
@@ -280,7 +286,8 @@ class SummaryReport:
 
         if Statistic.WLR in selected_stats:
             f.write("WEIGHTED LINEAR REGRESSION (WLR):\n")
-            f.write("Erosion:\n")
+
+            f.write("Eroding:\n")
             f.write(
                 f'No. of transects: {self.summary["WLR_erosion_num_of_transects"]}\n'
             )
@@ -289,7 +296,7 @@ class SummaryReport:
             f.write(f'Max. value: {self.summary["WLR_erosion_max"]}\n')
             f.write(f'Min. value: {self.summary["WLR_erosion_min"]}\n')
             f.write("\n")
-            f.write("Accretion:\n")
+            f.write("Accreting:\n")
             f.write(
                 f'No. of transects: {self.summary["WLR_accretion_num_of_transects"]}\n'
             )
@@ -310,19 +317,19 @@ class SummaryReport:
         f.write("[INPUT PARAMETERS]\n")
         f.write("\n")
         f.write("AREA:\n")
-        f.write(f'Stat layer: {area["stat_layer"].name()}\n')
-        f.write(f'Polygon area layer: {area["polygon_layer"].name()}\n')
+        f.write(f'Polygon layer: {area["polygon_layer"].name()}\n')
+        f.write(f'Shoreline change statistic layer: {area["stat_layer"].name()}\n')
 
         f.write("\n")
         f.write("[SUMMARY OF RESULTS]\n")
         f.write("\n")
 
-        f.write("AREA:\n")
+        f.write("AREA CHANGE:\n")
         f.write("\n")
         f.write(f'Total area: {self.summary["total_area"]}\n')
         f.write("\n")
 
-        f.write("Erosion:\n")
+        f.write("Eroding:\n")
         f.write(f'Total of areas: {self.summary["area_erosion_total_of_areas"]}\n')
         f.write(f'(%) of areas: {self.summary["area_erosion_pct_of_areas"]}\n')
         f.write(f'No. of areas: {self.summary["area_erosion_num_of_areas"]}\n')
@@ -334,7 +341,7 @@ class SummaryReport:
         f.write(f'Min. value: {self.summary["area_erosion_min"]}\n')
         f.write("\n")
 
-        f.write("Accretion:\n")
+        f.write("Accreting:\n")
         f.write(f'Total of areas: {self.summary["area_accretion_total_of_areas"]}\n')
         f.write(f'(%) of areas: {self.summary["area_accretion_pct_of_areas"]}\n')
         f.write(f'No. of areas: {self.summary["area_accretion_num_of_areas"]}\n')
@@ -363,7 +370,7 @@ class SummaryReport:
         f.write(f'Total shoreline (length): {self.summary["total_newest_length"]}\n')
         f.write("\n")
 
-        f.write("Erosion:\n")
+        f.write("Eroding:\n")
         f.write(
             f'Total of lengths: {self.summary["newest_length_erosion_total_of_lengths"]}\n'
         )
@@ -381,7 +388,7 @@ class SummaryReport:
         f.write(f'Min. value: {self.summary["newest_length_erosion_min"]}\n')
         f.write("\n")
 
-        f.write("Accretion:\n")
+        f.write("Accreting:\n")
         f.write(
             f'Total of lengths: {self.summary["newest_length_accretion_total_of_lengths"]}\n'
         )
@@ -415,6 +422,72 @@ class SummaryReport:
         f.write(f'Avg. value: {self.summary["newest_length_stable_avg"]}\n')
         f.write(f'Max. value: {self.summary["newest_length_stable_max"]}\n')
         f.write(f'Min. value: {self.summary["newest_length_stable_min"]}\n')
+        f.write("\n")
+
+        f.write("OLDEST SHORELINE (LENGTH):\n")
+        f.write("\n")
+        f.write(f'Total shoreline (length): {self.summary["total_oldest_length"]}\n')
+        f.write("\n")
+
+        f.write("Eroding:\n")
+        f.write(
+            f'Total of lengths: {self.summary["oldest_length_erosion_total_of_lengths"]}\n'
+        )
+        f.write(
+            f'(%) of lengths: {self.summary["oldest_length_erosion_pct_of_lengths"]}\n'
+        )
+        f.write(
+            f'No. of lengths: {self.summary["oldest_length_erosion_num_of_lengths"]}\n'
+        )
+        f.write(
+            f'(%) of no. of lengths: {self.summary["oldest_length_erosion_pct_of_num_of_lengths"]}\n'
+        )
+        f.write(f'Avg. value: {self.summary["oldest_length_erosion_avg"]}\n')
+        f.write(f'Max. value: {self.summary["oldest_length_erosion_max"]}\n')
+        f.write(f'Min. value: {self.summary["oldest_length_erosion_min"]}\n')
+        f.write("\n")
+
+        f.write("Accreting:\n")
+        f.write(
+            f'Total of lengths: {self.summary["oldest_length_accretion_total_of_lengths"]}\n'
+        )
+        f.write(
+            f'(%) of lengths: {self.summary["oldest_length_accretion_pct_of_lengths"]}\n'
+        )
+        f.write(
+            f'No. of lengths: {self.summary["oldest_length_accretion_num_of_lengths"]}\n'
+        )
+        f.write(
+            f'(%) of no. of lengths: {self.summary["oldest_length_accretion_pct_of_num_of_lengths"]}\n'
+        )
+        f.write(f'Avg. value: {self.summary["oldest_length_accretion_avg"]}\n')
+        f.write(f'Max. value: {self.summary["oldest_length_accretion_max"]}\n')
+        f.write(f'Min. value: {self.summary["oldest_length_accretion_min"]}\n')
+        f.write("\n")
+
+        f.write("Stable:\n")
+        f.write(
+            f'Total of lengths: {self.summary["oldest_length_stable_total_of_lengths"]}\n'
+        )
+        f.write(
+            f'(%) of lengths: {self.summary["oldest_length_stable_pct_of_lengths"]}\n'
+        )
+        f.write(
+            f'No. of lengths: {self.summary["oldest_length_stable_num_of_lengths"]}\n'
+        )
+        f.write(
+            f'(%) of no. of lengths: {self.summary["oldest_length_stable_pct_of_num_of_lengths"]}\n'
+        )
+        f.write(f'Avg. value: {self.summary["oldest_length_stable_avg"]}\n')
+        f.write(f'Max. value: {self.summary["oldest_length_stable_max"]}\n')
+        f.write(f'Min. value: {self.summary["oldest_length_stable_min"]}\n')
+        f.write("\n")
+
+        f.write("MEAN SHORELINE DISPLACEMENT:\n")
+
+        f.write(f'Avg. value: {self.summary["mean_shoreline_displacement_avg"]}\n')
+        f.write(f'Max. value: {self.summary["mean_shoreline_displacement_max"]}\n')
+        f.write(f'Min. value: {self.summary["mean_shoreline_displacement_min"]}\n')
         f.write("\n")
 
         f.close()

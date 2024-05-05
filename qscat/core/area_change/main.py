@@ -164,11 +164,21 @@ def compute_area_change_stats(qscat):
                         grouped_by_trend[-1]["geom"],
                     )
                 )
+
                 polygon["geom"] = extracted_polygon
                 polygon["area"] = extracted_polygon.area()
                 polygon["type"] = grouped_by_trend[0]["trend"]
                 polygon["newest_shoreline_length"] = new_newest_shoreline.length()
                 polygon["oldest_shoreline_length"] = new_oldest_shoreline.length()
+
+                polygon["avg_shoreline_length"] = (
+                    polygon["newest_shoreline_length"]
+                    + polygon["oldest_shoreline_length"]
+                ) / 2
+                polygon["shoreline_displacement"] = (
+                    polygon["area"] / polygon["avg_shoreline_length"]
+                )
+
                 polygon["name"] = grouped_by_trend[0]["name"]  # Optional area name
                 polygons.append(polygon)
 
@@ -185,9 +195,9 @@ def compute_area_change_stats(qscat):
 
     # Flatten polygon_areas_stats
     polygons = [item for sublist in polygon_areas_stats for item in sublist]
-    total_area = sum([p["area"] for p in polygons])
-    total_newest_length = sum([p["newest_shoreline_length"] for p in polygons])
-    total_oldest_length = sum([p["oldest_shoreline_length"] for p in polygons])
+    total_area = sum(p["area"] for p in polygons)
+    total_newest_length = sum(p["newest_shoreline_length"] for p in polygons)
+    total_oldest_length = sum(p["oldest_shoreline_length"] for p in polygons)
 
     total_area_by_type = {
         Trend.ACCRETING: 0.0,
@@ -213,20 +223,33 @@ def compute_area_change_stats(qscat):
         "erosion_percent": 0.0,
         "stable_percent": 0.0,
     }
+
     # Sum area and length by type
-    for p in polygons:
-        if p["type"] == Trend.ACCRETING:
-            total_area_by_type[Trend.ACCRETING] += p["area"]
-            total_newest_length_by_type[Trend.ACCRETING] += p["newest_shoreline_length"]
-            total_oldest_length_by_type[Trend.ACCRETING] += p["oldest_shoreline_length"]
-        elif p["type"] == Trend.ERODING:
-            total_area_by_type[Trend.ERODING] += p["area"]
-            total_newest_length_by_type[Trend.ERODING] += p["newest_shoreline_length"]
-            total_oldest_length_by_type[Trend.ERODING] += p["oldest_shoreline_length"]
-        elif p["type"] == Trend.STABLE:
-            total_area_by_type[Trend.STABLE] += p["area"]
-            total_newest_length_by_type[Trend.STABLE] += p["newest_shoreline_length"]
-            total_oldest_length_by_type[Trend.STABLE] += p["oldest_shoreline_length"]
+    for polygon in polygons:
+        if polygon["type"] == Trend.ACCRETING:
+            total_area_by_type[Trend.ACCRETING] += polygon["area"]
+            total_newest_length_by_type[Trend.ACCRETING] += polygon[
+                "newest_shoreline_length"
+            ]
+            total_oldest_length_by_type[Trend.ACCRETING] += polygon[
+                "oldest_shoreline_length"
+            ]
+        elif polygon["type"] == Trend.ERODING:
+            total_area_by_type[Trend.ERODING] += polygon["area"]
+            total_newest_length_by_type[Trend.ERODING] += polygon[
+                "newest_shoreline_length"
+            ]
+            total_oldest_length_by_type[Trend.ERODING] += polygon[
+                "oldest_shoreline_length"
+            ]
+        elif polygon["type"] == Trend.STABLE:
+            total_area_by_type[Trend.STABLE] += polygon["area"]
+            total_newest_length_by_type[Trend.STABLE] += polygon[
+                "newest_shoreline_length"
+            ]
+            total_oldest_length_by_type[Trend.STABLE] += polygon[
+                "oldest_shoreline_length"
+            ]
 
     # Get total percentages by type
     total_area_by_type["accretion_percent"] = (
@@ -271,28 +294,27 @@ def compute_area_change_stats(qscat):
     ]
     layer_values = []
 
-    # Get values per current single area (not total)
-    for p in polygons:
-        area_percentage = p["area"] / total_area
-        newest_length_percentage = p["newest_shoreline_length"] / total_newest_length
-        oldest_length_percentage = p["oldest_shoreline_length"] / total_oldest_length
-
-        avg_shoreline_length = (
-            p["newest_shoreline_length"] + p["oldest_shoreline_length"]
-        ) / 2
-        shoreline_displacement = p["area"] / avg_shoreline_length
+    # Get field values per current single area (not total)
+    for polygon in polygons:
+        area_percentage = polygon["area"] / total_area
+        newest_length_percentage = (
+            polygon["newest_shoreline_length"] / total_newest_length
+        )
+        oldest_length_percentage = (
+            polygon["oldest_shoreline_length"] / total_oldest_length
+        )
 
         value = [
-            round(p["area"], 2),
+            round(polygon["area"], 2),
             round(area_percentage * 100, 2),
-            p["type"],
-            round(p["newest_shoreline_length"], 2),
+            polygon["type"],
+            round(polygon["newest_shoreline_length"], 2),
             round(newest_length_percentage * 100, 2),
-            round(p["oldest_shoreline_length"], 2),
+            round(polygon["oldest_shoreline_length"], 2),
             round(oldest_length_percentage * 100, 2),
-            round(avg_shoreline_length, 2),
-            round(shoreline_displacement, 2),
-            p["name"],
+            round(polygon["avg_shoreline_length"], 2),
+            round(polygon["shoreline_displacement"], 2),
+            polygon["name"],
         ]
 
         layer_values.append(value)
@@ -318,11 +340,11 @@ def compute_area_change_stats(qscat):
     ):
         summary = {}
 
-        # General information
+        # Base information
         summary["datetime"] = current_datetime
 
-        # Actual results
-        # Area
+        # Summary of results
+        # Area Change
         summary["total_area"] = round(total_area, 2)
 
         # Erosion
@@ -465,6 +487,94 @@ def compute_area_change_stats(qscat):
         )
         summary["newest_length_stable_min"] = (
             round(min(stable_newest_lengths), 2) if stable_newest_lengths else 0
+        )
+
+        # Oldest shoreline length
+        summary["total_oldest_length"] = round(total_oldest_length, 2)
+
+        # Erosion
+        erosion_oldest_lengths = [
+            p["oldest_shoreline_length"] for p in polygons if p["type"] == Trend.ERODING
+        ]
+        summary["oldest_length_erosion_total_of_lengths"] = round(
+            total_oldest_length_by_type[Trend.ERODING], 2
+        )
+        summary["oldest_length_erosion_pct_of_lengths"] = (
+            f"{total_oldest_length_by_type['erosion_percent']*100:.2f}%"
+        )
+        summary["oldest_length_erosion_num_of_lengths"] = erosion_count
+        summary["oldest_length_erosion_pct_of_num_of_lengths"] = (
+            f"{(erosion_count / len(polygons)) * 100:.2f}%"
+        )
+        summary["oldest_length_erosion_avg"] = round(
+            total_oldest_length_by_type[Trend.ERODING] / len(polygons), 2
+        )
+        summary["oldest_length_erosion_max"] = (
+            round(max(erosion_oldest_lengths), 2) if erosion_oldest_lengths else 0
+        )
+        summary["oldest_length_erosion_min"] = (
+            round(min(erosion_oldest_lengths), 2) if erosion_oldest_lengths else 0
+        )
+
+        # Accretion
+        accretion_oldest_lengths = [
+            p["oldest_shoreline_length"]
+            for p in polygons
+            if p["type"] == Trend.ACCRETING
+        ]
+        summary["oldest_length_accretion_total_of_lengths"] = round(
+            total_oldest_length_by_type[Trend.ACCRETING], 2
+        )
+        summary["oldest_length_accretion_pct_of_lengths"] = (
+            f"{total_oldest_length_by_type['accretion_percent']*100:.2f}%"
+        )
+        summary["oldest_length_accretion_num_of_lengths"] = accretion_count
+        summary["oldest_length_accretion_pct_of_num_of_lengths"] = (
+            f"{(accretion_count / len(polygons)) * 100:.2f}%"
+        )
+        summary["oldest_length_accretion_avg"] = round(
+            total_oldest_length_by_type[Trend.ACCRETING] / len(polygons), 2
+        )
+        summary["oldest_length_accretion_max"] = (
+            round(max(accretion_oldest_lengths), 2) if accretion_oldest_lengths else 0
+        )
+        summary["oldest_length_accretion_min"] = (
+            round(min(accretion_oldest_lengths), 2) if accretion_oldest_lengths else 0
+        )
+
+        # Stable
+        stable_oldest_lengths = [
+            p["oldest_shoreline_length"] for p in polygons if p["type"] == Trend.STABLE
+        ]
+        summary["oldest_length_stable_total_of_lengths"] = round(
+            total_oldest_length_by_type[Trend.STABLE], 2
+        )
+        summary["oldest_length_stable_pct_of_lengths"] = (
+            f"{total_oldest_length_by_type['stable_percent']*100:.2f}%"
+        )
+        summary["oldest_length_stable_num_of_lengths"] = stable_count
+        summary["oldest_length_stable_pct_of_num_of_lengths"] = (
+            f"{(stable_count / len(polygons)) * 100:.2f}%"
+        )
+        summary["oldest_length_stable_avg"] = round(
+            total_oldest_length_by_type[Trend.STABLE] / len(polygons), 2
+        )
+        summary["oldest_length_stable_max"] = (
+            round(max(stable_oldest_lengths), 2) if stable_oldest_lengths else 0
+        )
+        summary["oldest_length_stable_min"] = (
+            round(min(stable_oldest_lengths), 2) if stable_oldest_lengths else 0
+        )
+
+        # Mean shoreline displacement
+        summary["mean_shoreline_displacement_avg"] = round(
+            sum(p["shoreline_displacement"] for p in polygons) / len(polygons), 2
+        )
+        summary["mean_shoreline_displacement_max"] = round(
+            max(p["shoreline_displacement"] for p in polygons), 2
+        )
+        summary["mean_shoreline_displacement_min"] = round(
+            min(p["shoreline_displacement"] for p in polygons), 2
         )
 
         reports = SummaryReport(qscat, summary)
