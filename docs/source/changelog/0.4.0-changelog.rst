@@ -11,7 +11,8 @@ Fixed
 Added
 =====
 
-- Add attributes for oldest shoreline length, average shoreline length, and mean shoreline displacement in area change vector layer output.
+- `Area Change Tab`: Add attributes for oldest shoreline length, average shoreline length, and mean shoreline displacement in area change vector layer output.
+- `Area Change Tab`: Add oldest shoreline length and mean shoreline displacement in summary reports.
 - Add QSCAT access to the plugin menu.
 - Add transect cast, shoreline change, and forecasting execution time in QGIS message log.
 
@@ -19,6 +20,7 @@ Changed
 =======
 
 - Refactor and style some codes using pylint, ruff, and black.
+- UI: Update labels for consistency.
 - Docs: Improve some sections.
 
 Breaking Changes

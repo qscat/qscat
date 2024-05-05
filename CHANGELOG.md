@@ -14,16 +14,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add attributes for oldest shoreline length, average shoreline length, and mean shoreline displacement in area change vector layer output.
+- `Area Change Tab`: Add attributes for oldest shoreline length, average shoreline length, and mean shoreline displacement in area change vector layer output.
+- `Area Change Tab`: Add oldest shoreline length and mean shoreline displacement in summary reports.
 - Add QSCAT access to the plugin menu.
 - Add transect cast, shoreline change, and forecasting execution time in QGIS message log.
 
 ### Changed
 
 - Refactor and style some codes using pylint, ruff, and black.
+- UI: Update labels for consistency.
 - Docs: Improve some sections.
 
-### Breaking Changes 🚨
+### Breaking Changes
 
 - `Visualization Tab`: Improved UI and reading of input. This change requires all previous stat layers to be regenerated.
 
