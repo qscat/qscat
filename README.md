@@ -4,7 +4,7 @@
 
 
 [![QGIS](https://img.shields.io/badge/qgis-3.22.16_|_3.34.5_|_3.36.1-green)](https://download.qgis.org/downloads/)
-[![QGIS.org - 0.3.1](https://img.shields.io/badge/qgis.org-0.3.1-green.svg)](https://plugins.qgis.org/plugins/qscat)
+[![QGIS.org - 0.4.0](https://img.shields.io/badge/qgis.org-0.4.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
 [![Documentation Status](https://readthedocs.org/projects/qscat/badge/?version=latest)](https://qscat.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/qscat/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/qscat/qscat)
