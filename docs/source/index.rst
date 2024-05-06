@@ -1,6 +1,3 @@
-.. meta::
-   :google-site-verification: Vu4I_EQt2S2vuMFkcxpaSKOuQQ1-QfIOIHb373g5Ko8
-
 QSCAT Documentation
 ===================
 

@@ -1,5 +1,4 @@
 # Configuration file for the Sphinx documentation builder.
-
 # -- Project information
 
 project = "QSCAT"
@@ -25,16 +24,16 @@ extensions = [
     "sphinx_design",
 ]
 
-# html_baseurl = "https://qscat.github.io/docs/"
-# sitemap_url_scheme = "{link}"
+html_baseurl = "https://qscat.github.io/docs/latest/"
+sitemap_url_scheme = "{link}"
 
-html_baseurl = "https://qscat.readthedocs.io/"
-sitemap_url_scheme = "{lang}latest/{link}"
+# html_baseurl = "https://qscat.readthedocs.io/"
+# sitemap_url_scheme = "{lang}latest/{link}"
 sitemap_excludes = [
     "search.html",
     "genindex.html",
 ]
-html_extra_path = ['robots.txt']
+#html_extra_path = ["robots.txt"]
 
 # -- Bibtex configuration
 bibtex_bibfiles = ["refs.bib"]
@@ -98,7 +97,7 @@ html_theme_options = {
 
 
 html_title = f"{project}"
-#html_title = f"{project} v{version}"
+# html_title = f"{project} v{version}"
 html_static_path = ["_static"]
 html_sidebars = {"**": ["search-field", "sidebar-nav-bs", "sidebar-ethical-ads"]}
 html_favicon = "favicon.ico"

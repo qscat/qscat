@@ -5,7 +5,6 @@
 
 [![QGIS](https://img.shields.io/badge/qgis-3.22.16_|_3.34.5_|_3.36.1-green)](https://download.qgis.org/downloads/)
 [![QGIS.org - 0.4.0](https://img.shields.io/badge/qgis.org-0.4.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
-[![Documentation Status](https://readthedocs.org/projects/qscat/badge/?version=latest)](https://qscat.readthedocs.io/en/latest/?badge=latest)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/qscat/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/qscat/qscat)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8758/badge)](https://www.bestpractices.dev/projects/8758)
@@ -34,12 +33,12 @@ QSCAT offers the following features:
 
 | Feature | Description |
 | - | -- |
-| [**Shoreline Change**](https://qscat.readthedocs.io/latest/manual/tabs/shoreline_change.html) | Computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR). |
-| [**Area Change**](https://qscat.readthedocs.io/latest/manual/tabs/area_change.html) | Calculates length and area of accreting, stable, and eroding coastal segments. |
-| [**Forecasting**](https://qscat.readthedocs.io/latest/manual/tabs/forecasting.html) | Predicts future shoreline positions including uncertainty areas. |
-| [**Automator**](https://qscat.readthedocs.io/latest/manual/tabs/automator.html) | Automates manual repetitive tasks. |
-| [**Visualization**](https://qscat.readthedocs.io/latest/manual/tabs/visualization.html) | Visualizes shoreline and area change, forecasting results in the map for easy interpretation. |
-| [**Summary Report**](https://qscat.readthedocs.io/latest/manual/tabs/summary_reports.html) | Generates a comprehensive summary report of the results. |
+| [**Shoreline Change**](https://qscat.github.io/docs/latest/manual/tabs/shoreline_change.html) | Computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR). |
+| [**Area Change**](https://qscat.github.io/docs/latest/manual/tabs/area_change.html) | Calculates length and area of accreting, stable, and eroding coastal segments. |
+| [**Forecasting**](https://qscat.github.io/docs/latest/manual/tabs/forecasting.html) | Predicts future shoreline positions including uncertainty areas. |
+| [**Automator**](https://qscat.github.io/docs/latest/manual/tabs/automator.html) | Automates manual repetitive tasks. |
+| [**Visualization**](https://qscat.github.io/docs/latest/manual/tabs/visualization.html) | Visualizes shoreline and area change, forecasting results in the map for easy interpretation. |
+| [**Summary Report**](https://qscat.github.io/docs/latest/manual/tabs/summary_reports.html) | Generates a comprehensive summary report of the results. |
 
 ## Installation
 
@@ -81,12 +80,12 @@ The latest QSCAT plugin is available as a ZIP file for installation. The steps t
 
 </details>
 
-See [QSCAT User Manual - Sample Workflow](https://qscat.readthedocs.io/latest/manual/others/sample_workflow.html) for sample usage.
+See [QSCAT User Manual - Sample Workflow](https://qscat.github.io/docs/latest/manual/others/sample_workflow.html) for sample usage.
 
 ## Resources
 - [QSCAT Website](https://qscat.github.io)
 - [QSCAT Documentation](https://qscat.readthedocs.io)
-- [QSCAT Documentation](https://qscat.readthedocs.io/latest/manual)
+- [QSCAT Documentation](https://qscat.github.io/docs/latest/manual)
 - [QSCAT Facebook](https://web.facebook.com/qscatplugin)
 - [QSCAT Facebook Group](https://web.facebook.com/groups/qscat)
 - [QSCAT Twitter](https://twitter.com/qscatplugin)
