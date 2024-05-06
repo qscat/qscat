@@ -231,7 +231,7 @@ class SummaryReport:
 
         if Statistic.EPR in selected_stats:
             f.write("END POINT RATE (EPR):\n")
-            f.write(f"Avg. rate: {self.summary["EPR_avg"]}\n")
+            f.write(f'Avg. rate: {self.summary["EPR_avg"]}\n')
             f.write("\n")
 
             f.write("Eroding:\n")
