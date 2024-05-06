@@ -34,12 +34,12 @@ QSCAT offers the following features:
 
 | Feature | Description |
 | - | -- |
-| [**Shoreline Change**](https://qscat.readthedocs.io/en/latest/manual/tabs/shoreline_change.html) | Computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR). |
-| [**Area Change**](https://qscat.readthedocs.io/en/latest/manual/tabs/area_change.html) | Calculates length and area of accreting, stable, and eroding coastal segments. |
-| [**Forecasting**](https://qscat.readthedocs.io/en/latest/manual/tabs/forecasting.html) | Predicts future shoreline positions including uncertainty areas. |
-| [**Automator**](https://qscat.readthedocs.io/en/latest/manual/tabs/automator.html) | Automates manual repetitive tasks. |
-| [**Visualization**](https://qscat.readthedocs.io/en/latest/manual/tabs/visualization.html) | Visualizes shoreline and area change, forecasting results in the map for easy interpretation. |
-| [**Summary Report**](https://qscat.readthedocs.io/en/latest/manual/tabs/summary_reports.html) | Generates a comprehensive summary report of the results. |
+| [**Shoreline Change**](https://qscat.readthedocs.io/latest/manual/tabs/shoreline_change.html) | Computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR). |
+| [**Area Change**](https://qscat.readthedocs.io/latest/manual/tabs/area_change.html) | Calculates length and area of accreting, stable, and eroding coastal segments. |
+| [**Forecasting**](https://qscat.readthedocs.io/latest/manual/tabs/forecasting.html) | Predicts future shoreline positions including uncertainty areas. |
+| [**Automator**](https://qscat.readthedocs.io/latest/manual/tabs/automator.html) | Automates manual repetitive tasks. |
+| [**Visualization**](https://qscat.readthedocs.io/latest/manual/tabs/visualization.html) | Visualizes shoreline and area change, forecasting results in the map for easy interpretation. |
+| [**Summary Report**](https://qscat.readthedocs.io/latest/manual/tabs/summary_reports.html) | Generates a comprehensive summary report of the results. |
 
 ## Installation
 
@@ -81,12 +81,12 @@ The latest QSCAT plugin is available as a ZIP file for installation. The steps t
 
 </details>
 
-See [QSCAT User Manual - Sample Workflow](https://qscat.readthedocs.io/en/latest/manual/others/sample_workflow.html) for sample usage.
+See [QSCAT User Manual - Sample Workflow](https://qscat.readthedocs.io/latest/manual/others/sample_workflow.html) for sample usage.
 
 ## Resources
 - [QSCAT Website](https://qscat.github.io)
 - [QSCAT Documentation](https://qscat.readthedocs.io)
-- [QSCAT Documentation](https://qscat.readthedocs.io/en/latest/manual)
+- [QSCAT Documentation](https://qscat.readthedocs.io/latest/manual)
 - [QSCAT Facebook](https://web.facebook.com/qscatplugin)
 - [QSCAT Facebook Group](https://web.facebook.com/groups/qscat)
 - [QSCAT Twitter](https://twitter.com/qscatplugin)
