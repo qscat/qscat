@@ -1,161 +1,289 @@
-.. index:: Example Summary Report
-.. _appendices_example_summary_report:
+.. index:: Example Summary Reports
+.. _appendices_example_summary_reports:
 
-Appendix 1: Example Summmary Report
+Appendix 1: Example Summary Reports
 ===================================
 
-Shoreline Change Statistic
---------------------------
+Shoreline Change
+----------------
 
 .. code-block:: 
 
-    [Author]
-    Name: Last name, First name Middle Name
-    Affiliation: xx
-    Email: xx
+  [PROJECT DETAILS]
 
-    [System]
-    Time generated: dd/mm/yyyy hh:mm:ss
-    QGIS version: 3.22.6
-    QSCAT version: v1.0.0beta
+  GENERAL:
+  Time generated: 05-06-24 14-40-40
+  Project location: /home/louis/Desktop/sca workspace/Agoo, La Union
 
-    [Input]
-    [Shorelines]
-    Layer: xxx
-    Default uncertainty: xx
-    Date field: xxx
-    Dates: 01/2018, 01/2022, 01/2022
-    Uncertainty field: xxx
-    Uncertainty: 25.0, 25.0, 15.0
+  PROJECTION:
+  CRS auth id: EPSG:32651
 
-    [Baseline]
-    Layer: xxx
-    Placement: (sea or offshore|land or onshore)
-    Orientation: (land is to the R|land is to the L)
+  AUTHOR:
+  Full name: Louis Philippe Facun
+  Affiliation: UP-MSI
+  Email: louisfacun@gmail.com
 
-    [Transects]
-    Name: xxx
-    Total number of transects
-    Number of transects with negative distance
-    By (transect spacing|number of transects): xx meters
-    Search distance: xx meters
-    Smoothing distance: xx meters
-    Intersection by (distance/placement): (farthest|closest|seaward|landward)
-    Clip transects: yes
-    Include intersections layer: yes
+  [SYSTEM DETAILS]
 
-    [Statistics]
-    Layer: xx
-    Statistics: SCE, NSM, EPR
-    Newest date: mm/yyyy
-    Oldest date: mm/yyy
+  OS version: Linux 6.5.0-18-generic
+  QGIS version: 3.34.5-Prizren
+  QSCAT version: 0.4.0
 
-    Area layer: xxx
-    Area NSM layer: xxx
+  [INPUT PARAMETERS]
 
-    [Visualization-not included?]
+  SHORELINES TAB:
+  Layer: Shorelines Merged
+  Default data uncertainty: 15
+  Date field: qs_date
+  Uncertainty field: qs_unc
+  Dates: 01/1977, 03/1988, 05/2010, 04/2022
+  Uncertainties: 25.00, 15.00, 15.00, 15.00
 
-    [Results]
-    Total number of transects: xxx
-    ………………..
-    SCE:
+  BASELINE TAB:
+  Layer: Baseline
+  Placement: Sea or Offshore
+  Orientation: Land is to the RIGHT
+
+  TRANSECTS TAB:
+  Layer output name: transects
+  Transect count: By transect spacing
+  Transect spacing: 50 meters
+  Transect length: 2000 meters
+  Smoothing distance: 500 meters
+
+  SHORELINE CHANGE TAB:
+  Transects layer: transects [05-06-24 14-40-37]
+  Clip transects: Yes
+  Intersections: Choose by distance
+  By distance: Farthest
+  Selected statistics: SCE, NSM, EPR, LRR, WLR
+  Newest date: 04/2022
+  Oldest date: 01/1977
+  Newest year: 2022.25
+  Oldest year: 1977.0
+  Confidence interval: 99.7
+
+  [SUMMARY OF RESULTS]
+
+  Total no. of transects: 114
+
+  SHORELINE CHANGE ENVELOPE (SCE):
+  Avg. value: 123.74
+  Max. value: 287.23
+  Min. value: 75.06
+
+  NET SHORELINE MOVEMENT (NSM):
+  Avg. distance: -99.95:
+
+  Eroding:
+  No. of transects: 101
+  (%) transects: 95.28 %
+  Avg. value: -110.72
+  Max. value: -41.98
+  Min. value: -185.53
+
+  Accreting:
+  No. of transects: 4
+  (%) transects: 3.77 %
+  Avg. value: 148.9
+  Max. value: 231.59
+  Min. value: 50.06
+
+  Stable:
+  No. of transects: 1
+  (%) transects: 0.94 %
+  Avg. value: -7.46
+  Max. value: -7.46
+  Min. value: -7.46
+
+  END POINT RATE (EPR):
+  Avg. rate: -2.21
+
+  Eroding:
+  No. of transects: 101
+  (%) transects: 95.28 %
+  Avg. value: -2.45
+  Max. value: -0.93
+  Min. value: -4.1
+
+  Accreting:
+  No. of transects: 4
+  (%) transects: 3.77 %
+  Avg. value: 3.29
+  Max. value: 5.12
+  Min. value: 1.11
+
+  Stable:
+  No. of transects: 1
+  (%) transects: 0.94 %
+  Avg. value: -0.16
+  Max. value: -0.16
+  Min. value: -0.16
+
+  LINEAR REGRESSION RATE (LRR):
+  Eroding:
+  No. of transects: 102
+  (%) transects: 96.23 %
+  Avg. value: -2.49
+  Max. value: -0.32
+  Min. value: -4.75
+
+  Accreting:
+  No. of transects: 4
+  (%) transects: 3.77 %
+  Avg. value: 3.64
+  Max. value: 5.86
+  Min. value: 1.05
+
+  WEIGHTED LINEAR REGRESSION (WLR):
+  Eroding:
+  No. of transects: 101
+  (%) transects: 95.28 %
+  Avg. value: -2.26
+  Max. value: -0.38
+  Min. value: -5.02
+
+  Accreting:
+  No. of transects: 5
+  (%) transects: 4.72 %
+  Avg. value: 3.64
+  Max. value: 6.87
+  Min. value: 0.23
 
 
-Area Change Statistic
----------------------
+
+Area Change
+-----------
 
 .. code-block:: 
     
   [PROJECT DETAILS]
 
-    GENERAL:
-    Time generated: 04-07-24 01-20-12
-    Project location: /home/louis/Desktop
+  GENERAL:
+  Time generated: 05-06-24 14-40-45
+  Project location: /home/louis/Desktop/sca workspace/Agoo, La Union
 
-    PROJECTION:
-    CRS auth id: EPSG:32651
+  PROJECTION:
+  CRS auth id: EPSG:32651
 
-    AUTHOR:
-    Full name: Louis Facun
-    Affiliation: Science Research Assistant
-    Email: louisfacun@gmail.com
+  AUTHOR:
+  Full name: Louis Philippe Facun
+  Affiliation: UP-MSI
+  Email: louisfacun@gmail.com
 
-    [SYSTEM DETAILS]
+  [SYSTEM DETAILS]
 
-    OS version: Linux 6.5.0-18-generic
-    QGIS version: 3.22.16-Białowieża
-    QSCAT version: 1.0.0
+  OS version: Linux 6.5.0-18-generic
+  QGIS version: 3.34.5-Prizren
+  QSCAT version: 0.4.0
 
-    [INPUT PARAMETERS]
+  [INPUT PARAMETERS]
 
-    AREA:
-    NSM layer: EPR (2023.0-1977.0) [04-07-24 01-19-01]
-    Polygon area layer: area
+  AREA:
+  Polygon layer: whole area
+  Shoreline change statistic layer: NSM (2022.25-1977.0) [05-06-24 14-40-40]
 
-    [SUMMARY OF RESULTS]
+  [SUMMARY OF RESULTS]
 
-    AREA:
+  AREA CHANGE:
 
-    Total area: 1691336.08
+  Total area: 591620.2
 
-    Erosion:
-    Total of areas: 739196.44
-    (%) of areas: 43.70%
-    No. of areas: 2
-    (%) of no. of areas: 25.00%
-    Avg. value: 92399.56
-    Max. value: 730310.57
-    Min. value: 8885.87
+  Eroding:
+  Total of areas: 558994.2
+  (%) of areas: 94.49%
+  No. of areas: 2
+  (%) of no. of areas: 50.00%
+  Avg. value: 139748.55
+  Max. value: 548267.16
+  Min. value: 10727.04
 
-    Accretion:
-    Total of areas: 952095.96
-    (%) of areas: 56.29%
-    No. of areas: 4
-    (%) of no. of areas: 50.00%
-    Avg. value: 119012.0
-    Max. value: 362910.93
-    Min. value: 34011.15
+  Accreting:
+  Total of areas: 31953.47
+  (%) of areas: 5.40%
+  No. of areas: 1
+  (%) of no. of areas: 25.00%
+  Avg. value: 7988.37
+  Max. value: 31953.47
+  Min. value: 31953.47
 
-    Stable:
-    Total of areas: 43.67
-    (%) of areas: 0.00%
-    No. of areas: 2
-    (%) of no. of areas: 25.00%
-    Avg. value: 5.46
-    Max. value: 36.13
-    Min. value: 7.54
+  Stable:
+  Total of areas: 672.53
+  (%) of areas: 0.11%
+  No. of areas: 1
+  (%) of no. of areas: 25.00%
+  Avg. value: 168.13
+  Max. value: 672.53
+  Min. value: 672.53
 
-    SHORELINE (LENGTH):
+  NEWEST SHORELINE (LENGTH):
 
-    Total shoreline (length): 5841.48
+  Total shoreline (length): 5382.12
 
-    Erosion:
-    Total of lengths: 2087.88
-    (%) of lengths: 35.74%
-    No. of lengths: 2
-    (%) of no. of lengths: 25.00%
-    Avg. value: 260.98
-    Max. value: 1960.68
-    Min. value: 127.19
+  Eroding:
+  Total of lengths: 5041.11
+  (%) of lengths: 93.66%
+  No. of lengths: 2
+  (%) of no. of lengths: 50.00%
+  Avg. value: 1260.28
+  Max. value: 4887.51
+  Min. value: 153.6
 
-    Accretion:
-    Total of lengths: 3611.35
-    (%) of lengths: 61.82%
-    No. of lengths: 4
-    (%) of no. of lengths: 50.00%
-    Avg. value: 451.42
-    Max. value: 1608.24
-    Min. value: 486.16
+  Accreting:
+  Total of lengths: 250.38
+  (%) of lengths: 4.65%
+  No. of lengths: 1
+  (%) of no. of lengths: 25.00%
+  Avg. value: 62.59
+  Max. value: 250.38
+  Min. value: 250.38
 
-    Stable:
-    Total of lengths: 142.25
-    (%) of lengths: 2.44%
-    No. of lengths: 2
-    (%) of no. of lengths: 25.00%
-    Avg. value: 17.78
-    Max. value: 106.12
-    Min. value: 36.13
+  Stable:
+  Total of lengths: 90.63
+  (%) of lengths: 1.68%
+  No. of lengths: 1
+  (%) of no. of lengths: 25.00%
+  Avg. value: 22.66
+  Max. value: 90.63
+  Min. value: 90.63
 
+  OLDEST SHORELINE (LENGTH):
+
+  Total shoreline (length): 5382.56
+
+  Eroding:
+  Total of lengths: 4985.92
+  (%) of lengths: 92.63%
+  No. of lengths: 2
+  (%) of no. of lengths: 50.00%
+  Avg. value: 1246.48
+  Max. value: 4846.75
+  Min. value: 139.18
+
+  Accreting:
+  Total of lengths: 301.75
+  (%) of lengths: 5.61%
+  No. of lengths: 1
+  (%) of no. of lengths: 25.00%
+  Avg. value: 75.44
+  Max. value: 301.75
+  Min. value: 301.75
+
+  Stable:
+  Total of lengths: 94.89
+  (%) of lengths: 1.76%
+  No. of lengths: 1
+  (%) of no. of lengths: 25.00%
+  Avg. value: 23.72
+  Max. value: 94.89
+  Min. value: 94.89
+
+  MEAN SHORELINE DISPLACEMENT:
+  Avg. value: 77.23
+  Max. value: 115.75
+  Min. value: 7.25
 
 Forecasting
 -----------
+
+*The Forecasting summary report is not yet available.*
