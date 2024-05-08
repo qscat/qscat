@@ -12,6 +12,9 @@ The QSCAT plugin can be installed in two ways: by using the QGIS plugin reposito
       :local:
       :depth: 2
 
+.. note::
+
+   Keep in mind that the latest version of QSCAT plugin may not always be immediately available in the official QGIS plugin repository. New versions always require approval from the QGIS team. To stay up-to-date, consider checking the plugin's GitHub repository directly (https://github.com/qscat/qscat/releases/latest), where you can find the most recent releases and changelogs.
 
 By QGIS Plugin Repository
 =========================
