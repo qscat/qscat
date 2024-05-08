@@ -5,7 +5,7 @@ Contributors
 Authors
 =======
 
-The initial version of QSCAT was developed by the UP-MSI CoastER team:
+The initial version of QSCAT was developed by the UP-DMMMSU CoastER team:
 
 .. csv-table::
    :widths: auto    
