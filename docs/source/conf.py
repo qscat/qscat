@@ -84,12 +84,12 @@ html_theme_options = {
     ],
     "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],
     "footer_start": ["copyright", "sphinx-version"],
-    "footer_end": [], #"last-updated"
+    "footer_end": [],
     "use_edit_page_button": True,
     "github_url": "https://github.com/qscat/qscat",
     "show_version_warning_banner": True,
     # "primary_sidebar_end": ["indices.html", "sidebar-ethical-ads.html"],
-    "article_header_end": ["last-updated"],
+    "article_footer_items": ["last-updated"],
 }
 
 
