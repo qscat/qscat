@@ -54,13 +54,19 @@ However, regardless on what strategy you choose for generating the baseline vect
 
    .. figure:: /img/workflow/simple_data/merge/opening-processing-toolbox.png
       :align: center
-         
+      :alt: Opening Processing Toolbox in QGIS
+
+      Opening Processing Toolbox in QGIS
+      
    |br|
 
 #. Search |search| ``Merge vector layers`` in the search bar. Then double left-click on |mergeVectorLayers| ``Merge vector layers`` to open the tool.
 
    .. figure:: /img/workflow/simple_data/merge/searching-merge-vector-layers.png
       :align: center
+      :alt: Searching merge vector layers in Processing Toolbox
+
+      Searching merge vector layers in Processing Toolbox
 
    |br|
 
@@ -68,6 +74,9 @@ However, regardless on what strategy you choose for generating the baseline vect
 
    .. figure:: /img/workflow/simple_data/merge/selecting-input-layers.png
       :align: center
+      :alt: Selecting input layers to be merged
+
+      Selecting input layers to be merged
 
    |br|
 
@@ -75,19 +84,27 @@ However, regardless on what strategy you choose for generating the baseline vect
 
    .. figure:: /img/workflow/simple_data/merge/choosing-destination-crs.png
       :align: center
+      :alt: Choosing destination CRS
+
+      Choosing destination CRS
 
    |br|
-
 
 #. In :guilabel:`Merged`, it is recommended to permanently save the merged layers. Thus, click :guilabel:`...`, and :guilabel:`Save to file`. Choose a folder (recommended in the same folder of your ``QGIS`` project), pick a file name such as ``Shorelines Merged`` and choose ``SHP files (*.shp)`` as the file type, and click :guilabel:`Save`. Click :guilabel:`Run` to start the merge process, then you can :guilabel:`Close`. 
 
    .. figure:: /img/workflow/simple_data/merge/opening-save-merge-layers.png
       :align: center
+      :alt: Opening Save to file dialog
+
+      Opening Save to file dialog
 
    |br|
 
    .. figure:: /img/workflow/simple_data/merge/saving-merged-vector-layer.png
       :align: center
+      :alt: Saving merged vector layer
+
+      Saving merged vector layer
 
    |br|
 
@@ -98,6 +115,9 @@ However, regardless on what strategy you choose for generating the baseline vect
 
    .. figure:: /img/workflow/simple_data/merge/closing-merge-vector-layers.png
       :align: center
+      :alt: Closing merge vector layers
+
+      Closing merge vector layers
 
    |br|
 
@@ -105,6 +125,9 @@ However, regardless on what strategy you choose for generating the baseline vect
 
    .. figure:: /img/workflow/simple_data/merge/showing-saved-merge-vector-layer.png
       :align: center
+      :alt: Showing saved merged vector layer
+
+      Showing saved merged vector layer
 
    |br|
 
@@ -120,6 +143,7 @@ Here, we can start using the QSCAT plugin. The QSCAT plugin has a feature that a
 
    .. figure:: /img/workflow/simple_data/buffer/creating-baseline-buffer.png
       :align: center
+      :alt: Creating baseline buffer in Automator Tab
 
       Creating baseline buffer in Automator Tab
       
@@ -127,6 +151,7 @@ Here, we can start using the QSCAT plugin. The QSCAT plugin has a feature that a
 
    .. figure:: /img/workflow/simple_data/buffer/created-buffer-on-merged-shoreline.png
       :align: center
+      :alt: Created buffer on merged shoreline with 400 meters distance
 
       Created buffer on merged shoreline with 400 meters distance
 
@@ -142,6 +167,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/enabling-advanced-digitizing-toolbar.png
       :align: center
+      :alt: Enabling Advanced Digitizing Toolbar
 
       Enabling Advanced Digitizing Toolbar
 
@@ -149,8 +175,9 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/advanced-digitizing-toolbar.png
       :align: center
+      :alt: Advanced Digitizing Toolbar location
 
-      Advanced Digitizing Toolbar
+      Advanced Digitizing Toolbar location
 
       |br|
       
@@ -158,9 +185,10 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/toggling-editing.png
       :align: center
+      :alt: Toggling editing of baseline buffer layer
       :class: img-border
 
-      Toggling Editing
+      Toggling editing of baseline buffer layer
 
       |br|
 
@@ -168,6 +196,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/clicking-split-features.png
       :align: center
+      :alt: Clicking Split Features
 
       Clicking Split Features
 
@@ -177,6 +206,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/splitting-features.png
       :align: center
+      :alt: Splitting features using Split Features
 
       Splitting features using Split Features
 
@@ -186,6 +216,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/clicking-select-features.png
       :align: center
+      :alt: Clicking Select Features
 
       Clicking Select Features
 
@@ -193,6 +224,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/selecting-deleting-features.png
       :align: center
+      :alt: Selecting and deleting a feature
 
       Selecting and deleting a feature
 
@@ -206,6 +238,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/unexpected-split.png
       :align: center
+      :alt: Unexpected split of baseline buffer
 
       Unexpected split of baseline buffer
 
@@ -216,6 +249,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/clicking-merge-features.png
       :align: center
+      :alt: Clicking Merge Selected Features
 
       Clicking Merge Selected Features
 
@@ -224,6 +258,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/merging-features.png
       :align: center
+      :alt: Merging Selected Features
 
       Merging Selected Features
 
@@ -234,6 +269,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/opening-saving-feature.png
       :align: center
+      :alt: Accessing Save Features As...
 
       Accessing Save Feature As...
 
@@ -241,6 +277,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/saving-vector-layer-as.png
       :align: center
+      :alt: Saving Vector Layer As...
 
       Saving Vector Layer As...
 
@@ -248,6 +285,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/saving-layer-as.png
       :align: center
+      :alt: Saving Layer As...
 
       Saving Layer As...
 
@@ -255,6 +293,7 @@ Converting the buffer to baseline vector
 
    .. figure:: /img/workflow/simple_data/buffer/saving-vector-layer-as-final.png
       :align: center
+      :alt: Finalizing Saving Vector Layer As...
 
       Finalizing Saving Vector Layer As...
 
@@ -273,6 +312,7 @@ Next, we need to add details of each shoreline such as its date and its uncertai
 
    .. figure:: /img/workflow/simple_data/attributes/automating-shoreline-fields.png
       :align: center
+      :alt: Automating adding of shoreline fields using Shoreline Fields Automator
 
       Automating adding of shoreline fields using Shoreline Fields Automator
 
@@ -305,23 +345,25 @@ Next, we need to add details of each shoreline such as its date and its uncertai
 
    .. figure:: /img/workflow/simple_data/attributes/opening-attribute-table.png
       :align: center
+      :alt: Opening attribute table of shoreline layer
       :class: img-border
 
-      Opening attribute table of shoreline layer.
+      Opening attribute table of shoreline layer
 
       |br|
 
    .. figure:: /img/workflow/simple_data/attributes/editing-attribute-table.png
       :align: center
+      :alt: Editing attribute table of shoreline layer
 
-      Editing attribute table of shoreline layer.
+      Editing attribute table of shoreline layer
 
       |br|
 
    .. figure:: /img/workflow/simple_data/attributes/saving-attribute-table.png
       :align: center
 
-      Saving attribute table of shoreline layer.
+      Saving attribute table of shoreline layer
 
       |br|
 
@@ -344,6 +386,7 @@ Configuring the selections of layer and fields
 
    .. figure:: /img/workflow/simple_data/attributes/configuring-shorelines.png
       :align: center
+      :alt: Configuring shorelines in Shorelines Tab
 
       Configuring shorelines in Shorelines Tab
 
@@ -360,6 +403,7 @@ Configuring the selections of layer and fields
 
    .. figure:: /img/workflow/simple_data/attributes/configuring-baseline.png
       :align: center
+      :alt: Configuring baseline in Baseline Tab
 
       Configuring baseline in Baseline Tab
 
@@ -372,7 +416,6 @@ We can now start the process of running shoreline change analysis. The first ste
 
 #. Go to :guilabel:`Transects Tab`.
 
-
    In :guilabel:`Layer` section, select a name for the transect layer in :guilabel:`Layer output name`. In this example, we leave ``transects`` as is (see :ref:`tab_transects_vector_layer_output_name` how is the output name used).
 
    In :guilabel:`Count` section, select how would you want the number of transects to be determined. In this example, we choose |radiobutton| :guilabel:`By transect spacing` and leave ``50`` meters as is` (see :ref:`tab_transects_count`).
@@ -383,24 +426,27 @@ We can now start the process of running shoreline change analysis. The first ste
 
    .. figure:: /img/workflow/simple_data/transects/casting-transects.png
       :align: center
+      :alt: Casting transects using Transect Tab
 
-      Casting transects using Transect Tab.
+      Casting transects using Transect Tab
 
       |br|
 
    .. figure:: /img/workflow/simple_data/transects/transects.png
       :align: center
+      :alt: Showing the created transects
       :class: img-border
 
-      Transects with 2000 meters length, and 500 meters smoothing distance together with baseline (baseline orientation shown) and shorelines.
+      Transects with 2000 meters length, and 500 meters smoothing distance together with baseline (baseline orientation shown) and shorelines
 
       |br|
 
    .. figure:: /img/workflow/simple_data/transects/layer-with-transects.png
       :align: center
+      :alt: Current layers with transects
       :class: img-border
 
-      Current layers with transects.
+      Current layers with transects
 
       |br|
 
@@ -424,33 +470,37 @@ Computing the shoreline change
 
    .. figure:: /img/workflow/simple_data/shoreline_change/computing-shoreline-change.png
       :align: center
+      :alt: Computing shoreline change using Shoreline Change Tab
       :class: img-border
 
-      Current layers with shoreline change statistics.
+      Computing shoreline change using Shoreline Change Tab
 
       |br|
 
    .. figure:: /img/workflow/simple_data/shoreline_change/statistics.png
       :align: center
+      :alt: Current layers with shoreline change statistics
       :class: img-border
 
-      Current layers with shoreline change statistics.
+      Current layers with shoreline change statistics
 
       |br|
 
    .. figure:: /img/workflow/simple_data/shoreline_change/nsm.png
       :align: center
+      :alt: Example NSM statistic layer when clip transect intersections applied
       :class: img-border
 
-      Example NSM statistic transect layer when clip transect intersections applied.
+      Example NSM statistic transect layer when clip transect intersections applied
 
       |br|
 
    .. figure:: /img/workflow/simple_data/shoreline_change/nsm-table.png
       :align: center
+      :alt: Example NSM statistic table field and values
       :class: img-border
 
-      Example NSM statistic table field and values.
+      Example NSM statistic table field and values
 
       |br|
 
@@ -470,9 +520,10 @@ Creating the polygon using QGIS
 
    .. figure:: /img/workflow/simple_data/area_change/opening-new-shapefile-layer.png
       :align: center
+      :alt: Opening New Shapefile Layer
       :class: img-border
 
-      Opening New Shapefile Layer.
+      Opening New Shapefile Layer
 
       |br|
 
@@ -480,8 +531,9 @@ Creating the polygon using QGIS
 
    .. figure:: /img/workflow/simple_data/area_change/saving-shapefile-layer.png
       :align: center
+      :alt: Saving New Shapefile Layer
 
-      Saving New Shapefile Layer.
+      Saving New Shapefile Layer
 
       |br|
 
@@ -489,8 +541,9 @@ Creating the polygon using QGIS
 
    .. figure:: /img/workflow/simple_data/area_change/final-saving-shapefile-layer.png
       :align: center
+      :alt: Final Saving New Shapefile Layer
 
-      Final Saving New Shapefile Layer.
+      Final Saving New Shapefile Layer
 
       |br|
 
@@ -499,16 +552,18 @@ Creating the polygon using QGIS
 
    .. figure:: /img/workflow/simple_data/area_change/opening-symbology.png
       :align: center
+      :alt: Opening symbology in layer properties
       :class: img-border
 
-      Opening symbology in layer properties.
+      Opening symbology in layer properties
 
       |br|
 
    .. figure:: /img/workflow/simple_data/area_change/changing-symbology.png
       :align: center
+      :alt: Changing symbology in layer properties
 
-      Changing symbology in layer properties.
+      Changing symbology in layer properties
 
       |br|
 
@@ -516,23 +571,26 @@ Creating the polygon using QGIS
 
    .. figure:: /img/workflow/simple_data/area_change/opening-add-polygon-feature.png
          :align: center
+         :alt: Opening Add Polygon Feature
          :class: img-border
 
-         Opening Add Polygon Feature.
+         Opening Add Polygon Feature
 
          |br|
 
    .. figure:: /img/workflow/simple_data/area_change/drawing-polygon.png
          :align: center
+         :alt: Drawing Polygon using Add Polygon Feature
 
-         Drawing Polygon using Add Polygon Feature.
+         Drawing Polygon using Add Polygon Feature
 
          |br|
 
    .. figure:: /img/workflow/simple_data/area_change/polygon-feature.png
          :align: center
+         :alt: Example drawn polygon feature
 
-         Example drawn polygon feature.
+         Example drawn polygon feature
 
          |br|
 
@@ -542,15 +600,17 @@ Creating the polygon using QGIS
 
    .. figure:: /img/workflow/simple_data/area_change/computing-area-change.png
          :align: center
+         :alt: Computing area change in Area Change Tab
 
-         Computing area change in Area Change Tab.
+         Computing area change in Area Change Tab
 
          |br|
 
    .. figure:: /img/workflow/simple_data/area_change/example-area-change.png
          :align: center
+         :alt: Example area change in the top part
 
-         Example area change in the top part.
+         Example area change in the top part
 
          |br|
 
@@ -565,17 +625,10 @@ Running the forecasting
 
    .. figure:: /img/workflow/simple_data/forecasting/example-forecasting.png
       :align: center
+      :alt: Example forecasting in Forecasting Tab
       :class: img-border
 
-      Example forecasting in Forecasting Tab.
-
-      |br|
-
-   .. figure:: /img/workflow/simple_data/forecasting/example-forecasting.png
-      :align: center
-      :class: img-border
-
-      Example forecasting in Forecasting Tab.
+      Example forecasting in Forecasting Tab
 
       |br|
       
@@ -590,23 +643,26 @@ Visualizing the statistics transects
 
    .. figure:: /img/workflow/simple_data/visualization/visualizing-nsm-statistic.png
       :align: center
+      :alt: Visualizing statistics in Visualization Tab
 
-      Visualizing statistics in Visualization Tab.
+      Visualizing statistics in Visualization Tab
 
       |br|
 
    .. figure:: /img/workflow/simple_data/visualization/visualized-nsm-statistic.png
       :align: center
+      :alt: Visualized NSM statistic
 
-      Visualized NSM statistic.
+      Visualized NSM statistic
 
       |br|
 
    .. figure:: /img/workflow/simple_data/visualization/visualized-nsm-statistic-color-ramp-values.png
       :align: center
+      :alt: Visualized NSM statistic color ramp with equal interval range values
       :class: img-border
 
-      Visualized NSM statistic color ramp with equal interval range values.
+      Visualized NSM statistic color ramp with equal interval range values
 
       |br|
 
