@@ -20,19 +20,19 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "sphinxcontrib.bibtex",
-    "sphinx_sitemap",
+    #"sphinx_sitemap",
     "sphinx_design",
 ]
 
 html_baseurl = "https://qscat.github.io/docs/latest/"
-sitemap_url_scheme = "{link}"
+#itemap_url_scheme = "{link}"
 
 # html_baseurl = "https://qscat.readthedocs.io/"
 # sitemap_url_scheme = "{lang}latest/{link}"
-sitemap_excludes = [
-    "search.html",
-    "genindex.html",
-]
+# sitemap_excludes = [
+#     "search.html",
+#     "genindex.html",
+# ]
 #html_extra_path = ["robots.txt"]
 
 # -- Bibtex configuration
@@ -84,15 +84,12 @@ html_theme_options = {
     ],
     "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],
     "footer_start": ["copyright", "sphinx-version"],
-    "footer_end": [],
+    "footer_end": [], #"last-updated"
     "use_edit_page_button": True,
     "github_url": "https://github.com/qscat/qscat",
     "show_version_warning_banner": True,
     # "primary_sidebar_end": ["indices.html", "sidebar-ethical-ads.html"],
-    # #"content_footer_items": ["last-updated"],
-    # "switcher": {
-    #     "json_url": "switcher.json",
-    # }
+    "article_header_end": ["last-updated"],
 }
 
 
@@ -101,7 +98,7 @@ html_title = f"{project}"
 html_static_path = ["_static"]
 html_sidebars = {"**": ["search-field", "sidebar-nav-bs", "sidebar-ethical-ads"]}
 html_favicon = "favicon.ico"
-html_last_updated_fmt = "%Y %b %d, %H:%M %z"
+html_last_updated_fmt = "%b %d, %Y" #%H:%M %z"
 html_css_files = ["css/qscat.css"]
 
 # -- Options for EPUB output
