@@ -1,8 +1,8 @@
 .. _tab_area_change:
 
-***********************
-Tab: Area Change (Beta)
-***********************
+****************
+Tab: Area Change
+****************
 
 The :guilabel:`Area Change Tab` allows you to estimate the area change between two shoreline vectors for a given polygon layer. The polygon layer can be manually drawn or based on geographic boundaries (e.g., shapefiles of barangay, municipal boundaries), for which this type of analysis may be more meaningful. Monitoring how much coastal land a barangay or municipality has gained or lost is important for coastal planning and management. It is required that the boundary drawn encompasses all shorelines.
 
