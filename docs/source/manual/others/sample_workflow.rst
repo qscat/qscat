@@ -40,6 +40,7 @@ One of the required inputs for the QSCAT is the baseline vectors. Baseline vecto
 
 In this guide, we will choose the first strategy, which is creating a buffer of the merged shorelines layer. Then, we will choose the part of the buffer that best represents the baseline.
 
+.. _others_sample_workflow_mergin_shorelines:
 
 Merging the shoreline vectors
 -----------------------------
@@ -130,6 +131,9 @@ Here, we can start using the QSCAT plugin. The QSCAT plugin has a feature that a
       Created buffer on merged shoreline with 400 meters distance
 
       |br|
+
+
+.. _others_sample_workflow_converting_buffer_to_baseline:
 
 Converting the buffer to baseline vector
 ----------------------------------------   
