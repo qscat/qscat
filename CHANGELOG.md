@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.4.1] - Unreleased
 
 ### TODO
+
 - `Forecasting Tab`: Offers forecasting options from transects layer or from LRR layer.
 - `Forecasting Tab`: Improve forecasting input; currently it depends on shoreline change inputs such newest and oldest date, and transect-shoreline intersections.
 
