@@ -1047,6 +1047,9 @@
              <property name="placeholderText">
               <string>none</string>
              </property>
+             <property name="allowEmptyFieldName">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
           </layout>
