@@ -1,6 +1,11 @@
 QSCAT Documentation
 ===================
 
+.. warning::
+
+   QSCAT is currently unstable, so please expect for potential bugs and issues. In the meantime, we kindly request your assistance in reporting any problems you encounter at QSCAT GitHub Issues (https://github.com/qscat/qscat/issues). Thank you for your cooperation!
+
+
 QGIS Shoreline Change Analysis Tool (QSCAT) is an open-source QGIS plugin for shoreline change analysis (SCA). QSCAT offers the following features: shoreline change, area change, forecasting, automator, visualization, and reports.
 
 .. grid:: 1 1 2 2

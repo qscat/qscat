@@ -18,6 +18,11 @@ QSCAT was initially developed by UP-MSI CoastER team for a [government-funded in
 
 ![qscat](https://github.com/qscat/qscat/assets/58874676/df5f0bb2-ce42-4270-bf01-7d4f01d58ae6)
 
+## Warning
+
+QSCAT is currently unstable, so please expect for potential bugs and issues. In the meantime, we kindly request your assistance in reporting any problems you encounter at QSCAT GitHub Issues (https://github.com/qscat/qscat/issues). Thank you for your cooperation!
+
+
 ## QGIS versions compatibility
 
 | Name  | Status |
