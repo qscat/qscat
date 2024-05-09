@@ -40,6 +40,7 @@ def test_cast_transects():
         "placement_field": None,  #'qs_place',
         "orientation_field": None,  #'qs_orient',
         "transect_length_field": None,  #'qs_length',
+        "smoothing_distance_field": None,  #'qs_smooth',
     }
     shorelines_params = {
         "shorelines_layer": shoreline_layer,
