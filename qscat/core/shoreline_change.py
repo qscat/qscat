@@ -69,16 +69,7 @@ def compute_shoreline_change_button_clicked(qscat):
         report,
     )
 
-    start_time = time.perf_counter()
-
     shoreline_change.compute_shoreline_change()
-
-    elapsed_time = round((time.perf_counter() - start_time) * 1000, 2)
-    QgsMessageLog.logMessage(
-        f'Shoreline change of "{shoreline_change_params["transects_layer"].name()}" in {elapsed_time} ms',
-        "Execution time",
-        level=Qgis.Info,
-    )
 
 
 class ShorelineChange:
@@ -203,6 +194,8 @@ class ShorelineChange:
 
     def compute_shoreline_change(self):
         """Compute shoreline change stats."""
+        start_time = time.perf_counter()
+
         globals()["get_transects_intersections_task"] = GetTransectsIntersectionsTask(
             self.transects,
             self.shorelines,
@@ -212,13 +205,13 @@ class ShorelineChange:
             self.shoreline_change_params,
         )
         globals()["get_transects_intersections_task"].taskCompleted.connect(
-            lambda: self.get_transects_intersections_task_state_changed()
+            lambda: self.get_transects_intersections_task_state_changed(start_time)
         )
         QgsApplication.taskManager().addTask(
             globals()["get_transects_intersections_task"]
         )
 
-    def get_transects_intersections_task_state_changed(self):
+    def get_transects_intersections_task_state_changed(self, start_time):
         task = globals()["get_transects_intersections_task"]
 
         if task.status() == QgsTask.Complete:
@@ -278,6 +271,13 @@ class ShorelineChange:
                 and self.report_params["is_shoreline_change_report"]
             ):
                 self.create_summary_report(stat_values)
+
+            elapsed_time = round((time.perf_counter() - start_time) * 1000, 2)
+            QgsMessageLog.logMessage(
+                f"Shoreline change in {elapsed_time} ms",
+                "Execution time",
+                level=Qgis.Info,
+            )
 
     def create_summary_report(self, stat_values):
         """Create summary report for shoreline change stats.
@@ -803,7 +803,6 @@ def compute_least_square_fit(years, distances):
 
     Raises:
         TypeError: If year or distance values are None.
-        TypeError: If year or distance values are not numpy floats.
         ValueError: If year and distance values are not the same length.
         ValueError: If year and distance values have less than 3 elements.
         ValueError: If year values are not in ascending order.
@@ -813,8 +812,6 @@ def compute_least_square_fit(years, distances):
     if distances is None:
         raise TypeError("Distance values cannot be None.")
 
-    if not isinstance(years, np.ndarray) or years.dtype != np.float64:
-        raise TypeError("Year values must be numpy floats.")
     if not isinstance(distances, np.ndarray) or distances.dtype != np.float64:
         raise TypeError("Distance values must be numpy floats.")
 
@@ -1271,9 +1268,9 @@ class GetTransectsIntersectionsTask(QgsTask):
                         # They apply negatives if baseline is placed on sea
                         # This is the value passed to the stat calculations
                         if self.baseline_params["is_baseline_placement_sea"]:
-                            individual_shoreline_intersects[
-                                "distance"
-                            ] = -intersections[final_intersect]
+                            individual_shoreline_intersects["distance"] = (
+                                -intersections[final_intersect]
+                            )
                         else:
                             individual_shoreline_intersects["distance"] = intersections[
                                 final_intersect
