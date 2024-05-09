@@ -155,40 +155,42 @@ def compute_area_change_stats(qscat):
         for cluster in grouped_clustered_interest_transects:
             polygons = []
             for grouped_by_trend in cluster:
-                polygon = {}
-                extracted_polygon, new_newest_shoreline, new_oldest_shoreline = (
-                    extract_area_polygon(
-                        newest_shorelines,
-                        oldest_shorelines,
-                        grouped_by_trend[0]["geom"],
-                        grouped_by_trend[-1]["geom"],
+
+                result = extract_area_polygon(
+                    newest_shorelines,
+                    oldest_shorelines,
+                    grouped_by_trend[0]["geom"],
+                    grouped_by_trend[-1]["geom"],
+                )
+
+                if result:
+                    polygon = {}
+                    extracted_polygon, new_newest_shoreline, new_oldest_shoreline = result
+
+                    polygon["geom"] = extracted_polygon
+                    polygon["area"] = extracted_polygon.area()
+                    polygon["type"] = grouped_by_trend[0]["trend"]
+                    polygon["newest_shoreline_length"] = new_newest_shoreline.length()
+                    polygon["oldest_shoreline_length"] = new_oldest_shoreline.length()
+
+                    polygon["avg_shoreline_length"] = (
+                        polygon["newest_shoreline_length"]
+                        + polygon["oldest_shoreline_length"]
+                    ) / 2
+                    polygon["shoreline_displacement"] = (
+                        polygon["area"] / polygon["avg_shoreline_length"]
                     )
-                )
 
-                polygon["geom"] = extracted_polygon
-                polygon["area"] = extracted_polygon.area()
-                polygon["type"] = grouped_by_trend[0]["trend"]
-                polygon["newest_shoreline_length"] = new_newest_shoreline.length()
-                polygon["oldest_shoreline_length"] = new_oldest_shoreline.length()
+                    polygon["name"] = grouped_by_trend[0]["name"]  # Optional area name
+                    polygons.append(polygon)
 
-                polygon["avg_shoreline_length"] = (
-                    polygon["newest_shoreline_length"]
-                    + polygon["oldest_shoreline_length"]
-                ) / 2
-                polygon["shoreline_displacement"] = (
-                    polygon["area"] / polygon["avg_shoreline_length"]
-                )
-
-                polygon["name"] = grouped_by_trend[0]["name"]  # Optional area name
-                polygons.append(polygon)
-
-                # add_layer(
-                #     'LineString',
-                #     [new_newest_shoreline],
-                #     'shoreline - parts by parts',
-                #     [{'name': 'type', 'type': QVariant.String}],
-                #     [['newest']]
-                # )
+                    # add_layer(
+                    #     'LineString',
+                    #     [new_newest_shoreline],
+                    #     'shoreline - parts by parts',
+                    #     [{'name': 'type', 'type': QVariant.String}],
+                    #     [['newest']]
+                    # )
             polygon_areas_stats.append(polygons)
 
     # Start summary
