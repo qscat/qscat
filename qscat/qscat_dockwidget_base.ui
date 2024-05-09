@@ -436,6 +436,23 @@
              </property>
             </widget>
            </item>
+           <item row="4" column="0">
+            <widget class="QCheckBox" name="chb_automator_field_baseline_smoothing_field">
+             <property name="text">
+              <string>Smoothing distance field name</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="le_automator_field_baseline_smoothing_field_name">
+             <property name="text">
+              <string>qs_smooth</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -1003,6 +1020,32 @@
              </property>
              <property name="allowEmptyFieldName">
               <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>Smoothing distance</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QgsFieldComboBox" name="qfcb_baseline_smoothing_field">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="placeholderText">
+              <string>none</string>
              </property>
             </widget>
            </item>

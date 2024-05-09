@@ -220,7 +220,11 @@ def load_all_baselines(baseline_params):
         if baseline_params["transect_length_field"]
         else None
     )
-
+    smoothing_distance_field = (
+        baseline_params["smoothing_distance_field"]
+        if baseline_params["smoothing_distance_field"]
+        else None
+    )
     for feat in feats:
         # Access the value for each feature
         # If null, set to None
@@ -241,6 +245,15 @@ def load_all_baselines(baseline_params):
         else:
             transect_length = None
 
+        if smoothing_distance_field:
+            smoothing_distance = (
+                feat[smoothing_distance_field]
+                if feat[smoothing_distance_field]
+                else None
+            )
+        else:
+            smoothing_distance = None
+
         baselines = []
         geom = feat.geometry()
         multi_line_string = geom.asMultiPolyline()
@@ -252,6 +265,7 @@ def load_all_baselines(baseline_params):
                     "placement": placement,
                     "orientation": orientation,
                     "transect_length": transect_length,
+                    "smoothing_distance": smoothing_distance,
                 }
             )
 

@@ -54,7 +54,9 @@ def automate_baseline_field_button_clicked(qscat):
         qscat.dockwidget.le_automator_field_baseline_orientation_field_name.text()
     )
     length_field = qscat.dockwidget.le_automator_field_baseline_length_field_name.text()
-
+    smoothing_field = (
+        qscat.dockwidget.le_automator_field_baseline_smoothing_field_name.text()
+    )
     is_placement_field_checked = (
         qscat.dockwidget.chb_automator_field_baseline_placement_field.isChecked()
     )
@@ -64,15 +66,19 @@ def automate_baseline_field_button_clicked(qscat):
     is_length_field_checked = (
         qscat.dockwidget.chb_automator_field_baseline_length_field.isChecked()
     )
-
+    is_smoothing_field_checked = (
+        qscat.dockwidget.chb_automator_field_baseline_smoothing_field.isChecked()
+    )
     automate_baseline_field(
         layer,
         placement_field,
         orientation_field,
         length_field,
+        smoothing_field,
         is_placement_field_checked,
         is_orientation_field_checked,
         is_length_field_checked,
+        is_smoothing_field_checked,
     )
 
 
@@ -142,9 +148,11 @@ def automate_baseline_field(
     placement_field,
     orientation_field,
     length_field,
+    smoothing_field,
     is_placement_field_checked,
     is_orientation_field_checked,
     is_length_field_checked,
+    is_smoothing_field_checked,
 ):
     """Automate creation of baseline field.
 
@@ -156,6 +164,7 @@ def automate_baseline_field(
         is_placement_field_checked (bool): Placement field checkbox.
         is_orientation_field_checked (bool): Orientation field checkbox.
         is_length_field_checked (bool): Length field checkbox.
+        is_smoothing_field_checked (bool): Smoothing field checkbox.
     """
     dp = layer.dataProvider()
     attributes = []
@@ -196,6 +205,19 @@ def automate_baseline_field(
             attributes.append(QgsField(length_field, QVariant.Int))
             display_message(
                 f"<b>{length_field}</b> added!",
+                Qgis.Success,
+            )
+
+    if is_smoothing_field_checked:
+        if is_field_in_layer(smoothing_field, layer):
+            display_message(
+                f"<b>{smoothing_field}</b> already exist!",
+                Qgis.Critical,
+            )
+        else:
+            attributes.append(QgsField(smoothing_field, QVariant.Int))
+            display_message(
+                f"<b>{smoothing_field}</b> added!",
                 Qgis.Success,
             )
 

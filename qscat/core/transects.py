@@ -94,16 +94,6 @@ def cast_transects(
                 for distance in distances
             ]
 
-            # Smoothing distance angles
-            angles = [
-                get_smoothing_angle(
-                    baseline["line"],
-                    distance,
-                    int(transects_params["smoothing_distance"]),
-                )
-                for distance in distances
-            ]
-
             # Custom baseline fields
             baseline_params_copy = baseline_params.copy()
 
@@ -129,6 +119,23 @@ def cast_transects(
                 if baseline["transect_length"]
                 else int(transects_params["length"])
             )
+
+            # Smoothing distance
+            smoothing_distance = (
+                baseline["smoothing_distance"]
+                if baseline["smoothing_distance"]
+                else int(transects_params["smoothing_distance"])
+            )
+
+            # Smoothing distance angles
+            angles = [
+                get_smoothing_angle(
+                    baseline["line"],
+                    distance,
+                    int(smoothing_distance),
+                )
+                for distance in distances
+            ]
 
             # Get the smoothed transects
             transects = [

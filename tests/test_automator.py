@@ -36,6 +36,8 @@ class TestAutomator:
                 "placement",
                 "orientation",
                 "length",
+                "smoothing",
+                True,
                 True,
                 True,
                 True,
@@ -44,6 +46,7 @@ class TestAutomator:
             assert "placement" in [field.name() for field in self.layer.fields()]
             assert "orientation" in [field.name() for field in self.layer.fields()]
             assert "length" in [field.name() for field in self.layer.fields()]
+            assert "smoothing" in [field.name() for field in self.layer.fields()]
 
     def test_baseline_buffer(self):
         """Test create baseline buffer function."""

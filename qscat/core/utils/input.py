@@ -44,6 +44,7 @@ def get_baseline_input_params(qscat):
         "placement_field": qscat.dockwidget.qfcb_baseline_placement_field.currentField(),
         "orientation_field": qscat.dockwidget.qfcb_baseline_orientation_field.currentField(),
         "transect_length_field": qscat.dockwidget.qfcb_baseline_length_field.currentField(),
+        "smoothing_distance_field": qscat.dockwidget.qfcb_baseline_smoothing_field.currentField(),
     }
 
 
