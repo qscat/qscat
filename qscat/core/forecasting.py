@@ -57,12 +57,10 @@ class GetForecastTask(QgsTask):
         self.confidence_interval = confidence_interval
 
         self.forecasted_year = None
-        self.forecasted_points = []
-        self.forecasted_points_line = []
+        self.forecasted_points_geom = []
+        self.forecasted_points_unc_geom = []
         self.forecasted_distances = []
-        self.forecasted_distances_unc_neg = []
-        self.forecasted_distances_unc_pos = []
-        self.forecasted_distances_uncs = []
+        self.forecasted_uncs = []
 
         self.exception = None
 
@@ -85,13 +83,12 @@ class GetForecastTask(QgsTask):
                     self.confidence_interval,
                 )
 
-                self.forecasted_year = forecast[0]
-                self.forecasted_points.append(forecast[1])
-                self.forecasted_points_line.append(forecast[1].asPoint())
-                self.forecasted_distances.append(forecast[2])
-                self.forecasted_distances_unc_neg.append(forecast[3])
-                self.forecasted_distances_unc_pos.append(forecast[5])
-                self.forecasted_distances_uncs.append(abs(forecast[4] - forecast[2]))
+                self.forecasted_year = forecast["year"]
+                self.forecasted_points_geom.append(forecast["point_geom"])
+                self.forecasted_points_unc_geom.append(forecast["point_unc_neg_geom"])
+                self.forecasted_points_unc_geom.append(forecast["point_unc_pos_geom"])
+                self.forecasted_distances.append(forecast["distance"])
+                self.forecasted_uncs.append(abs(forecast["unc2"] - forecast["unc1"]))
 
                 self.setProgress((yid / len(self.all_years_intersections)) * 100)
 
@@ -165,19 +162,14 @@ def run_forecasting(qscat):
     )
     globals()["get_transects_intersections_task"].taskCompleted.connect(
         lambda: get_transects_intersections_task_state_changed(
-            qscat, forecast_length, years_uncs, confidence_interval
+            qscat, forecast_length, years_uncs, confidence_interval, start_time
         )
     )
     QgsApplication.taskManager().addTask(globals()["get_transects_intersections_task"])
 
-    elapsed_time = (time.perf_counter() - start_time) * 1000
-    QgsMessageLog.logMessage(
-        f"Forecast in {elapsed_time:.2f} ms", "Execution time", level=Qgis.Info
-    )
-
 
 def get_transects_intersections_task_state_changed(
-    qscat, forecast_length, years_uncs, confidence_interval
+    qscat, forecast_length, years_uncs, confidence_interval, start_time
 ):
     task = globals()["get_transects_intersections_task"]
 
@@ -189,62 +181,82 @@ def get_transects_intersections_task_state_changed(
             forecast_length, all_years_intersections, years_uncs, confidence_interval
         )
         globals()["get_forecast_task"].taskCompleted.connect(
-            lambda: get_forecast_task_state_changed(qscat)
+            lambda: get_forecast_task_state_changed(qscat, start_time)
         )
         QgsApplication.taskManager().addTask(globals()["get_forecast_task"])
 
 
-def get_forecast_task_state_changed(qscat):
+def get_forecast_task_state_changed(qscat, start_time):
     task = globals()["get_forecast_task"]
     if task.status() == QgsTask.Complete:
         current_datetime = datetime_now()
 
         # Add layer for forecasted polygon
         # Create the polygon based on unc neg and pos points
-        poly_points = (
-            task.forecasted_distances_unc_neg
-            + task.forecasted_distances_unc_pos[::-1]
-            + [task.forecasted_distances_unc_neg[0]]
-        )
+        # poly_points = (
+        #     task.forecasted_point_unc_neg
+        #     + task.forecasted_point_unc_pos[::-1]
+        #     + [task.forecasted_point_unc_neg[0]]
+        # )
 
         # Finally, create the polygon out of that line string
-        forecasted_unc_polygon = QgsGeometry.fromPolygonXY([poly_points])
+        # forecasted_unc_polygon = QgsGeometry.fromPolygonXY([poly_points])
 
         # Forecasted polygon
-        unc_fields = [
-            {"name": "period", "type": QVariant.Int},
-            {"name": "year", "type": QVariant.Double},
-            {"name": "area", "type": QVariant.Double},
-        ]
-        unc_values = [
-            [task.forecast_length, task.forecasted_year, forecasted_unc_polygon.area()]
-        ]
-        create_add_layer(
-            geometry="Polygon",
-            geometries=[forecasted_unc_polygon],
-            name="forecast_uncertainty_band",
-            fields=unc_fields,
-            values=unc_values,
-            datetime=current_datetime,
-        )
+        # unc_fields = [
+        #     {"name": "period", "type": QVariant.Int},
+        #     {"name": "year", "type": QVariant.Double},
+        #     {"name": "area", "type": QVariant.Double},
+        # ]
+        # unc_values = [
+        #     [task.forecast_length, task.forecasted_year, forecasted_unc_polygon.area()]
+        # ]
+        # create_add_layer(
+        #     geometry="Polygon",
+        #     geometries=[forecasted_unc_polygon],
+        #     name="forecast_uncertainty_band",
+        #     fields=unc_fields,
+        #     values=unc_values,
+        #     datetime=current_datetime,
+        # )
 
         # Forecasted line
-        forecasted_line = QgsGeometry.fromPolylineXY(task.forecasted_points_line)
-        line_fields = [
+        # forecasted_line = QgsGeometry.fromPolylineXY(task.forecasted_points_line)
+        # line_fields = [
+        #     {"name": "period", "type": QVariant.Int},
+        #     {"name": "year", "type": QVariant.Double},
+        #     {"name": "length", "type": QVariant.Double},
+        # ]
+        # line_values = [
+        #     [task.forecast_length, task.forecasted_year, forecasted_line.length()]
+        # ]
+
+        # create_add_layer(
+        #     geometry="LineString",
+        #     geometries=[forecasted_line],
+        #     name="forecast_line",
+        #     fields=line_fields,
+        #     values=line_values,
+        #     datetime=current_datetime,
+        # )
+
+        # Forecasted uncertainty points
+        point_unc_fields = [
             {"name": "period", "type": QVariant.Int},
             {"name": "year", "type": QVariant.Double},
-            {"name": "length", "type": QVariant.Double},
-        ]
-        line_values = [
-            [task.forecast_length, task.forecasted_year, forecasted_line.length()]
         ]
 
+        point_unc_values = []
+
+        for _ in task.forecasted_points_unc_geom:
+            point_unc_values.append([task.forecast_length, task.forecasted_year])
+
         create_add_layer(
-            geometry="LineString",
-            geometries=[forecasted_line],
-            name="forecast_line",
-            fields=line_fields,
-            values=line_values,
+            geometry="Point",
+            geometries=task.forecasted_points_unc_geom,
+            name="forecast_uncertainty_points",
+            fields=point_unc_fields,
+            values=point_unc_values,
             datetime=current_datetime,
         )
 
@@ -260,10 +272,10 @@ def get_forecast_task_state_changed(qscat):
 
         point_values = []
 
-        for distance, uncertainty, points_line in zip(
+        for distance, uncertainty, points_geom in zip(
             task.forecasted_distances,
-            task.forecasted_distances_uncs,
-            task.forecasted_points_line,
+            task.forecasted_uncs,
+            task.forecasted_points_geom,
         ):
             point_values.append(
                 [
@@ -271,14 +283,14 @@ def get_forecast_task_state_changed(qscat):
                     task.forecasted_year,
                     distance,
                     uncertainty,
-                    points_line.x(),
-                    points_line.y(),
+                    points_geom.asPoint().x(),
+                    points_geom.asPoint().y(),
                 ]
             )
 
         create_add_layer(
             geometry="Point",
-            geometries=task.forecasted_points,
+            geometries=task.forecasted_points_geom,
             name="forecast_points",
             fields=point_fields,
             values=point_values,
@@ -295,6 +307,11 @@ def get_forecast_task_state_changed(qscat):
 
             report = SummaryReport(qscat, summary)
             report.forecasting()
+
+        elapsed_time = (time.perf_counter() - start_time) * 1000
+        QgsMessageLog.logMessage(
+            f"Forecast in {elapsed_time:.2f} ms", "Execution time", level=Qgis.Info
+        )
 
 
 def get_angle(point1, point2):
@@ -364,6 +381,7 @@ def run_forecasting_single_transect(
     # TODO: Show error if not enough shorelines (atleast 3) to run forecasting
     # TODO: Create cache of LRR shoreline change get sorted years distances, and read that here for forecasting
     years, distances = get_sorted_years_distances(years_intersections)
+    years = np.array([int(year) // 1 for year in years])
 
     uncs = get_sorted_uncs(years_uncs)
 
@@ -427,26 +445,26 @@ def run_forecasting_single_transect(
     predicted_shoreline_point = extend_point_by_n_distance(
         angle, transect_origin_pt, predicted_shoreline_distance
     )
-    predicted_shoreline_point_geom = QgsGeometry.fromPointXY(predicted_shoreline_point)
     predicted_shoreline_point_unc_neg = extend_point_by_n_distance(
         angle, transect_origin_pt, predicted_uncertainty_1
     )
-    predicted_shoreline_point_unc_neg_geom = predicted_shoreline_point_unc_neg
-
     predicted_shoreline_point_unc_pos = extend_point_by_n_distance(
         angle, transect_origin_pt, predicted_uncertainty_2
     )
-    predicted_shoreline_point_unc_pos_geom = predicted_shoreline_point_unc_pos
 
-    return (
-        predicted_shoreline_year,
-        predicted_shoreline_point_geom,
-        predicted_shoreline_distance,
-        predicted_shoreline_point_unc_neg_geom,
-        predicted_uncertainty_1,
-        predicted_shoreline_point_unc_pos_geom,
-        predicted_uncertainty_2,
-    )
+    return {
+        "year": predicted_shoreline_year,
+        "point_geom": QgsGeometry.fromPointXY(predicted_shoreline_point),
+        "distance": predicted_shoreline_distance,
+        "point_unc_neg_geom": QgsGeometry.fromPointXY(
+            predicted_shoreline_point_unc_neg
+        ),
+        "unc1": predicted_uncertainty_1,
+        "point_unc_pos_geom": QgsGeometry.fromPointXY(
+            predicted_shoreline_point_unc_pos
+        ),
+        "unc2": predicted_uncertainty_2,
+    }
 
 
 def kalman_filter(
@@ -464,7 +482,7 @@ def kalman_filter(
     https://code.usgs.gov/cch/dsas/-/blob/master/src/DSASv5Addin/Install/usgs_scripts/DSAS_kalmanfilter.py
     """
     now = datetime.datetime.now()
-    startT = int(years[0])
+    startT = int(years[0] // 1)
 
     T = np.arange(startT, (now.year + (forecast_length + 1)), 0.1)
     T = np.round(T, 1)  # fix imprecision error
