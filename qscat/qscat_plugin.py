@@ -196,6 +196,13 @@ class QscatPlugin:
             )
         )
 
+        # Visualization Tab "Layer" section
+        self.dockwidget.qmlcb_vis_stat_layer.layerChanged.connect(
+            lambda: self.dockwidget.qfcb_visualization_stat_field.setLayer(
+                self.dockwidget.qmlcb_vis_stat_layer.currentLayer()
+            )
+        )
+
         # Summary Reports Tab "General" section
         self.dockwidget.cb_enable_report_generation.toggled.connect(
             lambda: enable_disable_groupbox_by_checkbox(

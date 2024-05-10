@@ -73,19 +73,23 @@ def apply_color_ramp_button_clicked(qscat):
     """
     layer = qscat.dockwidget.qmlcb_vis_stat_layer.currentLayer()
     mode = qscat.dockwidget.cb_vis_mode.currentIndex()
-
+    stat_field = qscat.dockwidget.qfcb_visualization_stat_field.currentField()
     num_of_pos_classes = int(qscat.dockwidget.qsb_vis_pos_classes.text())
     num_of_neg_classes = int(qscat.dockwidget.qsb_vis_neg_classes.text())
 
-    unc = None
-    if layer.customProperty("stat") in (Statistic.EPR, Statistic.SCE, Statistic.NSM):
-        unc = layer.customProperty("unc")
+    # unc = None
+    # if layer.customProperty("stat") in (Statistic.EPR, Statistic.SCE, Statistic.NSM):
+    #     unc = layer.customProperty("unc")
 
-    apply_color_ramp(layer, mode, num_of_pos_classes, num_of_neg_classes, unc)
+    unc = float(qscat.dockwidget.le_visualization_unc_value.text())
+    apply_color_ramp(
+        layer, stat_field, mode, num_of_pos_classes, num_of_neg_classes, unc
+    )
 
 
 def apply_color_ramp(
     layer,
+    stat_field,
     mode,
     num_of_pos_classes,
     num_of_neg_classes,
@@ -96,25 +100,26 @@ def apply_color_ramp(
 
     Args:
         layer (QgsVectorLayer): The layer to apply the colors to.
+        stat_field (string): The statistic to apply the colors to.
         mode (int): The mode of classification.
         num_of_pos_classes (int): The number of positive classes.
         num_of_neg_classes (int): The number of negative classes.
         unc (float): The highest uncertainty or EPR uncertainty value.
     """
-    stat = layer.customProperty("stat")
+    # stat = layer.customProperty("stat")
 
     feats = layer.getFeatures()
-    vals = [f[stat] for f in feats]
+    vals = [f[stat_field] for f in feats]
 
     default_style = QgsStyle().defaultStyle()
     color_ramp = default_style.colorRamp("Greys")
 
     # Colors
-    if stat == Statistic.SCE:
+    if stat_field == Statistic.SCE:
         color_ramp.setColor1(QColor(229, 228, 218))  # greyish
         color_ramp.setColor2(QColor(34, 101, 188))  # bluish
 
-    elif stat in (Statistic.NSM, Statistic.EPR, Statistic.LRR, Statistic.WLR):
+    elif stat_field in (Statistic.NSM, Statistic.EPR, Statistic.LRR, Statistic.WLR):
         color_ramp.setColor1(QColor(173, 29, 42))  # reddish
         color_ramp.setColor2(QColor(34, 101, 188))  # bluish
 
@@ -141,7 +146,7 @@ def apply_color_ramp(
     classification_method_unc.setLabelTrimTrailingZeroes(True)
 
     # Negative, Stable, Positive class
-    if stat in (Statistic.NSM, Statistic.EPR):
+    if stat_field in (Statistic.NSM, Statistic.EPR):
         neg_min = min(vals)
         neg_max = -unc
         pos_min = unc
@@ -172,7 +177,7 @@ def apply_color_ramp(
         ranges = neg_ranges + unc_range + pos_ranges
 
     # Stable, Positive class
-    elif stat == Statistic.SCE:
+    elif stat_field == Statistic.SCE:
         pos_min = unc
         pos_max = max(vals)
 
@@ -194,7 +199,7 @@ def apply_color_ramp(
         ranges = unc_range + pos_ranges
 
     # Negative, Positive class in one range
-    elif stat in (Statistic.LRR, Statistic.WLR):
+    elif stat_field in (Statistic.LRR, Statistic.WLR):
         if mode in (0, 2):
             ranges = classification_method.classes(
                 values=vals, nclasses=num_of_pos_classes * 2
@@ -205,6 +210,9 @@ def apply_color_ramp(
                 maximum=max(vals),
                 nclasses=num_of_pos_classes * 2,
             )
+    else:
+        # TODO: Show error
+        pass
 
     symbol = QgsLineSymbol.createSimple({"capstyle": "round"})
     symbol.setWidth(1.5)
@@ -213,7 +221,7 @@ def apply_color_ramp(
         QgsRendererRange(r, QgsSymbol.defaultSymbol(layer.geometryType()))
         for r in ranges
     ]
-    renderer = QgsGraduatedSymbolRenderer(stat, render_ranges)
+    renderer = QgsGraduatedSymbolRenderer(stat_field, render_ranges)
     renderer.updateColorRamp(color_ramp)
     renderer.updateSymbols(symbol)
     layer.setRenderer(renderer)

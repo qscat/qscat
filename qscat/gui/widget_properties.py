@@ -113,6 +113,11 @@ def set_forecasting_tab_widget_properties(self):
 def set_visualization_tab_widget_properties(self):
     self.dockwidget.qmlcb_vis_stat_layer.setFilters(QgsMapLayerProxyModel.LineLayer)
     self.dockwidget.qmlcb_vis_stat_layer.showCrs()
+
+    self.dockwidget.qfcb_visualization_stat_field.setLayer(
+        self.dockwidget.qmlcb_vis_stat_layer.currentLayer()
+    )
+    self.dockwidget.qfcb_visualization_stat_field.setFilters(QgsFieldProxyModel.Double)
     classification_methods = ["Quantile", "Equal Interval", "Jenks", "Pretty Break"]
     self.dockwidget.cb_vis_mode.addItems(classification_methods)
 

@@ -76,6 +76,7 @@ def test_apply_color_ramp():
     unc = 25
     apply_color_ramp(
         layer=layer,
+        stat_field=field_name,
         mode=1,  # Equal Interval
         num_of_pos_classes=5,
         num_of_neg_classes=5,

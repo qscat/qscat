@@ -2193,6 +2193,52 @@
              </property>
             </widget>
            </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_47">
+             <property name="text">
+              <string>Statistic value field</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QgsFieldComboBox" name="qfcb_visualization_stat_field">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="le_visualization_unc_value">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_49">
+             <property name="text">
+              <string>Uncertainty value (SCE, NSM, EPR)</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
