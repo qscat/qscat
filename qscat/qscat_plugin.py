@@ -153,6 +153,11 @@ class QscatPlugin:
                 self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()
             )
         )
+        self.dockwidget.qmlcb_baseline_baseline_layer.layerChanged.connect(
+            lambda: self.dockwidget.qfcb_baseline_smoothing_field.setLayer(
+                self.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()
+            )
+        )
 
         # Shoreline Change Tab "Select/Deselect All" checkbox
         self.dockwidget.cb_stats_select_all.stateChanged.connect(
