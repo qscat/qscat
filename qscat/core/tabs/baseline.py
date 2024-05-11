@@ -2,21 +2,22 @@
 # QSCAT Plugin — GPL-3.0 license
 
 from PyQt5.QtGui import QColor
-
-from qgis.core import QgsApplication
-from qgis.core import QgsLineSymbol
-from qgis.core import QgsMarkerLineSymbolLayer
-from qgis.core import QgsNullSymbolRenderer
-from qgis.core import QgsSimpleLineSymbolLayer
-from qgis.core import QgsSingleSymbolRenderer
-from qgis.core import QgsSvgMarkerSymbolLayer
+from qgis.core import (
+    QgsApplication,
+    QgsLineSymbol,
+    QgsMarkerLineSymbolLayer,
+    QgsNullSymbolRenderer,
+    QgsSimpleLineSymbolLayer,
+    QgsSingleSymbolRenderer,
+    QgsSvgMarkerSymbolLayer,
+)
 
 from qscat.core.utils.plugin import get_plugin_dir
 
 
 def show_hide_baseline_orientation(qscat):
     """Update baseline layer symbology to show and hide orientation.
-    
+
     Args:
         qscat (QscatPlugin): QscatPlugin instance.
 
@@ -26,7 +27,11 @@ def show_hide_baseline_orientation(qscat):
         --Marker (QgsMarkerSymbol)
         ---SVG Marker (QgsSvgMarkerSymbolLayer)
     """
-    layer = qscat.dockwidget.qmlcb_baseline_baseline_layer.currentLayer()
+    layer = qscat.dockwidget.qmlcb_baseline_layer.currentLayer()
+
+    if not layer:
+        return
+
     registry = QgsApplication.symbolLayerRegistry()
 
     # QgisLineSymbol
@@ -42,30 +47,31 @@ def show_hide_baseline_orientation(qscat):
         if isinstance(l, QgsSimpleLineSymbolLayer):
             l.setColor(QColor(0, 0, 0))
 
-    if qscat.dockwidget.cb_baseline_orientation.isChecked():
+    if qscat.dockwidget.cb_baseline_show_orientation.isChecked():
         # QgsSymbolLayerAbstractMetadata
         marker_meta = registry.symbolLayerMetadata("MarkerLine")
-        
+
         # QgsMarkerLineSymbolLayer
-        marker_layer = marker_meta.createSymbolLayer({
-            'width': '0.26',
-            'color': '0,0,0',
-            'interval': '3',
-            'rotate': '1',
-            'placement': 'interval',
-            'offset': '0.0',
-        })
+        marker_layer = marker_meta.createSymbolLayer(
+            {
+                "width": "0.26",
+                "color": "0,0,0",
+                "interval": "3",
+                "rotate": "1",
+                "placement": "interval",
+                "offset": "0.0",
+            }
+        )
 
         # QgsMarkerSymbol
-        marker_layer_sub_symbol = marker_layer.subSymbol() 
+        marker_layer_sub_symbol = marker_layer.subSymbol()
 
         # Remove existing SimpleMarker
         marker_layer_sub_symbol.deleteSymbolLayer(0)
 
         # QgsSvgMarkerSymbolLayer
         custom_marker = QgsSvgMarkerSymbolLayer(
-            path=f'{get_plugin_dir()}/gui/icons/orientation.svg',
-            size=10
+            path=f"{get_plugin_dir()}/gui/icons/orientation.svg", size=10
         )
         marker_layer_sub_symbol.appendSymbolLayer(custom_marker)
 
@@ -73,7 +79,11 @@ def show_hide_baseline_orientation(qscat):
         symbol.appendSymbolLayer(marker_layer)
     else:
         # Get the indices of all QgsMarkerLineSymbolLayer
-        marker_indices = [i for i, l in enumerate(symbol.symbolLayers()) if isinstance(l, QgsMarkerLineSymbolLayer)]
+        marker_indices = [
+            i
+            for i, l in enumerate(symbol.symbolLayers())
+            if isinstance(l, QgsMarkerLineSymbolLayer)
+        ]
 
         for index in reversed(marker_indices):
             symbol.deleteSymbolLayer(index)

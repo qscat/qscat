@@ -184,7 +184,7 @@
          </widget>
         </item>
         <item row="4" column="1" alignment="Qt::AlignRight">
-         <widget class="QPushButton" name="pb_proj_save_settings">
+         <widget class="QPushButton" name="pb_project_save_inputs">
           <property name="text">
            <string>Save</string>
           </property>
@@ -618,7 +618,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QgsMapLayerComboBox" name="qmlcb_shorelines_shorelines_layer">
+            <widget class="QgsMapLayerComboBox" name="qmlcb_shorelines_layer">
              <property name="showCrs">
               <bool>true</bool>
              </property>
@@ -711,7 +711,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QgsFieldComboBox" name="qfcb_shorelines_uncertainty_field">
+            <widget class="QgsFieldComboBox" name="qfcb_shorelines_unc_field">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -727,7 +727,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignRight">
-         <widget class="QPushButton" name="pb_shorelines_save_settings">
+         <widget class="QPushButton" name="pb_shorelines_save_inputs">
           <property name="font">
            <font>
             <weight>50</weight>
@@ -812,7 +812,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QgsMapLayerComboBox" name="qmlcb_baseline_baseline_layer">
+            <widget class="QgsMapLayerComboBox" name="qmlcb_baseline_layer">
              <property name="showCrs">
               <bool>true</bool>
              </property>
@@ -901,7 +901,7 @@
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QCheckBox" name="cb_baseline_orientation">
+            <widget class="QCheckBox" name="cb_baseline_show_orientation">
              <property name="font">
               <font>
                <weight>75</weight>
@@ -961,7 +961,7 @@
               <string>none</string>
              </property>
              <property name="allowEmptyFieldName">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -1056,7 +1056,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignRight">
-         <widget class="QPushButton" name="pb_baseline_save_settings">
+         <widget class="QPushButton" name="pb_baseline_save_inputs">
           <property name="font">
            <font>
             <weight>50</weight>
@@ -1358,7 +1358,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignRight">
-         <widget class="QPushButton" name="pb_transects_save_settings">
+         <widget class="QPushButton" name="pb_transects_save_inputs">
           <property name="font">
            <font>
             <weight>50</weight>
@@ -1695,150 +1695,115 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QGroupBox" name="gb_stats_add_params">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="title">
-             <string>Pairwise comparison of shorelines</string>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="QGroupBox" name="stat_nsm_epr_gb">
-               <property name="title">
-                <string>Using NSM and EPR formula</string>
-               </property>
-               <property name="checkable">
-                <bool>false</bool>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-               <layout class="QFormLayout" name="formLayout_19">
-                <property name="horizontalSpacing">
-                 <number>15</number>
-                </property>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_7">
-                  <property name="text">
-                   <string>Newest date</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QComboBox" name="cb_shoreline_change_newest_date">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>150</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_8">
-                  <property name="text">
-                   <string>Oldest date</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QComboBox" name="cb_shoreline_change_oldest_date">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>150</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QPushButton" name="pb_stats_update_newest_oldest_year">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Update</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QGroupBox" name="groupBox_6">
-            <property name="title">
-             <string>Additional parameters</string>
-            </property>
-            <layout class="QFormLayout" name="formLayout_15">
-             <property name="horizontalSpacing">
-              <number>15</number>
+         <widget class="QGroupBox" name="gb_stats_add_params">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>NSM and EPR dates</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout_13">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Newest date</string>
              </property>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_19">
-               <property name="text">
-                <string>Confidence interval (%)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QgsDoubleSpinBox" name="qdsb_stats_confidence_interval">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>26</height>
-                </size>
-               </property>
-               <property name="prefix">
-                <string/>
-               </property>
-               <property name="suffix">
-                <string/>
-               </property>
-               <property name="minimum">
-                <double>1.000000000000000</double>
-               </property>
-               <property name="value">
-                <double>99.700000000000003</double>
-               </property>
-               <property name="clearValue">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="cb_shoreline_change_newest_date">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>Oldest date</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="cb_shoreline_change_oldest_date">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_6">
+          <property name="title">
+           <string>Additional parameters</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout_15">
+           <property name="horizontalSpacing">
+            <number>15</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_19">
+             <property name="text">
+              <string>Confidence interval (%)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QgsDoubleSpinBox" name="qdsb_stats_confidence_interval">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>26</height>
+              </size>
+             </property>
+             <property name="prefix">
+              <string/>
+             </property>
+             <property name="suffix">
+              <string/>
+             </property>
+             <property name="minimum">
+              <double>1.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>99.700000000000003</double>
+             </property>
+             <property name="clearValue">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
         <item alignment="Qt::AlignRight">
          <widget class="QPushButton" name="pb_stats_compute_shoreline_change">
@@ -1859,6 +1824,19 @@
           </property>
           <property name="text">
            <string>Compute Shoreline Change</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignRight">
+         <widget class="QPushButton" name="pb_shoreline_change_save_inputs">
+          <property name="font">
+           <font>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Save</string>
           </property>
          </widget>
         </item>
@@ -1965,6 +1943,13 @@
           </property>
           <property name="text">
            <string>Compute Area Change</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignRight">
+         <widget class="QPushButton" name="pb_area_change_save_inputs">
+          <property name="text">
+           <string>Save</string>
           </property>
          </widget>
         </item>
@@ -2114,6 +2099,13 @@
           </property>
          </widget>
         </item>
+        <item alignment="Qt::AlignRight">
+         <widget class="QPushButton" name="pb_forecasting_save_inputs">
+          <property name="text">
+           <string>Save</string>
+          </property>
+         </widget>
+        </item>
         <item>
          <spacer name="verticalSpacer_10">
           <property name="orientation">
@@ -2201,7 +2193,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QgsFieldComboBox" name="qfcb_visualization_stat_field">
+            <widget class="QgsFieldComboBox" name="qfcb_vis_stat_field">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -2217,7 +2209,7 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLineEdit" name="le_visualization_unc_value">
+            <widget class="QLineEdit" name="le_vis_unc_value">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -2359,6 +2351,13 @@
           </property>
          </widget>
         </item>
+        <item alignment="Qt::AlignRight">
+         <widget class="QPushButton" name="pb_visualization_save_inputs">
+          <property name="text">
+           <string>Save</string>
+          </property>
+         </widget>
+        </item>
         <item>
          <spacer name="verticalSpacer_7">
           <property name="orientation">
@@ -2431,7 +2430,7 @@
            <item row="5" column="0">
             <widget class="QLabel" name="label_46">
              <property name="text">
-              <string>Reports save location:</string>
+              <string>Reports save location</string>
              </property>
             </widget>
            </item>
@@ -2461,9 +2460,9 @@
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <widget class="QCheckBox" name="cb_enable_forecasting_report">
+               <widget class="QCheckBox" name="cb_enable_shoreline_change_report">
                 <property name="text">
-                 <string>Forecasting</string>
+                 <string>Shoreline Change</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -2481,9 +2480,9 @@
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="cb_enable_shoreline_change_report">
+               <widget class="QCheckBox" name="cb_enable_forecasting_report">
                 <property name="text">
-                 <string>Shoreline Change</string>
+                 <string>Forecasting</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -2494,6 +2493,13 @@
             </widget>
            </item>
           </layout>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignRight">
+         <widget class="QPushButton" name="pb_reports_save_inputs">
+          <property name="text">
+           <string>Save</string>
+          </property>
          </widget>
         </item>
         <item>
@@ -2536,7 +2542,7 @@
            </font>
           </property>
           <property name="text">
-           <string>About</string>
+           <string>Help</string>
           </property>
           <property name="margin">
            <number>5</number>
@@ -2544,63 +2550,149 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_44">
-          <property name="text">
-           <string/>
+         <widget class="QGroupBox" name="groupBox_15">
+          <property name="title">
+           <string>About</string>
           </property>
-          <property name="pixmap">
-           <pixmap>qscat-logo.png</pixmap>
-          </property>
-          <property name="scaledContents">
-           <bool>false</bool>
-          </property>
-          <property name="margin">
-           <number>25</number>
-          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_15">
+           <item alignment="Qt::AlignLeft">
+            <widget class="QLabel" name="label_44">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap>qscat-logo.png</pixmap>
+             </property>
+             <property name="scaledContents">
+              <bool>false</bool>
+             </property>
+             <property name="margin">
+              <number>25</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_15">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>QSCAT: QGIS Shoreline Change Analysis Tool</string>
+             </property>
+             <property name="margin">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lbl_about_current_version">
+             <property name="text">
+              <string>Installed version: x.x.x</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lbl_about_latest_version">
+             <property name="text">
+              <string>Latest version available: x (Last checked: xx)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pb_about_check_for_updates">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Check for Updates</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_15">
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
+         <widget class="QGroupBox" name="groupBox_13">
+          <property name="title">
+           <string>Useful links</string>
           </property>
-          <property name="text">
-           <string>QSCAT: QGIS Shoreline Change Analysis Tool</string>
-          </property>
-          <property name="margin">
-           <number>0</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="lbl_about_current_version">
-          <property name="text">
-           <string>Installed version: x.x.x</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="lbl_about_latest_version">
-          <property name="text">
-           <string>Latest version available: x (Last checked: xx)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pb_about_check_for_updates">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Check for Updates</string>
-          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_53">
+             <property name="text">
+              <string>Home Page</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_52">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://qscat.github.io&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://qscat.github.io&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::RichText</enum>
+             </property>
+             <property name="openExternalLinks">
+              <bool>true</bool>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::TextBrowserInteraction</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_50">
+             <property name="text">
+              <string>User Manual</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="label_51">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://qscat.github.io/docs/latest/manual&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://qscat.github.io/docs/latest/manual&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::RichText</enum>
+             </property>
+             <property name="openExternalLinks">
+              <bool>true</bool>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::TextBrowserInteraction</set>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_55">
+             <property name="text">
+              <string>Report an Issue</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_54">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/qscat/qscat/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/qscat/qscat/issues&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::RichText</enum>
+             </property>
+             <property name="openExternalLinks">
+              <bool>true</bool>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::TextBrowserInteraction</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>

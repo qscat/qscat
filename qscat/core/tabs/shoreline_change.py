@@ -5,64 +5,57 @@ import math
 import time
 
 import numpy as np
-
-from qgis.PyQt.QtWidgets import QMessageBox
-
 from PyQt5.QtCore import QVariant
-
-from qgis.core import Qgis
-from qgis.core import QgsApplication
-from qgis.core import QgsGeometry
-from qgis.core import QgsMessageLog
-from qgis.core import QgsPointXY
-from qgis.core import QgsTask
-from qgis.core import QgsWkbTypes
+from qgis.core import (
+    Qgis,
+    QgsApplication,
+    QgsGeometry,
+    QgsMessageLog,
+    QgsPointXY,
+    QgsTask,
+    QgsWkbTypes,
+)
+from qgis.PyQt.QtWidgets import QMessageBox
 from qgis.utils import iface
 
+from qscat.core.constants import Statistic, Trend
+from qscat.core.inputs import Inputs
 from qscat.core.intersections import load_all_years_intersections
-from qscat.core.layer import create_add_layer
-from qscat.core.layer import load_shorelines
-from qscat.core.layer import load_transects
+from qscat.core.layer import create_add_layer, load_shorelines, load_transects
 from qscat.core.messages import display_message
+from qscat.core.tabs.reports import SummaryReport
 from qscat.core.utils.date import datetime_now
-from qscat.core.utils.input import get_baseline_input_params
-from qscat.core.utils.input import get_summary_report_input_params
-from qscat.core.utils.input import get_shorelines_input_params
-from qscat.core.utils.input import get_shoreline_change_input_params
-from qscat.core.utils.input import get_transects_input_params
-from qscat.core.reports import SummaryReport
 from qscat.lib.xalglib import invstudenttdistribution
 
-from qscat.core.constants import Statistic
-from qscat.core.constants import Trend
 
-
-def compute_shoreline_change_button_clicked(qscat):
+def compute_shoreline_change_button_clicked(qdw):
     """Compute shoreline change stats (on button clicked).
 
     Args:
-        qscat (QscatPlugin): QscatPlugin instance.
+        qdw (QscatDockWidget): QscatDockWidget instance.
     """
-    baseline_params = get_baseline_input_params(qscat)
-    shorelines_params = get_shorelines_input_params(qscat)
-    transects_params = get_transects_input_params(qscat)
-    shoreline_change_params = get_shoreline_change_input_params(qscat)
-    report_params = get_summary_report_input_params(qscat)
+    inputs = Inputs(qdw)
+
+    baseline_inputs = inputs.baseline()
+    shorelines_inputs = inputs.shorelines()
+    transects_inputs = inputs.transects()
+    shoreline_change_inputs = inputs.shoreline_change()
+    summary_reports_inputs = inputs.summary_reports()
 
     transects = load_transects(
-        qscat.dockwidget.qmlcb_shoreline_change_transects_layer.currentLayer()
+        qdw.qmlcb_shoreline_change_transects_layer.currentLayer()
     )
-    shorelines = load_shorelines(shorelines_params)
-    transects_layer_widget = shoreline_change_params["transects_layer_widget"]
+    shorelines = load_shorelines(shorelines_inputs)
+    transects_layer_widget = shoreline_change_inputs["transects_layer_widget"]
 
-    report = SummaryReport(qscat)
+    report = SummaryReport(qdw)
 
     shoreline_change = ShorelineChange(
-        baseline_params,
-        shorelines_params,
-        transects_params,
-        shoreline_change_params,
-        report_params,
+        baseline_inputs,
+        shorelines_inputs,
+        transects_inputs,
+        shoreline_change_inputs,
+        summary_reports_inputs,
         transects,
         shorelines,
         transects_layer_widget,
@@ -75,22 +68,22 @@ def compute_shoreline_change_button_clicked(qscat):
 class ShorelineChange:
     def __init__(
         self,
-        baseline_params,
-        shorelines_params,
-        transects_params,
-        shoreline_change_params,
-        report_params,
+        baseline_inputs,
+        shorelines_inputs,
+        transects_inputs,
+        shoreline_change_inputs,
+        summary_reports_inputs,
         transects,
         shorelines,
         transects_layer_widget,
         reports,
     ):
         # Inputs
-        self.baseline_params = baseline_params
-        self.shorelines_params = shorelines_params
-        self.transects_params = transects_params
-        self.shoreline_change_params = shoreline_change_params
-        self.report_params = report_params
+        self.baseline_inputs = baseline_inputs
+        self.shorelines_inputs = shorelines_inputs
+        self.transects_inputs = transects_inputs
+        self.shoreline_change_inputs = shoreline_change_inputs
+        self.summary_reports_inputs = summary_reports_inputs
 
         self.transects = transects
         self.shorelines = shorelines
@@ -139,7 +132,7 @@ class ShorelineChange:
                 "get_year1": self.get_closest_distance_year,
                 "get_year2": self.get_farthest_distance_year,
                 "get_main_values": [self.get_SCE],
-                "get_trend_ref": self.shoreline_change_params["highest_unc"],
+                "get_trend_ref": self.shoreline_change_inputs["highest_unc"],
                 "get_extra_values": [
                     self.get_closest_distance_year,
                     self.get_farthest_distance_year,
@@ -149,7 +142,7 @@ class ShorelineChange:
                 "get_year1": self.get_oldest_year,
                 "get_year2": self.get_newest_year,
                 "get_main_values": [self.get_NSM],
-                "get_trend_ref": self.shoreline_change_params["highest_unc"],
+                "get_trend_ref": self.shoreline_change_inputs["highest_unc"],
                 "get_extra_values": None,
                 # 'get_extra_values': [
                 #     get_fullest_transect_point1_x,
@@ -163,7 +156,7 @@ class ShorelineChange:
                 "get_year1": self.get_oldest_year,
                 "get_year2": self.get_newest_year,
                 "get_main_values": [self.get_EPR],
-                "get_trend_ref": self.shoreline_change_params["epr_unc"],
+                "get_trend_ref": self.shoreline_change_inputs["epr_unc"],
                 "get_extra_values": None,
             },
             Statistic.LRR: {
@@ -199,10 +192,10 @@ class ShorelineChange:
         globals()["get_transects_intersections_task"] = GetTransectsIntersectionsTask(
             self.transects,
             self.shorelines,
-            self.shorelines_params,
-            self.transects_params,
-            self.baseline_params,
-            self.shoreline_change_params,
+            self.shorelines_inputs,
+            self.transects_inputs,
+            self.baseline_inputs,
+            self.shoreline_change_inputs,
         )
         globals()["get_transects_intersections_task"].taskCompleted.connect(
             lambda: self.get_transects_intersections_task_state_changed(start_time)
@@ -228,7 +221,7 @@ class ShorelineChange:
             stat_values = {}
 
             # Compute all selected stats
-            for stat in self.shoreline_change_params["selected_stats"]:
+            for stat in self.shoreline_change_inputs["selected_stats"]:
                 if self.compute_shoreline_change_stat_prechecks(stat):
                     values, geoms = self.compute_single_stat_all_transects(
                         stat,
@@ -267,8 +260,8 @@ class ShorelineChange:
 
             # Summary
             if (
-                self.report_params["is_report"]
-                and self.report_params["is_shoreline_change_report"]
+                self.summary_reports_inputs["is_report"]
+                and self.summary_reports_inputs["is_shoreline_change_report"]
             ):
                 self.create_summary_report(stat_values)
 
@@ -292,19 +285,19 @@ class ShorelineChange:
         summary = {}
 
         summary["datetime"] = datetime_now()
-        transects = load_transects(self.shoreline_change_params["transects_layer"])
+        transects = load_transects(self.shoreline_change_inputs["transects_layer"])
         summary["num_of_transects"] = len(transects)
 
         # Results
-        if Statistic.SCE in self.shoreline_change_params["selected_stats"]:
+        if Statistic.SCE in self.shoreline_change_inputs["selected_stats"]:
             SCE = stat_values[Statistic.SCE]
             summary["SCE_avg"] = round(sum(SCE) / len(SCE), 2)
             summary["SCE_max"] = round(max(SCE), 2)
             summary["SCE_min"] = round(min(SCE), 2)
 
-        if Statistic.NSM in self.shoreline_change_params["selected_stats"]:
+        if Statistic.NSM in self.shoreline_change_inputs["selected_stats"]:
             NSM = stat_values[Statistic.NSM]
-            unc = self.shoreline_change_params["highest_unc"]
+            unc = self.shoreline_change_inputs["highest_unc"]
             summary["NSM_avg"] = round(sum(NSM) / len(NSM), 2)
 
             NSM_e = [x for x in NSM if x < -unc]
@@ -337,9 +330,9 @@ class ShorelineChange:
             summary["NSM_stable_max"] = round(max(NSM_s), 2)
             summary["NSM_stable_min"] = round(min(NSM_s), 2)
 
-        if Statistic.EPR in self.shoreline_change_params["selected_stats"]:
+        if Statistic.EPR in self.shoreline_change_inputs["selected_stats"]:
             EPR = stat_values[Statistic.EPR]
-            unc = self.shoreline_change_params["epr_unc"]
+            unc = self.shoreline_change_inputs["epr_unc"]
             summary["EPR_avg"] = round(sum(EPR) / len(EPR), 2)
 
             EPR_e = [x for x in EPR if x < -unc]
@@ -372,7 +365,7 @@ class ShorelineChange:
             summary["EPR_stable_max"] = round(max(EPR_s), 2)
             summary["EPR_stable_min"] = round(min(EPR_s), 2)
 
-        if Statistic.LRR in self.shoreline_change_params["selected_stats"]:
+        if Statistic.LRR in self.shoreline_change_inputs["selected_stats"]:
             LRR = stat_values[Statistic.LRR]
             summary["LRR_avg"] = round(sum(LRR) / len(LRR), 2)
 
@@ -396,7 +389,7 @@ class ShorelineChange:
             summary["LRR_accretion_max"] = round(max(LRR_a), 2)
             summary["LRR_accretion_min"] = round(min(LRR_a), 2)
 
-        if Statistic.WLR in self.shoreline_change_params["selected_stats"]:
+        if Statistic.WLR in self.shoreline_change_inputs["selected_stats"]:
             WLR = stat_values[Statistic.WLR]
             summary["WLR_avg"] = round(sum(WLR) / len(WLR), 2)
 
@@ -498,7 +491,7 @@ class ShorelineChange:
                 values.append(get_extra_values_func(years_intersections))
 
         # Clip transects
-        if self.shoreline_change_params["is_clip_transects"]:
+        if self.shoreline_change_inputs["is_clip_transects"]:
             start_pt = QgsPointXY(
                 years_intersections[year1]["intersect_x"],
                 years_intersections[year1]["intersect_y"],
@@ -524,22 +517,22 @@ class ShorelineChange:
         """
         # Layer names
         if stat in [Statistic.NSM, Statistic.EPR]:
-            name = f'{stat} ({self.shoreline_change_params["newest_year"]}-{self.shoreline_change_params["oldest_year"]})'
+            name = f'{stat} ({self.shoreline_change_inputs["newest_year"]}-{self.shoreline_change_inputs["oldest_year"]})'
         elif stat in [Statistic.SCE, Statistic.LRR, Statistic.WLR]:
             name = f"{stat}"
 
         # Custom properties
         dates = {
-            "newest_date": self.shoreline_change_params["newest_date"],
-            "oldest_date": self.shoreline_change_params["oldest_date"],
+            "newest_date": self.shoreline_change_inputs["newest_date"],
+            "oldest_date": self.shoreline_change_inputs["oldest_date"],
             "stat": stat,
         }
 
         # Add uncertainty value in custom properties
         if stat in [Statistic.SCE, Statistic.NSM]:
-            dates["unc"] = self.shoreline_change_params["highest_unc"]
+            dates["unc"] = self.shoreline_change_inputs["highest_unc"]
         elif stat == Statistic.EPR:
-            dates["unc"] = self.shoreline_change_params["epr_unc"]
+            dates["unc"] = self.shoreline_change_inputs["epr_unc"]
 
         create_add_layer(
             geometry="LineString",
@@ -559,7 +552,7 @@ class ShorelineChange:
         Returns:
             boolean
         """
-        shoreline_layer = self.shorelines_params["shorelines_layer"]
+        shoreline_layer = self.shorelines_inputs["shorelines_layer"]
 
         if stat in [Statistic.LRR, Statistic.WLR]:
             if shoreline_layer.featureCount() < 3:
@@ -584,11 +577,11 @@ class ShorelineChange:
         return farthest_distance_year
 
     def get_oldest_year(self, years_intersections):
-        oldest_year = self.shoreline_change_params["oldest_year"]
+        oldest_year = self.shoreline_change_inputs["oldest_year"]
         return oldest_year
 
     def get_newest_year(self, years_intersections):
-        newest_year = self.shoreline_change_params["newest_year"]
+        newest_year = self.shoreline_change_inputs["newest_year"]
         return newest_year
 
     # Get main values functions
@@ -639,7 +632,7 @@ class ShorelineChange:
             compute_params["years_intersections"]
         )
         LCI_value = compute_LCI(
-            years, distances, self.shoreline_change_params["confidence_interval"]
+            years, distances, self.shoreline_change_inputs["confidence_interval"]
         )
         return round(LCI_value, 2)
 
@@ -647,7 +640,7 @@ class ShorelineChange:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
-        uncs = get_sorted_uncs(self.shoreline_change_params["years_uncs"])
+        uncs = get_sorted_uncs(self.shoreline_change_inputs["years_uncs"])
         WLR_value = compute_WLR(years, distances, uncs)
         return round(WLR_value, 2)
 
@@ -655,7 +648,7 @@ class ShorelineChange:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
-        uncs = get_sorted_uncs(self.shoreline_change_params["years_uncs"])
+        uncs = get_sorted_uncs(self.shoreline_change_inputs["years_uncs"])
         WR2_value = compute_WR2(years, distances, uncs)
         return round(WR2_value, 2)
 
@@ -663,7 +656,7 @@ class ShorelineChange:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
-        uncs = get_sorted_uncs(self.shoreline_change_params["years_uncs"])
+        uncs = get_sorted_uncs(self.shoreline_change_inputs["years_uncs"])
         WSE_value = compute_WSE(years, distances, uncs)
         return round(WSE_value, 2)
 
@@ -671,9 +664,9 @@ class ShorelineChange:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
-        uncs = get_sorted_uncs(self.shoreline_change_params["years_uncs"])
+        uncs = get_sorted_uncs(self.shoreline_change_inputs["years_uncs"])
         WCI_value = compute_WCI(
-            years, distances, uncs, self.shoreline_change_params["confidence_interval"]
+            years, distances, uncs, self.shoreline_change_inputs["confidence_interval"]
         )
         return round(WCI_value, 2)
 
@@ -1268,9 +1261,9 @@ class GetTransectsIntersectionsTask(QgsTask):
                         # They apply negatives if baseline is placed on sea
                         # This is the value passed to the stat calculations
                         if self.baseline_params["is_baseline_placement_sea"]:
-                            individual_shoreline_intersects["distance"] = (
-                                -intersections[final_intersect]
-                            )
+                            individual_shoreline_intersects[
+                                "distance"
+                            ] = -intersections[final_intersect]
                         else:
                             individual_shoreline_intersects["distance"] = intersections[
                                 final_intersect

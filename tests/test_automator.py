@@ -3,14 +3,14 @@
 
 from unittest.mock import patch
 
+from qgis.core import QgsProject, QgsVectorLayer
 from qgis.testing import start_app
 
-from qgis.core import QgsProject
-from qgis.core import QgsVectorLayer
-
-from qscat.core.automator import automate_baseline_buffer
-from qscat.core.automator import automate_baseline_field
-from qscat.core.automator import automate_shoreline_field
+from qscat.core.tabs.automator import (
+    automate_baseline_buffer,
+    automate_baseline_field,
+    automate_shoreline_field,
+)
 
 start_app()
 
@@ -22,7 +22,7 @@ class TestAutomator:
 
     def test_automate_shoreline_field(self):
         """Test automate shoreline field function."""
-        with patch("qscat.core.automator.display_message", return_value=None):
+        with patch("qscat.core.tabs.automator.display_message", return_value=None):
             automate_shoreline_field(self.layer, "date", "unc", True, True)
 
             assert "date" in [field.name() for field in self.layer.fields()]
@@ -30,7 +30,7 @@ class TestAutomator:
 
     def test_automate_baseline_field(self):
         """Test automate baseline field function."""
-        with patch("qscat.core.automator.display_message", return_value=None):
+        with patch("qscat.core.tabs.automator.display_message", return_value=None):
             automate_baseline_field(
                 self.layer,
                 "placement",

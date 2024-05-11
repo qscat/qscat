@@ -1,6 +1,5 @@
 import configparser
 import re
-
 from pathlib import Path
 
 from qgis.testing.mocked import get_iface

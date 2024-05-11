@@ -2,13 +2,14 @@
 # QSCAT Plugin — GPL-3.0 license
 
 import pytest
-
 from qgis.core import QgsVectorLayer
 from qgis.testing import start_app
 
-from qscat.core.utils.date import convert_to_decimal_year
-from qscat.core.utils.date import extract_month_year
-from qscat.core.utils.date import get_day_of_year
+from qscat.core.utils.date import (
+    convert_to_decimal_year,
+    extract_month_year,
+    get_day_of_year,
+)
 from qscat.core.utils.layer import is_field_in_layer
 
 start_app()

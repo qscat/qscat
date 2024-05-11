@@ -2,17 +2,15 @@
 # QSCAT Plugin — GPL-3.0 license
 
 from PyQt5.QtCore import QVariant
-
-from qgis.core import QgsGeometry
-from qgis.core import QgsWkbTypes
+from qgis.core import QgsGeometry, QgsWkbTypes
 
 from qscat.core.layer import create_add_layer
 
 
 def load_all_years_intersections(transects_intersects):
-    """Convert list of list of transect intersections to list of list of shoreline intersections where the year will be the dictionary key, and the values will 
+    """Convert list of list of transect intersections to list of list of shoreline intersections where the year will be the dictionary key, and the values will
     be the dictionary values.
-    
+
     (from) Original:
         transect_intersects = [
             [
@@ -28,7 +26,7 @@ def load_all_years_intersections(transects_intersects):
                     'intersect)x: <shoreline id>
                     'intersect_y: <shoreline id>
                 },
-                {intersection2}, 
+                {intersection2},
                 {intersection3},
                 {intersection4},
                 ...
@@ -45,18 +43,18 @@ def load_all_years_intersections(transects_intersects):
                     'unc': xxx,
                     'distance': xxx,
                     'intersect_x': xxx,
-                    'intersect_y': xxx,   
+                    'intersect_y': xxx,
                 },
                 year2: { ... },
                 year3: { ... },
                 ...
-                
+
             },
             { transect2 intersections },
             { transect3 intersections },
-            ... 
+            ...
         ]
-        
+
     Args:
         transects_intersects (list[list[dict]]): List of list of transect intersections (see above for details)
 
@@ -64,7 +62,7 @@ def load_all_years_intersections(transects_intersects):
         list[dict]: List of list of shoreline intersections (see above for details)
     """
     shoreline_intersections = []
-    
+
     for transects_intersect in transects_intersects:
         shorelines = {}
 
@@ -73,14 +71,14 @@ def load_all_years_intersections(transects_intersects):
             # #shoreline['transect_origin'] = QgsGeometry.fromWkt(
             #     shoreline_intersect['transect_origin']
             # )
-            shoreline['transect_origin'] = shoreline_intersect['transect_origin']
-            shoreline['unc'] = shoreline_intersect['shoreline_unc']
-            shoreline['distance'] = shoreline_intersect['distance']
-            shoreline['intersect_x'] = shoreline_intersect['intersect_x']
-            shoreline['intersect_y'] = shoreline_intersect['intersect_y']
-            shorelines[shoreline_intersect['shoreline_year']] = shoreline
+            shoreline["transect_origin"] = shoreline_intersect["transect_origin"]
+            shoreline["unc"] = shoreline_intersect["shoreline_unc"]
+            shoreline["distance"] = shoreline_intersect["distance"]
+            shoreline["intersect_x"] = shoreline_intersect["intersect_x"]
+            shoreline["intersect_y"] = shoreline_intersect["intersect_y"]
+            shorelines[shoreline_intersect["shoreline_year"]] = shoreline
 
-            shoreline['orig_transect_geom'] = shoreline_intersect['orig_transect_geom']
+            shoreline["orig_transect_geom"] = shoreline_intersect["orig_transect_geom"]
 
         shoreline_intersections.append(shorelines)
     return shoreline_intersections
@@ -88,32 +86,34 @@ def load_all_years_intersections(transects_intersects):
 
 def add_intersections_layer(transects_intersects, baseline_params):
     fields = [
-        {'name': 'transect_id', 'type': QVariant.Int},
-        {'name': 'shoreline_id', 'type': QVariant.Int},
-        {'name': 'shoreline_year', 'type': QVariant.Double},
-        {'name': 'shoreline_unc', 'type': QVariant.Double},
-        {'name': 'distance', 'type': QVariant.Double},
-        {'name': 'intersect_x', 'type': QVariant.Double},
-        {'name': 'intersect_y', 'type': QVariant.Double},
+        {"name": "transect_id", "type": QVariant.Int},
+        {"name": "shoreline_id", "type": QVariant.Int},
+        {"name": "shoreline_year", "type": QVariant.Double},
+        {"name": "shoreline_unc", "type": QVariant.Double},
+        {"name": "distance", "type": QVariant.Double},
+        {"name": "intersect_x", "type": QVariant.Double},
+        {"name": "intersect_y", "type": QVariant.Double},
     ]
     geometries = []
     values = []
 
     for transects_intersect in transects_intersects:
         for individual_transect_intersect in transects_intersect:
-            geometries.append(QgsGeometry.fromWkt(individual_transect_intersect['geom']))
-            #geometries.append(individual_transect_intersect['geom']) pickled xD
-            intersects = [individual_transect_intersect[f['name']] for f in fields]
+            geometries.append(
+                QgsGeometry.fromWkt(individual_transect_intersect["geom"])
+            )
+            # geometries.append(individual_transect_intersect['geom']) pickled xD
+            intersects = [individual_transect_intersect[f["name"]] for f in fields]
             values.append(intersects)
-    
+
     baseline_layer_name = baseline_params["baseline_layer"].name()
-    
+
     create_add_layer(
-        geometry='Point', 
-        geometries=geometries, 
-        name=f'{baseline_layer_name}_intersections', 
+        geometry="Point",
+        geometries=geometries,
+        name=f"{baseline_layer_name}_intersections",
         fields=fields,
-        values=values
+        values=values,
     )
 
 

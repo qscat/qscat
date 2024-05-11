@@ -3,38 +3,33 @@
 
 import datetime
 import math
-import numpy as np
 import time
 
+import numpy as np
 from PyQt5.QtCore import QVariant
-
+from qgis.core import (
+    Qgis,
+    QgsApplication,
+    QgsGeometry,
+    QgsMessageLog,
+    QgsPointXY,
+    QgsTask,
+)
 from qgis.PyQt.QtWidgets import QMessageBox
-
-from qgis.core import Qgis
-from qgis.core import QgsApplication
-from qgis.core import QgsGeometry
-from qgis.core import QgsMessageLog
-from qgis.core import QgsPointXY
-from qgis.core import QgsTask
-
 from qgis.utils import iface
 
+from qscat.core.inputs import Inputs
 from qscat.core.intersections import load_all_years_intersections
-from qscat.core.layer import create_add_layer
-from qscat.core.layer import load_shorelines
-from qscat.core.layer import load_transects
-from qscat.core.shoreline_change import GetTransectsIntersectionsTask
-from qscat.core.shoreline_change import compute_LCI
-from qscat.core.shoreline_change import compute_LSE
-from qscat.core.shoreline_change import get_sorted_uncs
-from qscat.core.shoreline_change import get_sorted_years_distances
-from qscat.core.reports import SummaryReport
+from qscat.core.layer import create_add_layer, load_shorelines, load_transects
+from qscat.core.tabs.reports import SummaryReport
+from qscat.core.tabs.shoreline_change import (
+    GetTransectsIntersectionsTask,
+    compute_LCI,
+    compute_LSE,
+    get_sorted_uncs,
+    get_sorted_years_distances,
+)
 from qscat.core.utils.date import datetime_now
-from qscat.core.utils.input import get_baseline_input_params
-from qscat.core.utils.input import get_shorelines_years_uncs_from_input
-from qscat.core.utils.input import get_shorelines_input_params
-from qscat.core.utils.input import get_shoreline_change_input_params
-from qscat.core.utils.input import get_transects_input_params
 
 
 class ForecastAlgorithms:
@@ -124,53 +119,69 @@ class GetForecastTask(QgsTask):
         )
 
 
-def run_forecasting(qscat):
+def run_forecasting(qdw):
+    """Run forecasting.
+
+    Args:
+        qdw (QscatDockWidget): QscatDockWidget instance.
+    """
     start_time = time.perf_counter()
 
-    years_uncs = get_shorelines_years_uncs_from_input(qscat)
-    confidence_interval = float(qscat.dockwidget.qdsb_stats_confidence_interval.text())
+    # Load inputs
+    inputs = Inputs(qdw)
 
-    # Get forecasting algorithms
+    # Tabs
+    forecasting_inputs = inputs.forecasting()
+    baseline_inputs = inputs.baseline()
+    shorelines_inputs = inputs.shorelines()
+    transects_inputs = inputs.transects()
+    shoreline_change_inputs = inputs.shoreline_change()
+
+    years_uncs = inputs.shorelines_years_uncs()
+    confidence_interval = shoreline_change_inputs["confidence_interval"]
+
+    # Forecasting algorithms
     algorithms = []
-    if qscat.dockwidget.cb_forecasting_algorithm_1.isChecked():
+    if forecasting_inputs["is_algorithm1"]:
         algorithms.append(ForecastAlgorithms.KALMAN_FILTER)
 
-    # Get forecasting time period
-    if qscat.dockwidget.rb_forecasting_time_20y.isChecked():
+    # Forecasting time period
+    if forecasting_inputs["is_time_20y"]:
         forecast_length = ForecastTimePeriods.TWENTY_YEARS
-    elif qscat.dockwidget.rb_forecasting_time_10y.isChecked():
+    elif forecasting_inputs["is_time_10y"]:
         forecast_length = ForecastTimePeriods.TEN_YEARS
 
-    # Load shoreline intersections
-    baseline_params = get_baseline_input_params(qscat)
-    shorelines_params = get_shorelines_input_params(qscat)
-    transects_params = get_transects_input_params(qscat)
-    shoreline_change_params = get_shoreline_change_input_params(qscat)
-
-    transects = load_transects(
-        qscat.dockwidget.qmlcb_forecasting_transects_layer.currentLayer()
-    )
-    shorelines = load_shorelines(shorelines_params)
+    transects = load_transects(forecasting_inputs["transects_layer"])
+    shorelines = load_shorelines(shorelines_inputs)
 
     globals()["get_transects_intersections_task"] = GetTransectsIntersectionsTask(
         transects,
         shorelines,
-        shorelines_params,
-        transects_params,
-        baseline_params,
-        shoreline_change_params,
+        shorelines_inputs,
+        transects_inputs,
+        baseline_inputs,
+        shoreline_change_inputs,
     )
     globals()["get_transects_intersections_task"].taskCompleted.connect(
         lambda: get_transects_intersections_task_state_changed(
-            qscat, forecast_length, years_uncs, confidence_interval, start_time
+            qdw, forecast_length, years_uncs, confidence_interval, start_time
         )
     )
     QgsApplication.taskManager().addTask(globals()["get_transects_intersections_task"])
 
 
 def get_transects_intersections_task_state_changed(
-    qscat, forecast_length, years_uncs, confidence_interval, start_time
+    qdw, forecast_length, years_uncs, confidence_interval, start_time
 ):
+    """Get transects intersections task state changed.
+
+    Args:
+        qdw (QscatDockWidget): QscatDockWidget instance.
+        forecast_length (int): The forecast length.
+        years_uncs (dict): The years uncertainties.
+        confidence_interval (float): The confidence interval.
+        start_time (float): The start time.
+    """
     task = globals()["get_transects_intersections_task"]
 
     if task.status() == QgsTask.Complete:
@@ -181,12 +192,18 @@ def get_transects_intersections_task_state_changed(
             forecast_length, all_years_intersections, years_uncs, confidence_interval
         )
         globals()["get_forecast_task"].taskCompleted.connect(
-            lambda: get_forecast_task_state_changed(qscat, start_time)
+            lambda: get_forecast_task_state_changed(qdw, start_time)
         )
         QgsApplication.taskManager().addTask(globals()["get_forecast_task"])
 
 
-def get_forecast_task_state_changed(qscat, start_time):
+def get_forecast_task_state_changed(qdw, start_time):
+    """Get forecast task state changed.
+
+    Args:
+        qdw (QscatDockWidget): QscatDockWidget instance.
+        start_time (float): The start time.
+    """
     task = globals()["get_forecast_task"]
     if task.status() == QgsTask.Complete:
         current_datetime = datetime_now()
@@ -298,14 +315,16 @@ def get_forecast_task_state_changed(qscat, start_time):
         )
 
         # Summary
+        inputs = Inputs(qdw)
+        summary_reports_inputs = inputs.summary_reports()
         if (
-            qscat.dockwidget.cb_enable_report_generation.isChecked()
-            and qscat.dockwidget.cb_enable_forecasting_report.isChecked()
+            summary_reports_inputs["is_report"]
+            and summary_reports_inputs["is_forecasting_report"]
         ):
             summary = {}
             summary["datetime"] = current_datetime
 
-            report = SummaryReport(qscat, summary)
+            report = SummaryReport(qdw, summary)
             report.forecasting()
 
         elapsed_time = (time.perf_counter() - start_time) * 1000

@@ -1,11 +1,6 @@
 from PyQt5.QtCore import QVariant
-
+from qgis.core import QgsGeometry, QgsPointXY, QgsProject, QgsWkbTypes
 from qgis.testing import start_app
-
-from qgis.core import QgsGeometry
-from qgis.core import QgsPointXY
-from qgis.core import QgsProject
-from qgis.core import QgsWkbTypes
 
 from qscat.core.layer import create_add_layer
 

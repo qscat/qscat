@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 
 
 def extract_month_year(month_year_string):
@@ -9,7 +10,7 @@ def extract_month_year(month_year_string):
 
     Returns:
         tuple[int, int]: month and year
-        
+
     Raises:
         ValueError: if month_year_string is not in the format 'mm/yyyy'
 
@@ -17,7 +18,7 @@ def extract_month_year(month_year_string):
         May change in the future if we consider input MM/DD/YYYY.
     """
     try:
-        date = datetime.strptime(month_year_string, '%m/%Y')
+        date = datetime.strptime(month_year_string, "%m/%Y")
     except ValueError:
         raise ValueError("Month and year must be in the format 'mm/yyyy'.")
     except TypeError:
@@ -27,7 +28,7 @@ def extract_month_year(month_year_string):
 
 
 def get_day_of_year(month, year):
-    """Get the day of a year given a month and year. Since we only have the 
+    """Get the day of a year given a month and year. Since we only have the
     month and year, we set the day to 1.
 
     Args:
@@ -40,7 +41,7 @@ def get_day_of_year(month, year):
     Note:
         May change in the future if we consider input MM/DD/YYYY.
     """
-    date = datetime(year, month, 1) # 1 = default day 1 every month
+    date = datetime(year, month, 1)  # 1 = default day 1 every month
     day_of_year = date.timetuple().tm_yday
     return day_of_year
 
@@ -67,5 +68,5 @@ def datetime_now():
 
 
 def get_duration_ms(end, start):
-    #return int(round((end-start) * 1000))
-    return round(end-start, 10)
+    # return int(round((end-start) * 1000))
+    return round(end - start, 10)

@@ -1,8 +1,7 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-from qgis.core import QgsGeometry
-from qgis.core import QgsWkbTypes
+from qgis.core import QgsGeometry, QgsWkbTypes
 
 
 def extract_area_polygon(shoreline1, shoreline2, transect1, transect2):

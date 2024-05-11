@@ -2,24 +2,24 @@
 # QSCAT Plugin — GPL-3.0 license
 
 from PyQt5.QtGui import QColor
+from qgis.core import (
+    QgsCategorizedSymbolRenderer,
+    QgsClassificationEqualInterval,
+    QgsClassificationJenks,
+    QgsClassificationPrettyBreaks,
+    QgsClassificationQuantile,
+    QgsFillSymbol,
+    QgsGradientStop,
+    QgsGraduatedSymbolRenderer,
+    QgsLineSymbol,
+    QgsRendererCategory,
+    QgsRendererRange,
+    QgsStyle,
+    QgsSymbol,
+)
 
-from qgis.core import QgsCategorizedSymbolRenderer
-from qgis.core import QgsClassificationEqualInterval
-from qgis.core import QgsClassificationJenks
-from qgis.core import QgsClassificationPrettyBreaks
-from qgis.core import QgsClassificationQuantile
-from qgis.core import QgsFillSymbol
-from qgis.core import QgsGradientStop
-from qgis.core import QgsGraduatedSymbolRenderer
-from qgis.core import QgsLineSymbol
-from qgis.core import QgsRendererCategory
-from qgis.core import QgsRendererRange
-from qgis.core import QgsStyle
-from qgis.core import QgsSymbol
-
-from qscat.core.constants import AreaChangeField
-from qscat.core.constants import Statistic
-from qscat.core.constants import Trend
+from qscat.core.constants import AreaChangeField, Statistic, Trend
+from qscat.core.inputs import Inputs
 
 
 def apply_area_colors(layer):
@@ -64,26 +64,27 @@ def apply_area_colors(layer):
     layer.triggerRepaint()
 
 
-def apply_color_ramp_button_clicked(qscat):
+def apply_color_ramp_button_clicked(qdw):
     """Apply custom graduated symbology values on the selected shoreline change
     statistic layer (on button clicked).
 
     Args:
-        qscat (QscatPlugin): QscatPlugin instance.
+        qdw (QscatDockWidget): QscatDockWidget instance.
     """
-    layer = qscat.dockwidget.qmlcb_vis_stat_layer.currentLayer()
-    mode = qscat.dockwidget.cb_vis_mode.currentIndex()
-    stat_field = qscat.dockwidget.qfcb_visualization_stat_field.currentField()
-    num_of_pos_classes = int(qscat.dockwidget.qsb_vis_pos_classes.text())
-    num_of_neg_classes = int(qscat.dockwidget.qsb_vis_neg_classes.text())
+    inputs = Inputs(qdw)
+    visualization_inputs = inputs.visualization()
 
     # unc = None
     # if layer.customProperty("stat") in (Statistic.EPR, Statistic.SCE, Statistic.NSM):
     #     unc = layer.customProperty("unc")
 
-    unc = float(qscat.dockwidget.le_visualization_unc_value.text())
     apply_color_ramp(
-        layer, stat_field, mode, num_of_pos_classes, num_of_neg_classes, unc
+        visualization_inputs["stat_layer"],
+        visualization_inputs["stat_field"],
+        visualization_inputs["mode"],
+        int(visualization_inputs["neg_classes"]),
+        int(visualization_inputs["pos_classes"]),
+        visualization_inputs["unc_value"],
     )
 
 

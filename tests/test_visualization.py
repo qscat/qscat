@@ -1,22 +1,17 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from PyQt5.QtCore import QVariant
+from qgis.core import (
+    QgsFeature,
+    QgsField,
+    QgsGeometry,
+    QgsVectorLayer,
+)
 from qgis.testing import start_app
 
-from PyQt5.QtCore import QVariant
-
-from qgis.core import QgsClassificationEqualInterval
-from qgis.core import QgsGeometry
-from qgis.core import QgsFeature
-from qgis.core import QgsField
-from qgis.core import QgsVectorLayer
-
-from qscat.core.visualization import apply_area_colors
-from qscat.core.visualization import apply_color_ramp
-
-from qscat.core.constants import AreaChangeField
-from qscat.core.constants import Statistic
-from qscat.core.constants import Trend
+from qscat.core.constants import AreaChangeField, Statistic, Trend
+from qscat.core.tabs.visualization import apply_area_colors, apply_color_ramp
 
 start_app()
 

@@ -3,16 +3,11 @@
 
 from unittest.mock import patch
 
+from qgis.core import QgsCoordinateReferenceSystem, QgsProject, QgsVectorLayer
+from qgis.gui import QgsMapLayerComboBox
 from qgis.testing import start_app
 
-from qgis.core import QgsCoordinateReferenceSystem
-from qgis.core import QgsProject
-from qgis.core import QgsVectorLayer
-
-from qgis.gui import QgsMapLayerComboBox
-
-from qscat.core.transects import cast_transects
-from qscat.core.transects import prechecks
+from qscat.core.tabs.transects import cast_transects, prechecks
 
 start_app()
 
@@ -31,7 +26,7 @@ def test_cast_transects():
     )
 
     # Input params
-    baseline_params = {
+    baseline_inputs = {
         "baseline_layer": baseline_layer,
         "is_baseline_placement_sea": True,
         "is_baseline_placement_land": False,
@@ -42,17 +37,17 @@ def test_cast_transects():
         "transect_length_field": None,  #'qs_length',
         "smoothing_distance_field": None,  #'qs_smooth',
     }
-    shorelines_params = {
+    shorelines_inputs = {
         "shorelines_layer": shoreline_layer,
     }
-    transects_params = {
+    transects_inputs = {
         "smoothing_distance": "1",
         "length": "1",
         "layer_output_name": "test_transects",
     }
 
     result = cast_transects(
-        baseline_params, shorelines_params, transects_params, crs, QgsMapLayerComboBox()
+        baseline_inputs, shorelines_inputs, transects_inputs, crs, QgsMapLayerComboBox()
     )
 
     assert len(project.mapLayers()) == initial_layer_count + 1
@@ -60,13 +55,13 @@ def test_cast_transects():
     assert result[1].currentLayer() is result[0]
 
     # Exclude display_message() function (requires iface messageBar())
-    with patch("qscat.core.transects.display_message", return_value=None):
+    with patch("qscat.core.tabs.transects.display_message", return_value=None):
         crs = QgsCoordinateReferenceSystem("EPSG:32651")
 
         result = cast_transects(
-            baseline_params,
-            shorelines_params,
-            transects_params,
+            baseline_inputs,
+            shorelines_inputs,
+            transects_inputs,
             crs,  # Different project CRS
             QgsMapLayerComboBox(),
         )
@@ -76,7 +71,7 @@ def test_cast_transects():
 def test_prechecks():
     """Test CRS prechecks function."""
     # Exclude display_message() function (requires iface messageBar())
-    with patch("qscat.core.transects.display_message", return_value=None):
+    with patch("qscat.core.tabs.transects.display_message", return_value=None):
         crs1 = QgsCoordinateReferenceSystem("EPSG:4326")
         crs2 = QgsCoordinateReferenceSystem("EPSG:3857")
         crs3 = QgsCoordinateReferenceSystem("EPSG:32651")

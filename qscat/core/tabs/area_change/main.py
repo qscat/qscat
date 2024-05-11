@@ -2,39 +2,37 @@
 # QSCAT Plugin — GPL-3.0 license
 
 from PyQt5.QtCore import QVariant
-
 from qgis.core import QgsGeometry
 
-from qscat.core.constants import AreaChangeField
-from qscat.core.layer import create_add_layer
-from qscat.core.layer import load_polygons
-from qscat.core.reports import SummaryReport
+from qscat.core.constants import AreaChangeField, Trend
+from qscat.core.inputs import Inputs
+from qscat.core.layer import create_add_layer, load_polygons
+from qscat.core.tabs.area_change.extra_transect import insert_extra_transects
+from qscat.core.tabs.area_change.half_transect import get_half_transect
+from qscat.core.tabs.area_change.polygon import extract_area_polygon
+from qscat.core.tabs.area_change.utils import (
+    get_interest_transects_within_polygon,
+    group_dict_by_key,
+    load_shorelines_by_date,
+)
+from qscat.core.tabs.reports import SummaryReport
+from qscat.core.tabs.visualization import apply_area_colors
 from qscat.core.utils.date import datetime_now
-from qscat.core.utils.input import get_area_change_input_params
-from qscat.core.visualization import apply_area_colors
-
-from qscat.core.area_change.extra_transect import insert_extra_transects
-from qscat.core.area_change.half_transect import get_half_transect
-from qscat.core.area_change.polygon import extract_area_polygon
-from qscat.core.area_change.utils import group_dict_by_key
-from qscat.core.area_change.utils import get_interest_transects_within_polygon
-from qscat.core.area_change.utils import load_shorelines_by_date
-
-from qscat.core.constants import Trend
 
 # Use to extend a transect by a small value
 _EXTEND_BY_SMALL_EPSILON = 1e-8
 
 
-def compute_area_change_stats(qscat):
+def compute_area_change_stats(qdw):
     """Compute area change statistics.
 
     Args:
-        qscat (QscatPlugin): QscatPlugin instance.
+        qdw (QscatDockWidget): QscatDockWidget instance.
     """
-    area_change_params = get_area_change_input_params(qscat)
+    inputs = Inputs(qdw)
+    area_change_inputs = inputs.area_change()
 
-    polygon_boundaries = load_polygons(area_change_params["polygon_layer"])
+    polygon_boundaries = load_polygons(area_change_inputs["polygon_layer"])
 
     # Store each area stats per feature of the polygon layer
     polygon_areas_stats = []
@@ -50,7 +48,7 @@ def compute_area_change_stats(qscat):
         # Get transects inside polygon
         interest_transects, interest_transects_ids = (
             get_interest_transects_within_polygon(
-                area_change_params["stat_layer"],
+                area_change_inputs["stat_layer"],
                 polygon_boundary["geom"],
                 polygon_boundary["name"],
             )
@@ -58,18 +56,18 @@ def compute_area_change_stats(qscat):
 
         # TODO: If len(interest_transects) == 0, cant compute area change
 
-        layer = qscat.dockwidget.qmlcb_shorelines_shorelines_layer.currentLayer()
-        date_field = qscat.dockwidget.qfcb_shorelines_date_field.currentField()
+        layer = qdw.qmlcb_shorelines_layer.currentLayer()
+        date_field = qdw.qfcb_shorelines_date_field.currentField()
 
         newest_shorelines = load_shorelines_by_date(
             layer,
-            area_change_params["stat_layer"].customProperty("newest_date"),
+            area_change_inputs["stat_layer"].customProperty("newest_date"),
             date_field,
         )
 
         oldest_shorelines = load_shorelines_by_date(
             layer,
-            area_change_params["stat_layer"].customProperty("oldest_date"),
+            area_change_inputs["stat_layer"].customProperty("oldest_date"),
             date_field,
         )
 
@@ -155,7 +153,6 @@ def compute_area_change_stats(qscat):
         for cluster in grouped_clustered_interest_transects:
             polygons = []
             for grouped_by_trend in cluster:
-
                 result = extract_area_polygon(
                     newest_shorelines,
                     oldest_shorelines,
@@ -165,7 +162,9 @@ def compute_area_change_stats(qscat):
 
                 if result:
                     polygon = {}
-                    extracted_polygon, new_newest_shoreline, new_oldest_shoreline = result
+                    extracted_polygon, new_newest_shoreline, new_oldest_shoreline = (
+                        result
+                    )
 
                     polygon["geom"] = extracted_polygon
                     polygon["area"] = extracted_polygon.area()
@@ -330,15 +329,17 @@ def compute_area_change_stats(qscat):
     polygon_layer = create_add_layer(
         geometry="Polygon",
         geometries=polygon_geoms,
-        name=f'{area_change_params["polygon_layer"].name()}_area',
+        name=f'{area_change_inputs["polygon_layer"].name()}_area',
         fields=layer_fields,
         values=layer_values,
         datetime=current_datetime,
     )
 
+    # Summary
+    summary_reports_inputs = inputs.summary_reports()
     if (
-        qscat.dockwidget.cb_enable_report_generation.isChecked()
-        and qscat.dockwidget.cb_enable_area_change_report.isChecked()
+        summary_reports_inputs["is_report"]
+        and summary_reports_inputs["is_area_change_report"]
     ):
         summary = {}
 
@@ -579,8 +580,8 @@ def compute_area_change_stats(qscat):
             min(p["shoreline_displacement"] for p in polygons), 2
         )
 
-        reports = SummaryReport(qscat, summary)
-        reports.area_change()
+        report = SummaryReport(qdw, summary)
+        report.area_change()
 
     # Shoreline length geometry
     # interest_newest_shorelines = add_layer(

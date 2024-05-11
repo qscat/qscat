@@ -2,85 +2,83 @@
 # QSCAT Plugin — GPL-3.0 license
 
 import math
-import numpy as np
 import time
 
+import numpy as np
 from PyQt5.QtCore import QVariant
+from qgis.core import (
+    Qgis,
+    QgsGeometry,
+    QgsLineString,
+    QgsMessageLog,
+    QgsPointXY,
+    QgsProject,
+)
 
-from qgis.core import Qgis
-from qgis.core import QgsGeometry
-from qgis.core import QgsLineString
-from qgis.core import QgsMessageLog
-from qgis.core import QgsPointXY
-from qgis.core import QgsProject
-
-from qscat.core.layer import create_add_layer
-from qscat.core.layer import load_all_baselines
+from qscat.core.inputs import Inputs
+from qscat.core.layer import create_add_layer, load_all_baselines
 from qscat.core.messages import display_message
-from qscat.core.utils.input import get_baseline_input_params
-from qscat.core.utils.input import get_shorelines_input_params
-from qscat.core.utils.input import get_transects_input_params
 
 
-def cast_transects_button_clicked(qscat):
+def cast_transects_button_clicked(qdw):
     """Cast transect (on button clicked).
 
     Args:
-        qscat (QscatPlugin): QscatPlugin instance.
+        qdw (QscatDockWidget): QscatDockWidget instance.
     """
-    baseline_params = get_baseline_input_params(qscat)
-    shorelines_params = get_shorelines_input_params(qscat)
-    transects_params = get_transects_input_params(qscat)
+    inputs = Inputs(qdw)
+    baseline_inputs = inputs.baseline()
+    shorelines_inputs = inputs.shorelines()
+    transects_inputs = inputs.transects()
+
     project_crs = QgsProject.instance().crs()
-    shoreline_change_transects_layer = (
-        qscat.dockwidget.qmlcb_shoreline_change_transects_layer
-    )
+    shoreline_change_transects_layer = qdw.qmlcb_shoreline_change_transects_layer
 
     start_time = time.perf_counter()
 
     cast_transects(
-        baseline_params,
-        shorelines_params,
-        transects_params,
+        baseline_inputs,
+        shorelines_inputs,
+        transects_inputs,
         project_crs,
         shoreline_change_transects_layer,
     )
 
     elapsed_time = round((time.perf_counter() - start_time) * 1000, 2)
     QgsMessageLog.logMessage(
-        f'Transects cast of "{baseline_params["baseline_layer"].name()}" in {elapsed_time} ms',
+        f'Transects cast of "{baseline_inputs["baseline_layer"].name()}" in {elapsed_time} ms',
         "Execution time",
         level=Qgis.Info,
     )
 
 
 def cast_transects(
-    baseline_params,
-    shorelines_params,
-    transects_params,
+    baseline_inputs,
+    shorelines_inputs,
+    transects_inputs,
     project_crs,
     shoreline_change_transects_layer,
 ):
     """Start casting transects.
 
     Args:
-        baseline_params (dict)
-        shorelines_params (dict)
-        transects_params (dict)
+        baseline_inputs (dict)
+        shorelines_inputs (dict)
+        transects_inputs (dict)
         project_crs (QgsCoordinateReferenceSystem)
         shoreline_change_transects_layer (QgsMapLayerComboBox)
     """
     # Checks CRS of the layers
     are_prechecks_passed = prechecks(
-        shorelines_params["shorelines_layer"].crs(),
-        baseline_params["baseline_layer"].crs(),
+        shorelines_inputs["shorelines_layer"].crs(),
+        baseline_inputs["baseline_layer"].crs(),
         project_crs,
     )
 
     if not are_prechecks_passed:
         return
 
-    all_baselines = load_all_baselines(baseline_params)
+    all_baselines = load_all_baselines(baseline_inputs)
     all_angles = []
     all_transects = []
 
@@ -88,14 +86,14 @@ def cast_transects(
     for baselines in all_baselines:
         for baseline in baselines:
             # Get transect origin points
-            distances = get_transect_points(baseline["line"], transects_params)
+            distances = get_transect_points(baseline["line"], transects_inputs)
             points = [
                 QgsPointXY(baseline["line"].interpolatePoint(distance))
                 for distance in distances
             ]
 
             # Custom baseline fields
-            baseline_params_copy = baseline_params.copy()
+            baseline_params_copy = baseline_inputs.copy()
 
             # Baseline placement
             if baseline["placement"] == "sea":
@@ -117,14 +115,14 @@ def cast_transects(
             transect_length = (
                 baseline["transect_length"]
                 if baseline["transect_length"]
-                else int(transects_params["length"])
+                else int(transects_inputs["length"])
             )
 
             # Smoothing distance
             smoothing_distance = (
                 baseline["smoothing_distance"]
                 if baseline["smoothing_distance"]
-                else int(transects_params["smoothing_distance"])
+                else int(transects_inputs["smoothing_distance"])
             )
 
             # Smoothing distance angles
@@ -156,7 +154,7 @@ def cast_transects(
     transects_layer = create_add_layer(
         geometry="LineString",
         geometries=transects,
-        name=transects_params["layer_output_name"],
+        name=transects_inputs["layer_output_name"],
         fields=fields,
         values=values,
     )
@@ -257,14 +255,14 @@ def get_smoothing_angle(baseline, distance, smoothing_val):
     Returns:
         float: The angle in radians.
     """
-    len = baseline.length()
+    _len = baseline.length()
 
     left_distance = distance - (smoothing_val / 2)
     right_distance = distance + (smoothing_val / 2)
 
     left_pt = baseline.interpolatePoint(0 if left_distance < 0 else left_distance)
     right_pt = baseline.interpolatePoint(
-        len if right_distance > len else right_distance
+        _len if right_distance > _len else right_distance
     )
 
     return get_arctan_angle(QgsLineString([left_pt, right_pt]))

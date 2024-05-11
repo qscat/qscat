@@ -4,16 +4,16 @@
 import json
 
 from PyQt5.QtCore import QVariant
+from qgis.core import (
+    QgsFeature,
+    QgsField,
+    QgsGeometry,
+    QgsLineString,
+    QgsProject,
+    QgsVectorLayer,
+)
 
-from qgis.core import QgsFeature
-from qgis.core import QgsField
-from qgis.core import QgsLineString
-from qgis.core import QgsGeometry
-from qgis.core import QgsProject
-from qgis.core import QgsVectorLayer
-
-from qscat.core.utils.date import datetime_now
-from qscat.core.utils.date import convert_to_decimal_year
+from qscat.core.utils.date import convert_to_decimal_year, datetime_now
 
 
 def create_add_layer(

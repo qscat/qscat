@@ -2,11 +2,7 @@
 # QSCAT Plugin — GPL-3.0 license
 
 from PyQt5.QtCore import QVariant
-
-from qgis.core import Qgis
-from qgis.core import QgsField
-from qgis.core import QgsGeometry
-from qgis.core import QgsWkbTypes
+from qgis.core import Qgis, QgsField, QgsGeometry, QgsWkbTypes
 
 from qscat.core.layer import create_add_layer
 from qscat.core.messages import display_message

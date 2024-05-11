@@ -6,17 +6,9 @@ import platform
 
 from qgis.core import Qgis
 
-from qscat.core.utils.input import get_baseline_input_params
-from qscat.core.utils.input import get_project_settings_input_params
-from qscat.core.utils.input import get_shorelines_input_params
-from qscat.core.utils.input import get_shorelines_dates
-from qscat.core.utils.input import get_shorelines_uncs
-from qscat.core.utils.input import get_area_change_input_params
-from qscat.core.utils.input import get_shoreline_change_input_params
-from qscat.core.utils.input import get_transects_input_params
-from qscat.core.utils.plugin import get_metadata_version
-from qscat.core.utils.plugin import get_project_dir
 from qscat.core.constants import Statistic
+from qscat.core.inputs import Inputs
+from qscat.core.utils.plugin import get_metadata_version, get_project_dir
 
 
 class ComputationType:
@@ -26,15 +18,16 @@ class ComputationType:
 
 
 class SummaryReport:
-    def __init__(self, qscat, summary=None):
+    def __init__(self, qdw, summary=None):
         """Create a summary report for shoreline change, area change, and forecasting computations.
 
         Args:
-            qscat (QscatPlugin): QscatPlugin instance.
+            qdw (QscatDockWidget): QscatDockWidget instance.
             summary (dict): Summary of results.
         """
-        self.qscat = qscat
+        self.qdw = qdw
         self.summary = summary
+        self.inputs = Inputs(self.qdw)
 
     def create(self, computation_type):
         """Create the base file that contains the general informations such as
@@ -62,7 +55,7 @@ class SummaryReport:
                 ├── qscat_0.1.0_forecasting_20240410-080512.txt
                 └── ...
         """
-        base_dir = self.qscat.dockwidget.qfw_report_save_location.filePath()
+        base_dir = self.inputs.summary_reports()["save_location"]
 
         if computation_type == ComputationType.SHORELINE_CHANGE:
             summary_reports_dir = os.path.join(base_dir, "shoreline_change")
@@ -79,7 +72,8 @@ class SummaryReport:
 
         summary_report_file_path = os.path.join(summary_reports_dir, file_name)
 
-        project = get_project_settings_input_params(self.qscat)
+        project_inputs = self.inputs.project()
+
         f = open(summary_report_file_path, "w", encoding="utf-8")
         f.write("[PROJECT DETAILS]\n")
         f.write("\n")
@@ -88,12 +82,12 @@ class SummaryReport:
         f.write(f"Project location: {get_project_dir()}\n")
         f.write("\n")
         f.write("PROJECTION:\n")
-        f.write(f'CRS auth id: {project["crs_id"]}\n')
+        f.write(f'CRS auth id: {project_inputs["crs_id"]}\n')
         f.write("\n")
         f.write("AUTHOR:\n")
-        f.write(f'Full name: {project["author_full_name"]}\n')
-        f.write(f'Affiliation: {project["author_affiliation"]}\n')
-        f.write(f'Email: {project["author_email"]}\n')
+        f.write(f'Full name: {project_inputs["author_full_name"]}\n')
+        f.write(f'Affiliation: {project_inputs["author_affiliation"]}\n')
+        f.write(f'Email: {project_inputs["author_email"]}\n')
         f.write("\n")
         f.write("[SYSTEM DETAILS]\n")
         f.write("\n")
@@ -108,86 +102,96 @@ class SummaryReport:
         """Create a summary report for shoreline change computation."""
         f = self.create(ComputationType.SHORELINE_CHANGE)
 
-        shorelines = get_shorelines_input_params(self.qscat)
-        baseline = get_baseline_input_params(self.qscat)
-        transects = get_transects_input_params(self.qscat)
-        shoreline_change = get_shoreline_change_input_params(self.qscat)
+        shorelines_inputs = self.inputs.shorelines()
+        baseline_inputs = self.inputs.baseline()
+        transects_inputs = self.inputs.transects()
+        shoreline_change_inputs = self.inputs.shoreline_change()
 
-        uncs = ", ".join([f"{x:.2f}" for x in get_shorelines_uncs(self.qscat)])
+        uncs = ", ".join([f"{x:.2f}" for x in self.inputs.shorelines_uncs()])
 
         f.write("[INPUT PARAMETERS]\n")
         f.write("\n")
         f.write("SHORELINES TAB:\n")
-        f.write(f'Layer: {shorelines["shorelines_layer"].name()}\n')
-        f.write(f'Default data uncertainty: {shorelines["default_data_uncertainty"]}\n')
-        f.write(f'Date field: {shorelines["date_field"]}\n')
-        f.write(f'Uncertainty field: {shorelines["uncertainty_field"]}\n')
-        f.write(f'Dates: {", ".join(get_shorelines_dates(self.qscat))}\n')
+        f.write(f'Layer: {shorelines_inputs["shorelines_layer"].name()}\n')
+        f.write(
+            f'Default data uncertainty: {shorelines_inputs["default_data_uncertainty"]}\n'
+        )
+        f.write(f'Date field: {shorelines_inputs["date_field"]}\n')
+        f.write(f'Uncertainty field: {shorelines_inputs["uncertainty_field"]}\n')
+        f.write(f'Dates: {", ".join(self.inputs.shorelines_dates())}\n')
         f.write(f"Uncertainties: {uncs}\n")
         f.write("\n")
 
-        if baseline["is_baseline_placement_sea"]:
+        if baseline_inputs["is_baseline_placement_sea"]:
             placement = "Sea or Offshore"
-        elif baseline["is_baseline_placement_land"]:
+        elif baseline_inputs["is_baseline_placement_land"]:
             placement = "Land or Onshore"
-        if baseline["is_baseline_orientation_land_right"]:
+        if baseline_inputs["is_baseline_orientation_land_right"]:
             orientation = "Land is to the RIGHT"
-        elif baseline["is_baseline_orientation_land_left"]:
+        elif baseline_inputs["is_baseline_orientation_land_left"]:
             orientation = "Land is to the LEFT"
 
         f.write("BASELINE TAB:\n")
-        f.write(f'Layer: {baseline["baseline_layer"].name()}\n')
+        f.write(f'Layer: {baseline_inputs["baseline_layer"].name()}\n')
         f.write(f"Placement: {placement}\n")
         f.write(f"Orientation: {orientation}\n")
         f.write("\n")
         f.write("TRANSECTS TAB:\n")
-        f.write(f'Layer output name: {transects["layer_output_name"]}\n')
+        f.write(f'Layer output name: {transects_inputs["layer_output_name"]}\n')
 
-        if transects["is_by_transect_spacing"]:
+        if transects_inputs["is_by_transect_spacing"]:
             f.write("Transect count: By transect spacing\n")
-            f.write(f'Transect spacing: {transects["by_transect_spacing"]} meters\n')
-        elif transects["is_by_number_of_transects"]:
+            f.write(
+                f'Transect spacing: {transects_inputs["by_transect_spacing"]} meters\n'
+            )
+        elif transects_inputs["is_by_number_of_transects"]:
             f.write("Transect count: By number of transects\n")
             f.write(
-                f'Number of transects: {transects["by_number_of_transects"]} transects\n'
+                f'Number of transects: {transects_inputs["by_number_of_transects"]} transects\n'
             )
-        f.write(f'Transect length: {transects["length"]} meters\n')
-        f.write(f'Smoothing distance: {transects["smoothing_distance"]} meters\n')
+        f.write(f'Transect length: {transects_inputs["length"]} meters\n')
+        f.write(
+            f'Smoothing distance: {transects_inputs["smoothing_distance"]} meters\n'
+        )
 
         f.write("\n")
         f.write("SHORELINE CHANGE TAB:\n")
-        f.write(f'Transects layer: {shoreline_change["transects_layer"].name()}\n')
-        clip_transects = "Yes" if shoreline_change["is_clip_transects"] else "No"
+        f.write(
+            f'Transects layer: {shoreline_change_inputs["transects_layer"].name()}\n'
+        )
+        clip_transects = "Yes" if shoreline_change_inputs["is_clip_transects"] else "No"
 
         f.write(f"Clip transects: {clip_transects}\n")
-        if shoreline_change["is_choose_by_distance"]:
+        if shoreline_change_inputs["is_choose_by_distance"]:
             f.write("Intersections: Choose by distance\n")
-            if shoreline_change["is_choose_by_distance_farthest"]:
+            if shoreline_change_inputs["is_choose_by_distance_farthest"]:
                 f.write("By distance: Farthest\n")
-            elif shoreline_change["is_choose_by_distance_closest"]:
+            elif shoreline_change_inputs["is_choose_by_distance_closest"]:
                 f.write("By distance: Closest\n")
-        elif shoreline_change["is_choose_by_placement"]:
+        elif shoreline_change_inputs["is_choose_by_placement"]:
             f.write("Intersections: Choose by placement\n")
-            if shoreline_change["is_choose_by_placement_seaward"]:
+            if shoreline_change_inputs["is_choose_by_placement_seaward"]:
                 f.write("By placement: Seaward\n")
-            elif shoreline_change["is_choose_by_placement_landward"]:
+            elif shoreline_change_inputs["is_choose_by_placement_landward"]:
                 f.write("By placement: Landward\n")
 
         f.write(
-            f'Selected statistics: {", ".join(shoreline_change["selected_stats"])}\n'
+            f'Selected statistics: {", ".join(shoreline_change_inputs["selected_stats"])}\n'
         )
-        f.write(f'Newest date: {shoreline_change["newest_date"]}\n')
-        f.write(f'Oldest date: {shoreline_change["oldest_date"]}\n')
-        f.write(f'Newest year: {shoreline_change["newest_year"]}\n')
-        f.write(f'Oldest year: {shoreline_change["oldest_year"]}\n')
-        f.write(f'Confidence interval: {shoreline_change["confidence_interval"]}\n')
+        f.write(f'Newest date: {shoreline_change_inputs["newest_date"]}\n')
+        f.write(f'Oldest date: {shoreline_change_inputs["oldest_date"]}\n')
+        f.write(f'Newest year: {shoreline_change_inputs["newest_year"]}\n')
+        f.write(f'Oldest year: {shoreline_change_inputs["oldest_year"]}\n')
+        f.write(
+            f'Confidence interval: {shoreline_change_inputs["confidence_interval"]}\n'
+        )
         f.write("\n")
         f.write("[SUMMARY OF RESULTS]\n")
         f.write("\n")
         f.write(f'Total no. of transects: {self.summary["num_of_transects"]}\n')
         f.write("\n")
 
-        selected_stats = shoreline_change["selected_stats"]
+        selected_stats = shoreline_change_inputs["selected_stats"]
 
         if Statistic.SCE in selected_stats:
             f.write("SHORELINE CHANGE ENVELOPE (SCE):\n")
@@ -312,13 +316,15 @@ class SummaryReport:
         """Create a summary report for area change computation."""
         f = self.create(ComputationType.AREA_CHANGE)
 
-        area = get_area_change_input_params(self.qscat)
+        area_inputs = self.inputs.area_change()
 
         f.write("[INPUT PARAMETERS]\n")
         f.write("\n")
         f.write("AREA:\n")
-        f.write(f'Polygon layer: {area["polygon_layer"].name()}\n')
-        f.write(f'Shoreline change statistic layer: {area["stat_layer"].name()}\n')
+        f.write(f'Polygon layer: {area_inputs["polygon_layer"].name()}\n')
+        f.write(
+            f'Shoreline change statistic layer: {area_inputs["stat_layer"].name()}\n'
+        )
 
         f.write("\n")
         f.write("[SUMMARY OF RESULTS]\n")

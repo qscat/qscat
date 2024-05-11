@@ -3,31 +3,22 @@
 
 import packaging.version
 import requests
-
-from qgis.core import Qgis
-from qgis.core import QgsApplication
-from qgis.core import QgsMessageLog
-from qgis.core import QgsSettings
-from qgis.core import QgsTask
-
-from qgis.utils import iface
-
-from PyQt5.QtCore import Qt
-from PyQt5.QtCore import QUrl
-
+from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QDesktopServices
-
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtWidgets import QDialog
-from PyQt5.QtWidgets import QVBoxLayout
-from PyQt5.QtWidgets import QTextBrowser
-from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtWidgets import QHBoxLayout
+from PyQt5.QtWidgets import (
+    QDialog,
+    QHBoxLayout,
+    QMessageBox,
+    QPushButton,
+    QTextBrowser,
+    QVBoxLayout,
+    QWidget,
+)
+from qgis.core import Qgis, QgsApplication, QgsMessageLog, QgsSettings, QgsTask
+from qgis.utils import iface
 
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.plugin import get_metadata_version
-
 
 LOCAL_PLUGIN_NAME = "qscat"
 REPOSITORY_NAME = "qscat"
