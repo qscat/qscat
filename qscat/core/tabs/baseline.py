@@ -43,9 +43,9 @@ def show_hide_baseline_orientation(qscat):
         symbol = layer.renderer().symbol()
 
     # Change stroke color to black
-    for l in symbol.symbolLayers():
-        if isinstance(l, QgsSimpleLineSymbolLayer):
-            l.setColor(QColor(0, 0, 0))
+    for layer in symbol.symbolLayers():
+        if isinstance(layer, QgsSimpleLineSymbolLayer):
+            layer.setColor(QColor(0, 0, 0))
 
     if qscat.dockwidget.cb_baseline_show_orientation.isChecked():
         # QgsSymbolLayerAbstractMetadata
@@ -81,8 +81,8 @@ def show_hide_baseline_orientation(qscat):
         # Get the indices of all QgsMarkerLineSymbolLayer
         marker_indices = [
             i
-            for i, l in enumerate(symbol.symbolLayers())
-            if isinstance(l, QgsMarkerLineSymbolLayer)
+            for i, layer in enumerate(symbol.symbolLayers())
+            if isinstance(layer, QgsMarkerLineSymbolLayer)
         ]
 
         for index in reversed(marker_indices):
