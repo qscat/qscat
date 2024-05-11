@@ -73,6 +73,8 @@ def cast_transects(
         shorelines_inputs["shorelines_layer"].crs(),
         baseline_inputs["baseline_layer"].crs(),
         project_crs,
+        shorelines_inputs["shorelines_layer"].name(),
+        baseline_inputs["baseline_layer"].name(),
     )
 
     if not are_prechecks_passed:
@@ -268,7 +270,13 @@ def get_smoothing_angle(baseline, distance, smoothing_val):
     return get_arctan_angle(QgsLineString([left_pt, right_pt]))
 
 
-def prechecks(shorelines_layer_crs, baseline_layer_crs, project_crs):
+def prechecks(
+    shorelines_layer_crs,
+    baseline_layer_crs,
+    project_crs,
+    shorelines_layer_name,
+    baseline_layer_name,
+):
     """Prechecks for casting transects.
 
     Note:
@@ -279,20 +287,22 @@ def prechecks(shorelines_layer_crs, baseline_layer_crs, project_crs):
         shorelines_layer_crs (QgsCoordinateReferenceSystem)
         baseline_layer_crs (QgsCoordinateReferenceSystem)
         project_crs (QgsCoordinateReferenceSystem)
+        shorelines_layer_name (str)
+        baseline_layer_name (str)
 
     Returns:
         bool: True if prechecks passed, otherwise False.
     """
     if shorelines_layer_crs != project_crs:
         display_message(
-            "The CRS of the selected shoreline layer does not match the project CRS.",
+            f"The selected shorelines layer ({shorelines_layer_name}) CRS ({shorelines_layer_crs.authid()}) doesn't match the project CRS ({project_crs.authid()}).",
             Qgis.Critical,
         )
         return False
 
     if baseline_layer_crs != project_crs:
         display_message(
-            "The CRS of the selected baseline layer does not match the project CRS.",
+            f"The selected baseline layer ({baseline_layer_name}) CRS ({baseline_layer_crs.authid()}) doesn't match the project CRS ({project_crs.authid()}).",
             Qgis.Critical,
         )
         return False
