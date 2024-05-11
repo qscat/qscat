@@ -16,20 +16,20 @@ def validate_shorelines_layer(qdw):
     Returns:
         bool: True if valid, False otherwise.
     """
-    shorelines_layer = qdw.qmlcb_shorelines_layer.currentLayer().name()
+    shorelines_layer_name = qdw.qmlcb_shorelines_layer.currentLayer().name()
 
     # Check features existence
-    if qdw.qmlcb_shorelines_layer.currentLayer().featureCount() <= 0:
+    if qdw.qmlcb_shorelines_layer.currentLayer().featureCount() < 2:
         display_message(
-            f'The selected shorelines layer "{shorelines_layer}" has no features.',
+            f"The selected shorelines layer ({shorelines_layer_name}) has less than 2 features.",
             Qgis.Warning,
         )
         return False
 
     # Check fields existence
-    if qdw.qfcb_shorelines_date_field.count() <= 0:
+    if len(qdw.qmlcb_shorelines_layer.fields()) < 2:
         display_message(
-            f'The selected shorelines layer "{shorelines_layer}" has no fields.',
+            f"The selected shorelines layer ({shorelines_layer_name}) has less than 2 fields.",
             Qgis.Warning,
         )
         return False
@@ -44,10 +44,10 @@ def validate_shorelines_layer(qdw):
         # Show only 10 invalid date inputs
         if len(invalid) <= 10:
             invalid_str = ", ".join(invalid)
-            message = f'The selected shorelines layer "{shorelines_layer}" has invalid date inputs: {invalid_str}.'
+            message = f"The selected shorelines layer ({shorelines_layer_name}) has invalid date inputs: {invalid_str}."
         elif len(invalid) > 10:
             invalid_str = ", ".join(invalid[:10])
-            message = f'The selected shorelines layer "{shorelines_layer}" has invalid date inputs: {invalid_str}...'
+            message = f"The selected shorelines layer ({shorelines_layer_name}) has invalid date inputs: {invalid_str}..."
 
         display_message(message, Qgis.Warning)
         return False
