@@ -10,22 +10,18 @@ from qscat.core.utils.layer import is_field_in_layer
 
 
 # On button clicks
-def automate_shoreline_field_button_clicked(qscat):
+def automate_shoreline_field_button_clicked(qdw):
     """Automate creation of shoreline field (on button clicked).
 
     Args:
-        qscat (QscatPlugin): QscatPlugin instance.
+        qdw (QscatDockWidget): QscatDockWidget instance.
     """
-    layer = qscat.dockwidget.qmlcb_automator_field_shoreline_layer.currentLayer()
-    date_field = qscat.dockwidget.le_automator_field_shoreline_date_field_name.text()
-    unc_field = qscat.dockwidget.le_automator_field_shoreline_unc_field_name.text()
+    layer = qdw.qmlcb_automator_field_shoreline_layer.currentLayer()
+    date_field = qdw.le_automator_field_shoreline_date_field_name.text()
+    unc_field = qdw.le_automator_field_shoreline_unc_field_name.text()
 
-    is_date_field_checked = (
-        qscat.dockwidget.chb_automator_field_shoreline_date_field.isChecked()
-    )
-    is_unc_field_checked = (
-        qscat.dockwidget.chb_automator_field_shoreline_unc_field.isChecked()
-    )
+    is_date_field_checked = qdw.chb_automator_field_shoreline_date_field.isChecked()
+    is_unc_field_checked = qdw.chb_automator_field_shoreline_unc_field.isChecked()
 
     automate_shoreline_field(
         layer,
@@ -36,34 +32,26 @@ def automate_shoreline_field_button_clicked(qscat):
     )
 
 
-def automate_baseline_field_button_clicked(qscat):
+def automate_baseline_field_button_clicked(qdw):
     """Automate creation of baseline field (on button clicked).
 
     Args:
-        qscat (QscatPlugin): QscatPlugin instance.
+        qdw (QscatDockWidget): QscatDockWidget instance.
     """
-    layer = qscat.dockwidget.qmlcb_automator_field_baseline_layer.currentLayer()
-    placement_field = (
-        qscat.dockwidget.le_automator_field_baseline_placement_field_name.text()
-    )
-    orientation_field = (
-        qscat.dockwidget.le_automator_field_baseline_orientation_field_name.text()
-    )
-    length_field = qscat.dockwidget.le_automator_field_baseline_length_field_name.text()
-    smoothing_field = (
-        qscat.dockwidget.le_automator_field_baseline_smoothing_field_name.text()
-    )
+    layer = qdw.qmlcb_automator_field_baseline_layer.currentLayer()
+    placement_field = qdw.le_automator_field_baseline_placement_field_name.text()
+    orientation_field = qdw.le_automator_field_baseline_orientation_field_name.text()
+    length_field = qdw.le_automator_field_baseline_length_field_name.text()
+    smoothing_field = qdw.le_automator_field_baseline_smoothing_field_name.text()
     is_placement_field_checked = (
-        qscat.dockwidget.chb_automator_field_baseline_placement_field.isChecked()
+        qdw.chb_automator_field_baseline_placement_field.isChecked()
     )
     is_orientation_field_checked = (
-        qscat.dockwidget.chb_automator_field_baseline_orientation_field.isChecked()
+        qdw.chb_automator_field_baseline_orientation_field.isChecked()
     )
-    is_length_field_checked = (
-        qscat.dockwidget.chb_automator_field_baseline_length_field.isChecked()
-    )
+    is_length_field_checked = qdw.chb_automator_field_baseline_length_field.isChecked()
     is_smoothing_field_checked = (
-        qscat.dockwidget.chb_automator_field_baseline_smoothing_field.isChecked()
+        qdw.chb_automator_field_baseline_smoothing_field.isChecked()
     )
     automate_baseline_field(
         layer,
@@ -78,14 +66,14 @@ def automate_baseline_field_button_clicked(qscat):
     )
 
 
-def automate_baseline_buffer_button_clicked(qscat):
+def automate_baseline_buffer_button_clicked(qdw):
     """Automate creation of baseline buffer (on button clicked).
 
     Args:
-        qscat (QscatPlugin): QscatPlugin instance.
+        qdw (QscatDockWidget): QscatDockWidget instance.
     """
-    layer = qscat.dockwidget.qmlcb_automator_baseline_shorelines_layer.currentLayer()
-    distance = int(qscat.dockwidget.qsb_automator_baseline_buffer_distance.text())
+    layer = qdw.qmlcb_automator_baseline_shorelines_layer.currentLayer()
+    distance = int(qdw.qsb_automator_baseline_buffer_distance.text())
 
     automate_baseline_buffer(layer, distance)
 

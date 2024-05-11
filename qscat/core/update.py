@@ -25,16 +25,26 @@ REPOSITORY_NAME = "qscat"
 REPOSITORY_USERNAME = "qscat"
 
 
-def check_updates_button_clicked(self):
+def check_updates_button_clicked(qdw):
+    """Check for updates on button click.
+
+    Args:
+        qdw (QscatDockWidget): QscatDockWidget instance.
+    """
     globals()["task_check_updates_on_click"] = CheckUpdatesTask()
     QgsApplication.taskManager().addTask(globals()["task_check_updates_on_click"])
 
     globals()["task_check_updates_on_click"].taskCompleted.connect(
-        lambda: check_updates_on_click_task_complete(self)
+        lambda: check_updates_on_click_task_complete(qdw)
     )
 
 
-def check_updates_on_click_task_complete(self):
+def check_updates_on_click_task_complete(qdw):
+    """Check for updates on button click task complete.
+
+    Args:
+        qdw (QscatDockWidget): QscatDockWidget instance.
+    """
     task = globals()["task_check_updates_on_click"]
     if task.status() == QgsTask.Complete:
         release_info = task.release_info
@@ -49,7 +59,7 @@ def check_updates_on_click_task_complete(self):
         current_version = get_metadata_version()
 
         last_checked_datetime = datetime_now()
-        self.dockwidget.lbl_about_latest_version.setText(
+        qdw.lbl_about_latest_version.setText(
             f"You have the latest version ({latest_version}) "
             f"(last checked {last_checked_datetime})"
         )

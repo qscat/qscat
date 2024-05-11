@@ -8,25 +8,25 @@ from PyQt5.QtCore import Qt
 from qscat.core.inputs import Inputs
 
 
-def select_all_stats_checkbox(qscat):
+def select_all_stats_checkbox(qdw):
     """Select and deselect all statistics checkboxes if the select all checkbox
     is checked or unchecked.
 
     Args:
-        qscat (QscatPlugin): QscatPlugin instance.
+        qdw (QscatDockWidget): QscatDockWidget instance.
     """
-    if qscat.dockwidget.cb_stats_select_all.isChecked():
-        qscat.dockwidget.cb_stats_SCE.setChecked(True)
-        qscat.dockwidget.cb_stats_NSM.setChecked(True)
-        qscat.dockwidget.cb_stats_EPR.setChecked(True)
-        qscat.dockwidget.cb_stats_LRR.setChecked(True)
-        qscat.dockwidget.cb_stats_WLR.setChecked(True)
+    if qdw.cb_stats_select_all.isChecked():
+        qdw.cb_stats_SCE.setChecked(True)
+        qdw.cb_stats_NSM.setChecked(True)
+        qdw.cb_stats_EPR.setChecked(True)
+        qdw.cb_stats_LRR.setChecked(True)
+        qdw.cb_stats_WLR.setChecked(True)
     else:
-        qscat.dockwidget.cb_stats_SCE.setChecked(False)
-        qscat.dockwidget.cb_stats_NSM.setChecked(False)
-        qscat.dockwidget.cb_stats_EPR.setChecked(False)
-        qscat.dockwidget.cb_stats_LRR.setChecked(False)
-        qscat.dockwidget.cb_stats_WLR.setChecked(False)
+        qdw.cb_stats_SCE.setChecked(False)
+        qdw.cb_stats_NSM.setChecked(False)
+        qdw.cb_stats_EPR.setChecked(False)
+        qdw.cb_stats_LRR.setChecked(False)
+        qdw.cb_stats_WLR.setChecked(False)
 
 
 def update_newest_oldest_date_called(qdw):

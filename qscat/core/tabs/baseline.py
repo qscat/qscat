@@ -15,11 +15,11 @@ from qgis.core import (
 from qscat.core.utils.plugin import get_plugin_dir
 
 
-def show_hide_baseline_orientation(qscat):
+def show_hide_baseline_orientation(qdw):
     """Update baseline layer symbology to show and hide orientation.
 
     Args:
-        qscat (QscatPlugin): QscatPlugin instance.
+        qdw (QscatDockWidget): QscatDockWidget instance.
 
     Notes:
         Line (QgsLineSymbol)
@@ -27,7 +27,7 @@ def show_hide_baseline_orientation(qscat):
         --Marker (QgsMarkerSymbol)
         ---SVG Marker (QgsSvgMarkerSymbolLayer)
     """
-    layer = qscat.dockwidget.qmlcb_baseline_layer.currentLayer()
+    layer = qdw.qmlcb_baseline_layer.currentLayer()
 
     if not layer:
         return
@@ -47,7 +47,7 @@ def show_hide_baseline_orientation(qscat):
         if isinstance(layer, QgsSimpleLineSymbolLayer):
             layer.setColor(QColor(0, 0, 0))
 
-    if qscat.dockwidget.cb_baseline_show_orientation.isChecked():
+    if qdw.cb_baseline_show_orientation.isChecked():
         # QgsSymbolLayerAbstractMetadata
         marker_meta = registry.symbolLayerMetadata("MarkerLine")
 
