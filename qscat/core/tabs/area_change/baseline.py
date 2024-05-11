@@ -43,9 +43,9 @@ def show_hide_baseline_orientation(qdw):
         symbol = layer.renderer().symbol()
 
     # Change stroke color to black
-    for layer in symbol.symbolLayers():
-        if isinstance(layer, QgsSimpleLineSymbolLayer):
-            layer.setColor(QColor(0, 0, 0))
+    for symbol_layer in symbol.symbolLayers():
+        if isinstance(symbol_layer, QgsSimpleLineSymbolLayer):
+            symbol_layer.setColor(QColor(0, 0, 0))
 
     if qdw.cb_baseline_show_orientation.isChecked():
         # QgsSymbolLayerAbstractMetadata
@@ -81,8 +81,8 @@ def show_hide_baseline_orientation(qdw):
         # Get the indices of all QgsMarkerLineSymbolLayer
         marker_indices = [
             i
-            for i, layer in enumerate(symbol.symbolLayers())
-            if isinstance(layer, QgsMarkerLineSymbolLayer)
+            for i, symbol_layer in enumerate(symbol.symbolLayers())
+            if isinstance(symbol_layer, QgsMarkerLineSymbolLayer)
         ]
 
         for index in reversed(marker_indices):
