@@ -4,10 +4,6 @@
 from qscat.core.utils.layer import is_field_in_layer
 
 
-def get_newest_oldest_date_from_layer(layer, date_field):
-    pass
-
-
 def get_interest_transects_within_polygon(layer, polygon, polygon_name):
     """Get transects within polygon.
 
