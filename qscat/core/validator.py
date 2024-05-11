@@ -27,7 +27,7 @@ def validate_shorelines_layer(qdw):
         return False
 
     # Check fields existence
-    if len(qdw.qmlcb_shorelines_layer.fields()) < 2:
+    if len(qdw.qmlcb_shorelines_layer.currentLayer().fields()) < 2:
         display_message(
             f"The selected shorelines layer ({shorelines_layer_name}) has less than 2 fields.",
             Qgis.Warning,
