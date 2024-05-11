@@ -19,7 +19,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `Visualization Tab`: Add option to select column, and input uncertainty value to support layers generated outside QSCAT.
 - `Baseline Tab`, `Automator Tab`: Add smoothing distance field.
+- `Shoreline Change Tab`, `Area Change Tab`, `Forecasting Tab`, `Visualization Tab`, `Summary Reports Tab`: Add input saving.
+- `Help Tab`: Add useful links.
+- `Shorelines Tab`: Add selected shorelines layer validation when changing layer selections.
+
+### Changed
+
+- `Shoreline Change Tab`: Make newest and oldest date selection automatic; no need to button to update.
+- Major code reformatting and refactor.
 
 ## [0.4.0] - 2024-05-06
 
