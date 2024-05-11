@@ -558,7 +558,7 @@ class ShorelineChange:
             if shoreline_layer.featureCount() < 3:
                 display_message(
                     "LRR and WLR requires atleast 3 shorelines.",
-                    Qgis.Warning,
+                    Qgis.Critical,
                 )
                 return False
         return True
