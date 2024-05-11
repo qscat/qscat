@@ -14,7 +14,7 @@ from qgis.gui import (
 
 from qscat.core.inputs import Inputs
 from qscat.core.messages import display_message
-from qscat.core.tabs.project_setting import load_current_projection
+from qscat.core.tabs.project import load_current_projection
 
 
 class Settings:
