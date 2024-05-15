@@ -88,13 +88,14 @@ class Settings:
                 QgsSpinBox,
                 QgsFileWidget,
                 QgsDoubleSpinBox,
-                QComboBox,
             ),
         ):
             _type = str
         elif isinstance(widget, (QRadioButton, QCheckBox)):
             _type = bool
-
+        elif isinstance(widget, QComboBox):
+            _type = int
+            
         value, res = self.read(key, _type)
 
         if res:
@@ -111,8 +112,9 @@ class Settings:
             elif isinstance(widget, QgsFieldComboBox):
                 widget.setField(value)
             elif isinstance(widget, QComboBox):
-                i = widget.findText(value, Qt.MatchExactly)
-                widget.setCurrentIndex(i)
+                #i = widget.findText(value, Qt.MatchExactly)
+                #widget.setCurrentIndex(i)
+                widget.setCurrentIndex(value)
             elif isinstance(widget, QgsFileWidget):
                 widget.setFilePath(value)
             else:
