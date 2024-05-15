@@ -81,7 +81,7 @@ def apply_color_ramp_button_clicked(qdw):
     apply_color_ramp(
         visualization_inputs["stat_layer"],
         visualization_inputs["stat_field"],
-        visualization_inputs["mode"],
+        int(visualization_inputs["mode"]),
         int(visualization_inputs["neg_classes"]),
         int(visualization_inputs["pos_classes"]),
         visualization_inputs["unc_value"],
