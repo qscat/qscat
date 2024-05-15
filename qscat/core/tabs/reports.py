@@ -114,10 +114,10 @@ class SummaryReport:
         f.write("SHORELINES TAB:\n")
         f.write(f'Layer: {shorelines_inputs["shorelines_layer"].name()}\n')
         f.write(
-            f'Default data uncertainty: {shorelines_inputs["default_data_uncertainty"]}\n'
+            f'Default data uncertainty: {shorelines_inputs["default_data_unc"]}\n'
         )
         f.write(f'Date field: {shorelines_inputs["date_field"]}\n')
-        f.write(f'Uncertainty field: {shorelines_inputs["uncertainty_field"]}\n')
+        f.write(f'Uncertainty field: {shorelines_inputs["unc_field"]}\n')
         f.write(f'Dates: {", ".join(self.inputs.shorelines_dates())}\n')
         f.write(f"Uncertainties: {uncs}\n")
         f.write("\n")

@@ -128,12 +128,12 @@ def load_shorelines(shorelines_params):
             QgsGeometry.fromPolylineXY(l) for l in feat.geometry().asMultiPolyline()
         ]
         if (
-            feat[shorelines_params["uncertainty_field"]] is None
-            or not feat[shorelines_params["uncertainty_field"]] > 0.0
+            feat[shorelines_params["unc_field"]] is None
+            or not feat[shorelines_params["unc_field"]] > 0.0
         ):
-            shoreline["unc"] = float(shorelines_params["default_data_uncertainty"])
+            shoreline["unc"] = float(shorelines_params["default_data_unc"])
         else:
-            shoreline["unc"] = float(feat[shorelines_params["uncertainty_field"]])
+            shoreline["unc"] = float(feat[shorelines_params["unc_field"]])
         shorelines.append(shoreline)
 
     return shorelines
