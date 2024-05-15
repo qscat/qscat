@@ -68,6 +68,7 @@ class Inputs:
     def shoreline_change(self):
         """Read the inputs in Shoreline Change Tab."""
         return {
+            "transects_layer_widget": self.qdw.qmlcb_shoreline_change_transects_layer,
             "transects_layer": self.qdw.qmlcb_shoreline_change_transects_layer.currentLayer(),
             "is_clip_transects": self.qdw.cb_stats_clip_transects.isChecked(),
             "is_choose_by_distance": self.qdw.rb_choose_by_distance.isChecked(),
@@ -136,7 +137,7 @@ class Inputs:
             "stat_layer": self.qdw.qmlcb_vis_stat_layer.currentLayer(),
             "stat_field": self.qdw.qfcb_vis_stat_field.currentField(),
             "unc_value": self.qdw.le_vis_unc_value.text(),
-            "mode": self.qdw.cb_vis_mode.currentText(),
+            "mode": int(self.qdw.cb_vis_mode.currentIndex()),
             "neg_classes": self.qdw.qsb_vis_neg_classes.text(),
             "pos_classes": self.qdw.qsb_vis_pos_classes.text(),
         }
@@ -223,8 +224,8 @@ class Inputs:
     def epr_unc(self):
         """Calculate the EPR uncertainty from the current selected shoreline layer."""
         default_unc = self.shorelines()["default_data_unc"]
-        oldest_year = self.shoreline_change()["oldest_date"]
-        newest_year = self.shoreline_change()["newest_date"]
+        oldest_year = self.qdw.cb_shoreline_change_oldest_date.currentText()
+        newest_year = self.qdw.cb_shoreline_change_newest_date.currentText()
 
         newest_date_unc = self.unc_by_date(newest_year)
         oldest_date_unc = self.unc_by_date(oldest_year)
