@@ -961,7 +961,7 @@
               <string>none</string>
              </property>
              <property name="allowEmptyFieldName">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
             </widget>
            </item>
