@@ -89,9 +89,9 @@ See [QSCAT User Manual - Sample Workflow](https://qscat.github.io/docs/latest/ma
 
 ## Resources
 - [QSCAT Website](https://qscat.github.io)
-- [QSCAT Documentation](https://qscat.readthedocs.io)
-- [QSCAT Documentation](https://qscat.github.io/docs/latest/manual)
-- [QSCAT Facebook](https://web.facebook.com/qscatplugin)
+- [QSCAT Documentation](https://qscat.github.io/docs/latest)
+- [QSCAT User Manual](https://qscat.github.io/docs/latest/manual)
+- [QSCAT Facebook Page](https://web.facebook.com/qscatplugin)
 - [QSCAT Facebook Group](https://web.facebook.com/groups/qscat)
 - [QSCAT Twitter](https://twitter.com/qscatplugin)
   
