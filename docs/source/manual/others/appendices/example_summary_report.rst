@@ -1,7 +1,7 @@
 .. index:: Example Summary Reports
 .. _appendices_example_summary_reports:
 
-Appendix 1: Example Summary Reports
+Appendix 2: Example Summary Reports
 ===================================
 
 Shoreline Change
