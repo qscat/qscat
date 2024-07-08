@@ -3,10 +3,45 @@
 
 project = "QSCAT"
 copyright = "2024, QSCAT"
-author = """Louis Facun, Fernando Siringan, Floribeth Cuison, Ara Rivina Malaya,
-Ma. Yvainne Sta. Maria, Jamela Jirah Clemente, Angelo Maon, Ellen Mae Carmelo, 
-and Rodel Ducao
+author = """Louis Philippe Facun, Ma. Yvainne Sta. Maria, Rodel Ducao,
+Jamela Jirah Clemente, Ellen Mae Carmelo, Angelo Maon,
+Ara Rivina Malaya, Floribeth Cuison, and Fernando Siringan"""
+
+latex_documents = [
+    ('index', 'QSCAT.tex', 'QSCAT',
+     'Louis Philippe Facun\\and Ma. Yvainne Sta. Maria\\and Rodel Ducao'
+     '\\and Jamela Jirah Clemente\\and Ellen Mae Carmelo\\and Angelo Maon'
+     '\\and Ara Rivina Malaya\\and Floribeth Cuison\\and and Fernando Siringan', 'manual'),
+]
+
+# latex_documents = [
+#     ('index', 'QSCAT.tex', 'QSCAT',
+#      'John Hunter\\and Darren Dale\\and Eric Firing\\and Michael Droettboom'
+#      '\\and and the matplotlib development team', 'manual'),
+# ]
+latex_elements = {}
+latex_elements['preamble'] = r"""
+   % One line per author on title page
+   \DeclareRobustCommand{\and}%
+     {\end{tabular}\kern-\tabcolsep\\\begin{tabular}[t]{c}}%
+   % In the parameters section, place a newline after the Parameters
+   % header.  (This is stolen directly from Numpy's conf.py, since it
+   % affects Numpy-style docstrings).
+   \usepackage{expdlist}
+   \let\latexdescription=\description
+   \def\description{\latexdescription{}{} \breaklabel}
+   \usepackage{amsmath}
+   \usepackage{amsfonts}
+   \usepackage{amssymb}
+   \usepackage{txfonts}
+   % The enumitem package provides unlimited nesting of lists and
+   % enums.  Sphinx may use this in the future, in which case this can
+   % be removed.  See
+   % https://bitbucket.org/birkenfeld/sphinx/issue/777/latex-output-too-deeply-nested
+   \usepackage{enumitem}
+   \setlistdepth{2048}
 """
+latex_elements['pointsize'] = '11pt'
 
 release = "0.4.0"
 version = "0.4.0"
