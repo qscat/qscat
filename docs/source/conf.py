@@ -43,8 +43,8 @@ latex_elements['preamble'] = r"""
 """
 latex_elements['pointsize'] = '11pt'
 
-release = "0.4.0"
-version = "0.4.0"
+release = "0.4.1"
+version = "0.4.1"
 
 # -- General configuration
 

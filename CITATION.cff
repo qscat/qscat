@@ -27,6 +27,6 @@ authors:
 - family-names: "Siringan"
   given-names: "Fernando"
 
-version: 0.4.0
-date-released: "2024-05-06"
+version: 0.4.1
+date-released: "2024-07-18"
 url: "https://github.com/qscat/qscat"
