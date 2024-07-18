@@ -306,9 +306,9 @@ Configuring the shoreline and baseline layer attributes
 Shorelines
 ----------
 
-Next, we need to add details of each shoreline such as its date and its uncertainty value of the images. We can use :guilabel:`Shoreline Fields Automator` to add the required fields for these.
+Next, we need to add details of each shoreline such as its date and its uncertainty value of the images. We can use :guilabel:`Shoreline fields automator` to add the required fields for these.
 
-#. Navigate to :guilabel:`Automator Tab`. Then, in the :guilabel:`Fields - Shoreline`, select the merged shoreline layer from :guilabel:`Shoreline layer`. Make sure |checkbox|:guilabel:`Date field name` and |checkbox| :guilabel:`Uncertainty field name` is both checked. Type the appropriate date field name and uncertainty field name or leave as is. In this example, we choose ``qs_date`` and ``qs_unc`` as the field names. Click :guilabel:`Add Fields`.
+#. Navigate to :guilabel:`Automator Tab`. Then, in the :guilabel:`Shorelines fields`, select the merged shoreline layer from :guilabel:`Shorelines layer`. Make sure |checkbox|:guilabel:`Date field name` and |checkbox| :guilabel:`Uncertainty field name` is both checked. Type the appropriate date field name and uncertainty field name or leave as is. In this example, we choose ``qs_date`` and ``qs_unc`` as the field names. Click :guilabel:`Add Fields`.
 
    .. figure:: /img/workflow/simple_data/attributes/automating-shoreline-fields.png
       :align: center
@@ -416,7 +416,7 @@ We can now start the process of running shoreline change analysis. The first ste
 
 #. Go to :guilabel:`Transects Tab`.
 
-   In :guilabel:`Layer` section, select a name for the transect layer in :guilabel:`Layer output name`. In this example, we leave ``transects`` as is (see :ref:`tab_transects_vector_layer_output_name` how is the output name used).
+   In :guilabel:`Layer` section, select a name for the transect layer in :guilabel:`Layer name`. In this example, we leave ``transects`` as is (see :ref:`tab_transects_vector_layer_output_name` how is the output name used).
 
    In :guilabel:`Count` section, select how would you want the number of transects to be determined. In this example, we choose |radiobutton| :guilabel:`By transect spacing` and leave ``50`` meters as is` (see :ref:`tab_transects_count`).
 
@@ -456,15 +456,15 @@ Computing the shoreline change
 
 #. Go to :guilabel:`Shoreline Change Tab`.
 
-   In :guilabel:`General` section, select the created transect layer (note that after every cast the transects layer will be automatically selected here). You can optionally |checkbox| :guilabel:`Clip transects` if you want, this is only for visualization purposes and does not affect statistics. Choose where you want the summary reports to be saved in :guilabel:`Summary reports location` (see :ref:`tab_summary_reports`).
+   In :guilabel:`General` section, select the created transect layer (note that after every cast the transects layer will be automatically selected here). You can optionally |checkbox| :guilabel:`Clip transects` if you want, this is only for visualization purposes and does not affect statistics. For summary reports location (see :ref:`tab_summary_reports`).
 
-   In :guilabel:`Transect-Shoreline Intersections`, leave |radiobutton| :guilabel:`Distance` and :guilabel:`Farthest` as is (see :ref:`tab_shoreline_change_tsi`).
+   In :guilabel:`Transect-shoreline intersections`, leave |radiobutton| :guilabel:`Distance` and :guilabel:`Farthest` as is (see :ref:`tab_shoreline_change_tsi`).
 
-   In :guilabel:`Shoreline Change Statistics`, select statistics you want to calculate, select all via :guilabel:`Select / Deselect All` (see :ref:`tab_shoreline_change_scs`).
+   In :guilabel:`Shoreline change statistics`, select statistics you want to calculate, select all via :guilabel:`Select / Deselect All` (see :ref:`tab_shoreline_change_scs`).
 
-   In :guilabel:`Pairwise Comparison Shorelines`, always click :guilabel:`Update` when selections are empty in :guilabel:`Newest date` and :guilabel:`Oldest date`. The :guilabel:`Update` button is also used when you changed the values of date field in shorelines layer then you want to update the selection of dates. Make sure to select ``04/2022`` in :guilabel:`Newest date` and ``01/1977`` in :guilabel:`Oldest date` (see :ref:`tab_shoreline_change_pcs`).
+   In :guilabel:`NSM and EPR dates`, make sure to select ``04/2022`` in :guilabel:`Newest date` and ``01/1977`` in :guilabel:`Oldest date` (see :ref:`tab_shoreline_change_pcs`).
 
-   In :guilabel:`Additional Parameters`, leave :guilabel:`Confidence interval (%)` as is (see :ref:`tab_shoreline_change_additional_parameters`).
+   In :guilabel:`Additional parameters`, leave :guilabel:`Confidence interval (%)` as is (see :ref:`tab_shoreline_change_additional_parameters`).
 
    Click :guilabel:`Compute Shoreline Change` to start the process of computing shoreline change. The shoreline change statistics will be calculated and the transects will be displayed in the map canvas. The statistics will be saved as a temporary layer. You can optionally :guilabel:`Save` the selections such that it will be retain when you close QSCAT or QGIS (see :ref:`tab_shoreline_change_vector_layer_output_name`) for layer outputs.
 
@@ -596,7 +596,7 @@ Creating the polygon using QGIS
 
 #. Go to :guilabel:`Area Change Tab`.
 
-   In :guilabel:`General` section, select the created polygon layer as the :guilabel:`Polygon boundary`, and in :guilabel:`Stat`, select the NSM layer. Only NSM and EPR statistics are available for area change for now (see :ref:`tab_area_change`).
+   In :guilabel:`General` section, select the created polygon layer as the :guilabel:`Polygon layer`, and in :guilabel:`Shoreline change statistic layer`, select the NSM layer. Only NSM and EPR statistics are available for area change for now (see :ref:`tab_area_change`).
 
    .. figure:: /img/workflow/simple_data/area_change/computing-area-change.png
          :align: center
@@ -618,10 +618,20 @@ Running the forecasting
 -----------------------
 
 #. Go to :guilabel:`Forecasting Tab`
+ 
+   In :guilabel:`Layer`, select the transects layer as the :guilabel:`Transects layer`.
 
    In :guilabel:`Algorithm`, the current available algorithm is :guilabel:`Kalman Filter` (see :ref:`tab_forecasting_algorithm`).
 
    In :guilabel:`Time Period`, select |radiobutton| :guilabel:`10 years` (see :ref:`tab_forecasting_time_period`) and click :guilabel:`Forecast`.
+
+   .. figure:: /img/workflow/simple_data/forecasting/forecasting.png
+      :align: center
+      :alt: Forecasting in Forecasting Tab
+
+      Forecasting in Forecasting Tab
+
+      |br|
 
    .. figure:: /img/workflow/simple_data/forecasting/example-forecasting.png
       :align: center
@@ -637,9 +647,9 @@ Visualizing the statistics transects
 
 #. Go to :guilabel:`Visualization Tab`
 
-   In :guilabel:`Layer`, select a statistic layer to apply visualization. In this example, we choose the NSM statistic layer.
+   In :guilabel:`Layer`, select a statistic layer to apply visualization in :guilabel:`Shoreline change statistic layer`. In this example, we choose the NSM statistic layer. Select the field of NSM layer with the statistic value in :guilabel:`Statistic value field`, and manually input the value of the uncertainty in :guilabel:`Uncertainty value (SCE, NSM, EPR)`.
 
-   In :guilabel:`Color Ramp`, leave the number of :guilabel:`Negative classes` and :guilabel:`Positive classes` as is. Select ``Equal Interval`` as the :guilabel:`Mode` and click :guilabel:`Visualize`.
+   In :guilabel:`Color ramp`, select ``Equal Interval`` as the :guilabel:`Mode`.Leave the number of :guilabel:`Negative classes` and :guilabel:`Positive classes` as is, and click :guilabel:`Visualize`.
 
    .. figure:: /img/workflow/simple_data/visualization/visualizing-nsm-statistic.png
       :align: center

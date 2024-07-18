@@ -20,7 +20,7 @@ The :guilabel:`Forecasting Tab` allows you to forecast the shoreline position ba
 
    User interface of Forecasting Tab
 
-.. _tab_forecasting_algorithm:
+
 
 Layer
 =====
@@ -34,6 +34,8 @@ Layer
    Layer section in Forecasting Tab
 
 Allows you to select the transects layer to be used for forecasting. In QSCAT, the requirement for forecasting is a transect layer unlike DSAS. This allows you to run the forecasting algorithm without the need to run the shoreline change statistics.
+
+.. _tab_forecasting_algorithm:
 
 Algorithm
 =========
