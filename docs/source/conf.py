@@ -55,7 +55,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "sphinxcontrib.bibtex",
-    #"sphinx_sitemap",
+    "sphinx_sitemap",
     "sphinx_design",
     "sphinx_last_updated_by_git",
 ]
