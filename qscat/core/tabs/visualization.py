@@ -147,7 +147,11 @@ def apply_color_ramp(
     classification_method_unc.setLabelTrimTrailingZeroes(True)
 
     # Negative, Stable, Positive class
-    if stat_field in (Statistic.NSM, Statistic.EPR):
+    if stat_field in (Statistic.NSM, Statistic.EPR, Statistic.LRR):
+        # LRR fixed 0.5 stable value
+        if stat_field in (Statistic.LRR):
+            unc = 0.5
+
         neg_min = min(vals)
         neg_max = -unc
         pos_min = unc
@@ -200,7 +204,7 @@ def apply_color_ramp(
         ranges = unc_range + pos_ranges
 
     # Negative, Positive class in one range
-    elif stat_field in (Statistic.LRR, Statistic.WLR):
+    elif stat_field in (Statistic.WLR):
         if mode in (0, 2):
             ranges = classification_method.classes(
                 values=vals, nclasses=num_of_pos_classes * 2
