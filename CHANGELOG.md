@@ -5,17 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.1] - Unreleased
+## [0.4.2] - Unreleased
 
 ### TODO
 
 - `Forecasting Tab`: Offers forecasting options from transects layer or from LRR layer.
 - `Forecasting Tab`: Improve forecasting input; currently it depends on shoreline change inputs such newest and oldest date, and transect-shoreline intersections.
 
+
+## [0.4.1] - 2024-07-18
+
 ### Fixed
 
 - `Forecasting Tab`: Fix issue on forecasting generating weird uncertainty points when date value of month is not 01.
 - Fix proper end time logging of shoreline change and forecasting.
+- Minor bug fixes.
 
 ### Added
 
@@ -29,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `Shoreline Change Tab`: Make newest and oldest date selection automatic; no need to button to update.
 - Major code reformatting and refactor.
+- `User Manual`: Update figures and texts.
 
 ## [0.4.0] - 2024-05-06
 
