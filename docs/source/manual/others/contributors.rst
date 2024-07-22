@@ -10,16 +10,15 @@ The initial version of QSCAT was developed by the UP-DMMMSU CoastER team:
 .. csv-table::
    :widths: auto    
 
-   "Louis Facun"
-   "Fernando Siringan"
-   "Floribeth Cuison"
-   "Ara Rivina Malaya"
+   "Louis Philippe Facun"
    "Ma. Yvainne Sta. Maria"
-   "Jamela Jirah Clemente"
-   "Angelo Maon"
-   "Ellen Mae Carmelo"
    "Rodel Ducao"
-
+   "Jamela Jirah Clemente"
+   "Ellen Mae Carmelo"
+   "Angelo Maon"
+   "Ara Rivina Malaya"
+   "Floribeth Cuison"
+   "Fernando Siringan"
 
 Acknowledgements
 ================
