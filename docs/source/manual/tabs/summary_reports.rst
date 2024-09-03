@@ -248,20 +248,4 @@ Summary of results
 Forecasting
 -----------
 
-Input parameters
-................
-
-Summary of results
-..................
-
-**Forecast points**
-
-*Content for this section will be added soon.*
-
-**Forecast line**
-
-*Content for this section will be added soon.*
-
-**Forecast area**
-
-*Content for this section will be added soon.*
+*The Forecasting summary report is not yet available.*
