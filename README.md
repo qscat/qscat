@@ -101,3 +101,26 @@ See [QSCAT User Manual - Sample Workflow](https://qscat.github.io/docs/latest/ma
 
 ## License
 - **[GPL License 3.0](LICENSE):** The QSCAT plugin is licensed under GPL 3.0, per [QGIS'](https://blog.qgis.org/2016/05/29/licensing-requirements-for-qgis-plugins/) Open Source Software principles. This decision aligns with the requirement for plugins to comply with GPL version 2 or greater for distribution through the QGIS plugin system.
+
+## Citation
+
+If you use our work, please consider citing it as below:
+
+Facun, L. P., Sta Maria, M. Y., Ducao, R., Clemente, J. J., Carmelo, E. M., Maon, A., Malaya, A. R., Cuison, F., & Siringan, F. (2024). QGIS Shoreline Change Analysis Tool (QSCAT): A fast, open-source shoreline change analysis plugin for QGIS. *Environmental Modelling & Software*, 136, 106263. https://doi.org/10.1016/j.envsoft.2024.106263
+
+
+**BibTeX Entry**
+
+```bibtex
+@article{FACUN2024106263,
+  title = {QGIS Shoreline Change Analysis Tool (QSCAT): A fast, open-source shoreline change analysis plugin for QGIS},
+  journal = {Environmental Modelling & Software},
+  pages = {106263},
+  year = {2024},
+  issn = {1364-8152},
+  doi = {https://doi.org/10.1016/j.envsoft.2024.106263},
+  url = {https://www.sciencedirect.com/science/article/pii/S1364815224003244},
+  author = {Louis Philippe Facun and Ma. Yvainne {Sta Maria} and Rodel Ducao and Jamela Jirah Clemente and Ellen Mae Carmelo and Angelo Maon and Ara Rivina Malaya and Floribeth Cuison and Fernando Siringan},
+  keywords = {Coastal erosion, Geographic information systems, Open-source software, Shoreline change analysis},
+  abstract = {Coastal erosion poses a significant threat to most coastal communities. This necessitates a better understanding of coastal erosion dynamics, and thus, shoreline change analysis (SCA) tools would be handy. However, many available tools require commercial softwares and/or a faster computing platform. To address these issues, QGIS’ Shoreline Change Analysis Tool (QSCAT), a new QGIS plugin built with Python, was developed. QSCAT can perform transect-based and area-based analyses. The transect-based algorithm of QSCAT was patterned after the Digital Shoreline Analysis System (DSAS). Whereas, the area-based algorithm is similar to the change polygon method. Running QSCAT and DSAS together demonstrated that QSCAT generated the same results as DSAS but its overall speed is 8 times faster than DSAS. QSCAT can estimate beach area loss and length of eroding shorelines, which can identify erosion hotspots. These features attest to QSCAT’s potential as a more efficient and an equally reliable SCA tool.}
+}
