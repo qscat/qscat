@@ -63,7 +63,7 @@ jobs:
           cd qscat
           pytest --cov=qscat/ --cov-report xml tests/
       - name: Upload Coverage Reports to CodeCov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           flags: qgis-3.34.5-tests
         env:
