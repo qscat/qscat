@@ -117,14 +117,14 @@ def cast_transects(
             transect_length = (
                 baseline["transect_length"]
                 if baseline["transect_length"]
-                else int(transects_inputs["length"])
+                else transects_inputs["length"]  # Already converted to int in inputs.py
             )
 
             # Smoothing distance
             smoothing_distance = (
                 baseline["smoothing_distance"]
                 if baseline["smoothing_distance"]
-                else int(transects_inputs["smoothing_distance"])
+                else transects_inputs["smoothing_distance"]  # Already converted to int in inputs.py
             )
 
             # Smoothing distance angles
@@ -181,11 +181,11 @@ def get_transect_points(baseline, transects_params):
     """
     if transects_params["is_by_transect_spacing"]:
         distances = np.arange(
-            0, baseline.length(), int(transects_params["by_transect_spacing"])
+            0, baseline.length(), transects_params["by_transect_spacing"]  # Already converted to int in inputs.py
         )
     elif transects_params["is_by_number_of_transects"]:
         distances = np.linspace(
-            0, baseline.length(), int(transects_params["by_number_of_transects"])
+            0, baseline.length(), transects_params["by_number_of_transects"]  # Already converted to int in inputs.py
         )
 
     return distances

@@ -131,7 +131,7 @@ def load_shorelines(shorelines_params):
             feat[shorelines_params["unc_field"]] is None
             or not feat[shorelines_params["unc_field"]] > 0.0
         ):
-            shoreline["unc"] = float(shorelines_params["default_data_unc"])
+            shoreline["unc"] = shorelines_params["default_data_unc"]  # Already converted to float in inputs.py
         else:
             shoreline["unc"] = float(feat[shorelines_params["unc_field"]])
         shorelines.append(shoreline)

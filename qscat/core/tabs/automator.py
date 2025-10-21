@@ -7,6 +7,7 @@ from qgis.core import Qgis, QgsField, QgsGeometry, QgsWkbTypes
 from qscat.core.layer import create_add_layer
 from qscat.core.messages import display_message
 from qscat.core.utils.layer import is_field_in_layer
+from qscat.core.utils.number import locale_safe_int
 
 
 # On button clicks
@@ -73,7 +74,7 @@ def automate_baseline_buffer_button_clicked(qdw):
         qdw (QscatDockWidget): QscatDockWidget instance.
     """
     layer = qdw.qmlcb_automator_baseline_shorelines_layer.currentLayer()
-    distance = int(qdw.qsb_automator_baseline_buffer_distance.text())
+    distance = locale_safe_int(qdw.qsb_automator_baseline_buffer_distance.text())
 
     automate_baseline_buffer(layer, distance)
 

@@ -7,6 +7,7 @@ from qgis.core import QgsProject
 
 from qscat.core.constants import Statistic
 from qscat.core.utils.date import convert_to_decimal_year
+from qscat.core.utils.number import locale_safe_float, locale_safe_int
 
 
 class Inputs:
@@ -47,7 +48,7 @@ class Inputs:
         """Read the inputs in Shorelines Tab."""
         return {
             "shorelines_layer": self.qdw.qmlcb_shorelines_layer.currentLayer(),
-            "default_data_unc": self.qdw.le_shorelines_default_data_unc.text(),
+            "default_data_unc": locale_safe_float(self.qdw.le_shorelines_default_data_unc.text()),
             "date_field": self.qdw.qfcb_shorelines_date_field.currentField(),
             "unc_field": self.qdw.qfcb_shorelines_unc_field.currentField(),
             "feats": self.qdw.qmlcb_shorelines_layer.currentLayer().getFeatures(),
@@ -59,10 +60,10 @@ class Inputs:
             "layer_output_name": self.qdw.le_transects_layer_output_name.text(),
             "is_by_transect_spacing": self.qdw.rb_transects_by_transect_spacing.isChecked(),
             "is_by_number_of_transects": self.qdw.rb_transects_by_number_of_transects.isChecked(),
-            "by_transect_spacing": self.qdw.qsb_transects_by_transect_spacing.text(),
-            "by_number_of_transects": self.qdw.qsb_transects_by_number_of_transects.text(),
-            "length": self.qdw.qsb_transects_length.text(),
-            "smoothing_distance": self.qdw.qsb_transects_smoothing_distance.text(),
+            "by_transect_spacing": locale_safe_int(self.qdw.qsb_transects_by_transect_spacing.text()),
+            "by_number_of_transects": locale_safe_int(self.qdw.qsb_transects_by_number_of_transects.text()),
+            "length": locale_safe_int(self.qdw.qsb_transects_length.text()),
+            "smoothing_distance": locale_safe_int(self.qdw.qsb_transects_smoothing_distance.text()),
         }
 
     def shoreline_change(self):
@@ -92,7 +93,7 @@ class Inputs:
             "newest_year": convert_to_decimal_year(
                 self.qdw.cb_shoreline_change_newest_date.currentText()
             ),
-            "confidence_interval": float(
+            "confidence_interval": locale_safe_float(
                 self.qdw.qdsb_stats_confidence_interval.text()
             ),
             "epr_unc": self.epr_unc(),
@@ -136,10 +137,10 @@ class Inputs:
         return {
             "stat_layer": self.qdw.qmlcb_vis_stat_layer.currentLayer(),
             "stat_field": self.qdw.qfcb_vis_stat_field.currentField(),
-            "unc_value": self.qdw.le_vis_unc_value.text(),
+            "unc_value": locale_safe_float(self.qdw.le_vis_unc_value.text()),
             "mode": int(self.qdw.cb_vis_mode.currentIndex()),
-            "neg_classes": self.qdw.qsb_vis_neg_classes.text(),
-            "pos_classes": self.qdw.qsb_vis_pos_classes.text(),
+            "neg_classes": locale_safe_int(self.qdw.qsb_vis_neg_classes.text()),
+            "pos_classes": locale_safe_int(self.qdw.qsb_vis_pos_classes.text()),
         }
 
     def summary_reports(self):

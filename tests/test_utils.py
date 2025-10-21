@@ -11,6 +11,7 @@ from qscat.core.utils.date import (
     get_day_of_year,
 )
 from qscat.core.utils.layer import is_field_in_layer
+from qscat.core.utils.number import locale_safe_float, locale_safe_int
 
 start_app()
 
@@ -57,3 +58,87 @@ def test_utils_is_field_in_layer():
     assert is_field_in_layer("id", layer) is True
     assert is_field_in_layer("name", layer) is True
     assert is_field_in_layer("non_existent", layer) is False
+
+
+def test_locale_safe_float():
+    """Test locale-safe float conversion function."""
+    # Test basic conversions
+    assert locale_safe_float("95.00") == 95.0
+    assert locale_safe_float("95,00") == 95.0
+    assert locale_safe_float("95") == 95.0
+    assert locale_safe_float("0") == 0.0
+    assert locale_safe_float("0.0") == 0.0
+    assert locale_safe_float("0,0") == 0.0
+    
+    # Test negative numbers
+    assert locale_safe_float("-95.00") == -95.0
+    assert locale_safe_float("-95,00") == -95.0
+    
+    # Test larger numbers with thousands separators
+    assert locale_safe_float("1,234.56") == 1234.56  # US format
+    assert locale_safe_float("1.234,56") == 1234.56  # European format
+    assert locale_safe_float("1234.56") == 1234.56   # No thousands separator
+    assert locale_safe_float("1234,56") == 1234.56   # European, no thousands separator
+    
+    # Test numbers that are already numeric
+    assert locale_safe_float(95) == 95.0
+    assert locale_safe_float(95.5) == 95.5
+    
+    # Test whitespace handling
+    assert locale_safe_float(" 95.00 ") == 95.0
+    assert locale_safe_float(" 95,00 ") == 95.0
+    
+    # Test scientific notation
+    assert locale_safe_float("1.5e2") == 150.0
+    
+    # Test edge cases that should raise errors
+    with pytest.raises(ValueError):
+        locale_safe_float("")
+    with pytest.raises(ValueError):
+        locale_safe_float("   ")
+    with pytest.raises(ValueError):
+        locale_safe_float(None)
+    with pytest.raises(ValueError):
+        locale_safe_float("abc")
+    with pytest.raises(ValueError):
+        locale_safe_float("95.00.00")  # Multiple decimal points
+
+
+def test_locale_safe_int():
+    """Test locale-safe int conversion function."""
+    # Test basic conversions
+    assert locale_safe_int("95") == 95
+    assert locale_safe_int("0") == 0
+    
+    # Test negative numbers
+    assert locale_safe_int("-95") == -95
+    
+    # Test larger numbers with thousands separators
+    assert locale_safe_int("1,234") == 1234  # US format thousands separator
+    assert locale_safe_int("1.234") == 1234  # European format thousands separator
+    assert locale_safe_int("1234") == 1234   # No separator
+    
+    # Test numbers with trailing zeros that should be considered integers
+    assert locale_safe_int("95.00") == 95
+    assert locale_safe_int("95,00") == 95
+    
+    # Test numbers that are already numeric
+    assert locale_safe_int(95) == 95
+    assert locale_safe_int(95.0) == 95
+    
+    # Test whitespace handling
+    assert locale_safe_int(" 95 ") == 95
+    
+    # Test edge cases that should raise errors
+    with pytest.raises(ValueError):
+        locale_safe_int("")
+    with pytest.raises(ValueError):
+        locale_safe_int("   ")
+    with pytest.raises(ValueError):
+        locale_safe_int(None)
+    with pytest.raises(ValueError):
+        locale_safe_int("abc")
+    with pytest.raises(ValueError):
+        locale_safe_int("95.50")  # Non-zero decimal part
+    with pytest.raises(ValueError):
+        locale_safe_int("95,50")  # Non-zero decimal part

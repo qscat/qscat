@@ -82,9 +82,9 @@ def apply_color_ramp_button_clicked(qdw):
         visualization_inputs["stat_layer"],
         visualization_inputs["stat_field"],
         visualization_inputs["mode"],
-        int(visualization_inputs["neg_classes"]),
-        int(visualization_inputs["pos_classes"]),
-        float(visualization_inputs["unc_value"]),
+        visualization_inputs["neg_classes"],  # Already converted to int in inputs.py
+        visualization_inputs["pos_classes"],  # Already converted to int in inputs.py
+        visualization_inputs["unc_value"],  # Already converted to float in inputs.py
     )
 
 
