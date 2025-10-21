@@ -271,7 +271,7 @@ Converting the buffer to baseline vector
       :align: center
       :alt: Accessing Save Features As...
 
-      Accessing Save Feature As...
+      Accessing Save Features As...
 
       |br|
 
@@ -418,7 +418,7 @@ We can now start the process of running shoreline change analysis. The first ste
 
    In :guilabel:`Layer` section, select a name for the transect layer in :guilabel:`Layer name`. In this example, we leave ``transects`` as is (see :ref:`tab_transects_vector_layer_output_name` how is the output name used).
 
-   In :guilabel:`Count` section, select how would you want the number of transects to be determined. In this example, we choose |radiobutton| :guilabel:`By transect spacing` and leave ``50`` meters as is` (see :ref:`tab_transects_count`).
+   In :guilabel:`Count` section, select how would you want the number of transects to be determined. In this example, we choose |radiobutton| :guilabel:`By transect spacing` and leave ``50`` meters as is (see :ref:`tab_transects_count`).
 
    In :guilabel:`Parameters` section, leave :guilabel:`Transect length` and :guilabel:`Smoothing distance` as is (see :ref:`tab_transects_parameters`).
 
@@ -690,7 +690,7 @@ Visualizing the statistics transects
    :width: 1.0em
 .. |selectFeatures| image:: /img/action-select-features.png
    :width: 1.5em
-.. |mergeFeatures| image:: /img/ action-merge-features.png
+.. |mergeFeatures| image:: /img/action-merge-features.png
    :width: 1.5em
 .. |toggleEditing| image:: /img/action-toggle-editing.png
    :width: 1.5em

@@ -20,7 +20,7 @@ QSCAT was initially developed by UP-MSI CoastER team for a [government-funded in
 
 ## Warning
 
-QSCAT is currently unstable, so please expect for potential bugs and issues. In the meantime, we kindly request your assistance in reporting any problems you encounter at QSCAT GitHub Issues (https://github.com/qscat/qscat/issues). Thank you for your cooperation!
+QSCAT is currently unstable, so please expect potential bugs and issues. In the meantime, we kindly request your assistance in reporting any problems you encounter at QSCAT GitHub Issues (https://github.com/qscat/qscat/issues). Thank you for your cooperation!
 
 
 ## QGIS versions compatibility
@@ -30,7 +30,7 @@ QSCAT is currently unstable, so please expect for potential bugs and issues. In 
 | test coverage (ongoing) | [![codecov](https://codecov.io/gh/qscat/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/qscat/qscat) |
 | **3.22.16** | [![QGIS (3.22.16)](https://github.com/qscat/qscat/actions/workflows/ci-3.22.16.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.22.16.yml) |
 | **3.34.5** | [![QGIS (3.34.5)](https://github.com/qscat/qscat/actions/workflows/ci-3.34.5.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.34.5.yml) |
-| **3.36.1**| [![QGIS (3.36.1)](https://github.com/qscat/qscat/actions/workflows/ci-3.36.1.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.36.1.yml) |
+| **3.36.1** | [![QGIS (3.36.1)](https://github.com/qscat/qscat/actions/workflows/ci-3.36.1.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.36.1.yml) |
 
 ## Features
 
@@ -60,7 +60,7 @@ QSCAT offers the following features:
 
 4. Click `Install Plugin`.
 
-5. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed succesfuly. Check the checkbox to enable the plugin (if not checked).
+5. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed successfully. Check the checkbox to enable the plugin (if not checked).
 
 6. Once enabled, the ![](/qscat/qscat.png) icon will appear in the toolbar.
    
@@ -79,7 +79,7 @@ The latest QSCAT plugin is available as a ZIP file for installation. The steps t
 
 3. Click `…`, find the downloaded `qscat.zip`, then click `Install Plugin`. Finally, proceed with the warning if asked.
 
-4. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed succesfuly. Check the checkbox to enable the plugin (if not checked).
+4. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed successfully. Check the checkbox to enable the plugin (if not checked).
 
 5. Once enabled, the ![](/qscat/qscat.png) icon will appear in the toolbar.
 
@@ -122,5 +122,5 @@ Facun, L. P., Sta Maria, M. Y., Ducao, R., Clemente, J. J., Carmelo, E. M., Maon
   url = {https://www.sciencedirect.com/science/article/pii/S1364815224003244},
   author = {Louis Philippe Facun and Ma. Yvainne {Sta Maria} and Rodel Ducao and Jamela Jirah Clemente and Ellen Mae Carmelo and Angelo Maon and Ara Rivina Malaya and Floribeth Cuison and Fernando Siringan},
   keywords = {Coastal erosion, Geographic information systems, Open-source software, Shoreline change analysis},
-  abstract = {Coastal erosion poses a significant threat to most coastal communities. This necessitates a better understanding of coastal erosion dynamics, and thus, shoreline change analysis (SCA) tools would be handy. However, many available tools require commercial softwares and/or a faster computing platform. To address these issues, QGIS’ Shoreline Change Analysis Tool (QSCAT), a new QGIS plugin built with Python, was developed. QSCAT can perform transect-based and area-based analyses. The transect-based algorithm of QSCAT was patterned after the Digital Shoreline Analysis System (DSAS). Whereas, the area-based algorithm is similar to the change polygon method. Running QSCAT and DSAS together demonstrated that QSCAT generated the same results as DSAS but its overall speed is 8 times faster than DSAS. QSCAT can estimate beach area loss and length of eroding shorelines, which can identify erosion hotspots. These features attest to QSCAT’s potential as a more efficient and an equally reliable SCA tool.}
+  abstract = {Coastal erosion poses a significant threat to most coastal communities. This necessitates a better understanding of coastal erosion dynamics, and thus, shoreline change analysis (SCA) tools would be handy. However, many available tools require commercial software and/or a faster computing platform. To address these issues, QGIS’ Shoreline Change Analysis Tool (QSCAT), a new QGIS plugin built with Python, was developed. QSCAT can perform transect-based and area-based analyses. The transect-based algorithm of QSCAT was patterned after the Digital Shoreline Analysis System (DSAS). Whereas, the area-based algorithm is similar to the change polygon method. Running QSCAT and DSAS together demonstrated that QSCAT generated the same results as DSAS but its overall speed is 8 times faster than DSAS. QSCAT can estimate beach area loss and length of eroding shorelines, which can identify erosion hotspots. These features attest to QSCAT’s potential as a more efficient and an equally reliable SCA tool.}
 }
