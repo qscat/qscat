@@ -402,11 +402,11 @@ class ShorelineChange:
                 LRR_e = [x for x in LRR if x < 0]
                 erosion_count = len(LRR_e)
                 summary["LRR_erosion_num_of_transects"] = erosion_count
-                summary["LRR_erosion_pct_transects"] = (
-                    f"{(erosion_count / len(LRR)) * 100:.2f} %"
-                )
-
+                
                 if LRR_e:
+                    summary["LRR_erosion_pct_transects"] = (
+                        f"{(erosion_count / len(LRR)) * 100:.2f} %"
+                    )
                     summary["LRR_erosion_avg"] = round(sum(LRR_e) / len(LRR_e), 2)
                     summary["LRR_erosion_max"] = round(max(LRR_e), 2)
                     summary["LRR_erosion_min"] = round(min(LRR_e), 2)
@@ -414,11 +414,11 @@ class ShorelineChange:
                 LRR_a = [x for x in LRR if x >= 0]
                 accretion_count = len(LRR_a)
                 summary["LRR_accretion_num_of_transects"] = accretion_count
-                summary["LRR_accretion_pct_transects"] = (
-                    f"{(accretion_count / len(LRR)) * 100:.2f} %"
-                )
-
+                
                 if LRR_a:
+                    summary["LRR_accretion_pct_transects"] = (
+                        f"{(accretion_count / len(LRR)) * 100:.2f} %"
+                    )
                     summary["LRR_accretion_avg"] = round(sum(LRR_a) / len(LRR_a), 2)
                     summary["LRR_accretion_max"] = round(max(LRR_a), 2)
                     summary["LRR_accretion_min"] = round(min(LRR_a), 2)
@@ -435,11 +435,11 @@ class ShorelineChange:
                 WLR_e = [x for x in WLR if x < 0]
                 erosion_count = len(WLR_e)
                 summary["WLR_erosion_num_of_transects"] = erosion_count
-                summary["WLR_erosion_pct_transects"] = (
-                    f"{(erosion_count / len(WLR)) * 100:.2f} %"
-                )
 
                 if WLR_e:
+                    summary["WLR_erosion_pct_transects"] = (
+                        f"{(erosion_count / len(WLR)) * 100:.2f} %"
+                    )
                     summary["WLR_erosion_avg"] = round(sum(WLR_e) / len(WLR_e), 2)
                     summary["WLR_erosion_max"] = round(max(WLR_e), 2)
                     summary["WLR_erosion_min"] = round(min(WLR_e), 2)
@@ -447,11 +447,11 @@ class ShorelineChange:
                 WLR_a = [x for x in WLR if x >= 0]
                 accretion_count = len(WLR_a)
                 summary["WLR_accretion_num_of_transects"] = accretion_count
-                summary["WLR_accretion_pct_transects"] = (
-                    f"{(accretion_count / len(WLR)) * 100:.2f} %"
-                )
-
+                
                 if WLR_a:
+                    summary["WLR_accretion_pct_transects"] = (
+                        f"{(accretion_count / len(WLR)) * 100:.2f} %"
+                    )
                     summary["WLR_accretion_avg"] = round(sum(WLR_a) / len(WLR_a), 2)
                     summary["WLR_accretion_max"] = round(max(WLR_a), 2)
                     summary["WLR_accretion_min"] = round(min(WLR_a), 2)
