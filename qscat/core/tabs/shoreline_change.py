@@ -293,11 +293,12 @@ class ShorelineChange:
             SCE = stat_values[Statistic.SCE]
 
             if SCE:
+                summary["SCE"] = True
                 summary["SCE_avg"] = round(sum(SCE) / len(SCE), 2)
                 summary["SCE_max"] = round(max(SCE), 2)
                 summary["SCE_min"] = round(min(SCE), 2)
             else:
-                summary["SCE"] = None
+                summary["SCE"] = False
 
         if Statistic.NSM in self.shoreline_change_inputs["selected_stats"]:
             NSM = stat_values[Statistic.NSM]
@@ -449,7 +450,7 @@ class ShorelineChange:
                 summary["WLR_accretion_pct_transects"] = (
                     f"{(accretion_count / len(WLR)) * 100:.2f} %"
                 )
-                
+
                 if WLR_a:
                     summary["WLR_accretion_avg"] = round(sum(WLR_a) / len(WLR_a), 2)
                     summary["WLR_accretion_max"] = round(max(WLR_a), 2)
