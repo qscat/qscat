@@ -1,0 +1,13 @@
+name: qgis-3.36.1
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - qgis=3.36.1
+  - pyqt
+  - python=3.10
+  - pip
+  - pip:
+    - pytest
+    - pytest-cov
+    - coremltools>=7.0

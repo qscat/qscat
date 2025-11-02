@@ -99,6 +99,51 @@ See [QSCAT User Manual - Sample Workflow](https://qscat.github.io/docs/latest/ma
 
 - We welcome contributions to QSCAT! Given that the plugin is in its initial stage, **bug reports are our top priority** as they help us identify and address issues to improve the stability and functionality of QSCAT. Whether it's code improvements, bug fixes, documentation enhancements, or translations, every contribution helps make QSCAT better for everyone. Please see our [Contribution Guide](CONTRIBUTING.md) for more details on how to get involved.
 
+
+## Development
+
+### Environment Setup
+
+QSCAT development requires QGIS and its dependencies. Use conda to create isolated environments for different QGIS versions:
+
+1. Install Miniconda or Anaconda.
+2. Create the environment (replace `3.36.1` with your desired QGIS version):
+   ```bash
+   conda env create -f environment-3.36.1.yml
+   ```
+   If the environment already exists, update it:
+   ```bash
+   conda env update -f environment-3.36.1.yml
+   ```
+3. Activate it:
+   ```bash
+   conda activate qgis-3.36.1
+   ```
+
+Environment files are provided for specific QGIS versions (e.g., `environment-3.36.1.yml`). Check the `.github/workflows/` for CI-tested versions.
+
+### Running Tests
+
+Run the test suite with pytest:
+
+```bash
+pytest tests/ -v
+```
+
+For coverage reports:
+
+```bash
+pytest --cov=qscat/ --cov-report html tests/
+```
+
+Tests require the QGIS environment to be active. See CI workflows for automated testing.
+
+### Contributing
+
+- Follow the [Contribution Guide](CONTRIBUTING.md).
+- Ensure tests pass before submitting PRs.
+- Use GitHub Issues for bug reports and feature requests.
+
 ## License
 - **[GPL License 3.0](LICENSE):** The QSCAT plugin is licensed under GPL 3.0, per [QGIS'](https://blog.qgis.org/2016/05/29/licensing-requirements-for-qgis-plugins/) Open Source Software principles. This decision aligns with the requirement for plugins to comply with GPL version 2 or greater for distribution through the QGIS plugin system.
 
