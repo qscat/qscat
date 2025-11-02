@@ -303,6 +303,7 @@ class ShorelineChange:
             NSM = stat_values[Statistic.NSM]
 
             if NSM:
+                summary["NSM"] = True
                 unc = self.shoreline_change_inputs["highest_unc"]
                 summary["NSM_avg"] = round(sum(NSM) / len(NSM), 2)
 
@@ -333,6 +334,7 @@ class ShorelineChange:
                 NSM_s = [x for x in NSM if x >= -unc and x <= unc]
                 stable_count = len(NSM_s)
                 summary["NSM_stable_num_of_transects"] = stable_count
+
                 if NSM_s:
                     summary["NSM_stable_pct_transects"] = (
                         f"{(stable_count / len(NSM)) * 100:.2f} %"
@@ -341,18 +343,20 @@ class ShorelineChange:
                     summary["NSM_stable_max"] = round(max(NSM_s), 2)
                     summary["NSM_stable_min"] = round(min(NSM_s), 2)
             else:
-                summary["NSM"] = None
+                summary["NSM"] = False
 
         if Statistic.EPR in self.shoreline_change_inputs["selected_stats"]:
             EPR = stat_values[Statistic.EPR]
 
             if EPR:
+                summary["EPR"] = True
                 unc = self.shoreline_change_inputs["epr_unc"]
                 summary["EPR_avg"] = round(sum(EPR) / len(EPR), 2)
 
                 EPR_e = [x for x in EPR if x < -unc]
                 erosion_count = len(EPR_e)
                 summary["EPR_erosion_num_of_transects"] = erosion_count
+
                 if EPR_e:
                     summary["EPR_erosion_pct_transects"] = (
                         f"{(erosion_count / len(EPR)) * 100:.2f} %"
@@ -364,6 +368,7 @@ class ShorelineChange:
                 EPR_a = [x for x in EPR if x > unc]
                 accretion_count = len(EPR_a)
                 summary["EPR_accretion_num_of_transects"] = accretion_count
+
                 if EPR_a:
                     summary["EPR_accretion_pct_transects"] = (
                         f"{(accretion_count / len(EPR)) * 100:.2f} %"
@@ -375,6 +380,7 @@ class ShorelineChange:
                 EPR_s = [x for x in EPR if x >= -unc and x <= unc]
                 stable_count = len(EPR_s)
                 summary["EPR_stable_num_of_transects"] = stable_count
+
                 if EPR_s:
                     summary["EPR_stable_pct_transects"] = (
                         f"{(stable_count / len(EPR)) * 100:.2f} %"
@@ -383,12 +389,13 @@ class ShorelineChange:
                     summary["EPR_stable_max"] = round(max(EPR_s), 2)
                     summary["EPR_stable_min"] = round(min(EPR_s), 2)
             else:
-                summary["EPR"] = None
+                summary["EPR"] = False
 
         if Statistic.LRR in self.shoreline_change_inputs["selected_stats"]:
             LRR = stat_values[Statistic.LRR]
 
             if LRR:
+                summary["LRR"] = True
                 summary["LRR_avg"] = round(sum(LRR) / len(LRR), 2)
 
                 LRR_e = [x for x in LRR if x < 0]
@@ -397,6 +404,7 @@ class ShorelineChange:
                 summary["LRR_erosion_pct_transects"] = (
                     f"{(erosion_count / len(LRR)) * 100:.2f} %"
                 )
+
                 if LRR_e:
                     summary["LRR_erosion_avg"] = round(sum(LRR_e) / len(LRR_e), 2)
                     summary["LRR_erosion_max"] = round(max(LRR_e), 2)
@@ -408,17 +416,19 @@ class ShorelineChange:
                 summary["LRR_accretion_pct_transects"] = (
                     f"{(accretion_count / len(LRR)) * 100:.2f} %"
                 )
+
                 if LRR_a:
                     summary["LRR_accretion_avg"] = round(sum(LRR_a) / len(LRR_a), 2)
                     summary["LRR_accretion_max"] = round(max(LRR_a), 2)
                     summary["LRR_accretion_min"] = round(min(LRR_a), 2)
             else:
-                summary["LRR"] = None
+                summary["LRR"] = False
 
         if Statistic.WLR in self.shoreline_change_inputs["selected_stats"]:
             WLR = stat_values[Statistic.WLR]
 
             if WLR:
+                summary["WLR"] = True
                 summary["WLR_avg"] = round(sum(WLR) / len(WLR), 2)
         
                 WLR_e = [x for x in WLR if x < 0]
@@ -427,6 +437,7 @@ class ShorelineChange:
                 summary["WLR_erosion_pct_transects"] = (
                     f"{(erosion_count / len(WLR)) * 100:.2f} %"
                 )
+
                 if WLR_e:
                     summary["WLR_erosion_avg"] = round(sum(WLR_e) / len(WLR_e), 2)
                     summary["WLR_erosion_max"] = round(max(WLR_e), 2)
@@ -438,12 +449,13 @@ class ShorelineChange:
                 summary["WLR_accretion_pct_transects"] = (
                     f"{(accretion_count / len(WLR)) * 100:.2f} %"
                 )
+                
                 if WLR_a:
                     summary["WLR_accretion_avg"] = round(sum(WLR_a) / len(WLR_a), 2)
                     summary["WLR_accretion_max"] = round(max(WLR_a), 2)
                     summary["WLR_accretion_min"] = round(min(WLR_a), 2)
             else:
-                summary["WLR"] = None
+                summary["WLR"] = False
 
         self.reports.summary = summary
         self.reports.shoreline_change()
