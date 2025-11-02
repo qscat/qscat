@@ -562,7 +562,7 @@ class ShorelineChange:
         """
         # Layer names
         if stat in [Statistic.NSM, Statistic.EPR]:
-            name = f'{stat} ({self.shoreline_change_inputs["newest_year"]}-{self.shoreline_change_inputs["oldest_year"]})'
+            name = f"{stat} ({self.shoreline_change_inputs['newest_year']}-{self.shoreline_change_inputs['oldest_year']})"
         elif stat in [Statistic.SCE, Statistic.LRR, Statistic.WLR]:
             name = f"{stat}"
 

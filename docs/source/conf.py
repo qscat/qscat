@@ -8,10 +8,15 @@ Jamela Jirah Clemente, Ellen Mae Carmelo, Angelo Maon,
 Ara Rivina Malaya, Floribeth Cuison, and Fernando Siringan"""
 
 latex_documents = [
-    ('index', 'QSCAT.tex', 'QSCAT',
-     'Louis Philippe Facun\\and Ma. Yvainne Sta. Maria\\and Rodel Ducao'
-     '\\and Jamela Jirah Clemente\\and Ellen Mae Carmelo\\and Angelo Maon'
-     '\\and Ara Rivina Malaya\\and Floribeth Cuison\\and and Fernando Siringan', 'manual'),
+    (
+        "index",
+        "QSCAT.tex",
+        "QSCAT",
+        "Louis Philippe Facun\\and Ma. Yvainne Sta. Maria\\and Rodel Ducao"
+        "\\and Jamela Jirah Clemente\\and Ellen Mae Carmelo\\and Angelo Maon"
+        "\\and Ara Rivina Malaya\\and Floribeth Cuison\\and and Fernando Siringan",
+        "manual",
+    ),
 ]
 
 # latex_documents = [
@@ -20,7 +25,7 @@ latex_documents = [
 #      '\\and and the matplotlib development team', 'manual'),
 # ]
 latex_elements = {}
-latex_elements['preamble'] = r"""
+latex_elements["preamble"] = r"""
    % One line per author on title page
    \DeclareRobustCommand{\and}%
      {\end{tabular}\kern-\tabcolsep\\\begin{tabular}[t]{c}}%
@@ -41,7 +46,7 @@ latex_elements['preamble'] = r"""
    \usepackage{enumitem}
    \setlistdepth{2048}
 """
-latex_elements['pointsize'] = '11pt'
+latex_elements["pointsize"] = "11pt"
 
 release = "0.4.2"
 version = "0.4.2"
@@ -61,7 +66,7 @@ extensions = [
 ]
 
 html_baseurl = "https://qscat.github.io/docs/latest/"
-#itemap_url_scheme = "{link}"
+# itemap_url_scheme = "{link}"
 
 # html_baseurl = "https://qscat.readthedocs.io/"
 # sitemap_url_scheme = "{lang}latest/{link}"
@@ -69,7 +74,7 @@ html_baseurl = "https://qscat.github.io/docs/latest/"
 #     "search.html",
 #     "genindex.html",
 # ]
-#html_extra_path = ["robots.txt"]
+# html_extra_path = ["robots.txt"]
 
 # -- Bibtex configuration
 bibtex_bibfiles = ["refs.bib"]
@@ -129,7 +134,7 @@ html_title = f"{project}"
 html_static_path = ["_static"]
 html_sidebars = {"**": ["search-field", "sidebar-nav-bs", "sidebar-ethical-ads"]}
 html_favicon = "favicon.ico"
-html_last_updated_fmt = "%b %d, %Y" #%H:%M %z"
+html_last_updated_fmt = "%b %d, %Y"  # %H:%M %z"
 html_css_files = ["css/qscat.css"]
 
 # -- Options for EPUB output
