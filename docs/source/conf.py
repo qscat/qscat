@@ -43,8 +43,8 @@ latex_elements['preamble'] = r"""
 """
 latex_elements['pointsize'] = '11pt'
 
-release = "0.4.1"
-version = "0.4.1"
+release = "0.4.2"
+version = "0.4.2"
 
 # -- General configuration
 
@@ -111,11 +111,6 @@ html_theme_options = {
             "name": "Facebook",
             "url": "https://facebook.com/qscatplugin",
             "icon": "fa-brands fa-square-facebook",
-        },
-        {
-            "name": "Twitter",
-            "url": "https://twitter.com/qscatplugin",
-            "icon": "fa-brands fa-square-twitter",
         },
     ],
     "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],

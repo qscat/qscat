@@ -10,9 +10,10 @@ Sample Workflow
       :local:
       :depth: 3
 
-This section provides a step-by-step guide on how to run a shoreline change analysis using QSCAT with sample data from Agoo, La Union shorelines. The sample data includes shoreline vectors from 1977, 1988, 2010, and 2022. The process includes generating the baseline vectors, merging the shoreline vectors, and running the shoreline change analysis.
 
-According to the :ref:`plugin_required_inputs` section, the QSCAT requires the two following layers:
+This section provides a step-by-step guide on how to run a shoreline change analysis using QSCAT with sample data from the Agoo, La Union shorelines. The sample data includes shoreline vectors from 1977, 1988, 2010, and 2022. The process includes generating the baseline vectors, merging the shoreline vectors, and running the shoreline change analysis.
+
+According to the :ref:`plugin_required_inputs` section, QSCAT requires the following two layers:
 
    #. Shoreline layer
    #. Baseline layer

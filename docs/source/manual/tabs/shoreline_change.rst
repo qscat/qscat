@@ -4,7 +4,8 @@
 Tab: Shoreline Change
 *********************
 
-The :guilabel:`Shoreline Change Tab` allows you to calculate the following shoreline change statistics: (a) Shoreline Change Envelope (SCE), (b) Net Shoreline Movement (NSM), (c) End-Point Rate (EPR), and (d) Linear Regression Rate (LRR). The first three statistics (SCE, NSM, and EPR) require only two shoreline vectors, while LRR requires at least three (3) shoreline vectors to compute the rate of change. SCE and NSM refer to magnitude or distance in meters (m), while EPR and LRR are rate-of-change statistics in meters/year (m/y).
+
+The :guilabel:`Shoreline Change Tab` allows you to calculate the following shoreline change statistics: (a) Shoreline Change Envelope (SCE), (b) Net Shoreline Movement (NSM), (c) End-Point Rate (EPR), and (d) Linear Regression Rate (LRR). The first three statistics (SCE, NSM, and EPR) require only two shoreline vectors, while LRR requires at least three (3) shoreline vectors to compute the rate of change. SCE and NSM refer to magnitude or distance in meters (m), while EPR and LRR are rate-of-change statistics in meters per year (m/y).
 
 .. only:: html
 
@@ -39,7 +40,7 @@ This run requires a transect layer to calculate the selected statistics in the :
 Clip transects
 --------------
 
-By default, the transects are not clipped to the farthest shoreline extent. However, you have the power to choose whether to clip the shorelines by checking this box. The clipping has no effects on the statistics, but it will make seeing statistics' transects easier.
+By default, the transects are not clipped to the farthest shoreline extent. However, you have the power to choose whether to clip the shorelines by checking this box. The clipping has no effect on the statistics, but it will make seeing the statistics' transects easier.
 
 .. _tab_shoreline_change_tsi:
 
