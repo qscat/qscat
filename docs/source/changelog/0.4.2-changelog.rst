@@ -1,0 +1,14 @@
+==================================
+QSCAT 0.4.2 Changelog - 2025-11-02
+==================================
+
+Fixed
+=====
+
+- `Shoreline Change Tab`: Fixed `ZeroDivisionError` in shoreline change stats calculation when preparing summary reports with no available data.
+
+Added
+=====
+
+- Added `environment-3.36.1.yml` file for local development setup.
+- Added local development setup instructions in `README.md`.

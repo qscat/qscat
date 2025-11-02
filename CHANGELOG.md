@@ -5,15 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.2] - Unreleased
+## [0.4.2] - 2025-11-02
 
-### TODO
+### Fixed
 
-- `Forecasting Tab`: Offers forecasting options from transects layer or from LRR layer.
-- `Forecasting Tab`: Improve forecasting input; currently it depends on shoreline change inputs such newest and oldest date, and transect-shoreline intersections.
+- `Shoreline Change Tab`: Fixed `ZeroDivisionError` in calculation when preparing summary reports with no available data (classes and layers).
 
+### Added
 
-## [0.4.1] - 2024-07-18
+- Added `environment-3.36.1.yml` file for local development setup.
+- Added local development setup instructions in `README.md`.
+
+## [0.4.2] - 2024-07-18
 
 ### Fixed
 
