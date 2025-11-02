@@ -311,7 +311,7 @@ class ShorelineChange:
                 NSM_e = [x for x in NSM if x < -unc]
                 erosion_count = len(NSM_e)
                 summary["NSM_erosion_num_of_transects"] = erosion_count
-                
+
                 if NSM_e:
                     summary["NSM_erosion_pct_transects"] = (
                         f"{(erosion_count / len(NSM)) * 100:.2f} %"
@@ -323,7 +323,7 @@ class ShorelineChange:
                 NSM_a = [x for x in NSM if x > unc]
                 accretion_count = len(NSM_a)
                 summary["NSM_accretion_num_of_transects"] = accretion_count
-                
+
                 if NSM_a:
                     summary["NSM_accretion_pct_transects"] = (
                         f"{(accretion_count / len(NSM)) * 100:.2f} %"
@@ -402,7 +402,7 @@ class ShorelineChange:
                 LRR_e = [x for x in LRR if x < 0]
                 erosion_count = len(LRR_e)
                 summary["LRR_erosion_num_of_transects"] = erosion_count
-                
+
                 if LRR_e:
                     summary["LRR_erosion_pct_transects"] = (
                         f"{(erosion_count / len(LRR)) * 100:.2f} %"
@@ -414,7 +414,7 @@ class ShorelineChange:
                 LRR_a = [x for x in LRR if x >= 0]
                 accretion_count = len(LRR_a)
                 summary["LRR_accretion_num_of_transects"] = accretion_count
-                
+
                 if LRR_a:
                     summary["LRR_accretion_pct_transects"] = (
                         f"{(accretion_count / len(LRR)) * 100:.2f} %"
@@ -431,7 +431,7 @@ class ShorelineChange:
             if WLR:
                 summary["WLR"] = True
                 summary["WLR_avg"] = round(sum(WLR) / len(WLR), 2)
-        
+
                 WLR_e = [x for x in WLR if x < 0]
                 erosion_count = len(WLR_e)
                 summary["WLR_erosion_num_of_transects"] = erosion_count
@@ -447,7 +447,7 @@ class ShorelineChange:
                 WLR_a = [x for x in WLR if x >= 0]
                 accretion_count = len(WLR_a)
                 summary["WLR_accretion_num_of_transects"] = accretion_count
-                
+
                 if WLR_a:
                     summary["WLR_accretion_pct_transects"] = (
                         f"{(accretion_count / len(WLR)) * 100:.2f} %"
