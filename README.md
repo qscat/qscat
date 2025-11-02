@@ -140,9 +140,7 @@ Tests require the QGIS environment to be active. See CI workflows for automated 
 
 ### Contributing
 
-- Follow the [Contribution Guide](CONTRIBUTING.md).
-- Ensure tests pass before submitting PRs.
-- Use GitHub Issues for bug reports and feature requests.
+See the main Contributing section above.
 
 ## License
 - **[GPL License 3.0](LICENSE):** The QSCAT plugin is licensed under GPL 3.0, per [QGIS'](https://blog.qgis.org/2016/05/29/licensing-requirements-for-qgis-plugins/) Open Source Software principles. This decision aligns with the requirement for plugins to comply with GPL version 2 or greater for distribution through the QGIS plugin system.

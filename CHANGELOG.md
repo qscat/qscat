@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `environment-3.36.1.yml` file for local development setup.
 - Added local development setup instructions in `README.md`.
 
-## [0.4.2] - 2024-07-18
+## [0.4.1] - 2024-07-18
 
 ### Fixed
 
