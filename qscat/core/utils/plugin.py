@@ -16,9 +16,9 @@ def get_plugin_dir():
     profiles_default_dir = QgsApplication.qgisSettingsDirPath()
     plugin_dir = os.path.join(
         profiles_default_dir,
-        'python', 
-        'plugins', 
-        'qscat',
+        "python",
+        "plugins",
+        "qscat",
     )
     return plugin_dir
 
@@ -27,8 +27,8 @@ def get_plugins_dir():
     profiles_default_dir = QgsApplication.qgisSettingsDirPath()
     plugins_dir = os.path.join(
         profiles_default_dir,
-        'python', 
-        'plugins',
+        "python",
+        "plugins",
     )
     return plugins_dir
 
@@ -41,5 +41,5 @@ def get_metadata_version():
     plugin_dir = get_plugin_dir()
     config = configparser.ConfigParser()
     config.read(Path(plugin_dir) / "metadata.txt")
-    version = config.get('general', 'version')
+    version = config.get("general", "version")
     return version

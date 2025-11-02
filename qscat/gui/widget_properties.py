@@ -10,6 +10,7 @@ from qscat.core.utils.plugin import get_metadata_version
 
 class WidgetProperties:
     """Set the widget properties for the QSCAT plugin."""
+
     def __init__(self, qdw):
         """
         Args:
