@@ -4,7 +4,8 @@
 Tab: Transects
 ***************
 
-The :guilabel:`Transects Tab` allows you to casts the transects.
+
+The :guilabel:`Transects Tab` allows you to cast the transects.
 
 .. only:: html
 

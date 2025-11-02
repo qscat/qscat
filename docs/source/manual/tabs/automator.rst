@@ -4,7 +4,8 @@
 Tab: Automator
 **************
 
-The :guilabel:`Automator Tab` allows you to automate repetitive tasks directly from the plugin such as adding fields to the shoreline layer and baseline layer.
+
+The :guilabel:`Automator Tab` allows you to automate repetitive tasks directly from the plugin, such as adding fields to the shoreline layer and baseline layer.
 
 .. only:: html
 

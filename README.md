@@ -92,13 +92,10 @@ See [QSCAT User Manual - Sample Workflow](https://qscat.github.io/docs/latest/ma
 - [QSCAT Documentation](https://qscat.github.io/docs/latest)
 - [QSCAT User Manual](https://qscat.github.io/docs/latest/manual)
 - [QSCAT Facebook Page](https://web.facebook.com/qscatplugin)
-- [QSCAT Facebook Group](https://web.facebook.com/groups/qscat)
-- [QSCAT Twitter](https://twitter.com/qscatplugin)
   
 ## Contributing
 
 - We welcome contributions to QSCAT! Given that the plugin is in its initial stage, **bug reports are our top priority** as they help us identify and address issues to improve the stability and functionality of QSCAT. Whether it's code improvements, bug fixes, documentation enhancements, or translations, every contribution helps make QSCAT better for everyone. Please see our [Contribution Guide](CONTRIBUTING.md) for more details on how to get involved.
-
 
 ## Development
 

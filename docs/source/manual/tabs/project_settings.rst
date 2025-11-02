@@ -4,7 +4,8 @@
 Tab: Project Settings
 *********************
 
-The :guilabel:`Project Settings Tab` allows you to configure the plugin for the QGIS project.
+
+The :guilabel:`Project Settings Tab` allows you to configure the plugin settings for the QGIS project.
 
 .. only:: html
 

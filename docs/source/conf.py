@@ -112,11 +112,6 @@ html_theme_options = {
             "url": "https://facebook.com/qscatplugin",
             "icon": "fa-brands fa-square-facebook",
         },
-        {
-            "name": "Twitter",
-            "url": "https://twitter.com/qscatplugin",
-            "icon": "fa-brands fa-square-twitter",
-        },
     ],
     "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],
     "footer_start": ["copyright", "sphinx-version"],

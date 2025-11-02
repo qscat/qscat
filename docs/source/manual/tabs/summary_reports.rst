@@ -4,7 +4,8 @@
 Tab: Summary Reports
 ********************
 
-The :guilabel:`Summary Reports Tab` allows you to configure the save location, and enable or disable the generation of summary reports. The summary reports are text files that contain the base information and the summary of results of the shoreline change, area change, and forecasting results.
+
+The :guilabel:`Summary Reports Tab` allows you to configure the save location and enable or disable the generation of summary reports. The summary reports are text files that contain the base information and the summary of results for the shoreline change, area change, and forecasting analyses.
 
 .. only:: html
 

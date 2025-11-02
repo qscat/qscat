@@ -4,7 +4,8 @@
 Tab: Forecasting
 ****************
 
-The :guilabel:`Forecasting Tab` allows you to forecast the shoreline position based on the Kalman Filter algorithm.
+
+The :guilabel:`Forecasting Tab` allows you to forecast the shoreline position using the Kalman Filter algorithm.
 
 .. only:: html
 
