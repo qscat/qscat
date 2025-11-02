@@ -306,9 +306,10 @@ class ShorelineChange:
             summary["NSM_erosion_pct_transects"] = (
                 f"{(erosion_count / len(NSM)) * 100:.2f} %"
             )
-            summary["NSM_erosion_avg"] = round(sum(NSM_e) / len(NSM_e), 2)
-            summary["NSM_erosion_max"] = round(max(NSM_e), 2)
-            summary["NSM_erosion_min"] = round(min(NSM_e), 2)
+            if NSM_e:
+                summary["NSM_erosion_avg"] = round(sum(NSM_e) / len(NSM_e), 2)
+                summary["NSM_erosion_max"] = round(max(NSM_e), 2)
+                summary["NSM_erosion_min"] = round(min(NSM_e), 2)
 
             NSM_a = [x for x in NSM if x > unc]
             accretion_count = len(NSM_a)
@@ -316,9 +317,10 @@ class ShorelineChange:
             summary["NSM_accretion_pct_transects"] = (
                 f"{(accretion_count / len(NSM)) * 100:.2f} %"
             )
-            summary["NSM_accretion_avg"] = round(sum(NSM_a) / len(NSM_a), 2)
-            summary["NSM_accretion_max"] = round(max(NSM_a), 2)
-            summary["NSM_accretion_min"] = round(min(NSM_a), 2)
+            if NSM_a:
+                summary["NSM_accretion_avg"] = round(sum(NSM_a) / len(NSM_a), 2)
+                summary["NSM_accretion_max"] = round(max(NSM_a), 2)
+                summary["NSM_accretion_min"] = round(min(NSM_a), 2)
 
             NSM_s = [x for x in NSM if x >= -unc and x <= unc]
             stable_count = len(NSM_s)
@@ -326,9 +328,10 @@ class ShorelineChange:
             summary["NSM_stable_pct_transects"] = (
                 f"{(stable_count / len(NSM)) * 100:.2f} %"
             )
-            summary["NSM_stable_avg"] = round(sum(NSM_s) / len(NSM_s), 2)
-            summary["NSM_stable_max"] = round(max(NSM_s), 2)
-            summary["NSM_stable_min"] = round(min(NSM_s), 2)
+            if NSM_s:
+                summary["NSM_stable_avg"] = round(sum(NSM_s) / len(NSM_s), 2)
+                summary["NSM_stable_max"] = round(max(NSM_s), 2)
+                summary["NSM_stable_min"] = round(min(NSM_s), 2)
 
         if Statistic.EPR in self.shoreline_change_inputs["selected_stats"]:
             EPR = stat_values[Statistic.EPR]
@@ -341,9 +344,10 @@ class ShorelineChange:
             summary["EPR_erosion_pct_transects"] = (
                 f"{(erosion_count / len(EPR)) * 100:.2f} %"
             )
-            summary["EPR_erosion_avg"] = round(sum(EPR_e) / len(EPR_e), 2)
-            summary["EPR_erosion_max"] = round(max(EPR_e), 2)
-            summary["EPR_erosion_min"] = round(min(EPR_e), 2)
+            if EPR_e:
+                summary["EPR_erosion_avg"] = round(sum(EPR_e) / len(EPR_e), 2)
+                summary["EPR_erosion_max"] = round(max(EPR_e), 2)
+                summary["EPR_erosion_min"] = round(min(EPR_e), 2)
 
             EPR_a = [x for x in EPR if x > unc]
             accretion_count = len(EPR_a)
@@ -351,9 +355,10 @@ class ShorelineChange:
             summary["EPR_accretion_pct_transects"] = (
                 f"{(accretion_count / len(EPR)) * 100:.2f} %"
             )
-            summary["EPR_accretion_avg"] = round(sum(EPR_a) / len(EPR_a), 2)
-            summary["EPR_accretion_max"] = round(max(EPR_a), 2)
-            summary["EPR_accretion_min"] = round(min(EPR_a), 2)
+            if EPR_a:
+                summary["EPR_accretion_avg"] = round(sum(EPR_a) / len(EPR_a), 2)
+                summary["EPR_accretion_max"] = round(max(EPR_a), 2)
+                summary["EPR_accretion_min"] = round(min(EPR_a), 2)
 
             EPR_s = [x for x in EPR if x >= -unc and x <= unc]
             stable_count = len(EPR_s)
@@ -361,9 +366,10 @@ class ShorelineChange:
             summary["EPR_stable_pct_transects"] = (
                 f"{(stable_count / len(EPR)) * 100:.2f} %"
             )
-            summary["EPR_stable_avg"] = round(sum(EPR_s) / len(EPR_s), 2)
-            summary["EPR_stable_max"] = round(max(EPR_s), 2)
-            summary["EPR_stable_min"] = round(min(EPR_s), 2)
+            if EPR_s:
+                summary["EPR_stable_avg"] = round(sum(EPR_s) / len(EPR_s), 2)
+                summary["EPR_stable_max"] = round(max(EPR_s), 2)
+                summary["EPR_stable_min"] = round(min(EPR_s), 2)
 
         if Statistic.LRR in self.shoreline_change_inputs["selected_stats"]:
             LRR = stat_values[Statistic.LRR]

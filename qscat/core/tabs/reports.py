@@ -205,66 +205,84 @@ class SummaryReport:
             f.write(f'Avg. distance: {self.summary["NSM_avg"]}:\n')
             f.write("\n")
 
-            f.write("Eroding:\n")
-            f.write(
-                f'No. of transects: {self.summary["NSM_erosion_num_of_transects"]}\n'
-            )
-            f.write(f'(%) transects: {self.summary["NSM_erosion_pct_transects"]}\n')
-            f.write(f'Avg. value: {self.summary["NSM_erosion_avg"]}\n')
-            f.write(f'Max. value: {self.summary["NSM_erosion_max"]}\n')
-            f.write(f'Min. value: {self.summary["NSM_erosion_min"]}\n')
-            f.write("\n")
-            f.write("Accreting:\n")
-            f.write(
-                f'No. of transects: {self.summary["NSM_accretion_num_of_transects"]}\n'
-            )
-            f.write(f'(%) transects: {self.summary["NSM_accretion_pct_transects"]}\n')
-            f.write(f'Avg. value: {self.summary["NSM_accretion_avg"]}\n')
-            f.write(f'Max. value: {self.summary["NSM_accretion_max"]}\n')
-            f.write(f'Min. value: {self.summary["NSM_accretion_min"]}\n')
-            f.write("\n")
-            f.write("Stable:\n")
-            f.write(
-                f'No. of transects: {self.summary["NSM_stable_num_of_transects"]}\n'
-            )
-            f.write(f'(%) transects: {self.summary["NSM_stable_pct_transects"]}\n')
-            f.write(f'Avg. value: {self.summary["NSM_stable_avg"]}\n')
-            f.write(f'Max. value: {self.summary["NSM_stable_max"]}\n')
-            f.write(f'Min. value: {self.summary["NSM_stable_min"]}\n')
-            f.write("\n")
+            if self.summary["NSM_erosion_num_of_transects"] == 0:
+                f.write("There are no eroding values\n")
+            else:
+                f.write("Eroding:\n")
+                f.write(
+                    f'No. of transects: {self.summary["NSM_erosion_num_of_transects"]}\n'
+                )
+                f.write(f'(%) transects: {self.summary["NSM_erosion_pct_transects"]}\n')
+                f.write(f'Avg. value: {self.summary["NSM_erosion_avg"]}\n')
+                f.write(f'Max. value: {self.summary["NSM_erosion_max"]}\n')
+                f.write(f'Min. value: {self.summary["NSM_erosion_min"]}\n')
+                f.write("\n")
+            if self.summary["NSM_accretion_num_of_transects"] == 0:
+                f.write("There are no accreting values\n")
+            else:
+                f.write("Accreting:\n")
+                f.write(
+                    f'No. of transects: {self.summary["NSM_accretion_num_of_transects"]}\n'
+                )
+                f.write(f'(%) transects: {self.summary["NSM_accretion_pct_transects"]}\n')
+                f.write(f'Avg. value: {self.summary["NSM_accretion_avg"]}\n')
+                f.write(f'Max. value: {self.summary["NSM_accretion_max"]}\n')
+                f.write(f'Min. value: {self.summary["NSM_accretion_min"]}\n')
+                f.write("\n")
+            if self.summary["NSM_stable_num_of_transects"] == 0:
+                f.write("There are no stable values\n")
+            else:
+                f.write("Stable:\n")
+                f.write(
+                    f'No. of transects: {self.summary["NSM_stable_num_of_transects"]}\n'
+                )
+                f.write(f'(%) transects: {self.summary["NSM_stable_pct_transects"]}\n')
+                f.write(f'Avg. value: {self.summary["NSM_stable_avg"]}\n')
+                f.write(f'Max. value: {self.summary["NSM_stable_max"]}\n')
+                f.write(f'Min. value: {self.summary["NSM_stable_min"]}\n')
+                f.write("\n")
 
         if Statistic.EPR in selected_stats:
             f.write("END POINT RATE (EPR):\n")
             f.write(f'Avg. rate: {self.summary["EPR_avg"]}\n')
             f.write("\n")
 
-            f.write("Eroding:\n")
-            f.write(
-                f'No. of transects: {self.summary["EPR_erosion_num_of_transects"]}\n'
-            )
-            f.write(f'(%) transects: {self.summary["EPR_erosion_pct_transects"]}\n')
-            f.write(f'Avg. value: {self.summary["EPR_erosion_avg"]}\n')
-            f.write(f'Max. value: {self.summary["EPR_erosion_max"]}\n')
-            f.write(f'Min. value: {self.summary["EPR_erosion_min"]}\n')
-            f.write("\n")
-            f.write("Accreting:\n")
-            f.write(
-                f'No. of transects: {self.summary["EPR_accretion_num_of_transects"]}\n'
-            )
-            f.write(f'(%) transects: {self.summary["EPR_accretion_pct_transects"]}\n')
-            f.write(f'Avg. value: {self.summary["EPR_accretion_avg"]}\n')
-            f.write(f'Max. value: {self.summary["EPR_accretion_max"]}\n')
-            f.write(f'Min. value: {self.summary["EPR_accretion_min"]}\n')
-            f.write("\n")
-            f.write("Stable:\n")
-            f.write(
-                f'No. of transects: {self.summary["EPR_stable_num_of_transects"]}\n'
-            )
-            f.write(f'(%) transects: {self.summary["EPR_stable_pct_transects"]}\n')
-            f.write(f'Avg. value: {self.summary["EPR_stable_avg"]}\n')
-            f.write(f'Max. value: {self.summary["EPR_stable_max"]}\n')
-            f.write(f'Min. value: {self.summary["EPR_stable_min"]}\n')
-            f.write("\n")
+            if self.summary["EPR_erosion_num_of_transects"] == 0:
+                f.write("There are no eroding values\n")
+            else:
+                f.write("Eroding:\n")
+                f.write(
+                    f'No. of transects: {self.summary["EPR_erosion_num_of_transects"]}\n'
+                )
+                f.write(f'(%) transects: {self.summary["EPR_erosion_pct_transects"]}\n')
+                f.write(f'Avg. value: {self.summary["EPR_erosion_avg"]}\n')
+                f.write(f'Max. value: {self.summary["EPR_erosion_max"]}\n')
+                f.write(f'Min. value: {self.summary["EPR_erosion_min"]}\n')
+                f.write("\n")
+            if self.summary["EPR_accretion_num_of_transects"] == 0:
+                f.write("There are no accreting values\n")
+            else:
+                f.write("Accreting:\n")
+                f.write(
+                    f'No. of transects: {self.summary["EPR_accretion_num_of_transects"]}\n'
+                )
+                f.write(f'(%) transects: {self.summary["EPR_accretion_pct_transects"]}\n')
+                f.write(f'Avg. value: {self.summary["EPR_accretion_avg"]}\n')
+                f.write(f'Max. value: {self.summary["EPR_accretion_max"]}\n')
+                f.write(f'Min. value: {self.summary["EPR_accretion_min"]}\n')
+                f.write("\n")
+            if self.summary["EPR_stable_num_of_transects"] == 0:
+                f.write("There are no stable values\n")
+            else:
+                f.write("Stable:\n")
+                f.write(
+                    f'No. of transects: {self.summary["EPR_stable_num_of_transects"]}\n'
+                )
+                f.write(f'(%) transects: {self.summary["EPR_stable_pct_transects"]}\n')
+                f.write(f'Avg. value: {self.summary["EPR_stable_avg"]}\n')
+                f.write(f'Max. value: {self.summary["EPR_stable_max"]}\n')
+                f.write(f'Min. value: {self.summary["EPR_stable_min"]}\n')
+                f.write("\n")
 
         if Statistic.LRR in selected_stats:
             f.write("LINEAR REGRESSION RATE (LRR):\n")
