@@ -30,7 +30,7 @@ jobs:
       DISPLAY: ":99.0"
       QT_SELECT: "qt5"
     steps:
-      - uses: conda-incubator/setup-miniconda@v3
+      - uses: conda-incubator/setup-miniconda@v4
         with:
           python-version: "3.10"
           mamba-version: "*"
