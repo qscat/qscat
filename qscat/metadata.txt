@@ -19,7 +19,7 @@ about=QSCAT offers the following features:
 
     For the changelog, please visit https://github.com/qscat/qscat/blob/master/CHANGELOG.md
 
-version=0.4.2
+version=0.5.0
 qgisMinimumVersion=3.22
 author=Louis Facun
 email=louisfacun@gmail.com
