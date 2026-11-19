@@ -11,6 +11,7 @@ from qscat.core.utils.date import (
     get_day_of_year,
 )
 from qscat.core.utils.layer import is_field_in_layer
+from qscat.core.utils.unc import get_unc
 
 start_app()
 
@@ -57,3 +58,14 @@ def test_utils_is_field_in_layer():
     assert is_field_in_layer("id", layer) is True
     assert is_field_in_layer("name", layer) is True
     assert is_field_in_layer("non_existent", layer) is False
+
+
+def test_utils_get_unc():
+    """Test getting uncertainty as float with default fallback."""
+    assert get_unc(5, "10") == 5.0
+    assert get_unc(2.5, "10") == 2.5
+    assert get_unc("3.5", "10") == 3.5
+    assert get_unc(None, "10") == 10.0
+    assert get_unc("", "10") == 10.0
+    assert get_unc(0, "10") == 10.0
+    assert get_unc(-1, 10) == 10.0
