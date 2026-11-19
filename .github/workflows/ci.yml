@@ -1,6 +1,6 @@
-# Test for QGIS 3.44.15 (Long Term Release - stable)
+# Run the test suite on QGIS 3.44.15 (Long Term Release)
 
-name: QGIS (3.44.15)
+name: CI
 
 on:
   push:
@@ -8,13 +8,13 @@ on:
     paths:
       - "qscat/**"
       - "tests/**"
-      - ".github/workflows/ci-3.44.15.yml"
+      - ".github/workflows/ci.yml"
   pull_request:
     branches: [main, staging]
     paths:
       - "qscat/**"
       - "tests/**"
-      - ".github/workflows/ci-3.44.15.yml"
+      - ".github/workflows/ci.yml"
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -24,7 +24,8 @@ permissions:
   contents: read
 
 jobs:
-  build-linux:
+  test:
+    name: test (QGIS 3.44.15)
     runs-on: ubuntu-latest
     defaults:
       run:
