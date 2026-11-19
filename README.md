@@ -155,7 +155,7 @@ Facun, L. P., Sta Maria, M. Y., Ducao, R., Clemente, J. J., Carmelo, E. M., Maon
   pages = {106263},
   year = {2025},
   issn = {1364-8152},
-  doi = {https://doi.org/10.1016/j.envsoft.2024.106263},
+  doi = {10.1016/j.envsoft.2024.106263},
   url = {https://www.sciencedirect.com/science/article/pii/S1364815224003244},
   author = {Louis Philippe Facun and Ma. Yvainne {Sta Maria} and Rodel Ducao and Jamela Jirah Clemente and Ellen Mae Carmelo and Angelo Maon and Ara Rivina Malaya and Floribeth Cuison and Fernando Siringan},
   keywords = {Coastal erosion, Geographic information systems, Open-source software, Shoreline change analysis},
