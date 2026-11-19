@@ -329,7 +329,7 @@ def compute_area_change_stats(qdw):
     polygon_layer = create_add_layer(
         geometry="Polygon",
         geometries=polygon_geoms,
-        name=f'{area_change_inputs["polygon_layer"].name()}_area',
+        name=f"{area_change_inputs['polygon_layer'].name()}_area",
         fields=layer_fields,
         values=layer_values,
         datetime=current_datetime,
@@ -357,7 +357,7 @@ def compute_area_change_stats(qdw):
             total_area_by_type[Trend.ERODING], 2
         )
         summary["area_erosion_pct_of_areas"] = (
-            f"{total_area_by_type['erosion_percent']*100:.2f}%"
+            f"{total_area_by_type['erosion_percent'] * 100:.2f}%"
         )
         summary["area_erosion_num_of_areas"] = erosion_count
         summary["area_erosion_pct_of_num_of_areas"] = (
@@ -380,7 +380,7 @@ def compute_area_change_stats(qdw):
             total_area_by_type[Trend.ACCRETING], 2
         )
         summary["area_accretion_pct_of_areas"] = (
-            f"{total_area_by_type['accretion_percent']*100:.2f}%"
+            f"{total_area_by_type['accretion_percent'] * 100:.2f}%"
         )
         summary["area_accretion_num_of_areas"] = accretion_count
         summary["area_accretion_pct_of_num_of_areas"] = (
@@ -403,7 +403,7 @@ def compute_area_change_stats(qdw):
             total_area_by_type[Trend.STABLE], 2
         )
         summary["area_stable_pct_of_areas"] = (
-            f"{total_area_by_type['stable_percent']*100:.2f}%"
+            f"{total_area_by_type['stable_percent'] * 100:.2f}%"
         )
         summary["area_stable_num_of_areas"] = stable_count
         summary["area_stable_pct_of_num_of_areas"] = (
@@ -426,7 +426,7 @@ def compute_area_change_stats(qdw):
             total_newest_length_by_type[Trend.ERODING], 2
         )
         summary["newest_length_erosion_pct_of_lengths"] = (
-            f"{total_newest_length_by_type['erosion_percent']*100:.2f}%"
+            f"{total_newest_length_by_type['erosion_percent'] * 100:.2f}%"
         )
         summary["newest_length_erosion_num_of_lengths"] = erosion_count
         summary["newest_length_erosion_pct_of_num_of_lengths"] = (
@@ -452,7 +452,7 @@ def compute_area_change_stats(qdw):
             total_newest_length_by_type[Trend.ACCRETING], 2
         )
         summary["newest_length_accretion_pct_of_lengths"] = (
-            f"{total_newest_length_by_type['accretion_percent']*100:.2f}%"
+            f"{total_newest_length_by_type['accretion_percent'] * 100:.2f}%"
         )
         summary["newest_length_accretion_num_of_lengths"] = accretion_count
         summary["newest_length_accretion_pct_of_num_of_lengths"] = (
@@ -476,7 +476,7 @@ def compute_area_change_stats(qdw):
             total_newest_length_by_type[Trend.STABLE], 2
         )
         summary["newest_length_stable_pct_of_lengths"] = (
-            f"{total_newest_length_by_type['stable_percent']*100:.2f}%"
+            f"{total_newest_length_by_type['stable_percent'] * 100:.2f}%"
         )
         summary["newest_length_stable_num_of_lengths"] = stable_count
         summary["newest_length_stable_pct_of_num_of_lengths"] = (
@@ -503,7 +503,7 @@ def compute_area_change_stats(qdw):
             total_oldest_length_by_type[Trend.ERODING], 2
         )
         summary["oldest_length_erosion_pct_of_lengths"] = (
-            f"{total_oldest_length_by_type['erosion_percent']*100:.2f}%"
+            f"{total_oldest_length_by_type['erosion_percent'] * 100:.2f}%"
         )
         summary["oldest_length_erosion_num_of_lengths"] = erosion_count
         summary["oldest_length_erosion_pct_of_num_of_lengths"] = (
@@ -529,7 +529,7 @@ def compute_area_change_stats(qdw):
             total_oldest_length_by_type[Trend.ACCRETING], 2
         )
         summary["oldest_length_accretion_pct_of_lengths"] = (
-            f"{total_oldest_length_by_type['accretion_percent']*100:.2f}%"
+            f"{total_oldest_length_by_type['accretion_percent'] * 100:.2f}%"
         )
         summary["oldest_length_accretion_num_of_lengths"] = accretion_count
         summary["oldest_length_accretion_pct_of_num_of_lengths"] = (
@@ -553,7 +553,7 @@ def compute_area_change_stats(qdw):
             total_oldest_length_by_type[Trend.STABLE], 2
         )
         summary["oldest_length_stable_pct_of_lengths"] = (
-            f"{total_oldest_length_by_type['stable_percent']*100:.2f}%"
+            f"{total_oldest_length_by_type['stable_percent'] * 100:.2f}%"
         )
         summary["oldest_length_stable_num_of_lengths"] = stable_count
         summary["oldest_length_stable_pct_of_num_of_lengths"] = (
