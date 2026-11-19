@@ -15,7 +15,7 @@ QGIS versions
 Currently, QSCAT is being tested on the following versions of QGIS:
 
 * **QGIS 3.22.16**: Minimum supported version; the long-term release (LTR) when QSCAT development started.
-* **QGIS 3.34.5**: Long-term release (LTR) as of April 1, 2024.
-* **QGIS 3.36.1**: Latest regular release as of April 1, 2024.
+* **QGIS 3.44.15**: Long-term release (LTR) as of November 2026.
+* **QGIS 4.2.3**: Latest regular release as of November 2026.
 
 QSCAT requires QGIS 3.22 or later. Newer versions will probably work, but we recommend using the versions listed above to avoid compatibility issues.

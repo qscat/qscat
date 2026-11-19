@@ -3,7 +3,7 @@
 ![QSCAT logo](https://github.com/qscat/qscat/assets/58874676/fefa611f-c4a9-4551-979d-1c3b193d38ea)
 
 
-[![QGIS](https://img.shields.io/badge/qgis-3.22.16_|_3.34.5_|_3.36.1-green)](https://download.qgis.org/downloads/)
+[![QGIS](https://img.shields.io/badge/qgis-3.22.16_|_3.44.15_|_4.2.3-green)](https://download.qgis.org/downloads/)
 [![QGIS.org - 0.5.0](https://img.shields.io/badge/qgis.org-0.5.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/qscat/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/qscat/qscat)
@@ -29,8 +29,8 @@ QSCAT is currently unstable, so please expect potential bugs and issues. In the 
 | - | - |
 | test coverage (ongoing) | [![codecov](https://codecov.io/gh/qscat/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/qscat/qscat) |
 | **3.22.16** | [![QGIS (3.22.16)](https://github.com/qscat/qscat/actions/workflows/ci-3.22.16.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.22.16.yml) |
-| **3.34.5** | [![QGIS (3.34.5)](https://github.com/qscat/qscat/actions/workflows/ci-3.34.5.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.34.5.yml) |
-| **3.36.1**| [![QGIS (3.36.1)](https://github.com/qscat/qscat/actions/workflows/ci-3.36.1.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.36.1.yml) |
+| **3.44.15** | [![QGIS (3.44.15)](https://github.com/qscat/qscat/actions/workflows/ci-3.44.15.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.44.15.yml) |
+| **4.2.3** | [![QGIS (4.2.3)](https://github.com/qscat/qscat/actions/workflows/ci-4.2.3.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-4.2.3.yml) |
 
 ## Features
 

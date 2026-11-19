@@ -1,6 +1,6 @@
-# Test for QGIS 3.34.5 (Long Term Release - stable)
+# Test for QGIS 4.2.3 (Latest Release - new features)
 
-name: QGIS (3.34.5)
+name: QGIS (4.2.3)
 
 on:
   push:
@@ -8,13 +8,13 @@ on:
     paths:
       - "qscat/**"
       - "tests/**"
-      - ".github/workflows/ci-3.34.5.yml"
+      - ".github/workflows/ci-4.2.3.yml"
   pull_request:
     branches: [main, staging]
     paths:
       - "qscat/**"
       - "tests/**"
-      - ".github/workflows/ci-3.34.5.yml"
+      - ".github/workflows/ci-4.2.3.yml"
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -37,11 +37,9 @@ jobs:
         uses: mamba-org/setup-micromamba@v3
         with:
           environment-name: qgis
-          # draco pinned: QGIS 3.34.5 links libdraco.so.9 (draco 1.5.7)
           create-args: >-
-            python=3.10
-            qgis=3.34.5
-            draco=1.5.7
+            python=3.12
+            qgis=4.2.3
             pytest-cov
           condarc: |
             channels:
@@ -56,6 +54,6 @@ jobs:
       - name: Upload Coverage Reports to CodeCov
         uses: codecov/codecov-action@v7
         with:
-          flags: qgis-3.34.5-tests
+          flags: qgis-4.2.3-tests
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
