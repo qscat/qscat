@@ -14,6 +14,7 @@ from qgis.core import (
 )
 
 from qscat.core.utils.date import convert_to_decimal_year, datetime_now
+from qscat.core.utils.geometry import as_polylines
 
 
 def create_add_layer(
@@ -125,7 +126,7 @@ def load_shorelines(shorelines_params):
         shoreline["year"] = decimal_year
         # shoreline['year'] = convert_to_decimal_year(feat[shorelines_params['date_field']])
         shoreline["geoms"] = [
-            QgsGeometry.fromPolylineXY(l) for l in feat.geometry().asMultiPolyline()
+            QgsGeometry.fromPolylineXY(l) for l in as_polylines(feat.geometry())
         ]
         if (
             feat[shorelines_params["unc_field"]] is None
@@ -153,9 +154,7 @@ def load_shorelines_geoms(layer):
 
     for feat in features:
         shoreline = []
-        geom = feat.geometry()
-        multi_line_string = geom.asMultiPolyline()
-        for line_string in multi_line_string:
+        for line_string in as_polylines(feat.geometry()):
             shoreline.append(QgsGeometry.fromPolylineXY(line_string))
         shorelines.append(shoreline)
     return shorelines
