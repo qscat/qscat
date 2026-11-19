@@ -46,10 +46,10 @@ The :guilabel:`Coordinate Reference System` or CRS setting in this plugin enable
 Metadata
 ========
 
-The metadata contains customizable information written in every :ref:`tab_summary_reports` file. Currently, the first version of QSCAT defines only author information in the metadata section.
+The metadata contains customizable information written in every :ref:`tab_summary_reports` file. Currently, the metadata section contains only author information.
 
 Author
 ------
 
-The author metadata allows you to specify the full name, position, and email address. 
+The author metadata allows you to specify the full name, affiliation, and email address. 
 

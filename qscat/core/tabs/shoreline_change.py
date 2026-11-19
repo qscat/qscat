@@ -602,7 +602,7 @@ class ShorelineChange:
         if stat in [Statistic.LRR, Statistic.WLR]:
             if shoreline_layer.featureCount() < 3:
                 display_message(
-                    "LRR and WLR requires atleast 3 shorelines.",
+                    "LRR and WLR require at least 3 shorelines.",
                     Qgis.Critical,
                 )
                 return False
@@ -857,9 +857,9 @@ def compute_least_square_fit(years, distances):
         raise ValueError("Year and distance values must have the same length.")
 
     if len(years) < 3:
-        raise ValueError("Years must be atleast 3 members.")
+        raise ValueError("Years must be at least 3 members.")
     if len(distances) < 3:
-        raise ValueError("Distances must be atleast 3 members.")
+        raise ValueError("Distances must be at least 3 members.")
 
     if not np.all(years[:-1] <= years[1:]):
         raise ValueError("Year values must be in ascending order.")
@@ -981,11 +981,11 @@ def compute_weighted_least_square_fit(years, distances, uncertainties):
         )
 
     if len(years) < 3:
-        raise ValueError("Years must be atleast 3 members.")
+        raise ValueError("Years must be at least 3 members.")
     if len(distances) < 3:
-        raise ValueError("Distances must be atleast 3 members.")
+        raise ValueError("Distances must be at least 3 members.")
     if len(uncertainties) < 3:
-        raise ValueError("Uncertainties must be atleast 3 members.")
+        raise ValueError("Uncertainties must be at least 3 members.")
 
     if not np.all(years[:-1] <= years[1:]):
         raise ValueError("Year values must be in ascending order.")

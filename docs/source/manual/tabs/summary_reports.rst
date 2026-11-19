@@ -85,9 +85,9 @@ Regardless of the type of result (shoreline change, area change, or forecasting)
 Project details
 ...............
 
-- **Time generated:** Date and time the report was generated (``MM-DD-YYYY HH-MM-SS``)
+- **Time generated:** Date and time the report was generated (``MM-DD-YY HH-MM-SS``)
 - **Project location:** Folder location of the QGIS project (:file:`.qgz`)
-- **Projection:** CRS auth id of the QGIS project (e.g ``EPSG:32651``)
+- **Projection:** CRS auth id of the QGIS project (e.g. ``EPSG:32651``)
 
 Metadata
 ........
@@ -100,7 +100,7 @@ System details
 ..............
 
 - **OS version:** Operating system name and version (e.g. ``Linux 6.5.0-18-generic``)
-- **QGIS version:** QGIS version and name (e.g. ``3.34.5-Prizrena``)
+- **QGIS version:** QGIS version and name (e.g. ``3.34.5-Prizren``)
 - **QSCAT version:** QSCAT plugin version (e.g. ``0.3.1``)
 
 Shoreline Change
@@ -190,7 +190,7 @@ Summary of results
 - **Max. value:** Maximum value
 - **Min. value:** Minimum value
 
-**WEIGHTED REGRESSION RATE (WLR)**
+**WEIGHTED LINEAR REGRESSION (WLR)**
 
 **Eroding and Accreting:**
 
@@ -219,7 +219,7 @@ Summary of results
 **Eroding, Accreting, and Stable**
 
 - **(%) of areas:** Percentage of area value in total area
-- **No. of areas:** Number of areas with
+- **No. of areas:** Number of areas
 - **(%) of no. areas:** Percentage of number of areas
 - **Avg. value:** Average area value
 - **Max. value:** Maximum area value
@@ -249,4 +249,4 @@ Summary of results
 Forecasting
 -----------
 
-*The Forecasting summary report is not yet available.*
+*The Forecasting summary report currently contains only the base information; its input parameters and results are not yet filled in.*

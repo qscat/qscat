@@ -27,7 +27,7 @@ The first primary data required in QSCAT is the shoreline, or roughly the bounda
 Shoreline vectors preparation
 -----------------------------
 
-Shoreline data can be acquired through mapping using a handheld GPS unit, or traced on topographic maps, satellite images, and aerial photographs. The methods for extracting the shoreline on topographic map, and satellite images are discussed in detail in the accompanying **Manual on Shoreline Change Analysis** (to be shared soon). The shoreline vectors generated in this step will be the main input dataset to QSCAT.
+Shoreline data can be acquired through mapping using a handheld GPS unit, or traced on topographic maps, satellite images, and aerial photographs. The methods for extracting the shoreline on topographic map, and satellite images are discussed in detail in the accompanying **Manual on Shoreline Change Analysis** (not yet published). The shoreline vectors generated in this step will be the main input dataset to QSCAT.
 
 Merged shoreline layers
 -----------------------
@@ -45,14 +45,14 @@ After merging, each feature in the shoreline layer should contain the necessary 
 Field                   Name         Data Type   Format
 ======================= ============ =========== ===========
 QSCAT date field        ``any_name`` ``String``  ``mm/yyyy``
-QSCAT uncertainty field ``any_name`` ``Decimal`` ``x.xx``
+QSCAT uncertainty field ``any_name`` ``Double``  ``x.xx``
 ======================= ============ =========== ===========
 
 .. note:: **Attribute fields and values**
     
     * You need to add the two fields with proper data type above.
-    * The date value should be in the format ``mm/yyyy``. Ensure that the date is valid to avoid errors. Use ``mm`` for ``January`` such as ``01``.
-    * The uncertainty field should be of decimal data type and follow the format ``x.xx``. However, if the uncertainty value is an integer, a decimal value is not required.
+    * The date value should be in the format ``mm/yyyy``. Ensure that the date is valid to avoid errors. Use two-digit months, e.g. ``01`` for January.
+    * The uncertainty field should be of ``Double`` (decimal) data type and follow the format ``x.xx``. However, if the uncertainty value is an integer, a decimal value is not required.
     * Editing the uncertainty value in the attribute table is optional but recommended. If it is not defined (``0`` or ``None``), the plugin will default to the uncertainty value defined in the :ref:`shorelines_parameters`.
 
 .. tip:: **Automating attribute table**
@@ -64,7 +64,7 @@ QSCAT uncertainty field ``any_name`` ``Decimal`` ``x.xx``
 Baseline layer
 ==============
 
-Another important input data is the baseline, a vector constructed that is parallel to and at a certain distance from the shoreline. Similar to DSAS, the baseline is the starting point for all shoreline change calculations to be made in QSCAT. It is not part of the QSCAT plugin but can be generated using QGIS or any GIS software with the same functionality.
+Another important input data is the baseline, a vector constructed parallel to and at a certain distance from the shoreline. Similar to DSAS, the baseline is the starting point for all shoreline change calculations to be made in QSCAT. It is not part of the QSCAT plugin but can be generated using QGIS or any GIS software with the same functionality.
 
 .. _generating_the_baseline_vectors:
  
@@ -99,7 +99,7 @@ Once the baseline buffer is created, you will need to manually designate the bas
 Optional multiple baseline vectors in one layer
 -----------------------------------------------
 
-This feature allows you to cast transects on single run with multiple baseline vector in one layer with different baseline placement and orientation, and transect length values. To use this feature, you need to add any of the fields you want to have a different value other than the values defined in Baseline Tab in the attribute table of the baseline layer using :ref:`tab_automator_baseline_fields` automator (or manually using QGIS).
+This feature allows you to cast transects in a single run with multiple baseline vectors in one layer, each with its own baseline placement, orientation, transect length, and smoothing distance values. To use this feature, you need to add any of the fields you want to have a different value other than the values defined in Baseline Tab in the attribute table of the baseline layer using :ref:`tab_automator_baseline_fields` automator (or manually using QGIS).
 
 Then, you should edit the field values with the following:
 
@@ -108,10 +108,11 @@ Field                Values
 ==================== =====================
 baseline placement   ``sea`` or ``land``
 baseline orientation ``left`` or ``right``
-transect length      ``<any_number>``
+transect length      ``<any_integer>``
+smoothing distance   ``<any_integer>``
 ==================== =====================
 
-To know more about these values, please refer to the following: :ref:`tab_baseline_placement`, :ref:`tab_baseline_orientation` and :ref:`tab_transects_parameters_length` sections respectively.
+To know more about these values, please refer to the following: :ref:`tab_baseline_placement`, :ref:`tab_baseline_orientation`, :ref:`tab_transects_parameters_length`, and :ref:`tab_transects_parameters_smoothing_distance` sections respectively.
 
 .. warning:: Values such as ``sea``, ``land``, ``left`` and ``right`` are case-sensitive and should be written as is. If the values are not written as is, QSCAT will not recognize the values and will default to the values defined in the Baseline Tab.
 

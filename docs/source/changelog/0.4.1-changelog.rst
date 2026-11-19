@@ -17,13 +17,13 @@ Added
 - `Visualization Tab`: Add option to select column, and input uncertainty value to support layers generated outside QSCAT.
 - `Baseline Tab`, `Automator Tab`: Add smoothing distance field.
 - `Shoreline Change Tab`, `Area Change Tab`, `Forecasting Tab`, `Visualization Tab`, `Summary Reports Tab`: Add input saving.
-- `Help Tab`: Add useful links.
+- `About Tab`: Add useful links.
 - `Shorelines Tab`: Add selected shorelines layer validation when changing layer selections.
 
 
 Changed
 =======
 
-- `Shoreline Change Tab`: Make newest and oldest date selection automatic; no need to button to update.
+- `Shoreline Change Tab`: Make newest and oldest date selection automatic; no update button needed.
 - Major code reformatting and refactor.
 - `User Manual`: Update figures and texts.
