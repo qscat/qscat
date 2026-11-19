@@ -93,4 +93,7 @@ def load_shorelines_by_date(layer, date, date_field):
 
     for feat in feats:
         if feat[date_field] == date:
-            return feat.geometry()
+            geom = feat.geometry()
+            # Ensure MultiLineString for single part shorelines
+            geom.convertToMultiType()
+            return geom

@@ -3,6 +3,7 @@ from qgis.core import QgsGeometry, QgsPointXY, QgsProject, QgsWkbTypes
 from qgis.testing import start_app
 
 from qscat.core.layer import create_add_layer
+from qscat.core.utils.geometry import as_polylines
 
 start_app()
 
@@ -68,3 +69,17 @@ def test_create_add_layer():
     # Custom properties
     for key, value in extra_values.items():
         assert layer.customProperty(key) == value
+
+
+def test_as_polylines():
+    """Test getting line parts of single and multipart line geometries."""
+    single = QgsGeometry.fromWkt("LineString (0 0, 1 1)")
+    single_z = QgsGeometry.fromWkt("LineString Z (0 0 5, 1 1 5)")
+    multi = QgsGeometry.fromWkt("MultiLineString ((0 0, 1 1), (2 2, 3 3))")
+
+    assert as_polylines(single) == [[QgsPointXY(0, 0), QgsPointXY(1, 1)]]
+    assert as_polylines(single_z) == [[QgsPointXY(0, 0), QgsPointXY(1, 1)]]
+    assert as_polylines(multi) == [
+        [QgsPointXY(0, 0), QgsPointXY(1, 1)],
+        [QgsPointXY(2, 2), QgsPointXY(3, 3)],
+    ]
