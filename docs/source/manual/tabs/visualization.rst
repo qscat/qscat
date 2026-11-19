@@ -87,7 +87,7 @@ Not all shoreline change statistics have the same types of classes. We have defi
      - Stable
      - Positive
    * - SCE
-     - 
+     -
      - ✓
      - ✓
    * - NSM, EPR
@@ -96,7 +96,7 @@ Not all shoreline change statistics have the same types of classes. We have defi
      - ✓
    * - LRR, WLR
      - ✓
-     - 
+     -
      - ✓
 
 In the table above, SCE has only stable and positive classes. The positive class refers to SCE having only positive values, while stable class represents the negative and positive maximum value of uncertainty.
@@ -125,4 +125,3 @@ Color stops for the negative, positive, and stable classes have been pre-defined
    * - Positive
      - ``#2265bc`` (bluish)
      - Color 2 stop
-

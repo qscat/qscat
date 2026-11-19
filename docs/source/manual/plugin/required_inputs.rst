@@ -12,7 +12,7 @@ Required Inputs
 
 To use this plugin, you only need these two vector layers:
 
-#. **Shorelines layer:** Vectors of shoreline positions for different years; and 
+#. **Shorelines layer:** Vectors of shoreline positions for different years; and
 #. **Baseline layer:** Vector that serves as a starting point for all transects cast by QSCAT :cite:p:`2018:dsasv5`.
 
 .. _plugin_required_inputs_shorelines:
@@ -49,7 +49,7 @@ QSCAT uncertainty field ``any_name`` ``Double``  ``x.xx``
 ======================= ============ =========== ===========
 
 .. note:: **Attribute fields and values**
-    
+
     * You need to add the two fields with proper data type above.
     * The date value should be in the format ``mm/yyyy``. Ensure that the date is valid to avoid errors. Use two-digit months, e.g. ``01`` for January.
     * The uncertainty field should be of ``Double`` (decimal) data type and follow the format ``x.xx``. However, if the uncertainty value is an integer, a decimal value is not required.
@@ -67,7 +67,7 @@ Baseline layer
 Another important input data is the baseline, a vector constructed parallel to and at a certain distance from the shoreline. Similar to DSAS, the baseline is the starting point for all shoreline change calculations to be made in QSCAT. It is not part of the QSCAT plugin but can be generated using QGIS or any GIS software with the same functionality.
 
 .. _generating_the_baseline_vectors:
- 
+
 Baseline vectors creation
 -------------------------
 
@@ -104,7 +104,7 @@ This feature allows you to cast transects in a single run with multiple baseline
 Then, you should edit the field values with the following:
 
 ==================== =====================
-Field                Values              
+Field                Values
 ==================== =====================
 baseline placement   ``sea`` or ``land``
 baseline orientation ``left`` or ``right``

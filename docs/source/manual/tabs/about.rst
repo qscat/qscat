@@ -12,4 +12,3 @@ The :guilabel:`About Tab` allows you to see the current version of QSCAT, check 
    .. contents::
       :local:
       :depth: 2
-

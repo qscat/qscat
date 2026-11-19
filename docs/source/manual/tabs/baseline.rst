@@ -22,7 +22,7 @@ The :guilabel:`Baseline Tab` allows you to configure the baseline by selecting t
 
 
 .. _tab_baseline_layer:
-   
+
 
 Layer
 =====
@@ -55,7 +55,7 @@ After selecting the baseline layer, the next step is to choose the baseline plac
 .. figure:: /img/baseline/baseline-placement.png
    :align: center
    :alt: Guide for determining the appropriate baseline placement
-   
+
    Guide for determining the appropriate baseline placement
 
 .. _tab_baseline_orientation:

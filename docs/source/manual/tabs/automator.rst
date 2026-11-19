@@ -104,7 +104,7 @@ The :guilabel:`Baseline buffer` automator simplifies creating the baseline from 
 #. **Input layer:** vector layer containing the merged shorelines.
 #. **Buffer distance:** distance in meters to create the buffer around the merged shorelines.
 
-The automator uses processing algorithm :guilabel:`Buffer` with pre-defined inputs to create the buffer around the merged shorelines layer. The output is then converted to ``MultiLineString``. To read more about input baseline layer, please refer to :ref:`generating_the_baseline_vectors`. 
+The automator uses processing algorithm :guilabel:`Buffer` with pre-defined inputs to create the buffer around the merged shorelines layer. The output is then converted to ``MultiLineString``. To read more about input baseline layer, please refer to :ref:`generating_the_baseline_vectors`.
 
 The following are the pre-defined inputs for the :guilabel:`Buffer` algorithm:
 

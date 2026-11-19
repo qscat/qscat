@@ -24,7 +24,7 @@ The :guilabel:`Transects Tab` allows you to cast the transects.
 * Transects will be cast perpendicular to the baseline.
 * Shoreline change statistics are calculated for each transect from its intersection points with the shorelines.
 * Transects are numbered following the baseline orientation; if the baseline is oriented from north to south, the transect number also starts from the north.
-* The following subsections describe several parameters needed for transect casting, such as transect count, length, and smoothing distance value. 
+* The following subsections describe several parameters needed for transect casting, such as transect count, length, and smoothing distance value.
 
 Layer
 =====
@@ -62,7 +62,7 @@ By transect spacing
 .. figure:: /img/transects/transects-spacing.png
   :align: center
   :alt: Guide for determining transect spacing
-   
+
   Guide for determining transect spacing
 
 Based on a user-defined spacing or interval between transects, in meters, this automatically calculates the number of transects to be cast.
@@ -80,7 +80,7 @@ By number of transects
 
 Based on the user-defined number of transects, QSCAT estimates the appropriate spacing between transects for a particular baseline.
 
-In DSAS, the number of transects to be cast depends on the scale of the data and the intended scale of output rate information :cite:p:`2018:dsasv5`. It has been observed that the casting of transects in DSAS takes more time as the transect spacing becomes smaller. In QSCAT, the speed at which transects are cast does not differ significantly with varying transect spacing. A 10-m transect spacing applied to a nearly linear 94-km coastline of La Union took about 5-10 minutes in QSCAT and about 30-45 minutes in DSAS.   
+In DSAS, the number of transects to be cast depends on the scale of the data and the intended scale of output rate information :cite:p:`2018:dsasv5`. It has been observed that the casting of transects in DSAS takes more time as the transect spacing becomes smaller. In QSCAT, the speed at which transects are cast does not differ significantly with varying transect spacing. A 10-m transect spacing applied to a nearly linear 94-km coastline of La Union took about 5-10 minutes in QSCAT and about 30-45 minutes in DSAS.
 
 
 .. _tab_transects_parameters:
@@ -109,7 +109,7 @@ Transect length
 
   Guide for determining transect length
 
-DSAS uses the term search distance, which is the distance (in meters) that DSAS uses to search for intersection points from the baseline to the shoreline vectors along a transect. The baseline will be the starting point for calculating distances. As depicted in :numref:`figure_transect_length`, the concept of search distance is similar to transect length. Thus, in QSCAT, search distance is referred to as transect length. 
+DSAS uses the term search distance, which is the distance (in meters) that DSAS uses to search for intersection points from the baseline to the shoreline vectors along a transect. The baseline will be the starting point for calculating distances. As depicted in :numref:`figure_transect_length`, the concept of search distance is similar to transect length. Thus, in QSCAT, search distance is referred to as transect length.
 
 Intuitively, the transect length should be long enough to intersect all shoreline vectors to be analyzed. To approximate this length, you can estimate the distance between the baseline and the shoreline farthest from it and use the maximum value as the transect length. As such, a single transect length may not apply to the entire coastline due to varying magnitudes of change and the curvature of the coast itself. On embayed coasts, the longer the transect, the greater the possibility of transects intersecting one another, particularly on curved coastal segments. In such cases, a variable transect length should be implemented. Where a variable transect length is more suitable, it is advisable to segmentize the shoreline and baseline (see :ref:`optional_multiple_baseline_vectors`) before running QSCAT.
 
@@ -120,9 +120,9 @@ Smoothing distance
 
 Smoothing distance is applied to the baseline to ensure that the cast transects will be oriented perpendicular to the baseline. Smoothing is needed, particularly on curvy or embayed shorelines, to prevent the transects from intersecting one another along the curved section of the coast :cite:p:`2018:dsasv5`. In the DSAS v5 manual :cite:p:`2018:dsasv5`, the following guidelines were provided:
 
-#. For a curvy or sinuous coastline, the smoothing distance should be longer than the width of the bends in the shoreline. 
+#. For a curvy or sinuous coastline, the smoothing distance should be longer than the width of the bends in the shoreline.
 #. The smoothing distance should not be too large to produce a nearly linear (or overly smoothed) baseline and generate transects that are oriented almost parallel to the baseline.
-#. The recommended smoothing distance is 500 m but should be at most 2500 m. 
+#. The recommended smoothing distance is 500 m but should be at most 2500 m.
 #. However, it is recommended that you experiment using different smoothing distances until the transects become oriented perpendicular to the baseline. Figure 19 in the DSAS v5 manual demonstrates several smoothing examples to guide you in selecting the appropriate smoothing distance :cite:p:`2018:dsasv5`. :numref:`figure_transects_smoothing_distance` shows how the smoothing procedure is being implemented in both QSCAT and DSAS.
 
 .. _figure_transects_smoothing_distance:
@@ -144,7 +144,7 @@ Vector layer output
 Layers
 ------
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 30 20 50
 

@@ -9,7 +9,7 @@ Authors
 The initial version of QSCAT was developed by the UP-DMMMSU CoastER team:
 
 .. csv-table::
-   :widths: auto    
+   :widths: auto
 
    "Louis Philippe Facun"
    "Ma. Yvainne Sta. Maria"
