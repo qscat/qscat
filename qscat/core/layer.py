@@ -1,8 +1,6 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-import json
-
 from PyQt5.QtCore import QVariant
 from qgis.core import (
     QgsFeature,
@@ -125,7 +123,8 @@ def load_shorelines(shorelines_params):
         shoreline["year"] = decimal_year
         # shoreline['year'] = convert_to_decimal_year(feat[shorelines_params['date_field']])
         shoreline["geoms"] = [
-            QgsGeometry.fromPolylineXY(l) for l in feat.geometry().asMultiPolyline()
+            QgsGeometry.fromPolylineXY(line)
+            for line in feat.geometry().asMultiPolyline()
         ]
         if (
             feat[shorelines_params["unc_field"]] is None

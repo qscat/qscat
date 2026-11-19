@@ -1,7 +1,6 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QCheckBox, QComboBox, QLineEdit, QRadioButton
 from qgis.core import Qgis, QgsProject
 from qgis.gui import (

@@ -1275,11 +1275,11 @@ class GetTransectsIntersectionsTask(QgsTask):
                         # Keep track of "fullest" intersection regardless
                         # of chosen transect-shoreline intersections
                         if self.baseline_params["is_baseline_placement_sea"]:
-                            final_fullest_intersect = min(
+                            final_fullest_intersect = min(  # noqa: F841 (WIP, not stored yet)
                                 intersections, key=intersections.get
                             )
                         elif self.baseline_params["is_baseline_placement_land"]:
-                            final_fullest_intersect = min(
+                            final_fullest_intersect = min(  # noqa: F841 (WIP, not stored yet)
                                 intersections, key=intersections.get
                             )
 
@@ -1315,10 +1315,10 @@ class GetTransectsIntersectionsTask(QgsTask):
                             ]
 
                         individual_shoreline_intersects["intersect_x"] = float(
-                            (final_intersect.asPoint().x())
+                            final_intersect.asPoint().x()
                         )
                         individual_shoreline_intersects["intersect_y"] = float(
-                            (final_intersect.asPoint().y())
+                            final_intersect.asPoint().y()
                         )
 
                         # TODO: store only one time

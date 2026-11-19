@@ -2,8 +2,7 @@ import configparser
 import os
 from pathlib import Path
 
-from qgis.core import QgsApplication
-from qgis.core import QgsProject
+from qgis.core import QgsApplication, QgsProject
 
 
 def get_project_dir():
