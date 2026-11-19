@@ -41,8 +41,10 @@ jobs:
             python=3.12
             qgis=3.44.15
             pytest-cov
+          # LTR builds of QGIS 3.44 are published under the qgis_ltr label
           condarc: |
             channels:
+              - conda-forge/label/qgis_ltr
               - conda-forge
           cache-environment: true
 
