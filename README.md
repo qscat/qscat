@@ -4,6 +4,7 @@
 
 
 [![QGIS](https://img.shields.io/badge/qgis-3.44.15-green)](https://download.qgis.org/downloads/)
+[![Lint](https://github.com/qscat/qscat/actions/workflows/lint.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/lint.yml)
 [![QGIS.org - 0.5.0](https://img.shields.io/badge/qgis.org-0.5.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/qscat/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/qscat/qscat)
