@@ -75,11 +75,10 @@ Allows you to select the forecast period (10 or 20 years) from now. "From now" r
 Vector layer output
 ===================
 
-The :guilabel:`Kalman Filter` forecasting algorithm output three vector layers:
+The :guilabel:`Kalman Filter` forecasting algorithm outputs two vector layers:
 
-#. **Forecasted points** is the forecasted points for each transect.
-#. **Forecasted line** is a line string geometry connected by forecasted points.
-#. **Forecasted polygon** is a polygon geometry connected by positive and negative forecasted uncertainty points.
+#. **Forecasted points:** the forecasted shoreline position on each transect.
+#. **Forecasted uncertainty points:** the positive and negative forecasted uncertainty positions on each transect.
 
 Layers
 ------
@@ -94,12 +93,9 @@ Layers
    * - Forecasted points
      - ``Point``
      - ``forecast_points [<datetime>]``
-   * - Forecasted line
-     - ``LineString``
-     - ``forecast_line [<datetime>]``
-   * - Forecasted polygon
-     - ``Polygon``
-     - ``forecast_polygon [<datetime>]`` 
+   * - Forecasted uncertainty points
+     - ``Point``
+     - ``forecast_uncertainty_points [<datetime>]``
 
 
 Attributes
@@ -110,17 +106,17 @@ Forecast points
 
 .. list-table:: Forecast points attribute table
    :header-rows: 1
-   :widths: 15 15 70
+   :widths: 30 20 50
 
    * - Field name
      - Data type
      - Description
    * - ``period``
      - ``integer``
-     - Selected forecast year period (10 or 20).
+     - Selected forecast period in years (10 or 20).
    * - ``year``
-     - ``integer``
-     - Forecasted year calculated based from period.
+     - ``double``
+     - Forecasted year (decimal year) calculated based on the period.
    * - ``distance``
      - ``double``
      - Magnitude value of forecasted distance.
@@ -135,44 +131,19 @@ Forecast points
      - Y coordinate of the forecasted point.
 
 
-Forecast line
-.............
+Forecast uncertainty points
+...........................
 
-.. list-table:: Forecast line attribute table
+.. list-table:: Forecast uncertainty points attribute table
    :header-rows: 1
-   :widths: 15 15 70
+   :widths: 30 20 50
 
    * - Field name
      - Data type
      - Description
    * - ``period``
      - ``integer``
-     - Selected forecast year period (10 or 20).
+     - Selected forecast period in years (10 or 20).
    * - ``year``
-     - ``integer``
-     - Forecasted year calculated based from period.
-   * - ``length``
      - ``double``
-     - Line length of connected forecasted points.
-
-
-Forecast polygon
-................
-
-.. list-table:: Forecast polygon attribute table
-   :header-rows: 1
-   :widths: 15 15 70
-
-   * - Field name
-     - Data type
-     - Description
-   * - ``period``
-     - ``integer``
-     - Selected forecast year period (10 or 20).
-   * - ``year``
-     - ``integer``
-     - Forecasted year calculated based from period.
-   * - ``area``
-     - ``double``
-     - Polygon area of connected forecasted uncertainty.
-
+     - Forecasted year (decimal year) calculated based on the period.

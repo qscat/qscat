@@ -5,7 +5,7 @@ Installation
 ************
 
 
-The QSCAT plugin can be installed in two ways: by using the QGIS plugin repository (recommended) or by installing from a ZIP file. The steps to install the plugin are similar regardless of the operating system (Windows, Linux, or Mac OS). The following sections provide detailed instructions on how to install the plugin using both methods.
+The QSCAT plugin can be installed in two ways: by using the QGIS plugin repository (recommended) or by installing from a ZIP file. The steps to install the plugin are similar regardless of the operating system (Windows, Linux, or macOS). The following sections provide detailed instructions on how to install the plugin using both methods.
 
 .. only:: html
 
@@ -17,8 +17,8 @@ The QSCAT plugin can be installed in two ways: by using the QGIS plugin reposito
 
    Keep in mind that the latest version of the QSCAT plugin may not always be immediately available in the official QGIS plugin repository. New versions always require approval from the QGIS team. To stay up-to-date, consider checking the plugin's GitHub repository directly (https://github.com/qscat/qscat/releases/latest), where you can find the most recent releases and changelogs.
 
-By QGIS Plugin Repository
-=========================
+From the QGIS Plugin Repository
+===============================
 
 1. Open ``QGIS``, :menuselection:`Plugins --> Manage and Install Plugins... --> Settings`.
 2. Check :guilabel:`Show also experimental plugins`. Go to :guilabel:`All`.
@@ -27,12 +27,12 @@ By QGIS Plugin Repository
 5. Go to :guilabel:`Installed`. The ``QGIS Shoreline Change Analysis Tool`` should now appear in the list if the plugin is installed successfully. Check the checkbox to enable the plugin (if not checked).
 6. Once enabled, the |qscat| icon will appear in the toolbar.
 
-By Install from ZIP
-====================
+From a ZIP File
+===============
 
-1. Download the latest ``qscat.zip`` file from the following link: https://github.com/qscat/qscat/releases/latest. Or ``qscat-x.y-z.zip`` from https://plugins.qgis.org/plugins/qscat/.
+1. Download the latest ``qscat.zip`` file from the following link: https://github.com/qscat/qscat/releases/latest. Or ``qscat-x.y.z.zip`` from https://plugins.qgis.org/plugins/qscat/.
 2. Open ``QGIS``, :menuselection:`Plugins --> Manage and Install Plugins... --> Install from ZIP`.
-3. Click :guilabel:`...`, find the downloaded ``qscat.zip`` (or ``qscat-x.y-z.zip``) then click :guilabel:`Install Plugin`. Finally, proceed with the warning if asked.
+3. Click :guilabel:`...`, find the downloaded ``qscat.zip`` (or ``qscat-x.y.z.zip``) then click :guilabel:`Install Plugin`. Finally, proceed with the warning if asked.
 4. Go to :guilabel:`Installed`. The ``QGIS Shoreline Change Analysis Tool`` should now appear in the list if the plugin is installed successfully. Check the checkbox to enable the plugin (if not checked).
 5. Once enabled, the |qscat| icon will appear in the toolbar.
 

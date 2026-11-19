@@ -5,7 +5,7 @@ Tab: Shoreline Change
 *********************
 
 
-The :guilabel:`Shoreline Change Tab` allows you to calculate the following shoreline change statistics: (a) Shoreline Change Envelope (SCE), (b) Net Shoreline Movement (NSM), (c) End-Point Rate (EPR), and (d) Linear Regression Rate (LRR). The first three statistics (SCE, NSM, and EPR) require only two shoreline vectors, while LRR requires at least three (3) shoreline vectors to compute the rate of change. SCE and NSM refer to magnitude or distance in meters (m), while EPR and LRR are rate-of-change statistics in meters per year (m/y).
+The :guilabel:`Shoreline Change Tab` allows you to calculate the following shoreline change statistics: (a) Shoreline Change Envelope (SCE), (b) Net Shoreline Movement (NSM), (c) End-Point Rate (EPR), (d) Linear Regression Rate (LRR), and (e) Weighted Linear Regression Rate (WLR). The first three statistics (SCE, NSM, and EPR) require only two shoreline vectors, while LRR and WLR require at least three (3) shoreline vectors to compute the rate of change. SCE and NSM refer to magnitude or distance in meters (m), while EPR, LRR, and WLR are rate-of-change statistics in meters per year (m/y).
 
 .. only:: html
 
@@ -40,7 +40,7 @@ This run requires a transect layer to calculate the selected statistics in the :
 Clip transects
 --------------
 
-By default, the transects are not clipped to the farthest shoreline extent. However, you have the power to choose whether to clip the shorelines by checking this box. The clipping has no effect on the statistics, but it will make seeing the statistics' transects easier.
+By default, the transects are not clipped to the farthest shoreline extent. You can clip the transects by checking this box. Clipping has no effect on the statistics, but it makes the transects easier to view.
 
 .. _tab_shoreline_change_tsi:
 
@@ -117,11 +117,11 @@ The shoreline change statistics in QSCAT and the resulting sample attribute tabl
 Shoreline Change Envelope (SCE)
 -------------------------------
 
-The shoreline change envelope (SCE) is the maximum distance, in meters (m), among all the shorelines intersecting a given transect :cite:p:`2018:dsasv5`. If there are multiple shoreline vectors, one can quickly identify the most significant magnitude of shoreline movement (``SCE_value`` column) and when it occurred (``SCE_closest`` year and ``SCE_farthest`` year columns) in the resulting attribute table of shoreline change statistics (:numref:`table_shoreline_change_statistics`). Since SCE is a distance, all values are positive. The shoreline trends can be inferred from the ``SCE_trend`` column, depending on whether SCE represents erosion, accretion, or stability. 
+The shoreline change envelope (SCE) is the maximum distance, in meters (m), among all the shorelines intersecting a given transect :cite:p:`2018:dsasv5`. If there are multiple shoreline vectors, one can quickly identify the most significant magnitude of shoreline movement (``SCE`` column) and when it occurred (``SCE_closest_year`` and ``SCE_farthest_year`` columns) in the resulting attribute table of shoreline change statistics (:numref:`table_shoreline_change_statistics`). Since SCE is a distance, all values are positive. The shoreline trends can be inferred from the ``SCE_trend`` column, depending on whether SCE represents erosion, accretion, or stability. 
 
 .. math::
    
-   SCE = farthest\_year\_distance - closest\_year\_distance
+   SCE = \lvert farthest\_year\_distance - closest\_year\_distance \rvert
 
 
 Net Shoreline Movement (NSM)
@@ -131,7 +131,7 @@ The net shoreline movement (NSM) represents the magnitude of shoreline change be
 
 .. math::
 
-   NSM = oldest\_year\_distance - newest\_year\_distance
+   NSM = newest\_year\_distance - oldest\_year\_distance
 
 The uncertainty is based on the shoreline with the largest uncertainty values in the attribute table of the input layer.
 
@@ -215,44 +215,58 @@ R-Squared of Linear Regression (LR2 or WR2)
 ...........................................
 
 .. math::
-   LR2\ or\ WR2 = 1 - \sqrt{\frac{\sum_{i=1}^{n} (y_i-\hat{y}_i)^2}{\sum_{i=1}^{n} (y_i-\bar{y})^2}}
+   LR2 = 1 - \frac{\sum_{i=1}^{n} (y_i-\hat{y}_i)^2}{\sum_{i=1}^{n} (y_i-\bar{y})^2}
+
+.. math::
+   WR2 = 1 - \frac{\sum_{i=1}^{n} weight_i*(y_i-\hat{y}_i)^2}{\sum_{i=1}^{n} weight_i*(y_i-\bar{y}_w)^2}
 
 where:
 
 - :math:`n` - length of years and distances
-- :math:`\hat{y}` - predicted i\ :sup:`th` distance (:math:`LRR\ or\ WLR*x_i + intercept`)
+- :math:`\hat{y}_i` - predicted i\ :sup:`th` distance (:math:`LRR*x_i + intercept` for LR2, :math:`WLR*x_i + intercept` for WR2)
 - :math:`\bar{y}` - mean of distances
+- :math:`\bar{y}_w` - weighted mean of distances
 - :math:`y_i` - actual i\ :sup:`th` distance
+- :math:`weight_i` - i\ :sup:`th` weight (:math:`1/e_i^2`)
 
 
 Standard Error of Estimate of Linear Regression (LSE or WSE)
 ............................................................
 
 .. math::
-   LSE\ or\ WSE  = \sqrt{\frac{\sum_{i=1}^{n} (y_i-\hat{y}_i)^2}{n-2}}
+   LSE = \sqrt{\frac{\sum_{i=1}^{n} (y_i-\hat{y}_i)^2}{n-2}}
+
+.. math::
+   WSE = \sqrt{\frac{\sum_{i=1}^{n} weight_i*(y_i-\hat{y}_i)^2}{n-2}}
 
 where:
 
 - :math:`n` - length of years and distances
-- :math:`\hat{y}` - predicted i\ :sup:`th` distance (:math:`LRR\ or\ WLR*x_i + intercept`)
+- :math:`\hat{y}_i` - predicted i\ :sup:`th` distance (:math:`LRR*x_i + intercept` for LSE, :math:`WLR*x_i + intercept` for WSE)
 - :math:`y_i` - actual i\ :sup:`th` distance
+- :math:`weight_i` - i\ :sup:`th` weight (:math:`1/e_i^2`)
 
 
 Confidence Interval of Linear Regression (LCI or WCI)
 ......................................................
 
 .. math::
-   LCI\ or\ WCI  = t\_inv(n-2,\ 1-\alpha/2) *  \sqrt{\frac{LSE^2\ or\ WSE^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}
+   LCI = t\_inv(n-2,\ 1-\alpha/2) * \sqrt{\frac{LSE^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}
+
+.. math::
+   WCI = t\_inv(n-2,\ 1-\alpha/2) * \sqrt{\frac{WSE^2}{\sum_{i=1}^{n} weight_i*(x_i-\bar{x}_w)^2}}
 
 where:
 
 - :math:`\alpha` - :math:`1 - (confidence\_interval*.01)` (confidence interval in percent)
-- :math:`t\_inv()` - student's t-distribution function
+- :math:`t\_inv()` - inverse of the cumulative distribution function of Student's t-distribution
 - :math:`LSE` - standard error of estimate of linear regression
 - :math:`WSE` - standard error of estimate of weighted linear regression
 - :math:`n` - length of years and distances
 - :math:`\bar{x}` - mean of years
+- :math:`\bar{x}_w` - weighted mean of years
 - :math:`x_i` - i\ :sup:`th` year
+- :math:`weight_i` - i\ :sup:`th` weight (:math:`1/e_i^2`)
 
 .. _tab_shoreline_change_pcs:
 

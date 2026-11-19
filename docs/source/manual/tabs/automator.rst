@@ -72,7 +72,8 @@ The :guilabel:`Baseline fields` automator simplifies the process of adding attri
 #. **Input layer:** vector layer containing the merged baseline.
 #. **Placement field name:** field name that represents placement of baseline.
 #. **Orientation field name:** field name that captures the orientation of the baseline.
-#. **Transect length name:** field name that captures the length of the transect.
+#. **Transect length field name:** field name that captures the length of the transect.
+#. **Smoothing distance field name:** field name that captures the smoothing distance used when casting transects.
 
 The automator adds the following fields to the input layer:
 
@@ -82,6 +83,7 @@ Field name                   Data type
 ``<placement_field_name>``   ``String``
 ``<orientation_field_name>`` ``String``
 ``<transect_length_name>``   ``Integer``
+``<smoothing_field_name>``   ``Integer``
 ============================ ===========
 
 For more information about these fields, please refer to :ref:`optional_multiple_baseline_vectors`.
@@ -97,10 +99,10 @@ Baseline buffer
 
    Baseline buffer section in Automator Tab
 
-The :guilabel:`Baseline buffer` automator simplifies the process of creating a buffer around the baseline. This requires the following input:
+The :guilabel:`Baseline buffer` automator simplifies creating the baseline from a buffer around the merged shorelines. This requires the following input:
 
 #. **Input layer:** vector layer containing the merged shorelines.
-#. **Buffer distance:** distance in meters to create the buffer around the baseline.
+#. **Buffer distance:** distance in meters to create the buffer around the merged shorelines.
 
 The automator uses processing algorithm :guilabel:`Buffer` with pre-defined inputs to create the buffer around the merged shorelines layer. The output is then converted to ``LineString``. To read more about input baseline layer, please refer to :ref:`generating_the_baseline_vectors`. 
 
