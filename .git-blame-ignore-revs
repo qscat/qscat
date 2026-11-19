@@ -2,4 +2,6 @@
 # GitHub uses this file automatically. Locally: git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 # style: format code with ruff
-c236f2e1e1f24258c1168fce984d96dff2e786ee
+faa1fdec807927a066e3277fef53552f0076c0f3
+# style: fix trailing whitespace and end-of-file newlines
+9e86d9ea3e5fdfe84865c44a8ebb002d2a421bb1
