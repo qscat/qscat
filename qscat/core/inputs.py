@@ -7,6 +7,7 @@ from qgis.core import QgsProject
 
 from qscat.core.constants import Statistic
 from qscat.core.utils.date import convert_to_decimal_year
+from qscat.core.utils.unc import get_unc
 
 
 class Inputs:
@@ -175,10 +176,7 @@ class Inputs:
         default_unc = self.shorelines()["default_data_unc"]
         uncs = []
         for feat in feats:
-            if self.is_no_unc_value(feat[field]):
-                uncs.append(default_unc)
-            else:
-                uncs.append(feat[field])
+            uncs.append(get_unc(feat[field], default_unc))
         return uncs
 
     def shorelines_years_uncs(self):
@@ -195,10 +193,7 @@ class Inputs:
         uncs = {}
         for feat in feats:
             decimal_year = convert_to_decimal_year(feat[date_field])
-            if self.is_no_unc_value(feat[unc_field]):
-                uncs[decimal_year] = default_unc
-            else:
-                uncs[decimal_year] = feat[unc_field]
+            uncs[decimal_year] = get_unc(feat[unc_field], default_unc)
         return uncs
 
     def highest_unc(self):
@@ -227,13 +222,8 @@ class Inputs:
         oldest_year = self.qdw.cb_shoreline_change_oldest_date.currentText()
         newest_year = self.qdw.cb_shoreline_change_newest_date.currentText()
 
-        newest_date_unc = self.unc_by_date(newest_year)
-        oldest_date_unc = self.unc_by_date(oldest_year)
-
-        if self.is_no_unc_value(newest_date_unc):
-            newest_date_unc = default_unc
-        if self.is_no_unc_value(oldest_date_unc):
-            oldest_date_unc = default_unc
+        newest_date_unc = get_unc(self.unc_by_date(newest_year), default_unc)
+        oldest_date_unc = get_unc(self.unc_by_date(oldest_year), default_unc)
 
         EPR_unc_numerator = newest_date_unc**2 + oldest_date_unc**2
         EPR_unc = math.sqrt(EPR_unc_numerator) / (
@@ -241,11 +231,3 @@ class Inputs:
         )
 
         return round(EPR_unc, 2)
-
-    @staticmethod
-    def is_no_unc_value(unc_val):
-        """Check if the uncertainty field value is None or not greater than 0.0.
-
-        Args:
-            unc_val (float): Uncertainty field value."""
-        return bool(unc_val is None or not unc_val > 0.0)

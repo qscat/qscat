@@ -14,6 +14,7 @@ from qgis.core import (
 )
 
 from qscat.core.utils.date import convert_to_decimal_year, datetime_now
+from qscat.core.utils.unc import get_unc
 
 
 def create_add_layer(
@@ -127,13 +128,10 @@ def load_shorelines(shorelines_params):
         shoreline["geoms"] = [
             QgsGeometry.fromPolylineXY(l) for l in feat.geometry().asMultiPolyline()
         ]
-        if (
-            feat[shorelines_params["unc_field"]] is None
-            or not feat[shorelines_params["unc_field"]] > 0.0
-        ):
-            shoreline["unc"] = float(shorelines_params["default_data_unc"])
-        else:
-            shoreline["unc"] = float(feat[shorelines_params["unc_field"]])
+        shoreline["unc"] = get_unc(
+            feat[shorelines_params["unc_field"]],
+            shorelines_params["default_data_unc"],
+        )
         shorelines.append(shoreline)
 
     return shorelines
