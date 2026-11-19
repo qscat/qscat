@@ -117,7 +117,7 @@ QSCAT development requires QGIS and its dependencies. Use conda to create isolat
    conda activate qgis-3.36.1
    ```
 
-Environment files are provided for specific QGIS versions (e.g., `environment-3.36.1.yml`). Check `.github/workflows/` for CI-tested versions.
+Environment files are provided for specific QGIS versions (e.g., `environment-3.36.1.yml`). Check the `.github/workflows/ci-*.yml` files for CI-tested versions.
 
 ### Running Tests
 

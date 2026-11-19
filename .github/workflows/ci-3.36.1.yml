@@ -4,64 +4,55 @@ name: QGIS (3.36.1)
 
 on:
   push:
-    branches: [master]
+    branches: [master, staging]
     paths:
       - "qscat/**"
       - "tests/**"
+      - ".github/workflows/ci-3.36.1.yml"
   pull_request:
-    branches: [master]
+    branches: [master, staging]
     paths:
       - "qscat/**"
       - "tests/**"
+      - ".github/workflows/ci-3.36.1.yml"
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 5
     defaults:
       run:
         shell: bash -el {0}
-    env:
-      DISPLAY: ":99.0"
-      QT_SELECT: "qt5"
     steps:
-      - uses: conda-incubator/setup-miniconda@v3
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up QGIS environment
+        uses: mamba-org/setup-micromamba@v3
         with:
-          python-version: "3.10"
-          mamba-version: "*"
-          channels: conda-forge,defaults
-          channel-priority: true
-          activate-environment: anaconda-client-env
-      - name: Setup xvfb (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          # Stuff copied wildly from several stackoverflow posts
-          sudo apt-get install -y xvfb libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0 libxcb-shape0 libglib2.0-0 libgl1-mesa-dev
-          sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
-          # start xvfb in the background
-          sudo /usr/bin/Xvfb $DISPLAY -screen 0 1280x1024x24 &
-      - name: Install Libmamba
-        run: |
-          conda config --set solver libmamba
-      - name: Install QGIS package from conda-forge
-        run: |
-          conda install -c conda-forge qgis=3.36.1
-      - name: Install pip packages
-        run: |
-          pip install pytest-cov "coremltools>=7.0; platform_system != 'Windows' and python_version <= '3.11'"
-      - name: Check environment
-        run: |
-          conda list
+          environment-name: qgis
+          # draco pinned: QGIS 3.36.1 links libdraco.so.9 (draco 1.5.7)
+          create-args: >-
+            python=3.10
+            qgis=3.36.1
+            draco=1.5.7
+            pytest-cov
+          condarc: |
+            channels:
+              - conda-forge
+          cache-environment: true
+
       - name: PyTest
-        run: |
-          git clone https://github.com/qscat/qscat
-          cd qscat
-          pytest --cov=qscat/ --cov-report xml tests/
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: pytest --cov=qscat/ --cov-report xml tests/
+
       - name: Upload Coverage Reports to CodeCov
         uses: codecov/codecov-action@v7
         with:
