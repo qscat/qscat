@@ -28,7 +28,7 @@ QSCAT is currently unstable, so please expect potential bugs and issues. In the 
 | Name  | Status |
 | - | - |
 | test coverage (ongoing) | [![codecov](https://codecov.io/gh/qscat/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/qscat/qscat) |
-| **3.44.15** | [![CI](https://github.com/qscat/qscat/actions/workflows/ci.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci.yml) |
+| **3.44.15** | [![Tests](https://github.com/qscat/qscat/actions/workflows/tests.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/tests.yml) |
 
 ## Features
 
@@ -115,7 +115,7 @@ QSCAT development requires QGIS and its dependencies. Use conda to create isolat
    conda activate qgis-3.36.1
    ```
 
-Environment files are provided for specific QGIS versions (e.g., `environment-3.36.1.yml`). Check `.github/workflows/ci.yml` for the CI-tested version.
+Environment files are provided for specific QGIS versions (e.g., `environment-3.36.1.yml`). Check `.github/workflows/tests.yml` for the tested QGIS version.
 
 ### Running Tests
 
