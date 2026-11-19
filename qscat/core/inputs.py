@@ -92,9 +92,7 @@ class Inputs:
             "newest_year": convert_to_decimal_year(
                 self.qdw.cb_shoreline_change_newest_date.currentText()
             ),
-            "confidence_interval": float(
-                self.qdw.qdsb_stats_confidence_interval.text()
-            ),
+            "confidence_interval": self.qdw.qdsb_stats_confidence_interval.value(),
             "epr_unc": self.epr_unc(),
             "highest_unc": self.highest_unc(),
             "years_uncs": self.shorelines_years_uncs(),
