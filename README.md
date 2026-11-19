@@ -4,7 +4,7 @@
 
 
 [![QGIS](https://img.shields.io/badge/qgis-3.22.16_|_3.34.5_|_3.36.1-green)](https://download.qgis.org/downloads/)
-[![QGIS.org - 0.4.2](https://img.shields.io/badge/qgis.org-0.4.2-green.svg)](https://plugins.qgis.org/plugins/qscat)
+[![QGIS.org - 0.5.0](https://img.shields.io/badge/qgis.org-0.5.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/qscat/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/qscat/qscat)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8758/badge)](https://www.bestpractices.dev/projects/8758)
@@ -20,7 +20,7 @@ QSCAT was initially developed by UP-MSI CoastER team for a [government-funded in
 
 ## Warning
 
-QSCAT is currently unstable, so please expect for potential bugs and issues. In the meantime, we kindly request your assistance in reporting any problems you encounter at QSCAT GitHub Issues (https://github.com/qscat/qscat/issues). Thank you for your cooperation!
+QSCAT is currently unstable, so please expect potential bugs and issues. In the meantime, we kindly request your assistance in reporting any problems you encounter at QSCAT GitHub Issues (https://github.com/qscat/qscat/issues). Thank you for your cooperation!
 
 
 ## QGIS versions compatibility
@@ -39,16 +39,16 @@ QSCAT offers the following features:
 | Feature | Description |
 | - | -- |
 | [**Shoreline Change**](https://qscat.github.io/docs/latest/manual/tabs/shoreline_change.html) | Computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR). |
-| [**Area Change**](https://qscat.github.io/docs/latest/manual/tabs/area_change.html) | Calculates length and area of accreting, stable, and eroding coastal segments. |
-| [**Forecasting**](https://qscat.github.io/docs/latest/manual/tabs/forecasting.html) | Predicts future shoreline positions including uncertainty areas. |
-| [**Automator**](https://qscat.github.io/docs/latest/manual/tabs/automator.html) | Automates manual repetitive tasks. |
-| [**Visualization**](https://qscat.github.io/docs/latest/manual/tabs/visualization.html) | Visualizes shoreline and area change, forecasting results in the map for easy interpretation. |
+| [**Area Change**](https://qscat.github.io/docs/latest/manual/tabs/area_change.html) | Calculates the length and area of accreting, stable, and eroding coastal segments. |
+| [**Forecasting**](https://qscat.github.io/docs/latest/manual/tabs/forecasting.html) | Predicts future shoreline positions, including uncertainty areas. |
+| [**Automator**](https://qscat.github.io/docs/latest/manual/tabs/automator.html) | Automates repetitive manual tasks. |
+| [**Visualization**](https://qscat.github.io/docs/latest/manual/tabs/visualization.html) | Visualizes shoreline change, area change, and forecasting results on the map for easy interpretation. |
 | [**Summary Report**](https://qscat.github.io/docs/latest/manual/tabs/summary_reports.html) | Generates a comprehensive summary report of the results. |
 
 ## Installation
 
 <details open>
-<summary>Plugins Repository</summary>
+<summary>From the QGIS Plugin Repository</summary>
 
 ### Instructions
 
@@ -60,28 +60,28 @@ QSCAT offers the following features:
 
 4. Click `Install Plugin`.
 
-5. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed succesfuly. Check the checkbox to enable the plugin (if not checked).
+5. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed successfully. Check the checkbox to enable the plugin (if not checked).
 
-6. Once enabled, the ![](/qscat/qscat.png) icon will appear in the toolbar.
+6. Once enabled, the ![QSCAT icon](/qscat/qscat.png) icon will appear in the toolbar.
    
 </details>
 
 <details open>
-<summary>ZIP file</summary>
+<summary>From a ZIP File</summary>
 
 ### Instructions
 
-The latest QSCAT plugin is available as a ZIP file for installation. The steps to install the plugin on any operating system (Windows, Linux, Mac OS) are as follows:
+The latest QSCAT plugin is available as a ZIP file for installation. The steps to install the plugin on any operating system (Windows, Linux, macOS) are as follows:
 
-1. Download the latest `qscat.zip` file from the following link: [https://github.com/qscat/qscat/releases/latest](https://github.com/qscat/qscat/releases/latest). OR `qscat-x.y-z.zip` from [https://plugins.qgis.org/plugins/qscat/](https://plugins.qgis.org/plugins/qscat/).
+1. Download the latest `qscat.zip` file from the following link: [https://github.com/qscat/qscat/releases/latest](https://github.com/qscat/qscat/releases/latest). Or `qscat-x.y.z.zip` from [https://plugins.qgis.org/plugins/qscat/](https://plugins.qgis.org/plugins/qscat/).
 
 2. Open `QGIS`, `Plugins ‣ Manage and Install Plugins… ‣ Install from ZIP`.
 
-3. Click `…`, find the downloaded `qscat.zip`, then click `Install Plugin`. Finally, proceed with the warning if asked.
+3. Click `…`, find the downloaded `qscat.zip` (or `qscat-x.y.z.zip`), then click `Install Plugin`. Finally, proceed with the warning if asked.
 
-4. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed succesfuly. Check the checkbox to enable the plugin (if not checked).
+4. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed successfully. Check the checkbox to enable the plugin (if not checked).
 
-5. Once enabled, the ![](/qscat/qscat.png) icon will appear in the toolbar.
+5. Once enabled, the ![QSCAT icon](/qscat/qscat.png) icon will appear in the toolbar.
 
 </details>
 
@@ -117,7 +117,7 @@ QSCAT development requires QGIS and its dependencies. Use conda to create isolat
    conda activate qgis-3.36.1
    ```
 
-Environment files are provided for specific QGIS versions (e.g., `environment-3.36.1.yml`). Check the `.github/workflows/` for CI-tested versions.
+Environment files are provided for specific QGIS versions (e.g., `environment-3.36.1.yml`). Check the `.github/workflows/ci-*.yml` files for CI-tested versions.
 
 ### Running Tests
 
@@ -136,13 +136,13 @@ pytest --cov=qscat/ --cov-report html tests/
 Tests require the QGIS environment to be active. See CI workflows for automated testing.
 
 ## License
-- **[GPL License 3.0](LICENSE):** The QSCAT plugin is licensed under GPL 3.0, per [QGIS'](https://blog.qgis.org/2016/05/29/licensing-requirements-for-qgis-plugins/) Open Source Software principles. This decision aligns with the requirement for plugins to comply with GPL version 2 or greater for distribution through the QGIS plugin system.
+- **[GPL-3.0 License](LICENSE):** The QSCAT plugin is licensed under GPL 3.0, per [QGIS'](https://blog.qgis.org/2016/05/29/licensing-requirements-for-qgis-plugins/) Open Source Software principles. This decision aligns with the requirement for plugins to comply with GPL version 2 or greater for distribution through the QGIS plugin system.
 
 ## Citation
 
 If you use our work, please consider citing it as below:
 
-Facun, L. P., Sta Maria, M. Y., Ducao, R., Clemente, J. J., Carmelo, E. M., Maon, A., Malaya, A. R., Cuison, F., & Siringan, F. (2024). QGIS Shoreline Change Analysis Tool (QSCAT): A fast, open-source shoreline change analysis plugin for QGIS. *Environmental Modelling & Software*, 136, 106263. https://doi.org/10.1016/j.envsoft.2024.106263
+Facun, L. P., Sta Maria, M. Y., Ducao, R., Clemente, J. J., Carmelo, E. M., Maon, A., Malaya, A. R., Cuison, F., & Siringan, F. (2025). QGIS Shoreline Change Analysis Tool (QSCAT): A fast, open-source shoreline change analysis plugin for QGIS. *Environmental Modelling & Software*, 184, 106263. https://doi.org/10.1016/j.envsoft.2024.106263
 
 
 **BibTeX Entry**
@@ -151,10 +151,11 @@ Facun, L. P., Sta Maria, M. Y., Ducao, R., Clemente, J. J., Carmelo, E. M., Maon
 @article{FACUN2024106263,
   title = {QGIS Shoreline Change Analysis Tool (QSCAT): A fast, open-source shoreline change analysis plugin for QGIS},
   journal = {Environmental Modelling & Software},
+  volume = {184},
   pages = {106263},
-  year = {2024},
+  year = {2025},
   issn = {1364-8152},
-  doi = {https://doi.org/10.1016/j.envsoft.2024.106263},
+  doi = {10.1016/j.envsoft.2024.106263},
   url = {https://www.sciencedirect.com/science/article/pii/S1364815224003244},
   author = {Louis Philippe Facun and Ma. Yvainne {Sta Maria} and Rodel Ducao and Jamela Jirah Clemente and Ellen Mae Carmelo and Angelo Maon and Ara Rivina Malaya and Floribeth Cuison and Fernando Siringan},
   keywords = {Coastal erosion, Geographic information systems, Open-source software, Shoreline change analysis},

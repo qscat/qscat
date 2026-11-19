@@ -5,26 +5,26 @@ description=A plugin for Shoreline Change Analysis (SCA).
 
 about=QSCAT offers the following features:
 
-    * Shoreline Change: computes shoreline change statistics: shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR).
+    * Shoreline Change: computes shoreline change envelope (SCE), net shoreline movement (NSM), end-point rate (EPR), linear regression rate (LRR), and weighted linear regression rate (WLR).
 
-    * Area Change: calculates length and area of accreting, stable, and eroding coastal segments.
+    * Area Change: calculates the length and area of accreting, stable, and eroding coastal segments.
 
-    * Forecasting: predict future shoreline positions including uncertainty areas.
+    * Forecasting: predicts future shoreline positions, including uncertainty areas.
 
-    * Automator: tools that automate manual repetitive tasks.
+    * Automator: automates repetitive manual tasks.
 
-    * Visualization: shoreline change, area change, and forecasting results are visualized in the map for easy interpretation.
+    * Visualization: shoreline change, area change, and forecasting results are visualized on the map for easy interpretation.
 
-    * Summary Reports: generates a comprehensive summary reports of the analysis results.
+    * Summary Reports: generates comprehensive summary reports of the analysis results.
 
-    For changelog please visit https://github.com/qscat/qscat/blob/master/CHANGELOG.md
+    For the changelog, please visit https://github.com/qscat/qscat/blob/master/CHANGELOG.md
 
-version=0.4.2
+version=0.5.0
 qgisMinimumVersion=3.22
 author=Louis Facun
 email=louisfacun@gmail.com
 experimental=True
-tags=coastal erosion,shoreline,shoreline change,shoreline change analyis,shoreline,coastline
+tags=coastal erosion,shoreline,shoreline change,shoreline change analysis,coastline
 homepage=https://qscat.github.io
 repository=https://github.com/qscat/qscat
 tracker=https://github.com/qscat/qscat/issues

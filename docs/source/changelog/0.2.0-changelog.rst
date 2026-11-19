@@ -26,5 +26,5 @@ Fixed
 =====
 
 - Fixed and refactored `update_newest_oldest_date()` function in `Shoreline Change Tab` > `Pairwise Comparison of Shorelines` now properly showing what is `newest` and `oldest` date.
-- Fixed `Transect Count` group box in `Transect Tab` not being enabled and disabled.
+- Fixed `Transect Count` group box in `Transects Tab` not being enabled and disabled.
 - Fixed summary reports for `Shoreline Change Tab` not being generated.

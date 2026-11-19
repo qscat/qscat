@@ -33,7 +33,7 @@ Layer
 
 #. **The input layer:** Should be the merged shorelines, created in :ref:`plugin_required_inputs_shorelines`; and
 
-#. **Default data uncertainty:** If the uncertainty value for each shoreline data in the attribute table is set to ``0`` or ``None``, the plugin will automatically assign this defined value (defaults to 15 meters). This value represents the uncertainty inherent in the resolution of Landsat images, which are the readily available sources of shoreline data in the country. This default value may underestimate or overestimate the uncertainty inherent in different types of digital images. Thus, it is recommended for you to provide the uncertainty value in the attribute table of the selected shoreline layer.
+#. **Default data uncertainty:** If the uncertainty value for each shoreline data in the attribute table is set to ``0`` or ``None``, the plugin will automatically assign this defined value (defaults to 15 meters). This value represents the uncertainty inherent in the resolution of Landsat images, which are the readily available sources of shoreline data in the Philippines. This default value may underestimate or overestimate the uncertainty inherent in different types of digital images. Thus, it is recommended for you to provide the uncertainty value in the attribute table of the selected shoreline layer.
 
 For the input layer merged shorelines, the uncertainty value should be based on the map or digital image with the lowest resolution. Hence, QSCAT automatically selects the highest or maximum uncertainty value in the attribute table of the merged shorelines.
 

@@ -1,8 +1,8 @@
-.. index:: Warning and Errors
+.. index:: Warnings and Errors
 .. _appendices_warnings_errors:
 
-Appendix 1: Warning and Errors
-==============================
+Appendix 1: Warnings and Errors
+===============================
 
 Shorelines
 ----------
@@ -14,7 +14,7 @@ Shorelines
    * - Message
      - Description
    * - :bdg-warning:`Warning` The selected shorelines layer (``<shorelines layer name>``) has less than 2 features.
-     - QSCAT requires the selected shorelines layer to have at least two shoreline features which equals to two shorelines. Minimum of two shorelines can run the NSM and EPR statistics.
+     - QSCAT requires the selected shorelines layer to have at least two shoreline features (one feature per shoreline). Two shorelines are enough to run the SCE, NSM, and EPR statistics.
    * - :bdg-warning:`Warning` The selected shorelines layer (``<shorelines layer name>``) has less than 2 fields.
      - QSCAT requires the selected shorelines layer to have the two fields for ``date`` and ``uncertainty`` field.
    * - :bdg-warning:`Warning` The selected shorelines layer (``<shorelines layer name>``) has invalid date inputs: ``<10 or less invalid dates shown>``.
@@ -44,7 +44,7 @@ Shoreline Change
 
     * - Message
       - Description
-    * - :bdg-danger:`Error` LRR and WLR requires atleast 3 shorelines.
+    * - :bdg-danger:`Error` LRR and WLR require at least 3 shorelines.
       - QSCAT requires at least three shorelines to run the LRR and WLR statistics.
 
 

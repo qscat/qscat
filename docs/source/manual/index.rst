@@ -3,7 +3,7 @@ User Manual
 
 .. warning::
 
-   QSCAT is currently unstable, so please expect for potential bugs and issues. In the meantime, we kindly request your assistance in reporting any problems you encounter at QSCAT GitHub Issues (https://github.com/qscat/qscat/issues). Thank you for your cooperation!
+   QSCAT is currently unstable, so please expect potential bugs and issues. In the meantime, we kindly request your assistance in reporting any problems you encounter at QSCAT GitHub Issues (https://github.com/qscat/qscat/issues). Thank you for your cooperation!
 
 .. toctree::
    :maxdepth: 3

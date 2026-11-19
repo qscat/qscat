@@ -25,7 +25,7 @@ from qscat.core.layer import create_add_layer, load_shorelines, load_transects
 from qscat.core.messages import display_message
 from qscat.core.tabs.reports import SummaryReport
 from qscat.core.utils.date import datetime_now
-from qscat.lib.xalglib import invstudenttdistribution
+from qscat.core.utils.stats import inv_student_t
 
 
 def compute_shoreline_change_button_clicked(qdw):
@@ -602,7 +602,7 @@ class ShorelineChange:
         if stat in [Statistic.LRR, Statistic.WLR]:
             if shoreline_layer.featureCount() < 3:
                 display_message(
-                    "LRR and WLR requires atleast 3 shorelines.",
+                    "LRR and WLR require at least 3 shorelines.",
                     Qgis.Critical,
                 )
                 return False
@@ -857,9 +857,9 @@ def compute_least_square_fit(years, distances):
         raise ValueError("Year and distance values must have the same length.")
 
     if len(years) < 3:
-        raise ValueError("Years must be atleast 3 members.")
+        raise ValueError("Years must be at least 3 members.")
     if len(distances) < 3:
-        raise ValueError("Distances must be atleast 3 members.")
+        raise ValueError("Distances must be at least 3 members.")
 
     if not np.all(years[:-1] <= years[1:]):
         raise ValueError("Year values must be in ascending order.")
@@ -935,7 +935,7 @@ def compute_LCI(years, distances, conf=99.7):
 
     alpha = 1 - (float(conf) * 0.01)
     n = len(years)
-    t_value = invstudenttdistribution(n - 2, 1 - alpha / 2)
+    t_value = inv_student_t(n - 2, 1 - alpha / 2)
     ci = t_value * standard_error_slope
     LCI_value = float(ci)
     # print("LCI", ci)
@@ -981,11 +981,11 @@ def compute_weighted_least_square_fit(years, distances, uncertainties):
         )
 
     if len(years) < 3:
-        raise ValueError("Years must be atleast 3 members.")
+        raise ValueError("Years must be at least 3 members.")
     if len(distances) < 3:
-        raise ValueError("Distances must be atleast 3 members.")
+        raise ValueError("Distances must be at least 3 members.")
     if len(uncertainties) < 3:
-        raise ValueError("Uncertainties must be atleast 3 members.")
+        raise ValueError("Uncertainties must be at least 3 members.")
 
     if not np.all(years[:-1] <= years[1:]):
         raise ValueError("Year values must be in ascending order.")
@@ -1079,7 +1079,7 @@ def compute_WCI(years, distances, uncertainties, conf=99.7):
 
     alpha = 1 - (float(conf) * 0.01)
     n = len(years)
-    t_value = invstudenttdistribution(n - 2, 1 - alpha / 2)
+    t_value = inv_student_t(n - 2, 1 - alpha / 2)
     ci = t_value * standard_error_slope
     WCI_value = float(ci)
     return WCI_value

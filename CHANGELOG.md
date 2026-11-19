@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-11-20
+
+### Fixed
+
+- Fixed QSCAT failing to load on macOS with `OSError: dlopen(...alglib316_64free.so...)` ([#89](https://github.com/qscat/qscat/issues/89), [#91](https://github.com/qscat/qscat/issues/91), [#112](https://github.com/qscat/qscat/issues/112)).
+- `Shoreline Change Tab`: Fixed `ValueError: could not convert string to float` when reading the confidence interval on systems using a comma decimal separator ([#82](https://github.com/qscat/qscat/issues/82)).
+
+### Changed
+
+- Removed the bundled ALGLIB library. The Student's t-distribution used for LCI and WCI is now computed in pure Python, so QSCAT no longer depends on platform-specific binaries.
+- Improved documentation: fixed typos, corrected formulas, and updated the Forecasting outputs and attribute tables.
+
 ## [0.4.2] - 2025-11-02
 
 ### Fixed
@@ -33,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Visualization Tab`: Added option to select column, and input uncertainty value to support layers generated outside QSCAT.
 - `Baseline Tab`, `Automator Tab`: Added smoothing distance field.
 - `Shoreline Change Tab`, `Area Change Tab`, `Forecasting Tab`, `Visualization Tab`, `Summary Reports Tab`: Added input saving.
-- `Help Tab`: Added useful links.
+- `About Tab`: Added useful links.
 - `Shorelines Tab`: Added selected shorelines layer validation when changing layer selections.
 
 ### Changed
@@ -110,7 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed and refactored `update_newest_oldest_date()` function in `Shoreline Change Tab` > `Pairwise Comparison of Shorelines` now properly showing what is `newest` and `oldest` date.
-- Fixed `Transect Count` group box in `Transect Tab` not being enabled and disabled.
+- Fixed `Transect Count` group box in `Transects Tab` not being enabled and disabled.
 - Fixed summary reports for `Shoreline Change Tab` not being generated.
 
 ## [0.1.0] - 2024-04-07

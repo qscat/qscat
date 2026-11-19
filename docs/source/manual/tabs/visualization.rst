@@ -63,10 +63,10 @@ Classification mode
 
 The classification mode determines how the values of the statistics will be grouped into classes (or ranges). The available classification modes are: Quantile, Equal Interval, Natural Breaks (Jenks), and Pretty Breaks.
 
-Number of negative and positive class
--------------------------------------
+Number of negative and positive classes
+---------------------------------------
 
-The number of negative and positive class determines how many classes (or ranges) will be generated for negative values (eroding) and positive values (accreting).
+The number of negative and positive classes determines how many classes (or ranges) will be generated for negative values (eroding) and positive values (accreting).
 
 
 Graduated symbology output
@@ -99,9 +99,9 @@ Not all shoreline change statistics have the same types of classes. We have defi
      - 
      - ✓
 
-In the table above, SCE has only stable and positive classes. The positive class refers to SCE having only positive values, while stable class represents the negative and positve maximum value of uncertainty.
+In the table above, SCE has only stable and positive classes. The positive class refers to SCE having only positive values, while stable class represents the negative and positive maximum value of uncertainty.
 
-For NSM and EPR, there are negative, stable, and positive classes. The negative and positive class refers to NSM and EPR having negative and positive values. For NSM, the stable class also uses the negative and positve maximum value of uncertainty. However, for EPR, the negative and positive value of EPR uncertainty (``EPR_unc``) is used for the stable class.
+For NSM and EPR, there are negative, stable, and positive classes. The negative and positive class refers to NSM and EPR having negative and positive values. For NSM, the stable class also uses the negative and positive maximum value of uncertainty. However, for EPR, the negative and positive value of EPR uncertainty (``EPR_unc``) is used for the stable class.
 
 Lastly, as of now, LRR and WLR have only negative and positive classes.
 

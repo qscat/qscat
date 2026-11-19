@@ -397,7 +397,7 @@ def run_forecasting_single_transect(
             the forecasted shoreline uncertainty negative,
             the forecasted shoreline uncertainty positive.
     """
-    # TODO: Show error if not enough shorelines (atleast 3) to run forecasting
+    # TODO: Show error if not enough shorelines (at least 3) to run forecasting
     # TODO: Create cache of LRR shoreline change get sorted years distances, and read that here for forecasting
     years, distances = get_sorted_years_distances(years_intersections)
     years = np.array([int(year) // 1 for year in years])

@@ -21,14 +21,16 @@ According to the :ref:`plugin_required_inputs` section, QSCAT requires the follo
 Preparing the shoreline vectors
 ================================
 
-The tracing of shoreline vectors are out of scope in this guide. However, the shoreline vectors are already provided in the sample data. The shoreline vectors are saved as separate shapefile layers for each year. The shoreline vectors are saved as follows:
+The tracing of shoreline vectors is out of scope in this guide. However, the shoreline vectors are already provided in the sample data. The shoreline vectors are saved as separate shapefile layers for each year. The shoreline vectors are saved as follows:
 
    #. `Agoo 1977` - shoreline vectors from 1977
    #. `Agoo 1988` - shoreline vectors from 1988
    #. `Agoo 2010` - shoreline vectors from 2010
    #. `Agoo 2022` - shoreline vectors from 2022
 
-You can download the sample data from the following link: <insert link>
+.. TODO: Add the sample data download link.
+
+The sample data is not yet available for download.
 
 Generating the baseline vectors
 ================================
@@ -46,9 +48,9 @@ In this guide, we will choose the first strategy, which is creating a buffer of 
 Merging the shoreline vectors
 -----------------------------
  
-Merging the shoreline step is optional. We only apply this if our digitized shorelines are saved as **separate** shapefile layers. However, in this guide, the Agoo, La Union shorelines are shared as separate shapefile layers. Thus, we will demonstrate here on how to merge these layers. 
+Merging is only needed if your digitized shorelines are saved as **separate** layers. In this guide, the Agoo, La Union shorelines are provided as separate shapefile layers, so we will demonstrate how to merge them. 
 
-However, regardless on what strategy you choose for generating the baseline vectors, the QSCAT requires the shoreline layers to be merged into a single layer. Also, if you choose the first strategy, you should first merge the shoreline layers so that we can create a buffer of all shorelines.
+Regardless of the strategy you choose for generating the baseline vectors, QSCAT requires all shorelines to be in a single layer. If you choose the first strategy, merge the shoreline layers first so that you can create a buffer of all shorelines.
 
 
 #. Open |toolbox| :guilabel:`Processing Toolbox` via :menuselection:`Processing --> Toolbox`.
@@ -71,7 +73,7 @@ However, regardless on what strategy you choose for generating the baseline vect
 
    |br|
 
-#. In :guilabel:`Input layers`, click :guilabel:`...` then select the all shoreline layers to be merged. In this example, select `Agoo 1977, Agoo 1988, Agoo 2010, and Agoo 2022`. After you are done selecting, click :guilabel:`OK`.
+#. In :guilabel:`Input layers`, click :guilabel:`...` then select all the shoreline layers to be merged. In this example, select `Agoo 1977, Agoo 1988, Agoo 2010, and Agoo 2022`. After you are done selecting, click :guilabel:`OK`.
 
    .. figure:: /img/workflow/simple_data/merge/selecting-input-layers.png
       :align: center
@@ -138,7 +140,7 @@ Creating a buffer using QSCAT
 
 Here, we can start using the QSCAT plugin. The QSCAT plugin has a feature that automates the creation of the :ref:`tab_automator_baseline_buffer`.
 
-#. Open QSCAT if not yet opened. The QSCAT plugin can be open by clicking the |qscat| icon at the top toolbar area near the |python| :guilabel:`Python Console` icon.
+#. Open QSCAT if not yet opened. The QSCAT plugin can be opened by clicking the |qscat| icon at the top toolbar area near the |python| :guilabel:`Python Console` icon.
   
 #. In the QSCAT interface, navigate to :guilabel:`Automator Tab`. Then, in the :guilabel:`Baseline Buffer` section, select the merged shoreline layer from :guilabel:`Input shorelines layer`. Next, enter ``400`` in the :guilabel:`Distance (m)`, click :guilabel:`Buffer`. The buffer will be created and displayed in the map canvas. The buffer will be saved as a temporary layer. 
 
@@ -203,7 +205,7 @@ Converting the buffer to baseline vector
 
       |br|
 
-#. Use the |splitFeatures| :guilabel:`Split Features` tool to draw two lines that intersects the baseline buffer. First, |cursorPoint| draw the first line where you want the first split. Then, |cursorPoint| draw the second line where you want the second split. If drawn properly, the baseline buffer will be split into parts.
+#. Use the |splitFeatures| :guilabel:`Split Features` tool to draw two lines that intersect the baseline buffer. First, |cursorPoint| draw the first line where you want the first split. Then, |cursorPoint| draw the second line where you want the second split. If drawn properly, the baseline buffer will be split into parts.
 
    .. figure:: /img/workflow/simple_data/buffer/splitting-features.png
       :align: center
@@ -233,7 +235,7 @@ Converting the buffer to baseline vector
 
 #. Finally, right click on the baseline buffer layer and select |toggleEditing| :guilabel:`Toggle Editing` and it will prompt to save the changes.
 
-   .. warning:: There will be a case when the baseline buffer are split unexpectedly. As you can see in :numref:`figure_unexpected_split`, you can verify that there are two resulting segments even though we did not draw a line there. 
+   .. warning:: In some cases, the baseline buffer is split unexpectedly. As you can see in :numref:`figure_unexpected_split`, you can verify that there are two resulting segments even though we did not draw a line there. 
    
    .. _figure_unexpected_split:
 
@@ -307,9 +309,9 @@ Configuring the shoreline and baseline layer attributes
 Shorelines
 ----------
 
-Next, we need to add details of each shoreline such as its date and its uncertainty value of the images. We can use :guilabel:`Shoreline fields automator` to add the required fields for these.
+Next, we need to add details of each shoreline such as its date and its uncertainty value of the images. We can use the :guilabel:`Shorelines fields` automator to add the required fields for these.
 
-#. Navigate to :guilabel:`Automator Tab`. Then, in the :guilabel:`Shorelines fields`, select the merged shoreline layer from :guilabel:`Shorelines layer`. Make sure |checkbox|:guilabel:`Date field name` and |checkbox| :guilabel:`Uncertainty field name` is both checked. Type the appropriate date field name and uncertainty field name or leave as is. In this example, we choose ``qs_date`` and ``qs_unc`` as the field names. Click :guilabel:`Add Fields`.
+#. Navigate to :guilabel:`Automator Tab`. Then, in the :guilabel:`Shorelines fields`, select the merged shoreline layer from :guilabel:`Shorelines layer`. Make sure |checkbox|:guilabel:`Date field name` and |checkbox| :guilabel:`Uncertainty field name` are both checked. Type the appropriate date field name and uncertainty field name or leave as is. In this example, we choose ``qs_date`` and ``qs_unc`` as the field names. Click :guilabel:`Add Fields`.
 
    .. figure:: /img/workflow/simple_data/attributes/automating-shoreline-fields.png
       :align: center
@@ -342,7 +344,7 @@ Next, we need to add details of each shoreline such as its date and its uncertai
         - 04/2022
         - 15
 
-   According to :ref:`tab_automator_shorelines_fields`, date is in the format of ``MM/YYYY`` and uncertainty is in meters. Also, make sure that details aligns based on the shoreline layer.
+   According to :ref:`tab_automator_shorelines_fields`, date is in the format of ``MM/YYYY`` and uncertainty is in meters. Also, make sure that the details match the corresponding shoreline features.
 
    .. figure:: /img/workflow/simple_data/attributes/opening-attribute-table.png
       :align: center
@@ -373,7 +375,7 @@ Next, we need to add details of each shoreline such as its date and its uncertai
 Baseline
 --------
 
-Baseline also optionally includes fields such as placement, transect length, and orientation. However for this sample data, we will not add any fields because it is only applicable for multi baseline. For more information, refer to :ref:`tab_automator_baseline_fields`.
+Baseline also optionally includes fields such as placement, orientation, transect length, and smoothing distance. For this sample data, we will not add any of these fields because they only apply to layers with multiple baselines. For more information, refer to :ref:`tab_automator_baseline_fields`.
 
 
 Configuring the selections of layer and fields
@@ -417,13 +419,13 @@ We can now start the process of running shoreline change analysis. The first ste
 
 #. Go to :guilabel:`Transects Tab`.
 
-   In :guilabel:`Layer` section, select a name for the transect layer in :guilabel:`Layer name`. In this example, we leave ``transects`` as is (see :ref:`tab_transects_vector_layer_output_name` how is the output name used).
+   In :guilabel:`Layer` section, select a name for the transect layer in :guilabel:`Layer name`. In this example, we leave ``transects`` as is (see :ref:`tab_transects_vector_layer_output_name` for how the output name is used).
 
-   In :guilabel:`Count` section, select how would you want the number of transects to be determined. In this example, we choose |radiobutton| :guilabel:`By transect spacing` and leave ``50`` meters as is` (see :ref:`tab_transects_count`).
+   In :guilabel:`Count` section, select how you want the number of transects to be determined. In this example, we choose |radiobutton| :guilabel:`By transect spacing` and leave ``50`` meters as is (see :ref:`tab_transects_count`).
 
    In :guilabel:`Parameters` section, leave :guilabel:`Transect length` and :guilabel:`Smoothing distance` as is (see :ref:`tab_transects_parameters`).
 
-   Click :guilabel:`Cast Transect` to start the process of casting transects. The transects will be created and displayed in the map canvas. The transects will be saved as a temporary layer. You can optionally :guilabel:`Save` the selections such that it will be retain when you close QSCAT or QGIS.
+   Click :guilabel:`Cast Transect` to start the process of casting transects. The transects will be created and displayed in the map canvas. The transects will be saved as a temporary layer. You can optionally :guilabel:`Save` the selections so that they are retained when you close QSCAT or QGIS.
 
    .. figure:: /img/workflow/simple_data/transects/casting-transects.png
       :align: center
@@ -457,7 +459,7 @@ Computing the shoreline change
 
 #. Go to :guilabel:`Shoreline Change Tab`.
 
-   In :guilabel:`General` section, select the created transect layer (note that after every cast the transects layer will be automatically selected here). You can optionally |checkbox| :guilabel:`Clip transects` if you want, this is only for visualization purposes and does not affect statistics. For summary reports location (see :ref:`tab_summary_reports`).
+   In :guilabel:`General` section, select the created transect layer (note that after every cast the transects layer will be automatically selected here). You can optionally |checkbox| :guilabel:`Clip transects` if you want, this is only for visualization purposes and does not affect statistics. For the summary reports location, see :ref:`tab_summary_reports`.
 
    In :guilabel:`Transect-shoreline intersections`, leave |radiobutton| :guilabel:`Distance` and :guilabel:`Farthest` as is (see :ref:`tab_shoreline_change_tsi`).
 
@@ -467,7 +469,7 @@ Computing the shoreline change
 
    In :guilabel:`Additional parameters`, leave :guilabel:`Confidence interval (%)` as is (see :ref:`tab_shoreline_change_additional_parameters`).
 
-   Click :guilabel:`Compute Shoreline Change` to start the process of computing shoreline change. The shoreline change statistics will be calculated and the transects will be displayed in the map canvas. The statistics will be saved as a temporary layer. You can optionally :guilabel:`Save` the selections such that it will be retain when you close QSCAT or QGIS (see :ref:`tab_shoreline_change_vector_layer_output_name`) for layer outputs.
+   Click :guilabel:`Compute Shoreline Change` to start the process of computing shoreline change. The shoreline change statistics will be calculated and the transects will be displayed in the map canvas. The statistics will be saved as a temporary layer. You can optionally :guilabel:`Save` the selections so that they are retained when you close QSCAT or QGIS (see :ref:`tab_shoreline_change_vector_layer_output_name` for layer outputs).
 
    .. figure:: /img/workflow/simple_data/shoreline_change/computing-shoreline-change.png
       :align: center
@@ -512,7 +514,7 @@ Running optional features
 Computing the area change
 -------------------------
 
-This feature requires a polygon area to encompass which would you like to get the area change. Usually, we designed this for a specific area of interest like municipality or barangay boundaries. If you want to get the area change on whole area at once then you can draw a polygon that encompasses the whole area. For this sample data, we will get the area change on the whole area.
+This feature requires a polygon that encloses the area where you want to measure area change. It is designed for a specific area of interest, such as municipal or barangay boundaries. To measure the area change of the whole study area at once, draw a polygon that encloses all of it. For this sample data, we will get the area change on the whole area.
 
 Creating the polygon using QGIS
 ...............................
@@ -538,7 +540,7 @@ Creating the polygon using QGIS
 
       |br|
 
-#. Select ``Polygon`` as the :guilabel:`Geometry type`. Select ``ESPG:32651`` and click :guilabel:`OK`.
+#. Select ``Polygon`` as the :guilabel:`Geometry type`. Select ``EPSG:32651`` and click :guilabel:`OK`.
 
    .. figure:: /img/workflow/simple_data/area_change/final-saving-shapefile-layer.png
       :align: center
@@ -549,7 +551,7 @@ Creating the polygon using QGIS
       |br|
 
 
-#. Change the symbology for better visualization. Double left click the square from left of the layer name. Then, select ``outline red`` click :guilabel:`Apply` and :guilabel:`OK`.
+#. Change the symbology for better visualization. Double-click the square to the left of the layer name. Then, select ``outline red`` click :guilabel:`Apply` and :guilabel:`OK`.
 
    .. figure:: /img/workflow/simple_data/area_change/opening-symbology.png
       :align: center
@@ -568,7 +570,7 @@ Creating the polygon using QGIS
 
       |br|
 
-#. Draw the polygon. Toggle the layer to be editable by |toggleEditing| :guilabel:`Toggle Editing`. Then, click |addPolygon| :guilabel:`Add Polygon Feature` and draw the polygon that encompasses the whole area. You can draw the polygon with just 4 points enough to cover the whole area. |cursorPoint| draw 4 points, then right click anywhere to end drawing, and click :guilabel:`OK`. Of course, you do not need to follow the points on the figure just make sure the polygon will encompass the area of interest. Select |toggleEditing| :guilabel:`Toggle Editing` to save the changes.
+#. Draw the polygon. Toggle the layer to be editable by |toggleEditing| :guilabel:`Toggle Editing`. Then, click |addPolygon| :guilabel:`Add Polygon Feature` and draw the polygon that encompasses the whole area. Four points are enough to cover the whole area. |cursorPoint| draw 4 points, then right click anywhere to end drawing, and click :guilabel:`OK`. You do not need to match the points in the figure; just make sure the polygon encloses the area of interest. Select |toggleEditing| :guilabel:`Toggle Editing` to save the changes.
 
    .. figure:: /img/workflow/simple_data/area_change/opening-add-polygon-feature.png
          :align: center
@@ -622,7 +624,7 @@ Running the forecasting
  
    In :guilabel:`Layer`, select the transects layer as the :guilabel:`Transects layer`.
 
-   In :guilabel:`Algorithm`, the current available algorithm is :guilabel:`Kalman Filter` (see :ref:`tab_forecasting_algorithm`).
+   In :guilabel:`Algorithm`, the currently available algorithm is :guilabel:`Kalman Filter` (see :ref:`tab_forecasting_algorithm`).
 
    In :guilabel:`Time Period`, select |radiobutton| :guilabel:`10 years` (see :ref:`tab_forecasting_time_period`) and click :guilabel:`Forecast`.
 
@@ -650,7 +652,7 @@ Visualizing the statistics transects
 
    In :guilabel:`Layer`, select a statistic layer to apply visualization in :guilabel:`Shoreline change statistic layer`. In this example, we choose the NSM statistic layer. Select the field of NSM layer with the statistic value in :guilabel:`Statistic value field`, and manually input the value of the uncertainty in :guilabel:`Uncertainty value (SCE, NSM, EPR)`.
 
-   In :guilabel:`Color ramp`, select ``Equal Interval`` as the :guilabel:`Mode`.Leave the number of :guilabel:`Negative classes` and :guilabel:`Positive classes` as is, and click :guilabel:`Visualize`.
+   In :guilabel:`Color ramp`, select ``Equal Interval`` as the :guilabel:`Mode`. Leave the number of :guilabel:`Negative classes` and :guilabel:`Positive classes` as is, and click :guilabel:`Visualize`.
 
    .. figure:: /img/workflow/simple_data/visualization/visualizing-nsm-statistic.png
       :align: center

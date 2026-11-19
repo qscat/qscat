@@ -56,10 +56,10 @@ How it works
 This feature allows you to analyze shoreline changes further by obtaining area measurements. It utilizes transects from the stat layer output of shoreline change and uses statistical values to group trends into erosion, stability, and accretion. This functionality also enables the extraction of new shoreline lengths. Currently, it supports NSM and EPR statistics for area change. The process for determining area change in QSCAT involves clustering the transects, grouping them by trends for each cluster, creating boundary transects between groups, and finally extracting the area between each boundary. The subsequent sections will delve deeper into each of these processes. As an example, we will use randomly drawn shorelines and transects to illustrate the process (:numref:`figure_area_change_process`).
 
 
-Step (a): Preparing of the inputs
----------------------------------
+Step (a): Preparing the inputs
+------------------------------
 
-You starts with two shorelines and an NSM or EPR statistic layer enclosed in a polygon. Note that the polygon boundary is not shown in the figure.
+You start with two shorelines and an NSM or EPR statistic layer enclosed in a polygon. Note that the polygon boundary is not shown in the figure.
 
 
 Step (b): Clustering the transects
@@ -83,7 +83,7 @@ Afterward, QSCAT inserts transects between groups for each grouped trend. Transe
 Step (e): Extracting the area between boundaries
 ------------------------------------------------
 
-Finally, for each cluster (black lines) and for each group of trends (magenta lines), the boundaries (cyan lines) and the two shorelines are used to extract the polygon, which is then used to get the area value. The three distinct gray polygons depict individual extracted stable area change polygons, while the red polygons illustrate individual extracted accreting area change polygons. Each polygon provides an area measurement in meters. QSCAT can also generate the length of new shorelines. If we assume the green shoreline is the most recent, the length of new shorelines are represented by the yellow line, from which we can obtain the vector length in meters.
+Finally, for each cluster (black lines) and for each group of trends (magenta lines), the boundaries (cyan lines) and the two shorelines are used to extract the polygon, which is then used to get the area value. The three distinct gray polygons depict individual extracted stable area change polygons, while the red polygons illustrate individual extracted accreting area change polygons. Each polygon provides an area measurement in square meters. QSCAT can also generate the length of new shorelines. If we assume the green shoreline is the most recent, the length of new shorelines is represented by the yellow line, from which we can obtain the vector length in meters.
 
 
 Vector layer output
