@@ -93,7 +93,7 @@ html_context = {
     "default_mode": "light",
     "github_user": "qscat",
     "github_repo": "qscat",
-    "github_version": "master",
+    "github_version": "main",
     "doc_path": "docs/source",
 }
 

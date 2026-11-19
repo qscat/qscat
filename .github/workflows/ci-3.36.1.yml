@@ -4,13 +4,13 @@ name: QGIS (3.36.1)
 
 on:
   push:
-    branches: [master, staging]
+    branches: [main, staging]
     paths:
       - "qscat/**"
       - "tests/**"
       - ".github/workflows/ci-3.36.1.yml"
   pull_request:
-    branches: [master, staging]
+    branches: [main, staging]
     paths:
       - "qscat/**"
       - "tests/**"
