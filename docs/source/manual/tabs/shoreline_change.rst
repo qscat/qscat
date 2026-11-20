@@ -62,7 +62,7 @@ Transect-shoreline intersections
    :alt: Guide on determining the intersection point of transects and shorelines
 
    Guide on determining the intersection point of transects and shorelines
-  
+
 Sometimes, a transect intersects the shoreline vector at more than one point, particularly on curved segments (:numref:`figure_transects_shoreline_intersections`). To handle shoreline vector/s with multiple intersections, QSCAT allows you to choose the intersection point by distance (i.e., farthest or closest to the baseline) or by placement (seaward or landward, similar to DSAS). As it will affect the distance between the intersection points at the baseline and the shoreline, it is recommended that the selected option be applied to all shorelines for analysis.
 
 .. _tab_shoreline_change_scs:
@@ -78,7 +78,7 @@ Shoreline change statistics
 
    Shoreline change statistics section in Shoreline Change Tab
 
-The shoreline change statistics in QSCAT and the resulting sample attribute table (:numref:`table_shoreline_change_statistics`) are described below. 
+The shoreline change statistics in QSCAT and the resulting sample attribute table (:numref:`table_shoreline_change_statistics`) are described below.
 
 .. _table_shoreline_change_statistics:
 
@@ -107,7 +107,7 @@ The shoreline change statistics in QSCAT and the resulting sample attribute tabl
    * - ``WLR``
      - Weighted Linear Regression Rate
    * - ``WR2``
-     - R-Squared of Weighted Linear Regression 
+     - R-Squared of Weighted Linear Regression
    * - ``WSE``
      - Standard Error of Weighted Linear Regression
    * - ``WCI``
@@ -117,10 +117,10 @@ The shoreline change statistics in QSCAT and the resulting sample attribute tabl
 Shoreline Change Envelope (SCE)
 -------------------------------
 
-The shoreline change envelope (SCE) is the maximum distance, in meters (m), among all the shorelines intersecting a given transect :cite:p:`2018:dsasv5`. If there are multiple shoreline vectors, one can quickly identify the most significant magnitude of shoreline movement (``SCE`` column) and when it occurred (``SCE_closest_year`` and ``SCE_farthest_year`` columns) in the resulting attribute table of shoreline change statistics (:numref:`table_shoreline_change_statistics`). Since SCE is a distance, all values are positive. The shoreline trends can be inferred from the ``SCE_trend`` column, depending on whether SCE represents erosion, accretion, or stability. 
+The shoreline change envelope (SCE) is the maximum distance, in meters (m), among all the shorelines intersecting a given transect :cite:p:`2018:dsasv5`. If there are multiple shoreline vectors, one can quickly identify the most significant magnitude of shoreline movement (``SCE`` column) and when it occurred (``SCE_closest_year`` and ``SCE_farthest_year`` columns) in the resulting attribute table of shoreline change statistics (:numref:`table_shoreline_change_statistics`). Since SCE is a distance, all values are positive. The shoreline trends can be inferred from the ``SCE_trend`` column, depending on whether SCE represents erosion, accretion, or stability.
 
 .. math::
-   
+
    SCE = \lvert farthest\_year\_distance - closest\_year\_distance \rvert
 
 
@@ -144,7 +144,7 @@ The end-point rate (``EPR``) is the rate of change based on ``NSM``, in meters/y
 .. math::
    EPR = \frac{NSM}{newest\_shoreline\_year - oldest\_shoreline\_year}
 
-Both ``NSM`` and ``EPR`` require only two shoreline vectors, the youngest and oldest. QSCAT will ignore any shoreline vector/s between the youngest and oldest years. As such, it provides no information about shoreline movement during the intervening years, even if there are multiple shoreline positions in the input layer. Additional information may be inferred from the ``SCE``, which can at least identify the greatest magnitude of change and the corresponding period for a given set of shoreline vectors.          
+Both ``NSM`` and ``EPR`` require only two shoreline vectors, the youngest and oldest. QSCAT will ignore any shoreline vector/s between the youngest and oldest years. As such, it provides no information about shoreline movement during the intervening years, even if there are multiple shoreline positions in the input layer. Additional information may be inferred from the ``SCE``, which can at least identify the greatest magnitude of change and the corresponding period for a given set of shoreline vectors.
 
 
 Linear Regression Rate (LRR)
@@ -304,7 +304,7 @@ Vector layer output
 Layers
 ------
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 30 20 50
 
@@ -334,7 +334,7 @@ Attributes
 Shoreline Change Envelope (SCE)
 ...............................
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 15 15 70
 
@@ -349,7 +349,7 @@ Shoreline Change Envelope (SCE)
      - The highest uncertainty value used in the calculation of SCE.
    * - ``SCE_trend``
      - ``string``
-     - Trends (stable, erosion, or accretion) based on SCE and uncertainty value. 
+     - Trends (stable, erosion, or accretion) based on SCE and uncertainty value.
    * - ``SCE_closest_year``
      - ``integer``
      - Shoreline year closest to the baseline.
@@ -361,7 +361,7 @@ Shoreline Change Envelope (SCE)
 Net Shoreline Movement (NSM)
 ............................
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 15 15 70
 
@@ -382,7 +382,7 @@ Net Shoreline Movement (NSM)
 End-Point Rate (EPR)
 ....................
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 15 15 70
 
@@ -403,7 +403,7 @@ End-Point Rate (EPR)
 Linear Regression Rate (LRR)
 ............................
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 15 15 70
 
@@ -427,7 +427,7 @@ Linear Regression Rate (LRR)
 Weighted Linear Regression (WLR)
 ................................
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 15 15 70
 

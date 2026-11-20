@@ -4,7 +4,7 @@
 """Pure-Python statistics helpers (no compiled dependencies, works on any OS)."""
 
 import math
-from functools import lru_cache
+from functools import cache
 
 
 def student_t_cdf(t, df):
@@ -43,7 +43,7 @@ def student_t_cdf(t, df):
     return 0.5 + 0.5 * a
 
 
-@lru_cache(maxsize=None)
+@cache
 def inv_student_t(df, p):
     """Inverse of Student's t CDF (the t value such that P(T <= t) = p).
 

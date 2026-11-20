@@ -29,7 +29,7 @@ Reports save location
 
 Allows you to choose the folder in which to save the summary reports. Defaults to ``QSCATSummaryReports`` under your user home directory. Additionally, each results type (shoreline change, area change, and forecasting) will be saved inside another folder within the specified folder. The filename of the report will be in the format ``qscat_<version>_<result_type>_<datetime>.txt``, where the datetime is in the format ``MM-DD-YY HH-MM-SS``. The following table shows the folder structure and the filename format of the summary reports.
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 20 30 50
 
@@ -171,7 +171,7 @@ Summary of results
 **END POINT RATE (EPR)**
 
 - **Avg. rate:** Average value of the EPR
-  
+
 **Eroding, Accreting, and Stable:**
 
 - **No. of transects:** Number of transects
@@ -179,7 +179,7 @@ Summary of results
 - **Avg. value:** Average value
 - **Max. value:** Maximum value
 - **Min. value:** Minimum value
-  
+
 **LINEAR REGRESSION RATE (LRR)**
 
 **Eroding and Accreting:**
@@ -215,7 +215,7 @@ Summary of results
 **AREA CHANGE**
 
 - **Total area:** Total square meters area value
-  
+
 **Eroding, Accreting, and Stable**
 
 - **(%) of areas:** Percentage of area value in total area
@@ -238,14 +238,14 @@ Summary of results
 - **Avg. value:** Average length value
 - **Max. value:** Maximum length value
 - **Min. value:** Minimum length value
-  
+
 
 **MEAN SHORELINE DISPLACEMENT**
 
 - **Avg. value:** Average value
 - **Max. value:** Maximum value
 - **Min. value:** Minimum value
- 
+
 Forecasting
 -----------
 

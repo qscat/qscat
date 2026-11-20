@@ -20,5 +20,3 @@ Features
 - **Visualization:** Visualizes shoreline change, area change, and forecasting results in the map for easy interpretation (see :ref:`tab_visualization`).
 
 - **Summary Reports:** Generates a comprehensive summary report of the analysis results (see :ref:`tab_summary_reports`).
-
-

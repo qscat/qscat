@@ -7,7 +7,7 @@ Appendix 2: Example Summary Reports
 Shoreline Change
 ----------------
 
-.. code-block:: 
+.. code-block::
 
   [PROJECT DETAILS]
 
@@ -155,8 +155,8 @@ Shoreline Change
 Area Change
 -----------
 
-.. code-block:: 
-    
+.. code-block::
+
   [PROJECT DETAILS]
 
   GENERAL:

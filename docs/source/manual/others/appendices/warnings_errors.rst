@@ -7,7 +7,7 @@ Appendix 1: Warnings and Errors
 Shorelines
 ----------
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 50 50
 
@@ -33,7 +33,7 @@ Transects
     * - :bdg-danger:`Error` The selected shorelines layer ``(<shorelines layer name>)`` CRS ``(<shorelines layer crs auth id>)`` doesn't match the project CRS ``(<project crs auth id>)``.
       - QSCAT requires the selected shoreline layer to have the same CRS as the project CRS.
     * - :bdg-danger:`Error` The selected baseline layer ``(<baseline layer name>)`` CRS ``(<baseline layer crs auth id>)`` doesn't match the project CRS ``(<project crs auth id>)``.
-      - QSCAT requires the selected baseline layer to have the same CRS as the project CRS.  
+      - QSCAT requires the selected baseline layer to have the same CRS as the project CRS.
 
 Shoreline Change
 ----------------
@@ -46,6 +46,3 @@ Shoreline Change
       - Description
     * - :bdg-danger:`Error` LRR and WLR require at least 3 shorelines.
       - QSCAT requires at least three shorelines to run the LRR and WLR statistics.
-
-
- 

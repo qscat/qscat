@@ -15,7 +15,7 @@ We welcome code contributions to QSCAT! To contribute code:
 3. Make your changes and commit them to your branch.
 4. Submit a pull request (PR) with a clear description of your changes.
 
-Before submitting a PR, please ensure that your code follows the existing code style and conventions.
+Before submitting a PR, please ensure that your code passes the linting and formatting checks. See [Linting and Formatting](README.md#linting-and-formatting) for how to run them.
 
 ### Testing
 Testing is crucial to ensure the quality and stability of QSCAT. You can help by testing new features, bug fixes, and pull requests. If you encounter any issues, please report them as described above.

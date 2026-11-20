@@ -1,5 +1,4 @@
 import re
-from datetime import datetime
 
 from qgis.core import Qgis
 

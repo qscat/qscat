@@ -315,7 +315,7 @@ def get_latest_release_info(username, repository):
         return {"status": "TIMEOUT"}
     except requests.exceptions.TooManyRedirects:
         return {"status": "BAD_URL"}
-    except requests.exceptions.RequestException as e:
+    except requests.exceptions.RequestException:
         return {"status": "UNKNOWN_ERROR"}
 
 
