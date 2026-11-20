@@ -167,7 +167,7 @@ def cast_transects(
     return (transects_layer, shoreline_change_transects_layer)
 
 
-def get_transect_points(baseline: QgsLineString, transects_params: dict) -> list[float]:
+def get_transect_points(baseline: QgsLineString, transects_params: dict) -> np.ndarray:
     """Get the transect points along the baseline."""
     if transects_params["is_by_transect_spacing"]:
         distances = np.arange(
@@ -195,7 +195,7 @@ def get_arctan_angle(line: QgsLineString) -> float:
 
 def cast_transect(
     origin: QgsPointXY, angle: float, distance: float, baseline: dict
-) -> list[QgsLineString]:
+) -> QgsLineString:
     """Cast a single transect from a given origin point, angle, and distance."""
     # Find the second point of the transect extended from
     # the origin using the angle and distance

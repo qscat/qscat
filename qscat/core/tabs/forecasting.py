@@ -180,7 +180,7 @@ def run_forecasting(qdw: QscatDockWidget):
 def get_transects_intersections_task_state_changed(
     qdw: QscatDockWidget,
     forecast_length: int,
-    years_uncs: dict[float, float],
+    years_uncs: dict[float, float | str],
     confidence_interval: float,
     start_time: float,
 ):
@@ -375,7 +375,7 @@ def extend_point_by_n_distance(
 def run_forecasting_single_transect(
     forecast_length: int,
     years_intersections: QscatYearsIntersections,
-    years_uncs: dict[float, float],
+    years_uncs: dict[float, float | str],
     confidence_interval: float,
 ) -> QscatForecastResult:
     """Run forecasting for a single transect.

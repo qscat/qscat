@@ -18,7 +18,7 @@ D = TypeVar("D", bound=Mapping[str, Any])
 
 
 def get_interest_transects_within_polygon(
-    layer: QgsVectorLayer, polygon: QgsGeometry, polygon_name: str
+    layer: QgsVectorLayer, polygon: QgsGeometry, polygon_name: str | None
 ) -> tuple[list[QscatInterestTransect], list[int]]:
     """Get transects within polygon.
 
@@ -93,7 +93,7 @@ def group_dict_by_key(dict: list[D], key: str) -> list[list[D]]:
 
 def load_shorelines_by_date(
     layer: QgsVectorLayer, date: str, date_field: str
-) -> QgsGeometry:
+) -> QgsGeometry | None:
     """Load a multi line string shoreline geometry given by field `date`.
 
     Args:
@@ -102,7 +102,7 @@ def load_shorelines_by_date(
         date_field: The current `date` field.
 
     Returns:
-        MultiLineString
+        MultiLineString, or None if no feature has that date.
     """
     feats = layer.getFeatures()
 

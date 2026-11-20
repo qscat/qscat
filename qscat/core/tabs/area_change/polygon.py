@@ -16,7 +16,7 @@ def extract_area_polygon(
     shoreline2: QgsGeometry,
     transect1: QgsGeometry,
     transect2: QgsGeometry,
-) -> QgsGeometry:
+) -> tuple[QgsGeometry, QgsGeometry, QgsGeometry] | None:
     """Extract the area's polygon(s) between two shorelines and two transects.
 
     # TODO: illustration + link
@@ -28,7 +28,8 @@ def extract_area_polygon(
         transect2: LineString
 
     Returns:
-        Polygon, TODO: MultiPolygon
+        The polygon (TODO: MultiPolygon), and the newest and oldest shoreline
+        parts that bound it; or None if no polygon can be formed.
     """
     EPSILON = 1e-8
     extended_transect1 = transect1.extendLine(EPSILON, EPSILON)

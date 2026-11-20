@@ -465,7 +465,7 @@ class ShorelineChange:
         self.reports.shoreline_change()
 
     def compute_single_stat_all_transects(
-        self, stat: Statistic, all_years_intersections: list[QscatYearsIntersections]
+        self, stat: str, all_years_intersections: list[QscatYearsIntersections]
     ) -> tuple[list[list], list[QgsGeometry]]:
         """Compute a single shoreline change stat for all transects.
 
@@ -489,7 +489,7 @@ class ShorelineChange:
         return all_values, geoms
 
     def compute_single_stat_single_transects(
-        self, stat: Statistic, years_intersections: QscatYearsIntersections
+        self, stat: str, years_intersections: QscatYearsIntersections
     ) -> tuple[list, QgsGeometry]:
         """Compute a single shoreline change stat for a single transect.
 
@@ -555,7 +555,7 @@ class ShorelineChange:
         return values, geom
 
     def add_shoreline_change_stat_layer(
-        self, stat: Statistic, all_values: list, geoms: list, fields: list
+        self, stat: str, all_values: list, geoms: list, fields: list
     ):
         """Add shoreline change stat layer to the map canvas.
 
@@ -593,7 +593,7 @@ class ShorelineChange:
             extra_values=dates,
         )
 
-    def compute_shoreline_change_stat_prechecks(self, stat: Statistic) -> bool:
+    def compute_shoreline_change_stat_prechecks(self, stat: str) -> bool:
         """Prechecks for computation of any shoreline change stats.
 
         Args:

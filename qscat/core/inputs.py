@@ -163,12 +163,13 @@ class Inputs:
         feats = self.shorelines()["feats"]
         return [feat[field] for feat in feats]
 
-    def shorelines_uncs(self) -> list[float]:
+    def shorelines_uncs(self) -> list[float | str]:
         """Get the shoreline uncertainties from the current selected shoreline layer
         and from the current selected uncertainty field.
 
         Returns:
-            A list of shoreline uncertainties.
+            A list of shoreline uncertainties. Missing values fall back to the
+            default uncertainty as entered in the text box (a str).
         """
         field = self.shorelines()["unc_field"]
         feats = self.shorelines()["feats"]
@@ -181,12 +182,13 @@ class Inputs:
                 uncs.append(feat[field])
         return uncs
 
-    def shorelines_years_uncs(self) -> dict[float, float]:
+    def shorelines_years_uncs(self) -> dict[float, float | str]:
         """Get the shoreline years and uncertainties from the current selected
         shoreline layer and from the current selected uncertainty field.
 
         Returns:
-            A dictionary of {year: uncertainty}.
+            A dictionary of {year: uncertainty}. Missing values fall back to the
+            default uncertainty as entered in the text box (a str).
         """
         unc_field = self.shorelines()["unc_field"]
         date_field = self.shorelines()["date_field"]
@@ -201,7 +203,7 @@ class Inputs:
                 uncs[decimal_year] = feat[unc_field]
         return uncs
 
-    def highest_unc(self) -> float:
+    def highest_unc(self) -> float | str:
         """Get the highest uncertainty from the current selected shoreline layer."""
         return max(self.shorelines_uncs())
 

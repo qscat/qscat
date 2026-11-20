@@ -51,7 +51,7 @@ def get_half_transect(
     oldest_shorelines: QgsGeometry,
     transect1: QgsGeometry,
     transect2: QgsGeometry,
-) -> QgsGeometry:
+) -> QgsGeometry | None:
     """Determine the (half) transect between two transects.
 
     # TODO: illustration + link

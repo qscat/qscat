@@ -273,7 +273,7 @@ def insert_extra_transects(
 
 def which_shoreline_transect_intersects(
     transect: QgsGeometry, shorelines: list[QgsGeometry]
-) -> QgsGeometry:
+) -> QgsGeometry | None:
     """Determine which shoreline in list of line string shorelines does
     a transects intersects.
 

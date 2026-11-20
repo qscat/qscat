@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, TypedDict
 
 if TYPE_CHECKING:
     from PyQt5.QtCore import QVariant
-    from qgis.core import QgsGeometry
+    from qgis.core import QgsGeometry, QgsLineString
 
 
 class QscatShoreline(TypedDict):
@@ -21,6 +21,19 @@ class QscatShoreline(TypedDict):
     year: float  # decimal year, e.g. 1990.5
     geoms: list[QgsGeometry]  # LineString parts of the shoreline
     unc: float  # uncertainty; the default is used if missing or <= 0
+
+
+class QscatBaseline(TypedDict):
+    """A baseline part, as loaded by ``load_all_baselines``.
+
+    The optional per-feature values are None when the field is unset or empty.
+    """
+
+    line: QgsLineString
+    placement: str | None  # "sea" or "land" (from the placement field)
+    orientation: str | None  # "right" or "left" (from the orientation field)
+    transect_length: float | None  # from the transect length field
+    smoothing_distance: float | None  # from the smoothing distance field
 
 
 class QscatTransectIntersection(TypedDict):
@@ -57,7 +70,9 @@ QscatYearsIntersections = dict[float, QscatYearIntersection]
 class _QscatInterestTransectBase(TypedDict):
     geom: QgsGeometry  # LineString of the transect
     trend: str  # NSM or EPR trend (stable, accreting, eroding)
-    name: str  # area polygon name (user-defined, e.g. 'Area 1')
+    name: (
+        str | None
+    )  # area polygon name (e.g. 'Area 1'); None if the layer has no name field
 
 
 class QscatInterestTransect(_QscatInterestTransectBase, total=False):
