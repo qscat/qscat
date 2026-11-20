@@ -31,6 +31,7 @@ from qscat.core.utils.date import datetime_now
 from qscat.core.utils.stats import inv_student_t
 
 if TYPE_CHECKING:
+    from qscat.core.types import QscatYearsIntersections
     from qscat.qscat_dockwidget import QscatDockWidget
 
 
@@ -464,7 +465,7 @@ class ShorelineChange:
         self.reports.shoreline_change()
 
     def compute_single_stat_all_transects(
-        self, stat: Statistic, all_years_intersections: list[dict]
+        self, stat: Statistic, all_years_intersections: list[QscatYearsIntersections]
     ) -> tuple[list[list], list[QgsGeometry]]:
         """Compute a single shoreline change stat for all transects.
 
@@ -488,7 +489,7 @@ class ShorelineChange:
         return all_values, geoms
 
     def compute_single_stat_single_transects(
-        self, stat: Statistic, years_intersections: dict
+        self, stat: Statistic, years_intersections: QscatYearsIntersections
     ) -> tuple[list, QgsGeometry]:
         """Compute a single shoreline change stat for a single transect.
 
@@ -1059,7 +1060,7 @@ def get_change_trend(stat_value: float, unc_value: float) -> str:
 
 
 def get_sorted_years_distances(
-    years_intersections: dict,
+    years_intersections: QscatYearsIntersections,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Get sorted years(X), distances(Y) and uncertainties(W) in a single
     transect intersections used as an X and Y input for least square fit and

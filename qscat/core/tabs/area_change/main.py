@@ -24,7 +24,7 @@ from qscat.core.tabs.visualization import apply_area_colors
 from qscat.core.utils.date import datetime_now
 
 if TYPE_CHECKING:
-    from qscat.core.tabs.area_change.utils import InterestTransect
+    from qscat.core.types import QscatInterestTransect, QscatLayerField
     from qscat.qscat_dockwidget import QscatDockWidget
 
 # Use to extend a transect by a small value
@@ -285,7 +285,7 @@ def compute_area_change_stats(qdw: QscatDockWidget):
         total_oldest_length_by_type[Trend.STABLE] / total_oldest_length
     )
 
-    layer_fields = [
+    layer_fields: list[QscatLayerField] = [
         {"name": "area", "type": QVariant.Double},
         {"name": "area_percent", "type": QVariant.Double},
         {"name": AreaChangeField.TREND, "type": QVariant.String},
@@ -608,8 +608,8 @@ def compute_area_change_stats(qdw: QscatDockWidget):
 def cluster_interest_transects(
     newest_shorelines_as_lines: list[QgsGeometry],
     oldest_shorelines_as_lines: list[QgsGeometry],
-    interest_transects: list[InterestTransect],
-) -> list[InterestTransect]:
+    interest_transects: list[QscatInterestTransect],
+) -> list[QscatInterestTransect]:
     """Add a new `group` key to the list of interest transects.
     Grouping is based on the transect's intersection to the
     multi newest and oldest shorelines.

@@ -4,24 +4,14 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypedDict, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from qscat.core.utils.layer import is_field_in_layer
 
 if TYPE_CHECKING:
     from qgis.core import QgsGeometry, QgsVectorLayer
 
-
-class _InterestTransectBase(TypedDict):
-    geom: QgsGeometry
-    trend: str
-    name: str
-
-
-class InterestTransect(_InterestTransectBase, total=False):
-    """A transect within an area change polygon."""
-
-    group: str  # added by cluster_interest_transects
+    from qscat.core.types import QscatInterestTransect
 
 
 D = TypeVar("D", bound=Mapping[str, Any])
@@ -29,7 +19,7 @@ D = TypeVar("D", bound=Mapping[str, Any])
 
 def get_interest_transects_within_polygon(
     layer: QgsVectorLayer, polygon: QgsGeometry, polygon_name: str
-) -> tuple[list[InterestTransect], list[int]]:
+) -> tuple[list[QscatInterestTransect], list[int]]:
     """Get transects within polygon.
 
     # TODO: illustration + link
@@ -42,7 +32,7 @@ def get_interest_transects_within_polygon(
     Returns:
         List of transects and list of transects' id.
     """
-    interest_transects: list[InterestTransect] = []
+    interest_transects: list[QscatInterestTransect] = []
     interest_transects_ids = []
 
     features = layer.getFeatures()

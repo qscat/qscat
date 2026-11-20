@@ -13,8 +13,16 @@ from qscat.core.layer import create_add_layer
 if TYPE_CHECKING:
     from qgis.core import QgsPointXY
 
+    from qscat.core.types import (
+        QscatLayerField,
+        QscatTransectIntersection,
+        QscatYearsIntersections,
+    )
 
-def load_all_years_intersections(transects_intersects: list[list[dict]]) -> list[dict]:
+
+def load_all_years_intersections(
+    transects_intersects: list[list[QscatTransectIntersection]],
+) -> list[QscatYearsIntersections]:
     """Convert list of list of transect intersections to list of list of shoreline intersections where the year will be the dictionary key, and the values will
     be the dictionary values.
 
@@ -92,7 +100,7 @@ def load_all_years_intersections(transects_intersects: list[list[dict]]) -> list
 
 
 def add_intersections_layer(transects_intersects, baseline_params):
-    fields = [
+    fields: list[QscatLayerField] = [
         {"name": "transect_id", "type": QVariant.Int},
         {"name": "shoreline_id", "type": QVariant.Int},
         {"name": "shoreline_year", "type": QVariant.Double},

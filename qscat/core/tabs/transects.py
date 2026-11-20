@@ -26,6 +26,7 @@ if TYPE_CHECKING:
     from qgis.core import QgsCoordinateReferenceSystem, QgsVectorLayer
     from qgis.gui import QgsMapLayerComboBox
 
+    from qscat.core.types import QscatLayerField
     from qscat.qscat_dockwidget import QscatDockWidget
 
 
@@ -148,7 +149,7 @@ def cast_transects(
     angles = [a for angles in all_angles for a in angles]
 
     # Add transects layer
-    fields = [{"name": "angle", "type": QVariant.Double}]
+    fields: list[QscatLayerField] = [{"name": "angle", "type": QVariant.Double}]
     values = [[a] for a in angles]
     transects_layer = create_add_layer(
         geometry="LineString",

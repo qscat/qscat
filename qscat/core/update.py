@@ -25,6 +25,7 @@ from qscat.core.utils.date import datetime_now
 from qscat.core.utils.plugin import get_metadata_version
 
 if TYPE_CHECKING:
+    from qscat.core.types import QscatReleaseInfo
     from qscat.qscat_dockwidget import QscatDockWidget
 
 LOCAL_PLUGIN_NAME = "qscat"
@@ -280,7 +281,7 @@ class CheckUpdatesTask(QgsTask):
 #     return release_zip
 
 
-def check_updates() -> dict:
+def check_updates() -> QscatReleaseInfo:
     release_info = get_latest_release_info(
         REPOSITORY_USERNAME,
         REPOSITORY_NAME,
@@ -288,7 +289,7 @@ def check_updates() -> dict:
     return release_info
 
 
-def get_latest_release_info(username: str, repository: str) -> dict:
+def get_latest_release_info(username: str, repository: str) -> QscatReleaseInfo:
     """Get latest release info from the GitHub repository.
 
     Args:

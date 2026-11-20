@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
 from PyQt5.QtCore import QVariant
 from qgis.core import (
     QgsFeature,
@@ -15,13 +17,16 @@ from qgis.core import (
 
 from qscat.core.utils.date import convert_to_decimal_year, datetime_now
 
+if TYPE_CHECKING:
+    from qscat.core.types import QscatLayerField, QscatShoreline
+
 
 def create_add_layer(
     geometry: str,
     geometries: list[QgsGeometry],
     name: str,
-    fields: list[dict] | None = None,
-    values: list[list[float | str]] | None = None,
+    fields: list[QscatLayerField] | None = None,
+    values: list[list[Any]] | None = None,
     extra_values: dict | None = None,
     datetime: str | None = None,
 ) -> QgsVectorLayer:
@@ -92,7 +97,7 @@ def create_add_layer(
     return layer
 
 
-def load_shorelines(shorelines_params: dict) -> list[dict]:
+def load_shorelines(shorelines_params: dict) -> list[QscatShoreline]:
     """Read merged shoreline QGIS's vector layer object.
 
     Example dictionary:

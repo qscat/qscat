@@ -35,6 +35,11 @@ from qscat.core.tabs.shoreline_change import (
 from qscat.core.utils.date import datetime_now
 
 if TYPE_CHECKING:
+    from qscat.core.types import (
+        QscatForecastResult,
+        QscatLayerField,
+        QscatYearsIntersections,
+    )
     from qscat.qscat_dockwidget import QscatDockWidget
 
 
@@ -175,7 +180,7 @@ def run_forecasting(qdw: QscatDockWidget):
 def get_transects_intersections_task_state_changed(
     qdw: QscatDockWidget,
     forecast_length: int,
-    years_uncs: dict,
+    years_uncs: dict[float, float],
     confidence_interval: float,
     start_time: float,
 ):
@@ -251,7 +256,7 @@ def get_forecast_task_state_changed(qdw: QscatDockWidget, start_time: float):
         # )
 
         # Forecasted uncertainty points
-        point_unc_fields = [
+        point_unc_fields: list[QscatLayerField] = [
             {"name": "period", "type": QVariant.Int},
             {"name": "year", "type": QVariant.Double},
         ]
@@ -271,7 +276,7 @@ def get_forecast_task_state_changed(qdw: QscatDockWidget, start_time: float):
         )
 
         # Forecasted points
-        point_fields = [
+        point_fields: list[QscatLayerField] = [
             {"name": "period", "type": QVariant.Int},
             {"name": "year", "type": QVariant.Double},
             {"name": "distance", "type": QVariant.Double},
@@ -369,10 +374,10 @@ def extend_point_by_n_distance(
 
 def run_forecasting_single_transect(
     forecast_length: int,
-    years_intersections: dict,
-    years_uncs: dict,
+    years_intersections: QscatYearsIntersections,
+    years_uncs: dict[float, float],
     confidence_interval: float,
-) -> dict:
+) -> QscatForecastResult:
     """Run forecasting for a single transect.
 
     Returns:

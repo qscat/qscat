@@ -35,11 +35,7 @@ def select_all_stats_checkbox(qdw: QscatDockWidget):
 
 
 def update_newest_oldest_date_called(qdw: QscatDockWidget):
-    """Update the newest and oldest date combo boxes.
-
-    Args:
-       qdw: QscatDockWidget instance.
-    """
+    """Update the newest and oldest date combo boxes."""
     cb_newest_date = qdw.cb_shoreline_change_newest_date
     cb_oldest_date = qdw.cb_shoreline_change_oldest_date
     cb_newest_date.clear()

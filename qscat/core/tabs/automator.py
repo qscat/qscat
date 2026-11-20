@@ -15,6 +15,7 @@ from qscat.core.utils.layer import is_field_in_layer
 if TYPE_CHECKING:
     from qgis.core import QgsVectorLayer
 
+    from qscat.core.types import QscatLayerField
     from qscat.qscat_dockwidget import QscatDockWidget
 
 
@@ -229,7 +230,7 @@ def automate_baseline_buffer(layer: QgsVectorLayer, distance: float) -> QgsVecto
         destMultipart=True,
     )
 
-    fields = [{"name": "distance", "type": QVariant.Int}]
+    fields: list[QscatLayerField] = [{"name": "distance", "type": QVariant.Int}]
     values = [[distance]]
 
     layer = create_add_layer(

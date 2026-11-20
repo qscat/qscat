@@ -9,16 +9,16 @@ from typing import TYPE_CHECKING
 from qgis.core import QgsGeometry, QgsPoint, QgsWkbTypes
 
 if TYPE_CHECKING:
-    from qscat.core.tabs.area_change.utils import InterestTransect
+    from qscat.core.types import QscatInterestTransect
 
 _EXTEND_BY_SMALL_EPSILON = 1e-8
 
 
 def insert_extra_transects(
-    grouped_clustered_interest_transects: list[list[list[InterestTransect]]],
+    grouped_clustered_interest_transects: list[list[list[QscatInterestTransect]]],
     newest_shorelines_as_lines: list[QgsGeometry],
     oldest_shorelines_as_lines: list[QgsGeometry],
-) -> list[list[list[InterestTransect]]]:
+) -> list[list[list[QscatInterestTransect]]]:
     """Insert extra transects to the grouped clustered interest transects.
 
     TODO: illustration + link

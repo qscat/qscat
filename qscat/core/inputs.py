@@ -181,7 +181,7 @@ class Inputs:
                 uncs.append(feat[field])
         return uncs
 
-    def shorelines_years_uncs(self) -> dict:
+    def shorelines_years_uncs(self) -> dict[float, float]:
         """Get the shoreline years and uncertainties from the current selected
         shoreline layer and from the current selected uncertainty field.
 
@@ -243,7 +243,7 @@ class Inputs:
         return round(EPR_unc, 2)
 
     @staticmethod
-    def is_no_unc_value(unc_val: float) -> bool:
+    def is_no_unc_value(unc_val: float | None) -> bool:
         """Check if the uncertainty field value is None or not greater than 0.0.
 
         Args:
