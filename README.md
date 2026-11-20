@@ -99,23 +99,23 @@ See [QSCAT User Manual - Sample Workflow](https://qscat.github.io/docs/latest/ma
 
 ### Environment Setup
 
-QSCAT development requires QGIS and its dependencies. Use conda to create isolated environments for different QGIS versions:
+QSCAT development requires QGIS and its dependencies. Use conda to create an isolated environment with the QGIS version tested in CI (3.44.15 LTR):
 
-1. Install Miniconda or Anaconda.
-2. Create the environment (replace `3.36.1` with your desired QGIS version):
+1. Install [Miniforge](https://github.com/conda-forge/miniforge) (or Miniconda/Anaconda).
+2. Create the environment:
    ```bash
-   conda env create -f environment-3.36.1.yml
+   conda env create -f environment-3.44.15.yml
    ```
    If the environment already exists, update it:
    ```bash
-   conda env update -f environment-3.36.1.yml
+   conda env update -f environment-3.44.15.yml
    ```
 3. Activate it:
    ```bash
-   conda activate qgis-3.36.1
+   conda activate qgis-3.44.15
    ```
 
-Environment files are provided for specific QGIS versions (e.g., `environment-3.36.1.yml`). Check `.github/workflows/tests.yml` for the tested QGIS version.
+The environment file matches the QGIS version in `.github/workflows/tests.yml`. Keep the two in sync when moving to a new QGIS version.
 
 ### Running Tests
 
