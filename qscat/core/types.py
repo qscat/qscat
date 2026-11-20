@@ -12,7 +12,13 @@ from typing import TYPE_CHECKING, TypedDict
 
 if TYPE_CHECKING:
     from PyQt5.QtCore import QVariant
-    from qgis.core import QgsGeometry, QgsLineString
+    from qgis.core import (
+        QgsFeatureIterator,
+        QgsGeometry,
+        QgsLineString,
+        QgsVectorLayer,
+    )
+    from qgis.gui import QgsMapLayerComboBox
 
 
 class QscatShoreline(TypedDict):
@@ -110,3 +116,120 @@ class QscatReleaseInfo(_QscatReleaseInfoBase, total=False):
     tag_name: str  # e.g. v1.0.0
     body: str  # release notes
     zipball_url: str
+
+
+# Tab inputs, as read from the dock widget by ``Inputs`` (qscat/core/inputs.py).
+# Values from text boxes and spin boxes are read with ``.text()``, so they are
+# strings; convert them with int() or float() before doing math.
+
+
+class QscatProjectInputs(TypedDict):
+    """Project Settings Tab inputs."""
+
+    crs_id: str  # e.g. "EPSG:32651"
+    author_full_name: str
+    author_affiliation: str
+    author_email: str
+
+
+class QscatBaselineInputs(TypedDict):
+    """Baseline Tab inputs."""
+
+    baseline_layer: QgsVectorLayer  # selected layer (None if nothing is selected)
+    is_baseline_placement_sea: bool
+    is_baseline_placement_land: bool
+    is_baseline_orientation_land_right: bool
+    is_baseline_orientation_land_left: bool
+    show_baseline_orientation: bool
+    placement_field: str  # "" if no field is selected
+    orientation_field: str  # "" if no field is selected
+    transect_length_field: str  # "" if no field is selected
+    smoothing_distance_field: str  # "" if no field is selected
+
+
+class QscatShorelinesInputs(TypedDict):
+    """Shorelines Tab inputs."""
+
+    shorelines_layer: QgsVectorLayer  # selected layer (None if nothing is selected)
+    default_data_unc: str  # number as text
+    date_field: str  # "" if no field is selected
+    unc_field: str  # "" if no field is selected
+    feats: QgsFeatureIterator  # can only be iterated once
+
+
+class QscatTransectsInputs(TypedDict):
+    """Transects Tab inputs."""
+
+    layer_output_name: str
+    is_by_transect_spacing: bool
+    is_by_number_of_transects: bool
+    by_transect_spacing: str  # number as text (meters)
+    by_number_of_transects: str  # number as text
+    length: str  # number as text (meters)
+    smoothing_distance: str  # number as text (meters)
+
+
+class QscatShorelineChangeInputs(TypedDict):
+    """Shoreline Change Tab inputs."""
+
+    transects_layer_widget: QgsMapLayerComboBox  # the widget itself
+    transects_layer: QgsVectorLayer  # selected layer (None if nothing is selected)
+    is_clip_transects: bool
+    is_choose_by_distance: bool
+    is_choose_by_distance_farthest: bool
+    is_choose_by_distance_closest: bool
+    is_choose_by_placement: bool
+    is_choose_by_placement_seaward: bool
+    is_choose_by_placement_landward: bool
+    selected_stats: list[str]  # Statistic values, e.g. ["SCE", "NSM"]
+    is_stats_select_all: bool
+    is_stats_SCE: bool
+    is_stats_NSM: bool
+    is_stats_EPR: bool
+    is_stats_LRR: bool
+    is_stats_WLR: bool
+    oldest_date: str  # mm/yyyy
+    newest_date: str  # mm/yyyy
+    oldest_year: float  # decimal year
+    newest_year: float  # decimal year
+    confidence_interval: float
+    epr_unc: float
+    highest_unc: float | str  # str if it is the default uncertainty text
+    years_uncs: dict[float, float | str]  # {decimal year: uncertainty}
+
+
+class QscatAreaChangeInputs(TypedDict):
+    """Area Change Tab inputs."""
+
+    polygon_layer: QgsVectorLayer  # selected layer (None if nothing is selected)
+    stat_layer: QgsVectorLayer  # selected layer (None if nothing is selected)
+
+
+class QscatForecastingInputs(TypedDict):
+    """Forecasting Tab inputs."""
+
+    transects_layer: QgsVectorLayer  # selected layer (None if nothing is selected)
+    is_algorithm1: bool
+    is_time_10y: bool
+    is_time_20y: bool
+
+
+class QscatVisualizationInputs(TypedDict):
+    """Visualization Tab inputs."""
+
+    stat_layer: QgsVectorLayer  # selected layer (None if nothing is selected)
+    stat_field: str  # "" if no field is selected
+    unc_value: str  # number as text
+    mode: int  # classification mode (combo box index)
+    neg_classes: str  # number as text
+    pos_classes: str  # number as text
+
+
+class QscatSummaryReportsInputs(TypedDict):
+    """Summary Reports Tab inputs."""
+
+    is_report: bool
+    is_shoreline_change_report: bool
+    is_area_change_report: bool
+    is_forecasting_report: bool
+    save_location: str  # directory path

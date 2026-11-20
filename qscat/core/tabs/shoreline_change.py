@@ -31,7 +31,17 @@ from qscat.core.utils.date import datetime_now
 from qscat.core.utils.stats import inv_student_t
 
 if TYPE_CHECKING:
-    from qscat.core.types import QscatYearsIntersections
+    from qgis.gui import QgsMapLayerComboBox
+
+    from qscat.core.types import (
+        QscatBaselineInputs,
+        QscatShoreline,
+        QscatShorelineChangeInputs,
+        QscatShorelinesInputs,
+        QscatSummaryReportsInputs,
+        QscatTransectsInputs,
+        QscatYearsIntersections,
+    )
     from qscat.qscat_dockwidget import QscatDockWidget
 
 
@@ -71,15 +81,15 @@ def compute_shoreline_change_button_clicked(qdw: QscatDockWidget):
 class ShorelineChange:
     def __init__(
         self,
-        baseline_inputs,
-        shorelines_inputs,
-        transects_inputs,
-        shoreline_change_inputs,
-        summary_reports_inputs,
-        transects,
-        shorelines,
-        transects_layer_widget,
-        reports,
+        baseline_inputs: QscatBaselineInputs,
+        shorelines_inputs: QscatShorelinesInputs,
+        transects_inputs: QscatTransectsInputs,
+        shoreline_change_inputs: QscatShorelineChangeInputs,
+        summary_reports_inputs: QscatSummaryReportsInputs,
+        transects: list[QgsGeometry],
+        shorelines: list[QscatShoreline],
+        transects_layer_widget: QgsMapLayerComboBox,
+        reports: SummaryReport,
     ):
         # Inputs
         self.baseline_inputs = baseline_inputs
@@ -1114,12 +1124,12 @@ def get_sorted_uncs(uncs) -> np.ndarray:
 class GetTransectsIntersectionsTask(QgsTask):
     def __init__(
         self,
-        transects,
-        shorelines,
-        shorelines_params,
-        transects_params,
-        baseline_params,
-        shoreline_change_params,
+        transects: list[QgsGeometry],
+        shorelines: list[QscatShoreline],
+        shorelines_params: QscatShorelinesInputs,
+        transects_params: QscatTransectsInputs,
+        baseline_params: QscatBaselineInputs,
+        shoreline_change_params: QscatShorelineChangeInputs,
     ):
         super().__init__("Getting transects intersections", QgsTask.CanCancel)
         self.transects = transects

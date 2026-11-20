@@ -26,7 +26,12 @@ if TYPE_CHECKING:
     from qgis.core import QgsCoordinateReferenceSystem, QgsVectorLayer
     from qgis.gui import QgsMapLayerComboBox
 
-    from qscat.core.types import QscatLayerField
+    from qscat.core.types import (
+        QscatBaselineInputs,
+        QscatLayerField,
+        QscatShorelinesInputs,
+        QscatTransectsInputs,
+    )
     from qscat.qscat_dockwidget import QscatDockWidget
 
 
@@ -59,9 +64,9 @@ def cast_transects_button_clicked(qdw: QscatDockWidget):
 
 
 def cast_transects(
-    baseline_inputs: dict,
-    shorelines_inputs: dict,
-    transects_inputs: dict,
+    baseline_inputs: QscatBaselineInputs,
+    shorelines_inputs: QscatShorelinesInputs,
+    transects_inputs: QscatTransectsInputs,
     project_crs: QgsCoordinateReferenceSystem,
     shoreline_change_transects_layer: QgsMapLayerComboBox,
 ) -> tuple[QgsVectorLayer, QgsMapLayerComboBox] | None:
@@ -167,7 +172,9 @@ def cast_transects(
     return (transects_layer, shoreline_change_transects_layer)
 
 
-def get_transect_points(baseline: QgsLineString, transects_params: dict) -> np.ndarray:
+def get_transect_points(
+    baseline: QgsLineString, transects_params: QscatTransectsInputs
+) -> np.ndarray:
     """Get the transect points along the baseline."""
     if transects_params["is_by_transect_spacing"]:
         distances = np.arange(
@@ -194,7 +201,7 @@ def get_arctan_angle(line: QgsLineString) -> float:
 
 
 def cast_transect(
-    origin: QgsPointXY, angle: float, distance: float, baseline: dict
+    origin: QgsPointXY, angle: float, distance: float, baseline: QscatBaselineInputs
 ) -> QgsLineString:
     """Cast a single transect from a given origin point, angle, and distance."""
     # Find the second point of the transect extended from

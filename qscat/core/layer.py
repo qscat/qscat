@@ -18,7 +18,13 @@ from qgis.core import (
 from qscat.core.utils.date import convert_to_decimal_year, datetime_now
 
 if TYPE_CHECKING:
-    from qscat.core.types import QscatBaseline, QscatLayerField, QscatShoreline
+    from qscat.core.types import (
+        QscatBaseline,
+        QscatBaselineInputs,
+        QscatLayerField,
+        QscatShoreline,
+        QscatShorelinesInputs,
+    )
 
 
 def create_add_layer(
@@ -97,7 +103,7 @@ def create_add_layer(
     return layer
 
 
-def load_shorelines(shorelines_params: dict) -> list[QscatShoreline]:
+def load_shorelines(shorelines_params: QscatShorelinesInputs) -> list[QscatShoreline]:
     """Read merged shoreline QGIS's vector layer object.
 
     Example dictionary:
@@ -181,7 +187,9 @@ def load_transects(layer: QgsVectorLayer) -> list[QgsGeometry]:
 #     return QgsLineString(baseline) # consider just the first line string for now
 
 
-def load_all_baselines(baseline_params: dict) -> list[list[QscatBaseline]]:
+def load_all_baselines(
+    baseline_params: QscatBaselineInputs,
+) -> list[list[QscatBaseline]]:
     """Load QGIS baseline layer as a list of multi line strings."""
     all_baselines = []
     feats = baseline_params["baseline_layer"].getFeatures()

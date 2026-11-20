@@ -12,6 +12,17 @@ from qscat.core.constants import Statistic
 from qscat.core.utils.date import convert_to_decimal_year
 
 if TYPE_CHECKING:
+    from qscat.core.types import (
+        QscatAreaChangeInputs,
+        QscatBaselineInputs,
+        QscatForecastingInputs,
+        QscatProjectInputs,
+        QscatShorelineChangeInputs,
+        QscatShorelinesInputs,
+        QscatSummaryReportsInputs,
+        QscatTransectsInputs,
+        QscatVisualizationInputs,
+    )
     from qscat.qscat_dockwidget import QscatDockWidget
 
 
@@ -21,7 +32,7 @@ class Inputs:
     def __init__(self, qdw: QscatDockWidget):
         self.qdw = qdw
 
-    def project(self) -> dict:
+    def project(self) -> QscatProjectInputs:
         """Read the inputs in Project Settings Tab."""
         return {
             "crs_id": QgsProject.instance().crs().authid(),
@@ -30,7 +41,7 @@ class Inputs:
             "author_email": self.qdw.le_proj_author_email.text(),
         }
 
-    def baseline(self) -> dict:
+    def baseline(self) -> QscatBaselineInputs:
         """Read the inputs in Baseline Tab."""
         return {
             "baseline_layer": self.qdw.qmlcb_baseline_layer.currentLayer(),
@@ -45,7 +56,7 @@ class Inputs:
             "smoothing_distance_field": self.qdw.qfcb_baseline_smoothing_field.currentField(),
         }
 
-    def shorelines(self) -> dict:
+    def shorelines(self) -> QscatShorelinesInputs:
         """Read the inputs in Shorelines Tab."""
         return {
             "shorelines_layer": self.qdw.qmlcb_shorelines_layer.currentLayer(),
@@ -55,7 +66,7 @@ class Inputs:
             "feats": self.qdw.qmlcb_shorelines_layer.currentLayer().getFeatures(),
         }
 
-    def transects(self) -> dict:
+    def transects(self) -> QscatTransectsInputs:
         """Read the inputs in Transects Tab."""
         return {
             "layer_output_name": self.qdw.le_transects_layer_output_name.text(),
@@ -67,7 +78,7 @@ class Inputs:
             "smoothing_distance": self.qdw.qsb_transects_smoothing_distance.text(),
         }
 
-    def shoreline_change(self) -> dict:
+    def shoreline_change(self) -> QscatShorelineChangeInputs:
         """Read the inputs in Shoreline Change Tab."""
         return {
             "transects_layer_widget": self.qdw.qmlcb_shoreline_change_transects_layer,
@@ -115,14 +126,14 @@ class Inputs:
             stats.append(Statistic.WLR)
         return stats
 
-    def area_change(self) -> dict:
+    def area_change(self) -> QscatAreaChangeInputs:
         """Read the inputs in Area Change Tab."""
         return {
             "polygon_layer": self.qdw.qmlcb_area_change_polygon_layer.currentLayer(),
             "stat_layer": self.qdw.qmlcb_area_change_stat_layer.currentLayer(),
         }
 
-    def forecasting(self) -> dict:
+    def forecasting(self) -> QscatForecastingInputs:
         """Read the inputs in Forecasting Tab."""
         return {
             "transects_layer": self.qdw.qmlcb_forecasting_transects_layer.currentLayer(),
@@ -131,7 +142,7 @@ class Inputs:
             "is_time_20y": self.qdw.rb_forecasting_time_20y.isChecked(),
         }
 
-    def visualization(self) -> dict:
+    def visualization(self) -> QscatVisualizationInputs:
         """Read the inputs in Visualization Tab."""
         return {
             "stat_layer": self.qdw.qmlcb_vis_stat_layer.currentLayer(),
@@ -142,7 +153,7 @@ class Inputs:
             "pos_classes": self.qdw.qsb_vis_pos_classes.text(),
         }
 
-    def summary_reports(self) -> dict:
+    def summary_reports(self) -> QscatSummaryReportsInputs:
         """Read the inputs in Summary Report Tab."""
         return {
             "is_report": self.qdw.cb_enable_report_generation.isChecked(),

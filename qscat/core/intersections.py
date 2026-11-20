@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from qgis.core import QgsPointXY
 
     from qscat.core.types import (
+        QscatBaselineInputs,
         QscatLayerField,
         QscatTransectIntersection,
         QscatYearsIntersections,
@@ -99,7 +100,10 @@ def load_all_years_intersections(
     return shoreline_intersections
 
 
-def add_intersections_layer(transects_intersects, baseline_params):
+def add_intersections_layer(
+    transects_intersects: list[list[QscatTransectIntersection]],
+    baseline_params: QscatBaselineInputs,
+):
     fields: list[QscatLayerField] = [
         {"name": "transect_id", "type": QVariant.Int},
         {"name": "shoreline_id", "type": QVariant.Int},
