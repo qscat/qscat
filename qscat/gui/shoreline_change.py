@@ -1,19 +1,24 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from PyQt5.QtCore import Qt
 
 from qscat.core.inputs import Inputs
 
+if TYPE_CHECKING:
+    from qgis.PyQt.QtWidgets import QComboBox
 
-def select_all_stats_checkbox(qdw):
+    from qscat.qscat_dockwidget import QscatDockWidget
+
+
+def select_all_stats_checkbox(qdw: QscatDockWidget):
     """Select and deselect all statistics checkboxes if the select all checkbox
     is checked or unchecked.
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
     """
     if qdw.cb_stats_select_all.isChecked():
         qdw.cb_stats_SCE.setChecked(True)
@@ -29,11 +34,11 @@ def select_all_stats_checkbox(qdw):
         qdw.cb_stats_WLR.setChecked(False)
 
 
-def update_newest_oldest_date_called(qdw):
+def update_newest_oldest_date_called(qdw: QscatDockWidget):
     """Update the newest and oldest date combo boxes.
 
     Args:
-       qdw (QscatDockWidget): QscatDockWidget instance.
+       qdw: QscatDockWidget instance.
     """
     cb_newest_date = qdw.cb_shoreline_change_newest_date
     cb_oldest_date = qdw.cb_shoreline_change_oldest_date
@@ -50,13 +55,15 @@ def update_newest_oldest_date_called(qdw):
     )
 
 
-def update_newest_oldest_date(dates, cb_newest_date, cb_oldest_date):
+def update_newest_oldest_date(
+    dates: list[str], cb_newest_date: QComboBox, cb_oldest_date: QComboBox
+):
     """Update the newest and oldest date combo boxes.
 
     Args:
-        dates (list[str]): A list of valid date input values in selected shoreline date field.
-        cb_newest_date (QComboBox): The combo box for the newest date.
-        cb_oldest_date (QComboBox): The combo box for the oldest date.
+        dates: A list of valid date input values in selected shoreline date field.
+        cb_newest_date: The combo box for the newest date.
+        cb_oldest_date: The combo box for the oldest date.
     """
     # Sort and get the oldest and newest date
     dates_sorted = sorted(dates, key=lambda x: datetime.strptime(x, "%m/%Y"))

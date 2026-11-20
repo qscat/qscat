@@ -1,19 +1,22 @@
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from qgis.core import Qgis
 
 from qscat.core.inputs import Inputs
 from qscat.core.messages import display_message
 
+if TYPE_CHECKING:
+    from qscat.qscat_dockwidget import QscatDockWidget
 
-def validate_shorelines_layer(qdw):
+
+def validate_shorelines_layer(qdw: QscatDockWidget) -> bool:
     """Validate the selected shorelines layer.
 
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-
     Returns:
-        bool: True if valid, False otherwise.
+        True if valid, False otherwise.
     """
     shorelines_layer_name = qdw.qmlcb_shorelines_layer.currentLayer().name()
 
@@ -54,15 +57,15 @@ def validate_shorelines_layer(qdw):
     return True
 
 
-def is_valid_date_input(date):
+def is_valid_date_input(date: str) -> bool:
     """Validate if date has the format mm/yyyy. Months should be in 1-12 and
     year should be in 1900-2100.
 
     Args:
-        date (str): A date input value in selected shoreline date field.
+        date: A date input value in selected shoreline date field.
 
     Returns:
-        bool: True if valid, False otherwise.
+        True if valid, False otherwise.
     """
     # Null/none values
     if not date:
@@ -84,14 +87,11 @@ def is_valid_date_input(date):
         return False
 
 
-def get_invalid_date_inputs(dates):
+def get_invalid_date_inputs(dates: list[str]) -> list[str]:
     """Get invalid date inputs using `is_valid_date_input()`.
 
     Args:
-        dates (list[str]): A list of date input values in selected shoreline date field.
-
-    Returns:
-        list[str]: A list of invalid date inputs.
+        dates: A list of date input values in selected shoreline date field.
     """
     invalid = []
     for date in dates:

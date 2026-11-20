@@ -1,32 +1,38 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
 import math
+from typing import TYPE_CHECKING
 
 from qgis.core import QgsGeometry, QgsPoint, QgsWkbTypes
+
+if TYPE_CHECKING:
+    from qscat.core.tabs.area_change.utils import InterestTransect
 
 _EXTEND_BY_SMALL_EPSILON = 1e-8
 
 
 def insert_extra_transects(
-    grouped_clustered_interest_transects,
-    newest_shorelines_as_lines,
-    oldest_shorelines_as_lines,
-):
+    grouped_clustered_interest_transects: list[list[list[InterestTransect]]],
+    newest_shorelines_as_lines: list[QgsGeometry],
+    oldest_shorelines_as_lines: list[QgsGeometry],
+) -> list[list[list[InterestTransect]]]:
     """Insert extra transects to the grouped clustered interest transects.
 
     TODO: illustration + link
 
     Args:
-        grouped_clustered_interest_transects (list[list[list[dict]]]): List of
+        grouped_clustered_interest_transects: List of
             grouped clustered interest transects
-        newest_shorelines_as_lines (list[QgsGeometry]): List of newest shorelines
+        newest_shorelines_as_lines: List of newest shorelines
             as lines
-        oldest_shorelines_as_lines (list[QgsGeometry]): List of oldest shorelines
+        oldest_shorelines_as_lines: List of oldest shorelines
             as lines
 
     Returns:
-        list[list[list[dict]]]: List of grouped clustered interest transects
+        List of grouped clustered interest transects
             with extra transects
     """
     for ci, cluster in enumerate(grouped_clustered_interest_transects):
@@ -265,16 +271,18 @@ def insert_extra_transects(
     return grouped_clustered_interest_transects
 
 
-def which_shoreline_transect_intersects(transect, shorelines):
+def which_shoreline_transect_intersects(
+    transect: QgsGeometry, shorelines: list[QgsGeometry]
+) -> QgsGeometry:
     """Determine which shoreline in list of line string shorelines does
     a transects intersects.
 
     Args:
-        transect (QgsGeometry): LineString
-        shorelines (list[QgsGeometry]): MultiLineString
+        transect: LineString
+        shorelines: MultiLineString
 
     Returns:
-        QgsGeometry: LineString
+        LineString
     """
     extended_transect = transect.extendLine(
         _EXTEND_BY_SMALL_EPSILON, _EXTEND_BY_SMALL_EPSILON

@@ -1,14 +1,17 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from qscat.core.inputs import Inputs
 from qscat.core.validator import validate_shorelines_layer
 from qscat.gui.shoreline_change import update_newest_oldest_date
 
+if TYPE_CHECKING:
+    from qscat.qscat_dockwidget import QscatDockWidget
 
-def shorelines_layer_actions(qdw):
-    """Perform actions for the selected shorelines layer.
 
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-    """
+def shorelines_layer_actions(qdw: QscatDockWidget):
+    """Perform actions for the selected shorelines layer."""
     # Validate the selected shorelines layer
     valid = validate_shorelines_layer(qdw)
 

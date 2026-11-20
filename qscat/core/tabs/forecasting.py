@@ -1,9 +1,12 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
 import datetime
 import math
 import time
+from typing import TYPE_CHECKING
 
 import numpy as np
 from PyQt5.QtCore import QVariant
@@ -30,6 +33,9 @@ from qscat.core.tabs.shoreline_change import (
     get_sorted_years_distances,
 )
 from qscat.core.utils.date import datetime_now
+
+if TYPE_CHECKING:
+    from qscat.qscat_dockwidget import QscatDockWidget
 
 
 class ForecastAlgorithms:
@@ -59,7 +65,7 @@ class GetForecastTask(QgsTask):
 
         self.exception = None
 
-    def run(self):
+    def run(self) -> bool:
         QgsMessageLog.logMessage(
             message=f"Started task: <b>{self.description()}</b>.",
             level=Qgis.Info,
@@ -119,12 +125,8 @@ class GetForecastTask(QgsTask):
         )
 
 
-def run_forecasting(qdw):
-    """Run forecasting.
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-    """
+def run_forecasting(qdw: QscatDockWidget):
+    """Run forecasting."""
     start_time = time.perf_counter()
 
     # Load inputs
@@ -171,17 +173,13 @@ def run_forecasting(qdw):
 
 
 def get_transects_intersections_task_state_changed(
-    qdw, forecast_length, years_uncs, confidence_interval, start_time
+    qdw: QscatDockWidget,
+    forecast_length: int,
+    years_uncs: dict,
+    confidence_interval: float,
+    start_time: float,
 ):
-    """Get transects intersections task state changed.
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-        forecast_length (int): The forecast length.
-        years_uncs (dict): The years uncertainties.
-        confidence_interval (float): The confidence interval.
-        start_time (float): The start time.
-    """
+    """Get transects intersections task state changed."""
     task = globals()["get_transects_intersections_task"]
 
     if task.status() == QgsTask.Complete:
@@ -197,13 +195,8 @@ def get_transects_intersections_task_state_changed(
         QgsApplication.taskManager().addTask(globals()["get_forecast_task"])
 
 
-def get_forecast_task_state_changed(qdw, start_time):
-    """Get forecast task state changed.
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-        start_time (float): The start time.
-    """
+def get_forecast_task_state_changed(qdw: QscatDockWidget, start_time: float):
+    """Get forecast task state changed."""
     task = globals()["get_forecast_task"]
     if task.status() == QgsTask.Complete:
         current_datetime = datetime_now()
@@ -333,15 +326,11 @@ def get_forecast_task_state_changed(qdw, start_time):
         )
 
 
-def get_angle(point1, point2):
+def get_angle(point1: QgsPointXY, point2: QgsPointXY) -> float:
     """Calculate the angle between two points.
 
-    Args:
-        point1 (QgsPointXY): The first point.
-        point2 (QgsPointXY): The second point.
-
     Returns:
-        float: The angle in radians.
+        The angle in radians.
     """
     # Calculate the differences in x and y coordinates
     dx = point2.x() - point1.x()
@@ -356,16 +345,15 @@ def get_angle(point1, point2):
     return angle
 
 
-def extend_point_by_n_distance(angle, point, distance):
+def extend_point_by_n_distance(
+    angle: float, point: QgsPointXY, distance: float
+) -> QgsPointXY:
     """Extends a given point by a specified distance in the direction of the given angle.
 
     Args:
-        angle (float): The angle in radians.
-        point (QgsPointXY): The point to be extended.
-        distance (float): The distance by which the point should be extended.
-
-    Returns:
-        QgsPointXY: The extended point.
+        angle: The angle in radians.
+        point: The point to be extended.
+        distance: The distance by which the point should be extended.
     """
 
     # Calculate the change in x and y coordinates using the angle and distance
@@ -380,22 +368,16 @@ def extend_point_by_n_distance(angle, point, distance):
 
 
 def run_forecasting_single_transect(
-    forecast_length, years_intersections, years_uncs, confidence_interval
-):
+    forecast_length: int,
+    years_intersections: dict,
+    years_uncs: dict,
+    confidence_interval: float,
+) -> dict:
     """Run forecasting for a single transect.
 
-    Args:
-        forecast_length (int): The forecast length.
-        years_intersections (dict): The years intersections.
-        years_uncs (dict): The years uncertainties.
-        confidence_interval (float): The confidence interval.
-
     Returns:
-        tuple: The forecasted shoreline year,
-            the forecasted shoreline point,
-            the forecasted shoreline distance,
-            the forecasted shoreline uncertainty negative,
-            the forecasted shoreline uncertainty positive.
+        The forecasted shoreline year, point, distance, and the negative and
+            positive uncertainty points and values.
     """
     # TODO: Show error if not enough shorelines (at least 3) to run forecasting
     # TODO: Create cache of LRR shoreline change get sorted years distances, and read that here for forecasting
@@ -496,7 +478,7 @@ def kalman_filter(
     x0,
     dt=0.1,
     process_noise=0.1,
-):
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Based from
     https://code.usgs.gov/cch/dsas/-/blob/master/src/DSASv5Addin/Install/usgs_scripts/DSAS_kalmanfilter.py
     """

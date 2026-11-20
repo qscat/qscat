@@ -1,8 +1,11 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
 import math
 import time
+from typing import TYPE_CHECKING
 
 import numpy as np
 from PyQt5.QtCore import QVariant
@@ -19,13 +22,15 @@ from qscat.core.inputs import Inputs
 from qscat.core.layer import create_add_layer, load_all_baselines
 from qscat.core.messages import display_message
 
+if TYPE_CHECKING:
+    from qgis.core import QgsCoordinateReferenceSystem, QgsVectorLayer
+    from qgis.gui import QgsMapLayerComboBox
 
-def cast_transects_button_clicked(qdw):
-    """Cast transect (on button clicked).
+    from qscat.qscat_dockwidget import QscatDockWidget
 
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-    """
+
+def cast_transects_button_clicked(qdw: QscatDockWidget):
+    """Cast transect (on button clicked)."""
     inputs = Inputs(qdw)
     baseline_inputs = inputs.baseline()
     shorelines_inputs = inputs.shorelines()
@@ -53,21 +58,13 @@ def cast_transects_button_clicked(qdw):
 
 
 def cast_transects(
-    baseline_inputs,
-    shorelines_inputs,
-    transects_inputs,
-    project_crs,
-    shoreline_change_transects_layer,
-):
-    """Start casting transects.
-
-    Args:
-        baseline_inputs (dict)
-        shorelines_inputs (dict)
-        transects_inputs (dict)
-        project_crs (QgsCoordinateReferenceSystem)
-        shoreline_change_transects_layer (QgsMapLayerComboBox)
-    """
+    baseline_inputs: dict,
+    shorelines_inputs: dict,
+    transects_inputs: dict,
+    project_crs: QgsCoordinateReferenceSystem,
+    shoreline_change_transects_layer: QgsMapLayerComboBox,
+) -> tuple[QgsVectorLayer, QgsMapLayerComboBox] | None:
+    """Start casting transects."""
     # Checks CRS of the layers
     are_prechecks_passed = prechecks(
         shorelines_inputs["shorelines_layer"].crs(),
@@ -169,16 +166,8 @@ def cast_transects(
     return (transects_layer, shoreline_change_transects_layer)
 
 
-def get_transect_points(baseline, transects_params):
-    """Get the transect points along the baseline.
-
-    Args:
-        baseline (QgsLineString)
-        transects_params (dict)
-
-    Returns:
-        list[float]
-    """
+def get_transect_points(baseline: QgsLineString, transects_params: dict) -> list[float]:
+    """Get the transect points along the baseline."""
     if transects_params["is_by_transect_spacing"]:
         distances = np.arange(
             0, baseline.length(), int(transects_params["by_transect_spacing"])
@@ -191,15 +180,11 @@ def get_transect_points(baseline, transects_params):
     return distances
 
 
-def get_arctan_angle(line):
+def get_arctan_angle(line: QgsLineString) -> float:
     """Calculate the arctangent of the slope of a line.
 
-    Args:
-        line (QgsLineString): A LineString object representing a line.
-
     Returns:
-        float: The arctangent of the slope of the line in radians.
-
+        The arctangent of the slope of the line in radians.
     """
     return math.atan2(
         line.pointN(-1).y() - line.pointN(0).y(),
@@ -207,18 +192,10 @@ def get_arctan_angle(line):
     )
 
 
-def cast_transect(origin, angle, distance, baseline):
-    """Cast a single transect from a given origin point, angle, and distance.
-
-    Args:
-        origin (QgsPointXY)
-        angle (float)
-        distance (float)
-        baseline (dict)
-
-    Returns:
-        list[QgsLineString]
-    """
+def cast_transect(
+    origin: QgsPointXY, angle: float, distance: float, baseline: dict
+) -> list[QgsLineString]:
+    """Cast a single transect from a given origin point, angle, and distance."""
     # Find the second point of the transect extended from
     # the origin using the angle and distance
     x = origin.x() + distance * math.cos(angle)
@@ -245,17 +222,18 @@ def cast_transect(origin, angle, distance, baseline):
     return QgsLineString(QgsGeometry(transect_geom).asPolyline())
 
 
-def get_smoothing_angle(baseline, distance, smoothing_val):
+def get_smoothing_angle(
+    baseline: QgsLineString, distance: float, smoothing_val: int
+) -> float:
     """Get the angle, in radians, that will serve as the new orientation of the transect.
        This adjustment is performed by the smoothing distance feature.
 
     Args:
-        baseline (QgsLineString)
-        distance (float): Current transect point distance along the baseline.
-        smoothing_val (int): Smoothing distance in meters.
+        distance: Current transect point distance along the baseline.
+        smoothing_val: Smoothing distance in meters.
 
     Returns:
-        float: The angle in radians.
+        The angle in radians.
     """
     _len = baseline.length()
 
@@ -271,27 +249,20 @@ def get_smoothing_angle(baseline, distance, smoothing_val):
 
 
 def prechecks(
-    shorelines_layer_crs,
-    baseline_layer_crs,
-    project_crs,
-    shorelines_layer_name,
-    baseline_layer_name,
-):
+    shorelines_layer_crs: QgsCoordinateReferenceSystem,
+    baseline_layer_crs: QgsCoordinateReferenceSystem,
+    project_crs: QgsCoordinateReferenceSystem,
+    shorelines_layer_name: str,
+    baseline_layer_name: str,
+) -> bool:
     """Prechecks for casting transects.
 
     Note:
         Currently checks layers CRS if they match the project CRS.
         May add more prechecks in the future.
 
-    Args:
-        shorelines_layer_crs (QgsCoordinateReferenceSystem)
-        baseline_layer_crs (QgsCoordinateReferenceSystem)
-        project_crs (QgsCoordinateReferenceSystem)
-        shorelines_layer_name (str)
-        baseline_layer_name (str)
-
     Returns:
-        bool: True if prechecks passed, otherwise False.
+        True if prechecks passed, otherwise False.
     """
     if shorelines_layer_crs != project_crs:
         display_message(

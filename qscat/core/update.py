@@ -1,6 +1,10 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import packaging.version
 import requests
 from PyQt5.QtCore import Qt, QUrl
@@ -20,17 +24,16 @@ from qgis.utils import iface
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.plugin import get_metadata_version
 
+if TYPE_CHECKING:
+    from qscat.qscat_dockwidget import QscatDockWidget
+
 LOCAL_PLUGIN_NAME = "qscat"
 REPOSITORY_NAME = "qscat"
 REPOSITORY_USERNAME = "qscat"
 
 
-def check_updates_button_clicked(qdw):
-    """Check for updates on button click.
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-    """
+def check_updates_button_clicked(qdw: QscatDockWidget):
+    """Check for updates on button click."""
     globals()["task_check_updates_on_click"] = CheckUpdatesTask()
     QgsApplication.taskManager().addTask(globals()["task_check_updates_on_click"])
 
@@ -39,12 +42,8 @@ def check_updates_button_clicked(qdw):
     )
 
 
-def check_updates_on_click_task_complete(qdw):
-    """Check for updates on button click task complete.
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-    """
+def check_updates_on_click_task_complete(qdw: QscatDockWidget):
+    """Check for updates on button click task complete."""
     task = globals()["task_check_updates_on_click"]
     if task.status() == QgsTask.Complete:
         release_info = task.release_info
@@ -158,7 +157,7 @@ class CheckUpdatesTask(QgsTask):
         self.release_info = None
         self.exception = None
 
-    def run(self):
+    def run(self) -> bool:
         QgsMessageLog.logMessage(
             message=f"Started task: <b>{self.description()}</b>.",
             level=Qgis.Info,
@@ -281,7 +280,7 @@ class CheckUpdatesTask(QgsTask):
 #     return release_zip
 
 
-def check_updates():
+def check_updates() -> dict:
     release_info = get_latest_release_info(
         REPOSITORY_USERNAME,
         REPOSITORY_NAME,
@@ -289,15 +288,15 @@ def check_updates():
     return release_info
 
 
-def get_latest_release_info(username, repository):
+def get_latest_release_info(username: str, repository: str) -> dict:
     """Get latest release info from the GitHub repository.
 
     Args:
-        username (str): GitHub username (qscat)
-        repository (str): GitHub repository (qscat)
+        username: GitHub username (qscat)
+        repository: GitHub repository (qscat)
 
     Returns:
-        dict: tag_name, body, zipball_url
+        tag_name, body, zipball_url
     """
     api_url = f"https://api.github.com/repos/{username}/{repository}/releases/latest"
     # headers = {"Authorization": f"token {access_token}"}
@@ -319,16 +318,13 @@ def get_latest_release_info(username, repository):
         return {"status": "UNKNOWN_ERROR"}
 
 
-def is_newer_version(tag_name, version):
+def is_newer_version(tag_name: str, version: str) -> bool:
     """Check if GitHub repo latest release tag (version) is newer than the
     local QGIS plugin metadata.txt version.
 
     Args:
-        tag_name (str): The version 'tag' from GitHub repo. Eg. v1.0.0-beta
-        version (str): The version from QGIS plugin metadata.txt Eg. 1.0.0-beta
-
-    Returns:
-        boolean
+        tag_name: The version 'tag' from GitHub repo. Eg. v1.0.0-beta
+        version: The version from QGIS plugin metadata.txt Eg. 1.0.0-beta
     """
     latest_version = packaging.version.parse(tag_name.lstrip("v"))
     current_version = packaging.version.parse(version)

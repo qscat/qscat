@@ -1,8 +1,11 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
 import math
 import time
+from typing import TYPE_CHECKING
 
 import numpy as np
 from PyQt5.QtCore import QVariant
@@ -27,13 +30,12 @@ from qscat.core.tabs.reports import SummaryReport
 from qscat.core.utils.date import datetime_now
 from qscat.core.utils.stats import inv_student_t
 
+if TYPE_CHECKING:
+    from qscat.qscat_dockwidget import QscatDockWidget
 
-def compute_shoreline_change_button_clicked(qdw):
-    """Compute shoreline change stats (on button clicked).
 
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-    """
+def compute_shoreline_change_button_clicked(qdw: QscatDockWidget):
+    """Compute shoreline change stats (on button clicked)."""
     inputs = Inputs(qdw)
 
     baseline_inputs = inputs.baseline()
@@ -272,11 +274,11 @@ class ShorelineChange:
                 level=Qgis.Info,
             )
 
-    def create_summary_report(self, stat_values):
+    def create_summary_report(self, stat_values: dict):
         """Create summary report for shoreline change stats.
 
         Args:
-            stat_values (dict): Dictionary of shoreline change stats values.
+            stat_values: Dictionary of shoreline change stats values.
 
         Example:
             { 'SCE': [0.1, 0.2, 0.3, ...], ... }
@@ -461,16 +463,16 @@ class ShorelineChange:
         self.reports.summary = summary
         self.reports.shoreline_change()
 
-    def compute_single_stat_all_transects(self, stat, all_years_intersections):
+    def compute_single_stat_all_transects(
+        self, stat: Statistic, all_years_intersections: list[dict]
+    ) -> tuple[list[list], list[QgsGeometry]]:
         """Compute a single shoreline change stat for all transects.
 
         Args:
-            stat (Statistic): Shoreline change statistic.
-            all_years_intersections (list[dict]): List of all years intersections.
+            stat: Shoreline change statistic.
 
         Returns:
-            all_values: List of computed values
-            geoms: List of transect geometries
+            List of computed values and list of transect geometries.
         """
         all_values = []
         geoms = []
@@ -485,16 +487,16 @@ class ShorelineChange:
 
         return all_values, geoms
 
-    def compute_single_stat_single_transects(self, stat, years_intersections):
+    def compute_single_stat_single_transects(
+        self, stat: Statistic, years_intersections: dict
+    ) -> tuple[list, QgsGeometry]:
         """Compute a single shoreline change stat for a single transect.
 
         Args:
-            stat (Statistic): Shoreline change statistic.
-            years_intersections (dict): Dictionary of years intersections.
+            stat: Shoreline change statistic.
 
         Returns:
-            values: List of computed values (per column)
-            geom: Transect geometry
+            List of computed values (per column) and the transect geometry.
         """
         year1 = self.stat_map[stat]["get_year1"](years_intersections)
         year2 = self.stat_map[stat]["get_year2"](years_intersections)
@@ -551,14 +553,16 @@ class ShorelineChange:
 
         return values, geom
 
-    def add_shoreline_change_stat_layer(self, stat, all_values, geoms, fields):
+    def add_shoreline_change_stat_layer(
+        self, stat: Statistic, all_values: list, geoms: list, fields: list
+    ):
         """Add shoreline change stat layer to the map canvas.
 
         Args:
-            stat (Statistic): Shoreline change statistic.
-            all_values (list): List of computed values.
-            geoms (list): List of transect geometries.
-            fields (list): List of layer fields.
+            stat: Shoreline change statistic.
+            all_values: List of computed values.
+            geoms: List of transect geometries.
+            fields: List of layer fields.
         """
         # Layer names
         if stat in [Statistic.NSM, Statistic.EPR]:
@@ -588,14 +592,11 @@ class ShorelineChange:
             extra_values=dates,
         )
 
-    def compute_shoreline_change_stat_prechecks(self, stat):
+    def compute_shoreline_change_stat_prechecks(self, stat: Statistic) -> bool:
         """Prechecks for computation of any shoreline change stats.
 
         Args:
-            stat (Statistic): Shoreline change statistic.
-
-        Returns:
-            boolean
+            stat: Shoreline change statistic.
         """
         shoreline_layer = self.shorelines_inputs["shorelines_layer"]
 
@@ -609,40 +610,40 @@ class ShorelineChange:
         return True
 
     # Get year 1 and year 2 functions
-    def get_closest_distance_year(self, years_intersections):
+    def get_closest_distance_year(self, years_intersections) -> float:
         closest_distance_year = min(
             years_intersections.items(), key=lambda x: x[1]["distance"]
         )[0]
         return closest_distance_year
 
-    def get_farthest_distance_year(self, years_intersections):
+    def get_farthest_distance_year(self, years_intersections) -> float:
         farthest_distance_year = max(
             years_intersections.items(), key=lambda x: x[1]["distance"]
         )[0]
         return farthest_distance_year
 
-    def get_oldest_year(self, years_intersections):
+    def get_oldest_year(self, years_intersections) -> float:
         oldest_year = self.shoreline_change_inputs["oldest_year"]
         return oldest_year
 
-    def get_newest_year(self, years_intersections):
+    def get_newest_year(self, years_intersections) -> float:
         newest_year = self.shoreline_change_inputs["newest_year"]
         return newest_year
 
     # Get main values functions
-    def get_SCE(self, compute_params):
+    def get_SCE(self, compute_params) -> float:
         SCE_value = compute_SCE(
             compute_params["distance1"], compute_params["distance2"]
         )
         return round(SCE_value, 2)
 
-    def get_NSM(self, compute_params):
+    def get_NSM(self, compute_params) -> float:
         NSM_value = compute_NSM(
             compute_params["distance1"], compute_params["distance2"]
         )
         return round(NSM_value, 2)
 
-    def get_EPR(self, compute_params):
+    def get_EPR(self, compute_params) -> float:
         NSM_value = compute_NSM(
             compute_params["distance1"], compute_params["distance2"]
         )
@@ -651,28 +652,28 @@ class ShorelineChange:
         )
         return round(EPR_value, 2)
 
-    def get_LRR(self, compute_params):
+    def get_LRR(self, compute_params) -> float:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
         LRR_value = compute_LRR(years, distances)
         return round(LRR_value, 2)
 
-    def get_LR2(self, compute_params):
+    def get_LR2(self, compute_params) -> float:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
         LR2_value = compute_LR2(years, distances)
         return round(LR2_value, 2)
 
-    def get_LSE(self, compute_params):
+    def get_LSE(self, compute_params) -> float:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
         LSE_value = compute_LSE(years, distances)
         return round(LSE_value, 2)
 
-    def get_LCI(self, compute_params):
+    def get_LCI(self, compute_params) -> float:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
@@ -681,7 +682,7 @@ class ShorelineChange:
         )
         return round(LCI_value, 2)
 
-    def get_WLR(self, compute_params):
+    def get_WLR(self, compute_params) -> float:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
@@ -689,7 +690,7 @@ class ShorelineChange:
         WLR_value = compute_WLR(years, distances, uncs)
         return round(WLR_value, 2)
 
-    def get_WR2(self, compute_params):
+    def get_WR2(self, compute_params) -> float:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
@@ -697,7 +698,7 @@ class ShorelineChange:
         WR2_value = compute_WR2(years, distances, uncs)
         return round(WR2_value, 2)
 
-    def get_WSE(self, compute_params):
+    def get_WSE(self, compute_params) -> float:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
@@ -705,7 +706,7 @@ class ShorelineChange:
         WSE_value = compute_WSE(years, distances, uncs)
         return round(WSE_value, 2)
 
-    def get_WCI(self, compute_params):
+    def get_WCI(self, compute_params) -> float:
         years, distances = get_sorted_years_distances(
             compute_params["years_intersections"]
         )
@@ -717,44 +718,28 @@ class ShorelineChange:
 
 
 # Computation functions
-def compute_SCE(closest_distance, farthest_distance):
+def compute_SCE(closest_distance: float, farthest_distance: float) -> float:
     """Compute Shoreline Change Envelope (SCE) value.
 
     Args:
-        closest_distance (float): Distance value 1.
-        farthest_distance (float): Distance value 2.
-
-    Returns:
-        float: SCE value.
+        closest_distance: Distance value 1.
+        farthest_distance: Distance value 2.
     """
     SCE_value = farthest_distance - closest_distance
     return abs(SCE_value)
 
 
-def compute_NSM(distance1, distance2):
-    """Compute Net Shoreline Movement (NSM) value.
-
-    Args:
-        distance1 (float): Distance value 1.
-        distance2 (float): Distance value 2.
-
-    Returns:
-        float: NSM value.
-    """
+def compute_NSM(distance1: float, distance2: float) -> float:
+    """Compute Net Shoreline Movement (NSM) value."""
     NSM_value = distance2 - distance1
     return NSM_value
 
 
-def compute_EPR(NSM_value, oldest_year, newest_year):
+def compute_EPR(NSM_value: float, oldest_year: float, newest_year: float) -> float:
     """Compute End Point Rate (EPR) value.
 
     Args:
-        NSM_value (float): Net Shoreline Movement value.
-        oldest_year (float): Oldest year value.
-        newest_year (float): Newest year value.
-
-    Returns:
-        float: EPR value.
+        NSM_value: Net Shoreline Movement value.
 
     Raises:
         TypeError: If NSM, newest year, or oldest year values are None.
@@ -792,7 +777,9 @@ def compute_EPR(NSM_value, oldest_year, newest_year):
     return EPR_value
 
 
-def compute_EPR_unc(newest_year_unc, oldest_year_unc, newest_year, oldest_year):
+def compute_EPR_unc(
+    newest_year_unc, oldest_year_unc, newest_year, oldest_year
+) -> float:
     """Compute End Point Rate (EPR) uncertainty value."""
     if newest_year_unc is None:
         raise TypeError("Newest year uncertainty value cannot be None.")
@@ -829,15 +816,13 @@ def compute_EPR_unc(newest_year_unc, oldest_year_unc, newest_year, oldest_year):
     return EPR_unc_value
 
 
-def compute_least_square_fit(years, distances):
+def compute_least_square_fit(
+    years: np.ndarray, distances: np.ndarray
+) -> tuple[float, float]:
     """Compute least square fit.
 
-    Args:
-        years (np.ndarray): Numpy array of years.
-        distances (np.ndarray): Numpy array of distances.
-
     Returns:
-        tuple: Tuple of slope and intercept values.
+        Tuple of slope and intercept values.
 
     Raises:
         TypeError: If year or distance values are None.
@@ -871,32 +856,16 @@ def compute_least_square_fit(years, distances):
     return slope, intercept
 
 
-def compute_LRR(years, distances):
-    """Compute Linear Regression Rate (LRR) value.
-
-    Args:
-        years (np.ndarray): Numpy array of years.
-        distances (np.ndarray): Numpy array of distances.
-
-    Returns:
-        float: LRR value.
-    """
+def compute_LRR(years: np.ndarray, distances: np.ndarray) -> float:
+    """Compute Linear Regression Rate (LRR) value."""
 
     slope, _ = compute_least_square_fit(years, distances)
     LRR_value = float(slope)  # previously numpy
     return LRR_value
 
 
-def compute_LR2(years, distances):
-    """Compute Linear Regression R-squared (LR2) value.
-
-    Args:
-        years (np.ndarray): Numpy array of years.
-        distances (np.ndarray): Numpy array of distances.
-
-    Returns:
-        float: LR2 value.
-    """
+def compute_LR2(years: np.ndarray, distances: np.ndarray) -> float:
+    """Compute Linear Regression R-squared (LR2) value."""
     slope, intercept = compute_least_square_fit(years, distances)
 
     pred = slope * years + intercept
@@ -909,16 +878,8 @@ def compute_LR2(years, distances):
     return LR2_value
 
 
-def compute_LSE(years, distances):
-    """Compute Linear Regression Standard Error
-
-    Args:
-        years (np.ndarray): Numpy array of years.
-        distances (np.ndarray): Numpy array of distances.
-
-    Returns:
-        float: LSE value.
-    """
+def compute_LSE(years: np.ndarray, distances: np.ndarray) -> float:
+    """Compute Linear Regression Standard Error"""
     slope, intercept = compute_least_square_fit(years, distances)
     ss_res = np.sum((distances - (slope * years + intercept)) ** 2)
     n = len(years)
@@ -927,7 +888,7 @@ def compute_LSE(years, distances):
     return LSE_value
 
 
-def compute_LCI(years, distances, conf=99.7):
+def compute_LCI(years, distances, conf=99.7) -> float:
     x_mean = np.mean(years)
     sum_sq_diff = np.sum((years - x_mean) ** 2)
     standard_error = compute_LSE(years, distances)
@@ -942,16 +903,13 @@ def compute_LCI(years, distances, conf=99.7):
     return LCI_value
 
 
-def compute_weighted_least_square_fit(years, distances, uncertainties):
+def compute_weighted_least_square_fit(
+    years: np.ndarray, distances: np.ndarray, uncertainties: np.ndarray
+) -> tuple[float, float]:
     """Compute weighted least square fit.
 
-    Args:
-        years (np.ndarray): Numpy array of years.
-        distances (np.ndarray): Numpy array of distances.
-        uncertainties (np.ndarray): Numpy array of uncertainties.
-
     Returns:
-        tuple: Tuple of slope and intercept values.
+        Tuple of slope and intercept values.
 
     Raises:
         TypeError: If year, distance, or uncertainties values are None.
@@ -1006,17 +964,10 @@ def compute_weighted_least_square_fit(years, distances, uncertainties):
     return slope, intercept
 
 
-def compute_WLR(years, distances, uncertainties):
-    """Compute Weighted Linear Regression (WLR) value.
-
-    Args:
-        years (np.ndarray): Numpy array of years.
-        distances (np.ndarray): Numpy array of distances.
-        uncertainties (np.ndarray): Numpy array of uncertainties.
-
-    Returns:
-        float: WLR value.
-    """
+def compute_WLR(
+    years: np.ndarray, distances: np.ndarray, uncertainties: np.ndarray
+) -> float:
+    """Compute Weighted Linear Regression (WLR) value."""
     uncertainties = np.array([1 / float(u**2) for u in uncertainties])
     (
         slope,
@@ -1026,17 +977,10 @@ def compute_WLR(years, distances, uncertainties):
     return WLR_value
 
 
-def compute_WR2(years, distances, uncertainties):
-    """Compute Weighted Linear Regression R-squared (WR2) value.
-
-    Args:
-        years (np.ndarray): Numpy array of years.
-        distances (np.ndarray): Numpy array of distances.
-        uncertainties (np.ndarray): Numpy array of uncertainties.
-
-    Returns:
-        float: WR2 value.
-    """
+def compute_WR2(
+    years: np.ndarray, distances: np.ndarray, uncertainties: np.ndarray
+) -> float:
+    """Compute Weighted Linear Regression R-squared (WR2) value."""
     uncertainties = np.array([1 / float(u**2) for u in uncertainties])
     slope, intercept = compute_weighted_least_square_fit(
         years, distances, uncertainties
@@ -1051,7 +995,7 @@ def compute_WR2(years, distances, uncertainties):
     return WR2_value
 
 
-def compute_WSE(years, distances, uncertainties):
+def compute_WSE(years, distances, uncertainties) -> float:
     uncertainties = np.array([1 / float(u**2) for u in uncertainties])
     slope, intercept = compute_weighted_least_square_fit(
         years, distances, uncertainties
@@ -1066,7 +1010,7 @@ def compute_WSE(years, distances, uncertainties):
     return WSE_value
 
 
-def compute_WCI(years, distances, uncertainties, conf=99.7):
+def compute_WCI(years, distances, uncertainties, conf=99.7) -> float:
     # we shouldn't pass unc=1/u^2 here
     # its already applied in compute_WSE
     standard_error = compute_WSE(years, distances, uncertainties)
@@ -1085,17 +1029,17 @@ def compute_WCI(years, distances, uncertainties, conf=99.7):
     return WCI_value
 
 
-def get_change_trend(stat_value, unc_value):
+def get_change_trend(stat_value: float, unc_value: float) -> str:
     """Get change trend based on statistic value's (e.g. SCE, NSM, EPR..) sign,
     and uncertainty value. The positive-negative uncertainty value is used
     as `stable` trend.
 
     Args:
-        stat_value (float): Statistic value (e.g. SCE, NSM, EPR..).
-        unc_value (float): Uncertainty value (highest).
+        stat_value: Statistic value (e.g. SCE, NSM, EPR..).
+        unc_value: Uncertainty value (highest).
 
     Returns:
-        str: Change trend (e.g. stable, accretion, erosion).
+        Change trend (e.g. stable, accretion, erosion).
 
     Raises:
         TypeError: If statistic or uncertainty values are None.
@@ -1114,17 +1058,19 @@ def get_change_trend(stat_value, unc_value):
         return Trend.ERODING
 
 
-def get_sorted_years_distances(years_intersections):
+def get_sorted_years_distances(
+    years_intersections: dict,
+) -> tuple[np.ndarray, np.ndarray]:
     """Get sorted years(X), distances(Y) and uncertainties(W) in a single
     transect intersections used as an X and Y input for least square fit and
     weighted least square fit.
 
     Args:
-        years_intersections(dict): Dictionary of year intersections on a single
+        years_intersections: Dictionary of year intersections on a single
             transect
 
     Returns:
-        tuple: Tuple of years and distances
+        Tuple of years and distances
 
     Example:
         years_intersections = {
@@ -1157,7 +1103,7 @@ def get_sorted_years_distances(years_intersections):
     return (years, distances)
 
 
-def get_sorted_uncs(uncs):
+def get_sorted_uncs(uncs) -> np.ndarray:
     uncs_sorted = sorted(uncs)
     uncs = {key: uncs[key] for key in uncs_sorted}
     uncs = np.array([v for v in uncs.values()])
@@ -1187,7 +1133,7 @@ class GetTransectsIntersectionsTask(QgsTask):
 
         self.exception = None
 
-    def run(self):
+    def run(self) -> bool:
         QgsMessageLog.logMessage(
             message=f"Started task: <b>{self.description()}</b>.",
             level=Qgis.Info,

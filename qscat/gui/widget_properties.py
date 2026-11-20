@@ -1,21 +1,23 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
 import os
+from typing import TYPE_CHECKING
 
 from qgis.core import QgsFieldProxyModel, QgsMapLayerProxyModel, QgsSettings
 
 from qscat.core.utils.plugin import get_metadata_version
 
+if TYPE_CHECKING:
+    from qscat.qscat_dockwidget import QscatDockWidget
+
 
 class WidgetProperties:
     """Set the widget properties for the QSCAT plugin."""
 
-    def __init__(self, qdw):
-        """
-        Args:
-            qdw (QscatDockWidget): QscatDockWidget instance.
-        """
+    def __init__(self, qdw: QscatDockWidget):
         self.qdw = qdw
 
     def set(self):

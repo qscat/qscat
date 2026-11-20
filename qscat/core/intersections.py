@@ -1,13 +1,20 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from PyQt5.QtCore import QVariant
 from qgis.core import QgsGeometry, QgsWkbTypes
 
 from qscat.core.layer import create_add_layer
 
+if TYPE_CHECKING:
+    from qgis.core import QgsPointXY
 
-def load_all_years_intersections(transects_intersects):
+
+def load_all_years_intersections(transects_intersects: list[list[dict]]) -> list[dict]:
     """Convert list of list of transect intersections to list of list of shoreline intersections where the year will be the dictionary key, and the values will
     be the dictionary values.
 
@@ -56,10 +63,10 @@ def load_all_years_intersections(transects_intersects):
         ]
 
     Args:
-        transects_intersects (list[list[dict]]): List of list of transect intersections (see above for details)
+        transects_intersects: List of list of transect intersections (see above for details)
 
     Returns:
-        list[dict]: List of list of shoreline intersections (see above for details)
+        List of list of shoreline intersections (see above for details)
     """
     shoreline_intersections = []
 
@@ -117,15 +124,13 @@ def add_intersections_layer(transects_intersects, baseline_params):
     )
 
 
-def get_intersections(transect, shoreline):
+def get_intersections(
+    transect: QgsGeometry, shoreline: QgsGeometry
+) -> list[QgsPointXY]:
     """Get the intersections between a transect and a shoreline.
 
-    Parameters:
-        transect (QgsGeometry): The transect geometry.
-        shoreline (QgsGeometry): The shoreline geometry.
-
     Returns:
-        list[QgsPointXY]: A list of intersection points between the transect and shoreline.
+        A list of intersection points between the transect and shoreline.
     """
 
     intersections = []

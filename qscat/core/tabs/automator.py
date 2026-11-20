@@ -1,6 +1,10 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from PyQt5.QtCore import QVariant
 from qgis.core import Qgis, QgsField, QgsGeometry, QgsWkbTypes
 
@@ -8,14 +12,15 @@ from qscat.core.layer import create_add_layer
 from qscat.core.messages import display_message
 from qscat.core.utils.layer import is_field_in_layer
 
+if TYPE_CHECKING:
+    from qgis.core import QgsVectorLayer
+
+    from qscat.qscat_dockwidget import QscatDockWidget
+
 
 # On button clicks
-def automate_shoreline_field_button_clicked(qdw):
-    """Automate creation of shoreline field (on button clicked).
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-    """
+def automate_shoreline_field_button_clicked(qdw: QscatDockWidget):
+    """Automate creation of shoreline field (on button clicked)."""
     layer = qdw.qmlcb_automator_field_shoreline_layer.currentLayer()
     date_field = qdw.le_automator_field_shoreline_date_field_name.text()
     unc_field = qdw.le_automator_field_shoreline_unc_field_name.text()
@@ -32,12 +37,8 @@ def automate_shoreline_field_button_clicked(qdw):
     )
 
 
-def automate_baseline_field_button_clicked(qdw):
-    """Automate creation of baseline field (on button clicked).
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-    """
+def automate_baseline_field_button_clicked(qdw: QscatDockWidget):
+    """Automate creation of baseline field (on button clicked)."""
     layer = qdw.qmlcb_automator_field_baseline_layer.currentLayer()
     placement_field = qdw.le_automator_field_baseline_placement_field_name.text()
     orientation_field = qdw.le_automator_field_baseline_orientation_field_name.text()
@@ -66,12 +67,8 @@ def automate_baseline_field_button_clicked(qdw):
     )
 
 
-def automate_baseline_buffer_button_clicked(qdw):
-    """Automate creation of baseline buffer (on button clicked).
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-    """
+def automate_baseline_buffer_button_clicked(qdw: QscatDockWidget):
+    """Automate creation of baseline buffer (on button clicked)."""
     layer = qdw.qmlcb_automator_baseline_shorelines_layer.currentLayer()
     distance = int(qdw.qsb_automator_baseline_buffer_distance.text())
 
@@ -80,20 +77,19 @@ def automate_baseline_buffer_button_clicked(qdw):
 
 # Main functions
 def automate_shoreline_field(
-    layer,
-    date_field,
-    unc_field,
-    is_date_field_checked,
-    is_unc_field_checked,
+    layer: QgsVectorLayer,
+    date_field: str,
+    unc_field: str,
+    is_date_field_checked: bool,
+    is_unc_field_checked: bool,
 ):
     """Automate creation of shoreline field.
 
     Args:
-        layer (QgsVectorLayer): Shorelines layer.
-        date_field (str): Date field name.
-        unc_field (str): Uncertainty field name.
-        is_date_field_checked (bool): Date field checkbox.
-        is_unc_field_checked (bool): Uncertainty field checkbox.
+        layer: Shorelines layer.
+        unc_field: Uncertainty field name.
+        is_date_field_checked: Date field checkbox.
+        is_unc_field_checked: Uncertainty field checkbox.
     """
     dp = layer.dataProvider()
     attributes = []
@@ -128,27 +124,24 @@ def automate_shoreline_field(
 
 
 def automate_baseline_field(
-    layer,
-    placement_field,
-    orientation_field,
-    length_field,
+    layer: QgsVectorLayer,
+    placement_field: str,
+    orientation_field: str,
+    length_field: str,
     smoothing_field,
-    is_placement_field_checked,
-    is_orientation_field_checked,
-    is_length_field_checked,
-    is_smoothing_field_checked,
+    is_placement_field_checked: bool,
+    is_orientation_field_checked: bool,
+    is_length_field_checked: bool,
+    is_smoothing_field_checked: bool,
 ):
     """Automate creation of baseline field.
 
     Args:
-        layer (QgsVectorLayer): Baseline layer.
-        placement_field (str): Placement field name.
-        orientation_field (str): Orientation field name.
-        length_field (str): Length field name.
-        is_placement_field_checked (bool): Placement field checkbox.
-        is_orientation_field_checked (bool): Orientation field checkbox.
-        is_length_field_checked (bool): Length field checkbox.
-        is_smoothing_field_checked (bool): Smoothing field checkbox.
+        layer: Baseline layer.
+        is_placement_field_checked: Placement field checkbox.
+        is_orientation_field_checked: Orientation field checkbox.
+        is_length_field_checked: Length field checkbox.
+        is_smoothing_field_checked: Smoothing field checkbox.
     """
     dp = layer.dataProvider()
     attributes = []
@@ -209,15 +202,15 @@ def automate_baseline_field(
     layer.updateFields()
 
 
-def automate_baseline_buffer(layer, distance):
+def automate_baseline_buffer(layer: QgsVectorLayer, distance: float) -> QgsVectorLayer:
     """Automate creation of baseline buffer.
 
     Args:
-        layer (QgsVectorLayer): Shorelines layer.
-        distance (float): Distance in meters.
+        layer: Shorelines layer.
+        distance: Distance in meters.
 
     Returns:
-        QgsVectorLayer: Baseline buffer layer.
+        Baseline buffer layer.
     """
     geoms = []
     for feat in layer.getFeatures():

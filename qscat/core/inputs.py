@@ -1,25 +1,27 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
 import math
+from typing import TYPE_CHECKING
 
 from qgis.core import QgsProject
 
 from qscat.core.constants import Statistic
 from qscat.core.utils.date import convert_to_decimal_year
 
+if TYPE_CHECKING:
+    from qscat.qscat_dockwidget import QscatDockWidget
+
 
 class Inputs:
     """A class that reads the inputs."""
 
-    def __init__(self, qdw):
-        """
-        Args:
-            qdw (QscatDockWidget): QscatDockWidget instance.
-        """
+    def __init__(self, qdw: QscatDockWidget):
         self.qdw = qdw
 
-    def project(self):
+    def project(self) -> dict:
         """Read the inputs in Project Settings Tab."""
         return {
             "crs_id": QgsProject.instance().crs().authid(),
@@ -28,7 +30,7 @@ class Inputs:
             "author_email": self.qdw.le_proj_author_email.text(),
         }
 
-    def baseline(self):
+    def baseline(self) -> dict:
         """Read the inputs in Baseline Tab."""
         return {
             "baseline_layer": self.qdw.qmlcb_baseline_layer.currentLayer(),
@@ -43,7 +45,7 @@ class Inputs:
             "smoothing_distance_field": self.qdw.qfcb_baseline_smoothing_field.currentField(),
         }
 
-    def shorelines(self):
+    def shorelines(self) -> dict:
         """Read the inputs in Shorelines Tab."""
         return {
             "shorelines_layer": self.qdw.qmlcb_shorelines_layer.currentLayer(),
@@ -53,7 +55,7 @@ class Inputs:
             "feats": self.qdw.qmlcb_shorelines_layer.currentLayer().getFeatures(),
         }
 
-    def transects(self):
+    def transects(self) -> dict:
         """Read the inputs in Transects Tab."""
         return {
             "layer_output_name": self.qdw.le_transects_layer_output_name.text(),
@@ -65,7 +67,7 @@ class Inputs:
             "smoothing_distance": self.qdw.qsb_transects_smoothing_distance.text(),
         }
 
-    def shoreline_change(self):
+    def shoreline_change(self) -> dict:
         """Read the inputs in Shoreline Change Tab."""
         return {
             "transects_layer_widget": self.qdw.qmlcb_shoreline_change_transects_layer,
@@ -98,7 +100,7 @@ class Inputs:
             "years_uncs": self.shorelines_years_uncs(),
         }
 
-    def selected_stats(self):
+    def selected_stats(self) -> list[str]:
         """Read the selected statistics in Shoreline Change Tab."""
         stats = []
         if self.qdw.cb_stats_SCE.isChecked():
@@ -113,14 +115,14 @@ class Inputs:
             stats.append(Statistic.WLR)
         return stats
 
-    def area_change(self):
+    def area_change(self) -> dict:
         """Read the inputs in Area Change Tab."""
         return {
             "polygon_layer": self.qdw.qmlcb_area_change_polygon_layer.currentLayer(),
             "stat_layer": self.qdw.qmlcb_area_change_stat_layer.currentLayer(),
         }
 
-    def forecasting(self):
+    def forecasting(self) -> dict:
         """Read the inputs in Forecasting Tab."""
         return {
             "transects_layer": self.qdw.qmlcb_forecasting_transects_layer.currentLayer(),
@@ -129,7 +131,7 @@ class Inputs:
             "is_time_20y": self.qdw.rb_forecasting_time_20y.isChecked(),
         }
 
-    def visualization(self):
+    def visualization(self) -> dict:
         """Read the inputs in Visualization Tab."""
         return {
             "stat_layer": self.qdw.qmlcb_vis_stat_layer.currentLayer(),
@@ -140,7 +142,7 @@ class Inputs:
             "pos_classes": self.qdw.qsb_vis_pos_classes.text(),
         }
 
-    def summary_reports(self):
+    def summary_reports(self) -> dict:
         """Read the inputs in Summary Report Tab."""
         return {
             "is_report": self.qdw.cb_enable_report_generation.isChecked(),
@@ -150,23 +152,23 @@ class Inputs:
             "save_location": self.qdw.qfw_report_save_location.filePath(),
         }
 
-    def shorelines_dates(self):
+    def shorelines_dates(self) -> list[str]:
         """Get the shoreline dates from the current selected shoreline layer
         and from the current selected date field.
 
         Returns:
-            list[str]: A list of shoreline dates in the format 'mm/yyyy'.
+            A list of shoreline dates in the format 'mm/yyyy'.
         """
         field = self.shorelines()["date_field"]
         feats = self.shorelines()["feats"]
         return [feat[field] for feat in feats]
 
-    def shorelines_uncs(self):
+    def shorelines_uncs(self) -> list[float]:
         """Get the shoreline uncertainties from the current selected shoreline layer
         and from the current selected uncertainty field.
 
         Returns:
-            list[float]: A list of shoreline uncertainties.
+            A list of shoreline uncertainties.
         """
         field = self.shorelines()["unc_field"]
         feats = self.shorelines()["feats"]
@@ -179,12 +181,12 @@ class Inputs:
                 uncs.append(feat[field])
         return uncs
 
-    def shorelines_years_uncs(self):
+    def shorelines_years_uncs(self) -> dict:
         """Get the shoreline years and uncertainties from the current selected
         shoreline layer and from the current selected uncertainty field.
 
         Returns:
-            dict: A dictionary of {year: uncertainty}.
+            A dictionary of {year: uncertainty}.
         """
         unc_field = self.shorelines()["unc_field"]
         date_field = self.shorelines()["date_field"]
@@ -199,18 +201,18 @@ class Inputs:
                 uncs[decimal_year] = feat[unc_field]
         return uncs
 
-    def highest_unc(self):
+    def highest_unc(self) -> float:
         """Get the highest uncertainty from the current selected shoreline layer."""
         return max(self.shorelines_uncs())
 
-    def unc_by_date(self, date):
+    def unc_by_date(self, date: str) -> float | None:
         """Get the uncertainty by date from the current selected shoreline layer.
 
         Args:
-            date (str): The date in the format 'mm/yyyy'.
+            date: The date in the format 'mm/yyyy'.
 
         Returns:
-            float: The uncertainty value.
+            The uncertainty value, or None if no shoreline has that date.
         """
         unc_field = self.shorelines()["unc_field"]
         date_field = self.shorelines()["date_field"]
@@ -219,7 +221,7 @@ class Inputs:
             if date == feat[date_field]:
                 return feat[unc_field]
 
-    def epr_unc(self):
+    def epr_unc(self) -> float:
         """Calculate the EPR uncertainty from the current selected shoreline layer."""
         default_unc = self.shorelines()["default_data_unc"]
         oldest_year = self.qdw.cb_shoreline_change_oldest_date.currentText()
@@ -241,9 +243,10 @@ class Inputs:
         return round(EPR_unc, 2)
 
     @staticmethod
-    def is_no_unc_value(unc_val):
+    def is_no_unc_value(unc_val: float) -> bool:
         """Check if the uncertainty field value is None or not greater than 0.0.
 
         Args:
-            unc_val (float): Uncertainty field value."""
+            unc_val: Uncertainty field value.
+        """
         return bool(unc_val is None or not unc_val > 0.0)

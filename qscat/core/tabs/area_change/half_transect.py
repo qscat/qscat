@@ -1,23 +1,27 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
 from qgis.core import QgsGeometry, QgsPointXY, QgsWkbTypes
 
 _SEARCH_DISTANCE = 5000
 
 
 def get_half_transect_intersection(
-    shoreline, extended_half_transect, half_transect_center_pt
-):
+    shoreline: QgsGeometry,
+    extended_half_transect: QgsGeometry,
+    half_transect_center_pt: QgsGeometry,
+) -> QgsGeometry | None:
     """Find the intersection between a shoreline and the extended
     non-final half transect.
 
     # TODO: illustration + link
 
     Args:
-        shoreline (QgsGeometry): MultiLineString
-        extended_half_transect (QgsGeometry): LineString
-        half_transect_center_pt (QgsGeometry): Point
+        shoreline: MultiLineString
+        extended_half_transect: LineString
+        half_transect_center_pt: Point
     """
     intersections = {}
     intersect = extended_half_transect.intersection(shoreline)
@@ -42,19 +46,24 @@ def get_half_transect_intersection(
     return final_intersect
 
 
-def get_half_transect(newest_shorelines, oldest_shorelines, transect1, transect2):
+def get_half_transect(
+    newest_shorelines: QgsGeometry,
+    oldest_shorelines: QgsGeometry,
+    transect1: QgsGeometry,
+    transect2: QgsGeometry,
+) -> QgsGeometry:
     """Determine the (half) transect between two transects.
 
     # TODO: illustration + link
 
     Args:
-        newest_shorelines (QgsGeometry): MultiLineString
-        oldest_shorelines (QgsGeometry): MultiLineString
-        transect1 (QgsGeometry): LineString
-        transect2 (QgsGeometry): LineString
+        newest_shorelines: MultiLineString
+        oldest_shorelines: MultiLineString
+        transect1: LineString
+        transect2: LineString
 
     Returns:
-        QgsGeometry: LineString
+        LineString
     """
     half_baseline1 = QgsGeometry.fromPolylineXY(
         [
