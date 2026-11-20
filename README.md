@@ -134,6 +134,29 @@ pytest --cov=qscat/ --cov-report html tests/
 
 Tests require the QGIS environment to be active. See CI workflows for automated testing.
 
+### Linting and Formatting
+
+QSCAT uses [Ruff](https://docs.astral.sh/ruff/) for linting and formatting, run through [pre-commit](https://pre-commit.com/) hooks. The same hooks run in CI (`.github/workflows/lint.yml`), so a PR must pass them.
+
+Install the hooks once to run them on every commit:
+
+```bash
+pre-commit install
+```
+
+Run all hooks on every file manually:
+
+```bash
+pre-commit run --all-files
+```
+
+Or run Ruff directly with the version pinned in `pyproject.toml` (requires [uv](https://docs.astral.sh/uv/)):
+
+```bash
+uv run ruff check --fix .
+uv run ruff format .
+```
+
 ## License
 - **[GPL-3.0 License](LICENSE):** The QSCAT plugin is licensed under GPL 3.0, per [QGIS'](https://blog.qgis.org/2016/05/29/licensing-requirements-for-qgis-plugins/) Open Source Software principles. This decision aligns with the requirement for plugins to comply with GPL version 2 or greater for distribution through the QGIS plugin system.
 
