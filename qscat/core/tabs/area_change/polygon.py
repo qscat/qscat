@@ -1,22 +1,35 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from qgis.core import QgsGeometry, QgsWkbTypes
 
+if TYPE_CHECKING:
+    from qgis.core import QgsPointXY
 
-def extract_area_polygon(shoreline1, shoreline2, transect1, transect2):
+
+def extract_area_polygon(
+    shoreline1: QgsGeometry,
+    shoreline2: QgsGeometry,
+    transect1: QgsGeometry,
+    transect2: QgsGeometry,
+) -> tuple[QgsGeometry, QgsGeometry, QgsGeometry] | None:
     """Extract the area's polygon(s) between two shorelines and two transects.
 
     # TODO: illustration + link
 
     Args:
-        shoreline1 (QgsGeometry): MultiLineString
-        shoreline2 (QgsGeometry): MultiLineString
-        transect1 (QgsGeometry): LineString
-        transect2 (QgsGeometry): LineString
+        shoreline1: MultiLineString
+        shoreline2: MultiLineString
+        transect1: LineString
+        transect2: LineString
 
     Returns:
-        QgsGeometry: Polygon, TODO: MultiPolygon
+        The polygon (TODO: MultiPolygon), and the newest and oldest shoreline
+        parts that bound it; or None if no polygon can be formed.
     """
     EPSILON = 1e-8
     extended_transect1 = transect1.extendLine(EPSILON, EPSILON)
@@ -200,15 +213,14 @@ def extract_area_polygon(shoreline1, shoreline2, transect1, transect2):
         )
 
 
-def get_transect_shoreline_intersections(transect, shoreline):
+def get_transect_shoreline_intersections(
+    transect: QgsGeometry, shoreline: QgsGeometry
+) -> list[QgsPointXY]:
     """Get the intersection points of a transects to a shorelines.
 
     Args:
-        transect (QgsGeometry): LineString
-        shoreline (QgsGeometry): MultiLineString
-
-    Returns:
-        list[QgsPointXY]
+        transect: LineString
+        shoreline: MultiLineString
     """
     intersections = []
     for line in shoreline.asMultiPolyline():

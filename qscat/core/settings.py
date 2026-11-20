@@ -1,6 +1,8 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
 from PyQt5.QtWidgets import QCheckBox, QComboBox, QLineEdit, QRadioButton
 from qgis.core import Qgis, QgsProject
 from qgis.gui import (
@@ -19,20 +21,16 @@ from qscat.core.tabs.project import load_current_projection
 class Settings:
     """This refers to QGIS' project setting key-value saving. This is different
     from the Project Settings Tab. Although, Project Settings Tab uses this just
-    for that section."""
+    for that section.
+    """
 
     def __init__(self, qdw):
         self.qdw = qdw
         self.inputs = Inputs(qdw)
 
     @staticmethod
-    def save(key, val):
-        """Save project setting.
-
-        Args:
-            key (str): The key.
-            val (str, int, float, bool): The value.
-        """
+    def save(key: str, val: str | int | float | bool):
+        """Save project setting."""
         if val is not None:
             project = QgsProject.instance()
             val_type = type(val)
@@ -48,15 +46,11 @@ class Settings:
                 )
 
     @staticmethod
-    def read(key, _type=str):
+    def read(key: str, _type: type = str) -> tuple:
         """Read project setting.
 
-        Args:
-            key (str): The key.
-            _type (str, int, float, bool): The value type.
-
         Returns:
-            tuple: The value and result.
+            The value and result.
         """
         project = QgsProject.instance()
         if _type is str:
@@ -75,7 +69,8 @@ class Settings:
 
     def load(self, key, widget):
         """Populate the QT widget value given by a QT widget object and project
-        setting `key`."""
+        setting `key`.
+        """
         project = QgsProject.instance()
         _type = str
         if isinstance(

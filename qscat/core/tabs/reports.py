@@ -1,14 +1,21 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
+import io
 import os
 import platform
+from typing import TYPE_CHECKING
 
 from qgis.core import Qgis
 
 from qscat.core.constants import Statistic
 from qscat.core.inputs import Inputs
 from qscat.core.utils.plugin import get_metadata_version, get_project_dir
+
+if TYPE_CHECKING:
+    from qscat.qscat_dockwidget import QscatDockWidget
 
 
 class ComputationType:
@@ -18,26 +25,22 @@ class ComputationType:
 
 
 class SummaryReport:
-    def __init__(self, qdw, summary=None):
+    def __init__(self, qdw: QscatDockWidget, summary: dict | None = None):
         """Create a summary report for shoreline change, area change, and forecasting computations.
 
         Args:
-            qdw (QscatDockWidget): QscatDockWidget instance.
-            summary (dict): Summary of results.
+            summary: Summary of results.
         """
         self.qdw = qdw
         self.summary = summary
         self.inputs = Inputs(self.qdw)
 
-    def create(self, computation_type):
+    def create(self, computation_type: int) -> io.TextIOWrapper:
         """Create the base file that contains the general informations such as
            project crs, author information, and sytem information.
 
-        Args:
-            computation_type (int): Computation type.
-
         Returns:
-            f (io.TextIOWrapper): A file object opened in text mode.
+            A file object opened in text mode.
 
         Example:
             ── shoreline_change/

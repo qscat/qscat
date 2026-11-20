@@ -1,6 +1,10 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from PyQt5.QtGui import QColor
 from qgis.core import (
     QgsCategorizedSymbolRenderer,
@@ -21,13 +25,18 @@ from qgis.core import (
 from qscat.core.constants import AreaChangeField, Statistic, Trend
 from qscat.core.inputs import Inputs
 
+if TYPE_CHECKING:
+    from qgis.core import QgsVectorLayer
 
-def apply_area_colors(layer):
+    from qscat.qscat_dockwidget import QscatDockWidget
+
+
+def apply_area_colors(layer: QgsVectorLayer):
     """Apply colors to the layer output of the area change feature based
        on `AreaChangeField.TREND`.
 
     Args:
-        layer (QgsVectorLayer): The layer to apply the colors to.
+        layer: The layer to apply the colors to.
     """
     accreting_symbol = QgsFillSymbol.createSimple(
         {"color": QColor(34, 101, 188, 255), "style": "solid"}
@@ -64,12 +73,9 @@ def apply_area_colors(layer):
     layer.triggerRepaint()
 
 
-def apply_color_ramp_button_clicked(qdw):
+def apply_color_ramp_button_clicked(qdw: QscatDockWidget):
     """Apply custom graduated symbology values on the selected shoreline change
     statistic layer (on button clicked).
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
     """
     inputs = Inputs(qdw)
     visualization_inputs = inputs.visualization()
@@ -89,23 +95,21 @@ def apply_color_ramp_button_clicked(qdw):
 
 
 def apply_color_ramp(
-    layer,
-    stat_field,
-    mode,
-    num_of_pos_classes,
-    num_of_neg_classes,
-    unc,
+    layer: QgsVectorLayer,
+    stat_field: str,
+    mode: int,
+    num_of_pos_classes: int,
+    num_of_neg_classes: int,
+    unc: float,
 ):
     """Apply custom graduated symbology values on the selected shoreline change
     statistic layer.
 
     Args:
-        layer (QgsVectorLayer): The layer to apply the colors to.
-        stat_field (string): The statistic to apply the colors to.
-        mode (int): The mode of classification.
-        num_of_pos_classes (int): The number of positive classes.
-        num_of_neg_classes (int): The number of negative classes.
-        unc (float): The highest uncertainty or EPR uncertainty value.
+        layer: The layer to apply the colors to.
+        stat_field: The statistic to apply the colors to.
+        mode: The mode of classification.
+        unc: The highest uncertainty or EPR uncertainty value.
     """
     # stat = layer.customProperty("stat")
 

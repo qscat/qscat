@@ -1,6 +1,10 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
 from PyQt5.QtCore import QVariant
 from qgis.core import (
     QgsFeature,
@@ -13,29 +17,32 @@ from qgis.core import (
 
 from qscat.core.utils.date import convert_to_decimal_year, datetime_now
 
+if TYPE_CHECKING:
+    from qscat.core.types import (
+        QscatBaseline,
+        QscatBaselineInputs,
+        QscatLayerField,
+        QscatShoreline,
+        QscatShorelinesInputs,
+    )
+
 
 def create_add_layer(
-    geometry,
-    geometries,
-    name,
-    fields=None,
-    values=None,
-    extra_values=None,
-    datetime=None,
-):
+    geometry: str,
+    geometries: list[QgsGeometry],
+    name: str,
+    fields: list[QscatLayerField] | None = None,
+    values: list[list[Any]] | None = None,
+    extra_values: dict | None = None,
+    datetime: str | None = None,
+) -> QgsVectorLayer:
     """Create and add vector layer in memory (temporary).
 
     Args:
-        geometry (str): 'LineString', 'Polygon', etc.
-        geometries (list[QgsGeometry]): List of geometries.
-        name (str): Name used as part of the layer name.
-        fields (list[dict]): List of fields.
-        values (list[list[float,str]]): List of values.
-        extra_values (dict): A dict to be stored in the layer's custom properties.
-        datetime (str): Date and time value to append to the layer name.
-
-    Returns:
-        QgsVectorLayer
+        geometry: 'LineString', 'Polygon', etc.
+        name: Name used as part of the layer name.
+        extra_values: A dict to be stored in the layer's custom properties.
+        datetime: Date and time value to append to the layer name.
 
     Example:
         layer = create_layer(
@@ -96,7 +103,7 @@ def create_add_layer(
     return layer
 
 
-def load_shorelines(shorelines_params):
+def load_shorelines(shorelines_params: QscatShorelinesInputs) -> list[QscatShoreline]:
     """Read merged shoreline QGIS's vector layer object.
 
     Example dictionary:
@@ -107,12 +114,6 @@ def load_shorelines(shorelines_params):
             .
             .
         ]
-
-    Args:
-        layer (QgsVectorLayer)
-
-    Returns:
-        list[dict(year:int, geoms:list[QgsGeometry.LineString])]
     """
     shorelines = []
     features = shorelines_params["shorelines_layer"].getFeatures()
@@ -138,14 +139,11 @@ def load_shorelines(shorelines_params):
     return shorelines
 
 
-def load_shorelines_geoms(layer):
-    """Load shorelines geoms only
-
-    Args:
-        layer (QgsVectorLayer)
+def load_shorelines_geoms(layer: QgsVectorLayer) -> list[list[QgsGeometry]]:
+    """Load shorelines geoms only.
 
     Returns:
-        list[list[QgsGeometry.LineString]]]
+        Per shoreline feature, its parts as LineString geometries.
     """
     shorelines = []
     features = layer.getFeatures()
@@ -160,13 +158,11 @@ def load_shorelines_geoms(layer):
     return shorelines
 
 
-def load_transects(layer):
-    """
-    Args:
-        layer (QgsVectorLayer)
+def load_transects(layer: QgsVectorLayer) -> list[QgsGeometry]:
+    """Load transects.
 
     Returns:
-        list[QgsGeometry.LineString]
+        Transect LineString geometries.
     """
     return [f.geometry() for f in layer.getFeatures()]
 
@@ -191,15 +187,10 @@ def load_transects(layer):
 #     return QgsLineString(baseline) # consider just the first line string for now
 
 
-def load_all_baselines(baseline_params):
-    """Load QGIS baseline layer as a list of multi line strings.
-
-    Args:
-        layer (QgsVectorLayer)
-
-    Returns:
-        list[QgsLineString]
-    """
+def load_all_baselines(
+    baseline_params: QscatBaselineInputs,
+) -> list[list[QscatBaseline]]:
+    """Load QGIS baseline layer as a list of multi line strings."""
     all_baselines = []
     feats = baseline_params["baseline_layer"].getFeatures()
 
@@ -273,7 +264,7 @@ def load_all_baselines(baseline_params):
     return all_baselines
 
 
-def load_polygons(layer):
+def load_polygons(layer) -> list[dict]:
     # layer = layer.getFeatures()
     # for feat in layer:
     #     polygon_geom = feat.geometry()

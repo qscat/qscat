@@ -3,22 +3,23 @@
 
 """Pure-Python statistics helpers (no compiled dependencies, works on any OS)."""
 
+from __future__ import annotations
+
 import math
 from functools import cache
 
 
-def student_t_cdf(t, df):
+def student_t_cdf(t: float, df: int) -> float:
     """Cumulative distribution function of Student's t distribution.
 
     Uses the closed-form series for integer degrees of freedom
     (Abramowitz & Stegun, 26.7.3 and 26.7.4).
 
     Args:
-        t (float): The t value.
-        df (int): Degrees of freedom (integer >= 1).
+        df: Degrees of freedom (integer >= 1).
 
     Returns:
-        float: P(T <= t).
+        P(T <= t).
     """
     theta = math.atan2(t, math.sqrt(df))
     sin_t, cos_t = math.sin(theta), math.cos(theta)
@@ -44,17 +45,17 @@ def student_t_cdf(t, df):
 
 
 @cache
-def inv_student_t(df, p):
+def inv_student_t(df: int, p: float) -> float:
     """Inverse of Student's t CDF (the t value such that P(T <= t) = p).
 
     Drop-in replacement for ALGLIB's ``invstudenttdistribution(k, p)``.
 
     Args:
-        df (int): Degrees of freedom (integer >= 1).
-        p (float): Probability, 0 < p < 1.
+        df: Degrees of freedom (integer >= 1).
+        p: Probability, 0 < p < 1.
 
     Returns:
-        float: The t value.
+        The t value.
 
     Raises:
         ValueError: If df is not an integer >= 1 or p is not in (0, 1).

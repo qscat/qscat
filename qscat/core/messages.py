@@ -1,17 +1,20 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
 from qgis.core import Qgis
 from qgis.utils import iface
 
 
-def display_message(description, level, duration=None):
+def display_message(
+    description: str, level: Qgis.MessageLevel, duration: int | None = None
+):
     """Display a message in the QGIS message bar.
 
     Args:
-        description (str): The message to display.
-        level (Qgis.MessageLevel): The message level.
-        duration (int, optional): The duration of the message in seconds.
+        description: The message to display.
+        duration: The duration of the message in seconds.
                 defaults to None.
     """
     if level == Qgis.Info:

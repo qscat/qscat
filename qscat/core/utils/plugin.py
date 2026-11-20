@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import configparser
 import os
 from pathlib import Path
@@ -5,13 +7,13 @@ from pathlib import Path
 from qgis.core import QgsApplication, QgsProject
 
 
-def get_project_dir():
+def get_project_dir() -> str:
     project_path = QgsProject.instance().absoluteFilePath()
     project_dir = os.path.dirname(project_path)
     return project_dir
 
 
-def get_plugin_dir():
+def get_plugin_dir() -> str:
     profiles_default_dir = QgsApplication.qgisSettingsDirPath()
     plugin_dir = os.path.join(
         profiles_default_dir,
@@ -22,7 +24,7 @@ def get_plugin_dir():
     return plugin_dir
 
 
-def get_plugins_dir():
+def get_plugins_dir() -> str:
     profiles_default_dir = QgsApplication.qgisSettingsDirPath()
     plugins_dir = os.path.join(
         profiles_default_dir,
@@ -32,10 +34,10 @@ def get_plugins_dir():
     return plugins_dir
 
 
-def get_metadata_version():
+def get_metadata_version() -> str:
     """Get the version from local QGIS plugin metadata.txt.
     Returns:
-        str: The string version from local metadata.txt
+        The string version from local metadata.txt
     """
     plugin_dir = get_plugin_dir()
     config = configparser.ConfigParser()

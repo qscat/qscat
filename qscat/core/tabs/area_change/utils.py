@@ -1,24 +1,38 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypeVar
+
 from qscat.core.utils.layer import is_field_in_layer
 
+if TYPE_CHECKING:
+    from qgis.core import QgsGeometry, QgsVectorLayer
 
-def get_interest_transects_within_polygon(layer, polygon, polygon_name):
+    from qscat.core.types import QscatInterestTransect
+
+
+D = TypeVar("D", bound=Mapping[str, Any])
+
+
+def get_interest_transects_within_polygon(
+    layer: QgsVectorLayer, polygon: QgsGeometry, polygon_name: str | None
+) -> tuple[list[QscatInterestTransect], list[int]]:
     """Get transects within polygon.
 
     # TODO: illustration + link
 
     Args:
-        layer (QgsVectorLayer): Stat layer (NSM, EPR)
-        polygon (QgsGeometry): Polygon (user-drawn)
-        polygon_name (str): Polygon name (user-defined: e.g. 'Area 1')
+        layer: Stat layer (NSM, EPR)
+        polygon: Polygon (user-drawn)
+        polygon_name: Polygon name (user-defined: e.g. 'Area 1')
 
     Returns:
-        list[dict[QgsGeometry, str, str]]: List of transects
-        list[int]: List of transects' id
+        List of transects and list of transects' id.
     """
-    interest_transects = []
+    interest_transects: list[QscatInterestTransect] = []
     interest_transects_ids = []
 
     features = layer.getFeatures()
@@ -43,7 +57,7 @@ def get_interest_transects_within_polygon(layer, polygon, polygon_name):
     return (interest_transects, interest_transects_ids)
 
 
-def group_dict_by_key(dict, key):
+def group_dict_by_key(dict: list[D], key: str) -> list[list[D]]:
     """Create a list of groups of dicts based on a key.
     Convert list of dicts to list of lists of dicts.
 
@@ -60,11 +74,10 @@ def group_dict_by_key(dict, key):
         ]
 
     Args:
-        dict (list[dict]): List of dicts
-        key (str): Key to group by
+        key: Key to group by
 
     Returns:
-        list[list[dict]]: List of groups of dicts
+        List of groups of dicts
     """
     groups = []
     current_group = [dict[0]]
@@ -78,16 +91,18 @@ def group_dict_by_key(dict, key):
     return groups
 
 
-def load_shorelines_by_date(layer, date, date_field):
+def load_shorelines_by_date(
+    layer: QgsVectorLayer, date: str, date_field: str
+) -> QgsGeometry | None:
     """Load a multi line string shoreline geometry given by field `date`.
 
     Args:
-        layer (QgsVectorLayer): Vector layer of shorelines.
-        date (str): Date of the shoreline (MM/YYYY).
-        date_field (str): The current `date` field.
+        layer: Vector layer of shorelines.
+        date: Date of the shoreline (MM/YYYY).
+        date_field: The current `date` field.
 
     Returns:
-        QgsGeometry: MultiLineString
+        MultiLineString, or None if no feature has that date.
     """
     feats = layer.getFeatures()
 

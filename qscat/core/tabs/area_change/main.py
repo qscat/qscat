@@ -1,6 +1,10 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
 from PyQt5.QtCore import QVariant
 from qgis.core import QgsGeometry
 
@@ -19,16 +23,16 @@ from qscat.core.tabs.reports import SummaryReport
 from qscat.core.tabs.visualization import apply_area_colors
 from qscat.core.utils.date import datetime_now
 
+if TYPE_CHECKING:
+    from qscat.core.types import QscatInterestTransect, QscatLayerField
+    from qscat.qscat_dockwidget import QscatDockWidget
+
 # Use to extend a transect by a small value
 _EXTEND_BY_SMALL_EPSILON = 1e-8
 
 
-def compute_area_change_stats(qdw):
-    """Compute area change statistics.
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
-    """
+def compute_area_change_stats(qdw: QscatDockWidget):
+    """Compute area change statistics."""
     inputs = Inputs(qdw)
     area_change_inputs = inputs.area_change()
 
@@ -161,7 +165,7 @@ def compute_area_change_stats(qdw):
                 )
 
                 if result:
-                    polygon = {}
+                    polygon: dict[str, Any] = {}
                     extracted_polygon, new_newest_shoreline, new_oldest_shoreline = (
                         result
                     )
@@ -281,7 +285,7 @@ def compute_area_change_stats(qdw):
         total_oldest_length_by_type[Trend.STABLE] / total_oldest_length
     )
 
-    layer_fields = [
+    layer_fields: list[QscatLayerField] = [
         {"name": "area", "type": QVariant.Double},
         {"name": "area_percent", "type": QVariant.Double},
         {"name": AreaChangeField.TREND, "type": QVariant.String},
@@ -602,8 +606,10 @@ def compute_area_change_stats(qdw):
 
 
 def cluster_interest_transects(
-    newest_shorelines_as_lines, oldest_shorelines_as_lines, interest_transects
-):
+    newest_shorelines_as_lines: list[QgsGeometry],
+    oldest_shorelines_as_lines: list[QgsGeometry],
+    interest_transects: list[QscatInterestTransect],
+) -> list[QscatInterestTransect]:
     """Add a new `group` key to the list of interest transects.
     Grouping is based on the transect's intersection to the
     multi newest and oldest shorelines.
@@ -613,12 +619,12 @@ def cluster_interest_transects(
         - Currently groups (hardcoded) by stat NSM and EPR (newest and oldest)
 
     Args:
-        newest_shorelines_as_lines (list[QgsGeometry]): MultiLineString
-        oldest_shorelines_as_lines (list[QgsGeometry]): MultiLineString
-        interest_transects (list[dict[QgsGeometry, str, str]]): List of transects
+        newest_shorelines_as_lines: MultiLineString
+        oldest_shorelines_as_lines: MultiLineString
+        interest_transects: List of transects
 
     Returns:
-        list[dict[QgsGeometry, str, str, str]]: List of transects
+        List of transects, each with its `group` set.
     """
     # TODO: check if interest transects num = transects num
     interest_transects_clustered = []

@@ -1,6 +1,10 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from PyQt5.QtGui import QColor
 from qgis.core import (
     QgsApplication,
@@ -14,12 +18,12 @@ from qgis.core import (
 
 from qscat.core.utils.plugin import get_plugin_dir
 
+if TYPE_CHECKING:
+    from qscat.qscat_dockwidget import QscatDockWidget
 
-def show_hide_baseline_orientation(qdw):
+
+def show_hide_baseline_orientation(qdw: QscatDockWidget):
     """Update baseline layer symbology to show and hide orientation.
-
-    Args:
-        qdw (QscatDockWidget): QscatDockWidget instance.
 
     Notes:
         Line (QgsLineSymbol)

@@ -1,14 +1,16 @@
+from __future__ import annotations
+
 from datetime import datetime
 
 
-def extract_month_year(month_year_string):
+def extract_month_year(month_year_string: str) -> tuple[int, int]:
     """Extract the month and year from a string.
 
     Args:
-        month_year_string (str): Format 'mm/yyyy'
+        month_year_string: Format 'mm/yyyy'
 
     Returns:
-        tuple[int, int]: month and year
+        month and year
 
     Raises:
         ValueError: if month_year_string is not in the format 'mm/yyyy'
@@ -26,16 +28,16 @@ def extract_month_year(month_year_string):
         return date.month, date.year
 
 
-def get_day_of_year(month, year):
+def get_day_of_year(month: int, year: int) -> int:
     """Get the day of a year given a month and year. Since we only have the
     month and year, we set the day to 1.
 
     Args:
-        month (int): 1-12
-        year (int): YYYY
+        month: 1-12
+        year: YYYY
 
     Returns:
-        int: day of year
+        day of year
 
     Note:
         May change in the future if we consider input MM/DD/YYYY.
@@ -45,14 +47,14 @@ def get_day_of_year(month, year):
     return day_of_year
 
 
-def convert_to_decimal_year(month_year_string):
+def convert_to_decimal_year(month_year_string: str) -> float:
     """Convert a month and year string to a decimal year.
 
     Args:
-        month_year_string (str): Format 'mm/yyyy'
+        month_year_string: Format 'mm/yyyy'
 
     Returns:
-        float: decimal year
+        decimal year
     """
     month, year = extract_month_year(month_year_string)
     day_of_year = get_day_of_year(month, year)
@@ -62,10 +64,10 @@ def convert_to_decimal_year(month_year_string):
     return decimal_year
 
 
-def datetime_now():
+def datetime_now() -> str:
     return datetime.now().strftime("%m-%d-%y %H-%M-%S")
 
 
-def get_duration_ms(end, start):
+def get_duration_ms(end, start) -> float:
     # return int(round((end-start) * 1000))
     return round(end - start, 10)
