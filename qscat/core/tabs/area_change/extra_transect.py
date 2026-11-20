@@ -62,8 +62,8 @@ def insert_extra_transects(
                 # Take note of that element:
                 # shoreline start poitn1 transect
                 # shoreline start poitn2 transect
-                transect_choices1 = []
-                transect_choices2 = []
+                transect_choices1 = []  # noqa: F841 (WIP, see TODO above)
+                transect_choices2 = []  # noqa: F841 (WIP, see TODO above)
 
                 transects_choices = [
                     grouped_clustered_interest_transects[ci - 1][-1][-1]["geom"],  # top

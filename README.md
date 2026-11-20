@@ -1,9 +1,10 @@
 <div align="center">
-   
+
 ![QSCAT logo](https://github.com/qscat/qscat/assets/58874676/fefa611f-c4a9-4551-979d-1c3b193d38ea)
 
 
-[![QGIS](https://img.shields.io/badge/qgis-3.22.16_|_3.34.5_|_3.36.1-green)](https://download.qgis.org/downloads/)
+[![QGIS](https://img.shields.io/badge/qgis-3.44.15-green)](https://download.qgis.org/downloads/)
+[![Lint](https://github.com/qscat/qscat/actions/workflows/lint.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/lint.yml)
 [![QGIS.org - 0.5.0](https://img.shields.io/badge/qgis.org-0.5.0-green.svg)](https://plugins.qgis.org/plugins/qscat)
 [![DOI](https://zenodo.org/badge/780723777.svg)](https://zenodo.org/doi/10.5281/zenodo.10938766)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/qscat/qscat/badge)](https://securityscorecards.dev/viewer/?uri=github.com/qscat/qscat)
@@ -28,9 +29,7 @@ QSCAT is currently unstable, so please expect potential bugs and issues. In the 
 | Name  | Status |
 | - | - |
 | test coverage (ongoing) | [![codecov](https://codecov.io/gh/qscat/qscat/graph/badge.svg?token=37X4I6WRSY)](https://codecov.io/gh/qscat/qscat) |
-| **3.22.16** | [![QGIS (3.22.16)](https://github.com/qscat/qscat/actions/workflows/ci-3.22.16.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.22.16.yml) |
-| **3.34.5** | [![QGIS (3.34.5)](https://github.com/qscat/qscat/actions/workflows/ci-3.34.5.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.34.5.yml) |
-| **3.36.1**| [![QGIS (3.36.1)](https://github.com/qscat/qscat/actions/workflows/ci-3.36.1.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/ci-3.36.1.yml) |
+| **3.44.15** | [![Tests](https://github.com/qscat/qscat/actions/workflows/tests.yml/badge.svg)](https://github.com/qscat/qscat/actions/workflows/tests.yml) |
 
 ## Features
 
@@ -63,7 +62,7 @@ QSCAT offers the following features:
 5. Go to `Installed`. The `QGIS Shoreline Change Analysis Tool` should now appear in the list if the plugin is installed successfully. Check the checkbox to enable the plugin (if not checked).
 
 6. Once enabled, the ![QSCAT icon](/qscat/qscat.png) icon will appear in the toolbar.
-   
+
 </details>
 
 <details open>
@@ -92,7 +91,7 @@ See [QSCAT User Manual - Sample Workflow](https://qscat.github.io/docs/latest/ma
 - [QSCAT Documentation](https://qscat.github.io/docs/latest)
 - [QSCAT User Manual](https://qscat.github.io/docs/latest/manual)
 - [QSCAT Facebook Page](https://web.facebook.com/qscatplugin)
-  
+
 ## Contributing
 
 - We welcome contributions to QSCAT! Given that the plugin is in its initial stage, **bug reports are our top priority** as they help us identify and address issues to improve the stability and functionality of QSCAT. Whether it's code improvements, bug fixes, documentation enhancements, or translations, every contribution helps make QSCAT better for everyone. Please see our [Contribution Guide](CONTRIBUTING.md) for more details on how to get involved.
@@ -101,23 +100,23 @@ See [QSCAT User Manual - Sample Workflow](https://qscat.github.io/docs/latest/ma
 
 ### Environment Setup
 
-QSCAT development requires QGIS and its dependencies. Use conda to create isolated environments for different QGIS versions:
+QSCAT development requires QGIS and its dependencies. Use conda to create an isolated environment with the QGIS version tested in CI (3.44.15 LTR):
 
-1. Install Miniconda or Anaconda.
-2. Create the environment (replace `3.36.1` with your desired QGIS version):
+1. Install [Miniforge](https://github.com/conda-forge/miniforge) (or Miniconda/Anaconda).
+2. Create the environment:
    ```bash
-   conda env create -f environment-3.36.1.yml
+   conda env create -f environment-3.44.15.yml
    ```
    If the environment already exists, update it:
    ```bash
-   conda env update -f environment-3.36.1.yml
+   conda env update -f environment-3.44.15.yml
    ```
 3. Activate it:
    ```bash
-   conda activate qgis-3.36.1
+   conda activate qgis-3.44.15
    ```
 
-Environment files are provided for specific QGIS versions (e.g., `environment-3.36.1.yml`). Check the `.github/workflows/ci-*.yml` files for CI-tested versions.
+The environment file matches the QGIS version in `.github/workflows/tests.yml`. Keep the two in sync when moving to a new QGIS version.
 
 ### Running Tests
 
@@ -134,6 +133,29 @@ pytest --cov=qscat/ --cov-report html tests/
 ```
 
 Tests require the QGIS environment to be active. See CI workflows for automated testing.
+
+### Linting and Formatting
+
+QSCAT uses [Ruff](https://docs.astral.sh/ruff/) for linting and formatting, run through [pre-commit](https://pre-commit.com/) hooks. The same hooks run in CI (`.github/workflows/lint.yml`), so a PR must pass them.
+
+Install the hooks once to run them on every commit:
+
+```bash
+pre-commit install
+```
+
+Run all hooks on every file manually:
+
+```bash
+pre-commit run --all-files
+```
+
+Or run Ruff directly with the version pinned in `pyproject.toml` (requires [uv](https://docs.astral.sh/uv/)):
+
+```bash
+uv run ruff check --fix .
+uv run ruff format .
+```
 
 ## License
 - **[GPL-3.0 License](LICENSE):** The QSCAT plugin is licensed under GPL 3.0, per [QGIS'](https://blog.qgis.org/2016/05/29/licensing-requirements-for-qgis-plugins/) Open Source Software principles. This decision aligns with the requirement for plugins to comply with GPL version 2 or greater for distribution through the QGIS plugin system.

@@ -12,7 +12,7 @@ The :guilabel:`Forecasting Tab` allows you to forecast the shoreline position us
    .. contents::
       :local:
       :depth: 2
-      
+
 .. _figure_tab_forecasting:
 
 .. figure:: /img/forecasting/forecasting-tab.png

@@ -1,5 +1,4 @@
 from datetime import datetime
-import re
 
 
 def extract_month_year(month_year_string):
@@ -19,10 +18,10 @@ def extract_month_year(month_year_string):
     """
     try:
         date = datetime.strptime(month_year_string, "%m/%Y")
-    except ValueError:
-        raise ValueError("Month and year must be in the format 'mm/yyyy'.")
-    except TypeError:
-        raise TypeError("Month and year must be a string.")
+    except ValueError as err:
+        raise ValueError("Month and year must be in the format 'mm/yyyy'.") from err
+    except TypeError as err:
+        raise TypeError("Month and year must be a string.") from err
     else:
         return date.month, date.year
 

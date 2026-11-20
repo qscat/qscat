@@ -14,7 +14,7 @@ Changed
 - Modified `Forecasting Tab` to input a transect layer.
 - Moved default summary reports location to user's home directory to prevent summary reports from getting deleted when the plugin is updated.
 - Changed file naming and foldering of summary reports to ``<computation>/qscat_<version>_<computation>_<datetime>.txt``
-- Refactored and improved the majority of the codes. 
+- Refactored and improved the majority of the codes.
 - Improved some parts of user manual (discussions and figures).
 
 Removed

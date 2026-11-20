@@ -8,7 +8,9 @@ repos:
   hooks:
   - id: end-of-file-fixer
   - id: trailing-whitespace
-- repo: https://github.com/pylint-dev/pylint
-  rev: v2.17.2
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.17.5  # keep in sync with ruff in pyproject.toml
   hooks:
-  - id: pylint
+  - id: ruff-check
+    args: [--fix]
+  - id: ruff-format

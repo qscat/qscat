@@ -1,7 +1,6 @@
 # Copyright (c) 2024 UP-MSI COASTER TEAM.
 # QSCAT Plugin — GPL-3.0 license
 
-from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QCheckBox, QComboBox, QLineEdit, QRadioButton
 from qgis.core import Qgis, QgsProject
 from qgis.gui import (
@@ -95,7 +94,7 @@ class Settings:
             _type = bool
         elif isinstance(widget, QComboBox):
             _type = int
-            
+
         value, res = self.read(key, _type)
 
         if res:
@@ -112,8 +111,8 @@ class Settings:
             elif isinstance(widget, QgsFieldComboBox):
                 widget.setField(value)
             elif isinstance(widget, QComboBox):
-                #i = widget.findText(value, Qt.MatchExactly)
-                #widget.setCurrentIndex(i)
+                # i = widget.findText(value, Qt.MatchExactly)
+                # widget.setCurrentIndex(i)
                 widget.setCurrentIndex(value)
             elif isinstance(widget, QgsFileWidget):
                 widget.setFilePath(value)
