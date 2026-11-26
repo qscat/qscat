@@ -1,0 +1,10 @@
+name: qgis-3.44.15
+channels:
+  # LTR builds of QGIS 3.44 are published under the qgis_ltr label
+  - conda-forge/label/qgis_ltr
+  - conda-forge
+dependencies:
+  - python=3.12
+  - qgis=3.44.15
+  - pytest
+  - pytest-cov

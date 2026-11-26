@@ -24,11 +24,10 @@ QGIS Shoreline Change Analysis Tool (QSCAT) is an open-source QGIS plugin for sh
             :click-parent:
 
             Go to the user manual
-   
+
 .. toctree::
    :maxdepth: 1
    :hidden:
 
    User Manual <manual/index>
    Changelog <changelog/index>
-

@@ -257,8 +257,10 @@ class QscatPlugin:
             )
 
             shorelines_layer_widget.layerChanged.connect(
-                lambda: shorelines_layer_widget.currentLayer().committedAttributeValuesChanges.connect(
-                    lambda: shorelines_layer_actions(self.dw)
+                lambda: (
+                    shorelines_layer_widget.currentLayer().committedAttributeValuesChanges.connect(
+                        lambda: shorelines_layer_actions(self.dw)
+                    )
                 )
             )
 

@@ -13,7 +13,7 @@ The :guilabel:`Area Change Tab` allows you to estimate the area change between t
       :local:
       :depth: 2
 
-.. note:: This feature is currently in beta and has not undergone extensive testing on other coastal shorelines. While we encourage exploration, be aware that there may be occasional bugs or unexpected outputs. Feel free to provide feedback as you use it! 
+.. note:: This feature is currently in beta and has not undergone extensive testing on other coastal shorelines. While we encourage exploration, be aware that there may be occasional bugs or unexpected outputs. Feel free to provide feedback as you use it!
 
 .. figure:: /img/area_change/area-change-tab.png
    :align: center
@@ -50,9 +50,9 @@ How it works
 .. figure:: /img/area_change/area-change-process.png
    :align: center
    :alt: Process of Area Change feature
-  
+
    Process of Area Change feature
-   
+
 This feature allows you to analyze shoreline changes further by obtaining area measurements. It utilizes transects from the stat layer output of shoreline change and uses statistical values to group trends into erosion, stability, and accretion. This functionality also enables the extraction of new shoreline lengths. Currently, it supports NSM and EPR statistics for area change. The process for determining area change in QSCAT involves clustering the transects, grouping them by trends for each cluster, creating boundary transects between groups, and finally extracting the area between each boundary. The subsequent sections will delve deeper into each of these processes. As an example, we will use randomly drawn shorelines and transects to illustrate the process (:numref:`figure_area_change_process`).
 
 
@@ -92,7 +92,7 @@ Vector layer output
 Layer
 -----
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 30 20 50
 
@@ -110,7 +110,7 @@ Attributes
 Area
 ....
 
-.. list-table:: 
+.. list-table::
    :header-rows: 1
    :widths: 15 15 70
 
@@ -125,7 +125,7 @@ Area
      - Percentage of the current area in total area change.
    * - ``area_trend``
      - ``string``
-     - Trends (stable, eroding, or accreting) based on stat's transects used. 
+     - Trends (stable, eroding, or accreting) based on stat's transects used.
    * - ``newest_shoreline_length``
      - ``double``
      - Vector length of the newest shoreline in meters.

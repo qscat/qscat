@@ -41,12 +41,12 @@ def test_metadata():
 
     # Check if all required metadata is present
     for metadata in REQUIRED_METADATA:
-        assert parser.has_option(
-            "general", metadata
-        ), f"Missing required {metadata} in general section of metadata."
+        assert parser.has_option("general", metadata), (
+            f"Missing required {metadata} in general section of metadata."
+        )
 
     # Check if version follows format x.y.z only
     version = parser.get("general", "version")
-    assert re.match(
-        r"^[0-9]+\.[0-9]+\.[0-9]+$", version
-    ), f"Version {version} does not follow x.y.z format."
+    assert re.match(r"^[0-9]+\.[0-9]+\.[0-9]+$", version), (
+        f"Version {version} does not follow x.y.z format."
+    )

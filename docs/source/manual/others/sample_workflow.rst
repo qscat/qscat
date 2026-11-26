@@ -39,7 +39,7 @@ One of the required inputs for the QSCAT is the baseline vectors. Baseline vecto
 
    #. Creating a buffer of merged shorelines layer.
    #. Creating a buffer of a single shoreline layer.
-   #. Manually drawing lines using :guilabel:`Add Line Feature`. 
+   #. Manually drawing lines using :guilabel:`Add Line Feature`.
 
 In this guide, we will choose the first strategy, which is creating a buffer of the merged shorelines layer. Then, we will choose the part of the buffer that best represents the baseline.
 
@@ -47,8 +47,8 @@ In this guide, we will choose the first strategy, which is creating a buffer of 
 
 Merging the shoreline vectors
 -----------------------------
- 
-Merging is only needed if your digitized shorelines are saved as **separate** layers. In this guide, the Agoo, La Union shorelines are provided as separate shapefile layers, so we will demonstrate how to merge them. 
+
+Merging is only needed if your digitized shorelines are saved as **separate** layers. In this guide, the Agoo, La Union shorelines are provided as separate shapefile layers, so we will demonstrate how to merge them.
 
 Regardless of the strategy you choose for generating the baseline vectors, QSCAT requires all shorelines to be in a single layer. If you choose the first strategy, merge the shoreline layers first so that you can create a buffer of all shorelines.
 
@@ -60,7 +60,7 @@ Regardless of the strategy you choose for generating the baseline vectors, QSCAT
       :alt: Opening Processing Toolbox in QGIS
 
       Opening Processing Toolbox in QGIS
-      
+
    |br|
 
 #. Search |search| ``Merge vector layers`` in the search bar. Then double left-click on |mergeVectorLayers| ``Merge vector layers`` to open the tool.
@@ -93,7 +93,7 @@ Regardless of the strategy you choose for generating the baseline vectors, QSCAT
 
    |br|
 
-#. In :guilabel:`Merged`, it is recommended to permanently save the merged layers. Thus, click :guilabel:`...`, and :guilabel:`Save to file`. Choose a folder (recommended in the same folder of your ``QGIS`` project), pick a file name such as ``Shorelines Merged`` and choose ``SHP files (*.shp)`` as the file type, and click :guilabel:`Save`. Click :guilabel:`Run` to start the merge process, then you can :guilabel:`Close`. 
+#. In :guilabel:`Merged`, it is recommended to permanently save the merged layers. Thus, click :guilabel:`...`, and :guilabel:`Save to file`. Choose a folder (recommended in the same folder of your ``QGIS`` project), pick a file name such as ``Shorelines Merged`` and choose ``SHP files (*.shp)`` as the file type, and click :guilabel:`Save`. Click :guilabel:`Run` to start the merge process, then you can :guilabel:`Close`.
 
    .. figure:: /img/workflow/simple_data/merge/opening-save-merge-layers.png
       :align: center
@@ -141,15 +141,15 @@ Creating a buffer using QSCAT
 Here, we can start using the QSCAT plugin. The QSCAT plugin has a feature that automates the creation of the :ref:`tab_automator_baseline_buffer`.
 
 #. Open QSCAT if not yet opened. The QSCAT plugin can be opened by clicking the |qscat| icon at the top toolbar area near the |python| :guilabel:`Python Console` icon.
-  
-#. In the QSCAT interface, navigate to :guilabel:`Automator Tab`. Then, in the :guilabel:`Baseline Buffer` section, select the merged shoreline layer from :guilabel:`Input shorelines layer`. Next, enter ``400`` in the :guilabel:`Distance (m)`, click :guilabel:`Buffer`. The buffer will be created and displayed in the map canvas. The buffer will be saved as a temporary layer. 
+
+#. In the QSCAT interface, navigate to :guilabel:`Automator Tab`. Then, in the :guilabel:`Baseline Buffer` section, select the merged shoreline layer from :guilabel:`Input shorelines layer`. Next, enter ``400`` in the :guilabel:`Distance (m)`, click :guilabel:`Buffer`. The buffer will be created and displayed in the map canvas. The buffer will be saved as a temporary layer.
 
    .. figure:: /img/workflow/simple_data/buffer/creating-baseline-buffer.png
       :align: center
       :alt: Creating baseline buffer in Automator Tab
 
       Creating baseline buffer in Automator Tab
-      
+
       |br|
 
    .. figure:: /img/workflow/simple_data/buffer/created-buffer-on-merged-shoreline.png
@@ -164,7 +164,7 @@ Here, we can start using the QSCAT plugin. The QSCAT plugin has a feature that a
 .. _others_sample_workflow_converting_buffer_to_baseline:
 
 Converting the buffer to baseline vector
-----------------------------------------   
+----------------------------------------
 
 #. First, enable the |checkbox| :guilabel:`Advanced Digitizing Toolbar` (if not yet enabled) by going to :menuselection:`View --> Toolbars --> Advanced Digitizing Toolbar`.
 
@@ -183,7 +183,7 @@ Converting the buffer to baseline vector
       Advanced Digitizing Toolbar location
 
       |br|
-      
+
 #. Right click on the baseline buffer layer and select |toggleEditing| :guilabel:`Toggle Editing`. The baseline buffer layer will be editable if there is a |toggleEditing| icon on the layer.
 
    .. figure:: /img/workflow/simple_data/buffer/toggling-editing.png
@@ -235,8 +235,8 @@ Converting the buffer to baseline vector
 
 #. Finally, right click on the baseline buffer layer and select |toggleEditing| :guilabel:`Toggle Editing` and it will prompt to save the changes.
 
-   .. warning:: In some cases, the baseline buffer is split unexpectedly. As you can see in :numref:`figure_unexpected_split`, you can verify that there are two resulting segments even though we did not draw a line there. 
-   
+   .. warning:: In some cases, the baseline buffer is split unexpectedly. As you can see in :numref:`figure_unexpected_split`, you can verify that there are two resulting segments even though we did not draw a line there.
+
    .. _figure_unexpected_split:
 
    .. figure:: /img/workflow/simple_data/buffer/unexpected-split.png
@@ -248,7 +248,7 @@ Converting the buffer to baseline vector
       |br|
 
    To fix this, go back to the editing mode (|toggleEditing| :guilabel:`Toggle Editing`). Select the two segments by clicking |select| left click on each segment while holding :kbd:`Shift` key. Then, in :guilabel:`Advanced Digitizing Toolbar`, click |mergeFeatures| :guilabel:`Merge Selected Features`, and click :guilabel:`OK`. The two segments will be merged into one, you can verify by selecting the features. You can |toggleEditing| :guilabel:`Toggle Editing` again to save.
-   
+
 
    .. figure:: /img/workflow/simple_data/buffer/clicking-merge-features.png
       :align: center
@@ -381,10 +381,10 @@ Baseline also optionally includes fields such as placement, orientation, transec
 Configuring the selections of layer and fields
 ==============================================
 
-#. For shorelines, go to :guilabel:`Shorelines Tab`. 
+#. For shorelines, go to :guilabel:`Shorelines Tab`.
 
    In :guilabel:`Layer` section, select the merged shoreline layer as the :guilabel:`Input layer`. Leave :guilabel:`Default data uncertainty` as is; this value is used when no uncertainty value is provided in a shoreline uncertainty field (:ref:`shorelines_parameters`).
-   
+
    In :guilabel:`Fields` section, select the added date (:guilabel:`Year`) and uncertainty (:guilabel:`Uncertainty`) field names, and click :guilabel:`Save`.
 
    .. figure:: /img/workflow/simple_data/attributes/configuring-shorelines.png
@@ -621,7 +621,7 @@ Running the forecasting
 -----------------------
 
 #. Go to :guilabel:`Forecasting Tab`
- 
+
    In :guilabel:`Layer`, select the transects layer as the :guilabel:`Transects layer`.
 
    In :guilabel:`Algorithm`, the currently available algorithm is :guilabel:`Kalman Filter` (see :ref:`tab_forecasting_algorithm`).
@@ -644,7 +644,7 @@ Running the forecasting
       Example forecasting in Forecasting Tab
 
       |br|
-      
+
 Visualizing the statistics transects
 ------------------------------------
 

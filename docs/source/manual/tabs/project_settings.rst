@@ -51,5 +51,4 @@ The metadata contains customizable information written in every :ref:`tab_summar
 Author
 ------
 
-The author metadata allows you to specify the full name, affiliation, and email address. 
-
+The author metadata allows you to specify the full name, affiliation, and email address.
